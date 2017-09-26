@@ -237,11 +237,14 @@
     $('#addContributor').on("click", function(){
         var checkedValue = $("input[type=radio][name=radio]:checked").val();
         var userId = $('#user_id').val();
-        if(userId =='' && checkedValue == undefined){
-            procPopupAlert('입력 값들을 넣어주십시오.');
+        if((userId =='' || checkedValue == undefined) || (userId =='' && checkedValue == undefined)){
+            procPopupAlert('올바른 입력 값을 넣어주십시오.');
             return false;
+        }else{
+            procPopupConfirm('참여자 추가', '추가 하시겠습니까?', 'addContributor();');
         }
-        procPopupConfirm('참여자 추가', '추가 하시겠습니까?', 'addContributor();');
+
+
 
     });
 
@@ -338,6 +341,7 @@
         getContributorList();
         getJobListFromDb();
         procCallSpinner(SPINNER_STOP);
+        $('#search_keyword').putCursorAtEnd();
     });
 
 
