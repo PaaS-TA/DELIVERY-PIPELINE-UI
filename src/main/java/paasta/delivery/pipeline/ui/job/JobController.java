@@ -440,7 +440,6 @@ public class JobController {
     @RequestMapping(value = {"/rearrangeJobOrder.do"}, method = RequestMethod.POST)
     @ResponseBody
     public Job rearrangeJobOrder(@RequestBody Job job) {
-        // TODO
         return jobService.rearrangeJobOrder(job);
     }
 
