@@ -1,0 +1,131 @@
+spring:
+  application:
+    name: paasta-delivery-pipeline-ui
+  http:
+    multipart:
+      maxFileSize: 1000Mb
+      maxRequestSize: 1000Mb
+
+---
+spring:
+  profiles:
+    active: local
+
+server:
+  port: {SERVER-PORT}
+  jsp-servlet:
+    init-parameters:
+      development: true
+  error:
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    ROOT: INFO
+  path: classpath:logback-spring.xml
+  file: logs/application.log
+
+commonApi:
+  url: COMMOM-API-URL
+  authorization:
+    id: COMMOM-API-AUTHORIZATION-ID
+    password: COMMOM-API-AUTHORIZATION-PASSWORD
+
+deliveryPipelineApi:
+  url: DELIVERY-PIPELINE-API-URL
+  authorization:
+    id: DELIVERY-PIPELINE-API-AUTHORIZATION-ID
+    password: DELIVERY-PIPELINE-API-AUTHORIZATION-PASSWORD
+
+inspectionApi:
+  url: INSPECTION-API-URL
+  authorization:
+    id: INSPECTION-API-AUTHORIZATION-ID
+    password: INSPECTION-API-AUTHORIZATION-PASSWORD
+
+binaryStorageApi:
+  url: BINARY-STORAGE-API-URL
+  authorization:
+    id: BINARY-STORAGE-API-AUTHORIZATION-ID
+    password: BINARY-STORAGE-API-AUTHORIZATION-PASSWORD
+
+cf:
+  uaa:
+    oauth:
+      info:
+        uri: CF-UAA-OAUTH-INFO-URI
+      token:
+        check:
+          uri: CF-UAA-OAUTH-TOKEN-CHECK-URI
+        access:
+          uri: CF-UAA-OAUTH-TOKEN-ACCESS-URI
+      logout:
+        url: CF-UAA-OAUTH-LOGOUT-URI
+      authorization:
+        uri: CF-UAA-OAUTH-AUTHORIZATION-URI
+      client:
+        id: CF-UAA-OAUTH-CLIENT-ID
+        secret: CF-UAA-OAUTH-CLIENT-SECRET
+  api:
+    url: CF-API-URL
+
+---
+spring:
+  profiles: dev
+
+server:
+  port: {SERVER-PORT}
+  error:
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    ROOT: DEBUG
+  path: classpath:logback-spring.xml
+  file: logs/application.log
+
+commonApi:
+  url: COMMOM-API-URL
+  authorization:
+    id: COMMOM-API-AUTHORIZATION-ID
+    password: COMMOM-API-AUTHORIZATION-PASSWORD
+
+deliveryPipelineApi:
+  url: DELIVERY-PIPELINE-API-URL
+  authorization:
+    id: DELIVERY-PIPELINE-API-AUTHORIZATION-ID
+    password: DELIVERY-PIPELINE-API-AUTHORIZATION-PASSWORD
+
+inspectionApi:
+  url: INSPECTION-API-URL
+  authorization:
+    id: INSPECTION-API-AUTHORIZATION-ID
+    password: INSPECTION-API-AUTHORIZATION-PASSWORD
+
+binaryStorageApi:
+  url: BINARY-STORAGE-API-URL
+  authorization:
+    id: BINARY-STORAGE-API-AUTHORIZATION-ID
+    password: BINARY-STORAGE-API-AUTHORIZATION-PASSWORD
+
+cf:
+  uaa:
+    oauth:
+      info:
+        uri: CF-UAA-OAUTH-INFO-URI
+      token:
+        check:
+          uri: CF-UAA-OAUTH-TOKEN-CHECK-URI
+        access:
+          uri: CF-UAA-OAUTH-TOKEN-ACCESS-URI
+      logout:
+        url: CF-UAA-OAUTH-LOGOUT-URI
+      authorization:
+        uri: CF-UAA-OAUTH-AUTHORIZATION-URI
+      client:
+        id: CF-UAA-OAUTH-CLIENT-ID
+        secret: CF-UAA-OAUTH-CLIENT-SECRET
+  api:
+    url: CF-API-URL

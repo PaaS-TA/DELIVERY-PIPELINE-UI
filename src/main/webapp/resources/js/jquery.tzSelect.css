@@ -1,0 +1,86 @@
+/*-------------------------------
+*	Default dropdown styles
+--------------------------------*/
+*{
+	margin:0;
+	padding:0;
+}
+.tzSelect{
+	
+	/* This is the container of the new select element */
+	
+	position:relative;
+}
+
+.tzSelect .selectBox{
+	position:absolute;
+	
+	border:1px solid #ddd;
+	height:100%;
+	width:100%;
+	
+	/* Font settings */
+	
+	font:13px/34px "µ¸¿ò", "Lucida Grande", sans-serif;
+	text-align:center;
+	color:#666666;
+
+	cursor:pointer;
+	
+}
+
+.tzSelect .dropDown{
+	position:absolute;
+	top:40px;
+	left:0;
+	width:100%;
+	border:1px solid #ddd;
+	list-style:none;
+	z-index:1000;
+}
+
+.tzSelect li{
+	font:13px "µ¸¿ò", "Lucida Grande", sans-serif;
+	background-color:#fff;
+	cursor:pointer;
+	padding:6px;
+}
+
+.tzSelect li:hover{
+	background-color:#ddd;
+}
+
+
+.tzSelect .hasDetails{
+	border-width: 1px;
+}
+
+.tzSelect .hasDetails li{
+	height:20px;
+	position:relative;
+	text-align:left;
+
+}
+*html .tzSelect .hasDetails li{
+	height:25px;
+	position:relative;
+	text-align:left;
+
+}
+.tzSelect .hasDetails li span{
+	left:35px;
+	position:absolute;
+	top:15px;
+}
+
+.tzSelect .hasDetails li i{
+	color:#999999;
+	display:block;
+	font-size:12px;
+}
+
+.tzSelect .hasDetails li img{
+	left:5px;
+	position:absolute;
+	top:10px;
+}
