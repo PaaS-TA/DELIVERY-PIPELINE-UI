@@ -152,13 +152,18 @@ pre {
     vertical-align: middle;
 }
 
-
 .source_num .line_bar_red {
     border-right: 0.5em solid #ff4500;
 }
+
 .source_num .line_bar_blue {
     border-right: 0.5em solid #1714FF;
 }
+
 .source_num .line_bar_green {
     border-right: 0.5em solid #14FF1A;
+}
+
+.location {
+    margin-bottom: 0;
 }
