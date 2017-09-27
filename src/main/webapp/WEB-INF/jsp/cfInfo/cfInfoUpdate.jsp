@@ -176,7 +176,10 @@
 
     // CALLBACK
     var callbackDeleteCfInfo = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
 
         procPopupAlert('삭제 되었습니다.', 'procMovePage("/cf-info");');
     };
@@ -247,12 +250,13 @@
             description: doc.getElementById('description').value
         };
 
-        procCallAjax("/cf-info/update.do", reqParam, callbackCreateCfInfo);
+        procCallSpinner(SPINNER_START);
+        procCallAjax("/cf-info/update.do", reqParam, callbackUpdateCfInfo);
     };
 
 
     // CALLBACK
-    var callbackCreateCfInfo = function(data) {
+    var callbackUpdateCfInfo = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
             procCallSpinner(SPINNER_STOP);
             return false;

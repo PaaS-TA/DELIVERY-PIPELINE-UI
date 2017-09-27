@@ -387,7 +387,7 @@
             htmlString.push('<div class="panel-tools_btn">');
             htmlString.push('<ul><li><a class="permission_contributor" href="javascript:void(0);" onclick="addJob(\'' + groupOrder +  '\', \'' + jobOrder +  '\');">');
             htmlString.push('<span class="panel_ico_add">추가</span></a></li>');
-            htmlString.push('<li><a  class="permission_contributor" href="javascript:void(0);" onclick="replicateJob(\'' + jobId +  '\');">');
+            htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="replicateJob(\'' + jobId +  '\');">');
             htmlString.push('<span class="panel_ico_copy">복제</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="deleteJob(\'' + jobId +  '\');">');
             htmlString.push('<span class="panel_ico_del">삭제</span></a></li>');
