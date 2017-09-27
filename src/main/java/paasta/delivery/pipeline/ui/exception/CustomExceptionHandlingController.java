@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/common/error")
-public class ExceptionHandlingController {
+public class CustomExceptionHandlingController {
 
     /**
      * Custom 401 error model and view.

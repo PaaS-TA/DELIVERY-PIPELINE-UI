@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 9 /22/2017
  */
 @ControllerAdvice
-public class CustomRestExceptionHandler {
+public class CustomExceptionHandler {
 
-    private static final Logger EXCEPTION_LOGGER = LoggerFactory.getLogger(CustomRestExceptionHandler.class);
+    private static final Logger EXCEPTION_LOGGER = LoggerFactory.getLogger(CustomExceptionHandler.class);
     private static final String COMMON_SYSTEM_ERROR_MESSAGE = "시스템 장애가 발생했습니다.";
 
 
