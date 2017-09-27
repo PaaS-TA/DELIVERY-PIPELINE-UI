@@ -1,6 +1,7 @@
 package paasta.delivery.pipeline.ui.exception;
 
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,9 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0
  * @since 9 /25/2017
  */
+@Controller
 public class CustomErrorController implements ErrorController {
 
-    private static final String PATH = "/error";
+    private static final String ERROR_PATH = "/error";
 
 
     /**
@@ -22,7 +24,7 @@ public class CustomErrorController implements ErrorController {
      *
      * @return the model and view
      */
-    @RequestMapping(value = PATH)
+    @RequestMapping(ERROR_PATH)
     public ModelAndView error() {
         return new ModelAndView("redirect:/common/error/system-error");
     }
@@ -30,7 +32,7 @@ public class CustomErrorController implements ErrorController {
 
     @Override
     public String getErrorPath() {
-        return PATH;
+        return ERROR_PATH;
     }
 
 }
