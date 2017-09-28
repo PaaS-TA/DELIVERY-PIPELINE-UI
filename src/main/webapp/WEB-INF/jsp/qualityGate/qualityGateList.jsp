@@ -32,18 +32,7 @@
                         <h4>품질 게이트 목록</h4>
                     </ul>
                     <ul id="qualityGateName">
-                        <%--<li class="pt10"><a href="#"><span class="block ico_bul">프로파일 1</span> <span class="issue_num"><span class="word_sort">기본</span></span></a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 2</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 3</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 4</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 5</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 6</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 7</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 8</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 9</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 10</span> </a></li>--%>
-                        <%--<li><a href="#"><span class="block ico_bul">프로파일 11</span> </a></li>--%>
-                        <%--<li class="last"><a href="#"><span class="block ico_bul">프로파일 12</span> </a></li>--%>
+
                     </ul>
                 </div>
             </div>
@@ -67,24 +56,6 @@
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 조건 영역 :s -->
                     <h3 class="sub_title">조건</h3>
-<%--                    <div class="rSearch_group">
-                        <div class="sel_group">
-                            <form id="frm_search" method="post" action="">
-                                <div class="selectbox select1" style="width:250px;">
-                                    <div>
-                                        <strong onchange="addCondition()">조건추가</strong><span class="bul"></span>
-                                    </div>
-                                    <ul class="select-list" id="addCondition" >
-                                        <li value="Major">Major Issues</li>
-                                        <li value="Minor">Minor Issues</li>
-                                        <li value="Blocker">Blocker Issues</li>
-                                        <li value="Critical">Critical Issues</li>
-                                        <li value="Info">Info Issues</li>
-                                    </ul>
-                                </div>
-                            </form>
-                        </div>
-                    </div>--%>
 
                     <div id="addSelect">
                         <select class="selectbox select1" onchange="addCondition()" id="addCondition">
@@ -113,48 +84,7 @@
                         </tr>
                         </thead>
                         <tbody id="gateCondition">
-  <%--                      <tr>
-                            <td class="alignL">조건 명1</td>
-                            <td><i class="ico_warn"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder=""></td>
-                            <td><i class="ico_error"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder=""></td>
-                            <td>
-                                <select class="input-medium">
-                                    <option value="">이상</option>
-                                    <option value="1">이하</option>
-                                    <option value="2">같음</option>
-                                    <option value="3">아님</option>
-                                </select>
-                            </td>
-                            <td><button type="button" class="button tbl_in_btn_lg" title="저장">저장</button> <button type="button" class="button tbl_in_btn_lg" title="취소">취소</button></td>
-                        </tr>
-                        <tr>
-                            <td class="alignL">조건 명2</td>
-                            <td><i class="ico_warn"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder="1111"></td>
-                            <td><i class="ico_error"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder="1111"></td>
-                            <td>
-                                <select class="input-medium">
-                                    <option value="">이상</option>
-                                    <option value="1">이하</option>
-                                    <option value="2">같음</option>
-                                    <option value="3">아님</option>
-                                </select>
-                            </td>
-                            <td><button type="button" class="button tbl_in_btn_lg" title="저장">저장</button> <button type="button" class="button tbl_in_btn_lg" title="삭제">삭제</button></td>
-                        </tr>
-                        <tr>
-                            <td class="alignL">조건 명3</td>
-                            <td><i class="ico_warn"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder="1111"></td>
-                            <td><i class="ico_error"></i> <input type="text" id="" name="" title="" value="" style="width:70%;" placeholder="1111"></td>
-                            <td>
-                                <select class="input-medium">
-                                    <option value="">이상</option>
-                                    <option value="1">이하</option>
-                                    <option value="2">같음</option>
-                                    <option value="3">아님</option>
-                                </select>
-                            </td>
-                            <td><button type="button" class="button tbl_in_btn_lg" title="저장">저장</button> <button type="button" class="button tbl_in_btn_lg" title="취소">취소</button></td>
-                        </tr>--%>
+
                         </tbody>
                     </table>
                     <!--//리스트 테이블 :e -->
@@ -184,42 +114,7 @@
                                 <thead>
                                 </thead>
                                 <tbody id="projectLinked">
-     <%--                           <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 2</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 19</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 2</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 19</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 2</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 4</td>
-                                </tr>
-                                <tr>
-                                    <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 19</td>
-                                </tr>--%>
+
                                 </tbody>
                             </table>
                             <!--//리스트 테이블-->
@@ -359,6 +254,7 @@
     var doubleSubmitFlag = false;
     //더블클릭 방지
     function doubleSubmitCheck(){
+
         if(doubleSubmitFlag){
             return doubleSubmitFlag;
         }else{
@@ -372,19 +268,19 @@
     //button 이벤트
     $(function(){
         //팝업 닫기 버튼
-        $(".copyGateClose").click(function(){
+        $(".copyGateClose").on("click",function(){
 //            $('div.modal').modal('hide');
             procClosePopup();
             $("#copyGateText").val("");
         });
 
         //복제 팝업 활성화 버튼
-        $("#copyPopBtn").click(function(){
+        $("#copyPopBtn").on("click",function(){
             buttonControll('복제');
         });
 
         //게이트 복제 버튼
-        $("#copyGateBtn").click(function(){
+        $("#copyGateBtn").on("click",function(){
             if($("#copyGateText").val().trim() == ""){
                 procPopupAlert("품질 게이트 명을 입력하세요.");
                 $("#copyGateText").val("");
@@ -395,28 +291,32 @@
         });
 
         //게이트 생성 팝업 활성화
-        $("#craetePopBtn").click(function(){
+        $("#craetePopBtn").on("click",function(){
             buttonControll('생성');
         });
 
         //게이트 생성 버튼
-        $("#createGateBtn").click(function(){
+        $("#createGateBtn").on("click",function(){
             if($("#copyGateText").val().trim() == "") {
                 procPopupAlert("품질 게이트 명을 입력하세요.");
                 $("#copyGateText").val("");
+
             }else{
                 procPopupConfirm('품질게이트 생성', '생성 하시겠습니까?', 'createGate();');
             }
 
+
+
+
         });
 
         //게이트 수정 팝업 활성화
-        $("#updatePopBtn").click(function(){
+        $("#updatePopBtn").on("click",function(){
             buttonControll('수정');
         });
 
         //게이트 수정 버튼
-        $("#updateGateBtn").click(function(){
+        $("#updateGateBtn").on("click",function(){
             if($("#copyGateText").val().trim() == "") {
                 procPopupAlert("품질 게이트 명을 입력하세요.");
                 $("#copyGateText").val("");
@@ -427,7 +327,7 @@
 
         });
         //게이트 삭제 버튼
-        $("#deleteGateBtn").click(function(){
+        $("#deleteGateBtn").on("click",function(){
             procPopupConfirm('품질게이트 삭제', '삭제 하시겠습니까?', 'deleteGate();');
         });
 
@@ -483,7 +383,7 @@
     //게이트 복제하기
     var saveCopyGate = function(){
         //연속 클릭 방지
-//        if(doubleSubmitCheck()) return;
+        if(doubleSubmitCheck()) return;
 
         var param = {
             id:  $("#gateId").val(),
@@ -511,7 +411,7 @@
     //게이트 삭제
     function deleteGate(){
         //연속 클릭 방지
-//        if(doubleSubmitCheck()) return;
+        if(doubleSubmitCheck()) return;
 
         var param = {
             id: $("#gateId").val(),
@@ -536,7 +436,7 @@
     //게이트 수정
     function updateGate(){
         //연속 클릭 방지
-//        if(doubleSubmitCheck()) return;
+        if(doubleSubmitCheck()) return;
         var param = {
             id: $("#gateId").val(),
             name: $("#copyGateText").val(),
@@ -558,9 +458,8 @@
     //새로운 게이트 생성
     function createGate(){
 
-        //연속 클릭 방지
-//        if(doubleSubmitCheck()) return;
-
+        //연속클릭방지
+        if(doubleSubmitCheck()) return;
 
         var param = {
             name:$("#copyGateText").val(),
@@ -571,33 +470,38 @@
     }
 
     var callbackGetGateCreate = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        $("#copyGateText").val("");
-        getList();
-        gateActive(data.id,data.defaultYn);
-        procPopupAlert('품질 게이트를 생성 하였습니다.');
+            $("#copyGateText").val("");
+            getList();
+            $("#gateId").val(data.id);
+            gateActive(data.id,data.defaultYn);
+            procPopupAlert('품질 게이트를 생성 하였습니다.');
+
     }
 
 
     //quality Gate 클릭시 조건 및 프로젝트 리스트 노출
-    function gateActive(id , defaultYn){
-
-        procCallSpinner(SPINNER_START);
-        $("#contentGateExp").css("display","none");
-        $("#defaultYn").val(defaultYn);
-        $("#gateId").val(id);
+    function gateActive(gateid , defaultYn){
 
         if(defaultYn == "Y"){
             $("#updatePopBtn").hide();
         }else{
             $("#updatePopBtn").show();
         }
+        procClosePopup();
+        procCallSpinner(SPINNER_START);
+        $("#contentGateExp").css("display","none");
+        $("#defaultYn").val(defaultYn);
+        $("#gateId").val(gateid);
+        doubleSubmitFlag = false;
+
 
         //프로젝트리스트
         getProjectList();
 
         //조건 리스트
-        getGateCondition(id);
+        getGateCondition(gateid);
         //도메인 조건 리스트
         getMetricsList();
 
@@ -632,7 +536,7 @@
             //품질 게이트 명
 
             for (var i = 0; i < data.conditions.length; i++) {
-                if($("#defaultYn").val() == "Y"){
+                if($("#defaultYn").val() == "Y"  && $("#defaultYn").val() != ""){
                     list += "<tr>";
                     list += "<td class='alignL' id='conditionsKey_"+(i+1)+"'></td><input type='hidden' id='metricsKey_"+(i + 1)+"' value='"+data.conditions[i].metric+"'>";
                     list += "<td><i class='ico_warn'></i> <input type='text' id='warn_"+(i+1)+"' name='warn' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].warning + "' style='width:70%;' placeholder='' disabled maxlength='15'></td>";
@@ -999,7 +903,7 @@
 //
 
     var getMetricsList = function(){
-        procCallAjax("/qualityGate/metricsList.do?",  null , callbackMetricsList);
+        procCallAjax("/qualityGate/metricsList.do",  null , callbackMetricsList);
     }
 
     var callbackMetricsList = function(data){

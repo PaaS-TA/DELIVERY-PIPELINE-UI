@@ -163,9 +163,6 @@ public class QualityGate {
         this.resultMessage = resultMessage;
     }
 
-
-
-
     public List getConditions() {
         return conditions;
     }

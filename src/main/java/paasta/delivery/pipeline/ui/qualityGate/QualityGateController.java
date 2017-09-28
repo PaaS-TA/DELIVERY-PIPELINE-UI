@@ -82,10 +82,6 @@ public class QualityGateController {
     }
 
 
-
-
-
-
     /**
      *  QualityGate 상세 조회 execute
      *
