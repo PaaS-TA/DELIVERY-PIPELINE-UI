@@ -673,7 +673,7 @@
         var param = {
             serviceInstancesId:$("#serviceInstancesId").val()
         }
-        procCallAjax("/projects/projectsList.do", param, callbackGetProjectList);
+        procCallAjax("/qualityGate/projectsList.do", param, callbackGetProjectList);
     }
 
 

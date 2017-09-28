@@ -35,8 +35,6 @@ public class QualityGate {
     private String warning;
     private String op;
 
-
-
     //게이트 조건 콤보박스 목록
     private  List metrics;
 

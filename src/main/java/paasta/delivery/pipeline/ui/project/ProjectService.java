@@ -34,8 +34,8 @@ public class ProjectService {
      * @param
      * @return Project
      */
-    public List getProjectList(){
-       return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectList", HttpMethod.GET, null, List.class);
+    public List getProjectList(Project project){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectList", HttpMethod.POST, project, List.class);
     }
 
 

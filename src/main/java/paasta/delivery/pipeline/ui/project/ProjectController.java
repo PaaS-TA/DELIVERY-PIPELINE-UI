@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by kim on 2017-08-01.
  */
 @RestController
-@RequestMapping(value="/dashboard/{serviceInstanceId}")
+@RequestMapping(value="/dashboard/{serviceInstancesId}")
 public class ProjectController {
     private final ProjectService projectService;
     private static final String BASE_URL = "/projects";
@@ -87,9 +87,9 @@ public class ProjectController {
      * @param
      * @return project
      */
-    @RequestMapping(value = BASE_URL +"projectsList.do", method = RequestMethod.GET)
-    public List getProjectList(){
-        return projectService.getProjectList();
+    @RequestMapping(value = BASE_URL +"projectsList.do", method = RequestMethod.POST)
+    public List getProjectList(@RequestBody Project project){
+        return projectService.getProjectList(project);
     }
 
     /**

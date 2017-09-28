@@ -31,8 +31,6 @@ public class QualityGateService {
         return restTemplateService.send(Constants.TARGET_COMMON_API, REQ_URL_Common + "/" + id, HttpMethod.GET, null, QualityGate.class);
     }
 
-
-
     ///////////////////////////////////////////////////////////////
 
 

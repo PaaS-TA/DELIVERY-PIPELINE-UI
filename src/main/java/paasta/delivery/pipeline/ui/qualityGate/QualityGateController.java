@@ -151,10 +151,9 @@ public class QualityGateController {
      * @param project
      * @return
      */
-    @RequestMapping(value =  "/projects/projectsList", method = RequestMethod.POST)
-    public List<Project> getProjectList(@RequestBody Project project){
+    @RequestMapping(value =  BASE_URL+"/projectsList", method = RequestMethod.POST)
+    public List<Project> getGateProjectList(@RequestBody Project project){
         return projectService.getProjectList(project);
-//        return projectService.getProjectList();
     }
 
 
