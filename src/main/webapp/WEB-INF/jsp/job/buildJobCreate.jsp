@@ -91,16 +91,13 @@
                             </div>
                             <!--2뎁스 영역-->
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="rex" maxlength="25" placeholder="아이디 입력">
-                                <%--<input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="아이디 입력">--%>
+                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="아이디 입력">
                             </div>
                             <div class="formBox">
-                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="tlsnek0912" maxlength="25" placeholder="비밀번호">
-                                <%--<input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="25" placeholder="비밀번호">--%>
+                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="25" placeholder="비밀번호">
                             </div>
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="http://115.68.46.178:8080/scm/git/spring-boot-sample-web-ui" maxlength="200" placeholder="레파지토리 경로 입력">
-                                <%--<input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="레파지토리 경로 입력">--%>
+                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="레파지토리 경로 입력">
                             </div>
                             <!--//2뎁스 영역-->
                             <!--버튼 영역-->

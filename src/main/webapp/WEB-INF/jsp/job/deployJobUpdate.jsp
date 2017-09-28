@@ -101,7 +101,6 @@
                                 </select>
                             </div>
                             <div class="formBox">
-                                <%--<input type="text" class="input-medium" id="appName" name="appName" title="" value="test-rex-app" maxlength="25" placeholder="애플리케이션 명">--%>
                                 <input type="text" class="input-medium" id="appName" name="appName" title="" value="" maxlength="25" placeholder="애플리케이션 명">
                             </div>
                         </div>
