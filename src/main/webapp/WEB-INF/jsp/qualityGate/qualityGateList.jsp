@@ -668,7 +668,6 @@
 
     }
 
-
     var getProjectList = function(){
         var param = {
             serviceInstancesId:$("#serviceInstancesId").val()

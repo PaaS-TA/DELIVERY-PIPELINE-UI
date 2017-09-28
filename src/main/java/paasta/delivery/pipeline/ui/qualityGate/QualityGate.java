@@ -265,6 +265,7 @@ public class QualityGate {
         this.defaultYn = defaultYn;
     }
 
+
     @Override
     public String toString() {
         return "QualityGate{" +

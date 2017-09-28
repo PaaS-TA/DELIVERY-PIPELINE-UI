@@ -33,7 +33,6 @@ public class QualityGateService {
 
     ///////////////////////////////////////////////////////////////
 
-
     /**
      *  QualityGate 목록 조회
      *

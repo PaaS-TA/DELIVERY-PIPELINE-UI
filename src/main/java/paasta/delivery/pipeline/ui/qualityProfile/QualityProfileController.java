@@ -56,8 +56,8 @@ public class QualityProfileController {
      * @return
      */
     @RequestMapping(value = BASE_URL + "/qualityProfileList.do", method = RequestMethod.GET)
-    public List getQualityProfileList(){
-        return qualityProfileService.getQualityProfileList();
+    public List getQualityProfileList(@PathVariable String serviceInstancesId){
+        return qualityProfileService.getQualityProfileList(serviceInstancesId);
     }
 
     /**
@@ -74,8 +74,8 @@ public class QualityProfileController {
     //시연후 수정
     @RequestMapping(value= BASE_URL + "/projectsList.do" , method = RequestMethod.GET)
     @ResponseBody
-    public List<Project> getProjectList(@PathVariable String serviceInstancesId){
-        return projectService.getProjectList();
+    public List<Project> getProjectList(@RequestBody Project project){
+        return projectService.getProjectList(project);
     }
 
     /**

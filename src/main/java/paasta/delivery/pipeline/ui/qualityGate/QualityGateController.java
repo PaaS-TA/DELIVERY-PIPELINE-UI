@@ -143,8 +143,6 @@ public class QualityGateController {
     }
 
 
-
-
     /**
      *  project 목록 조회
      *

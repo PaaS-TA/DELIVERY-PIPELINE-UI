@@ -21,7 +21,7 @@ public class QualityIssues {
     private String resultStatus;
     private String resultMessage;
 
-
+    private String serviceInstancesId;
     //이슈 페이징
     /////////////////////////////////
     private String total;
@@ -243,6 +243,13 @@ public class QualityIssues {
         this.fileUuid = fileUuid;
     }
 
+    public String getServiceInstancesId() {
+        return serviceInstancesId;
+    }
+
+    public void setServiceInstancesId(String serviceInstancesId) {
+        this.serviceInstancesId = serviceInstancesId;
+    }
 
     @Override
     public String toString() {
@@ -259,6 +266,7 @@ public class QualityIssues {
                 ", lastModifiedString='" + lastModifiedString + '\'' +
                 ", resultStatus='" + resultStatus + '\'' +
                 ", resultMessage='" + resultMessage + '\'' +
+                ", serviceInstancesId='" + serviceInstancesId + '\'' +
                 ", total='" + total + '\'' +
                 ", ps='" + ps + '\'' +
                 ", p='" + p + '\'' +

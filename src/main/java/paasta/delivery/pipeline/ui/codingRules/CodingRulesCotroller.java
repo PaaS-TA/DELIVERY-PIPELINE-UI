@@ -96,8 +96,8 @@ public class CodingRulesCotroller {
      */
     @RequestMapping(value = BASE_URL+"/qualityProfileList.do", method = RequestMethod.GET)
     @ResponseBody
-    public List getQualityProfileList(){
-        return qualityProfileService.getQualityProfileList();
+    public List getQualityProfileList(@PathVariable String serviceInstancesId){
+        return qualityProfileService.getQualityProfileList(serviceInstancesId);
     }
 
 

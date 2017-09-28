@@ -37,13 +37,13 @@ public class QualityIssuesService {
     }
 
     /**
-     *  QualityIssues 프로젝트리스트
+     *  QualityIssues 조건리스트
      *
      * @param
      * @return QualityIssues
      */
-    public List<QualityIssues> getProjectList(){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectList", HttpMethod.GET, null, List.class);
+    public List<QualityIssues> getIssuesConditionList(QualityIssues qualityIssues){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/issuesConditionList", HttpMethod.POST, qualityIssues, List.class);
     }
 
     /**

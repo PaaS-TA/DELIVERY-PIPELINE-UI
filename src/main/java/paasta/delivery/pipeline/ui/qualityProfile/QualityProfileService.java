@@ -32,8 +32,8 @@ public class QualityProfileService {
      * @param
      * @return List
      */
-    public List getQualityProfileList(){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileList", HttpMethod.GET, null, List.class);
+    public List getQualityProfileList(String serviceInstancesId){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileList?serviceInstancesId="+serviceInstancesId, HttpMethod.GET, null, List.class);
     }
 
     /**
