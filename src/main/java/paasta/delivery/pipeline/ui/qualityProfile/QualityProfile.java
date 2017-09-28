@@ -13,7 +13,7 @@ public class QualityProfile {
     private String sonarKey;
     private String key;
     private List<Long> projectIdList;
-    private String qualityProfileDefault;
+    private String defaultYn;
 
     private int activeRuleCount;
 
@@ -182,12 +182,12 @@ public class QualityProfile {
         this.qualityProfileId = qualityProfileId;
     }
 
-    public String getQualityProfileDefault() {
-        return qualityProfileDefault;
+    public String getDefaultYn() {
+        return defaultYn;
     }
 
-    public void setQualityProfileDefault(String qualityProfileDefault) {
-        this.qualityProfileDefault = qualityProfileDefault;
+    public void setDefaultYn(String defaultYn) {
+        this.defaultYn = defaultYn;
     }
 
     @Override
@@ -200,7 +200,7 @@ public class QualityProfile {
                 ", sonarKey='" + sonarKey + '\'' +
                 ", key='" + key + '\'' +
                 ", projectIdList=" + projectIdList +
-                ", qualityProfileDefault='" + qualityProfileDefault + '\'' +
+                ", defaultYn='" + defaultYn + '\'' +
                 ", activeRuleCount=" + activeRuleCount +
                 ", activeDeprecatedRuleCount=" + activeDeprecatedRuleCount +
                 ", serviceInstancesId='" + serviceInstancesId + '\'' +

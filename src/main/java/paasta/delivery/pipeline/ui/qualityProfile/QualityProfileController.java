@@ -72,7 +72,7 @@ public class QualityProfileController {
 
 
     //시연후 수정
-    @RequestMapping(value= BASE_URL + "/projectsList.do" , method = RequestMethod.GET)
+    @RequestMapping(value= BASE_URL + "/projectsList.do" , method = RequestMethod.POST)
     @ResponseBody
     public List<Project> getProjectList(@RequestBody Project project){
         return projectService.getProjectList(project);

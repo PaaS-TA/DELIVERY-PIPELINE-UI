@@ -42,7 +42,10 @@
                         <h3 class="proj_tit" id="profileName"><span class="program">Java</span></h3>
                     </div>
                     <div class="fr mb10">
-                        <button type="submit" class="button btn_default" id="profileDefault">기본으로 설정</button><button type="button" class="button btn_default" id="profileCopy">복제</button><button type="button" class="button btn_default" id="profileCreate">생성</button><button type="button" class="button btn_default" id="profileUpdate">수정</button>
+                       <button type="button" class="button btn_default" id="profileCopy">복제</button>
+                        <button type="button" class="button btn_default" id="profileCreate">생성</button>
+                        <button type="button" class="button btn_default" id="profileUpdate">수정</button>
+                        <button type="button" class="button btn_default" id="deleteProfileBtn">삭제</button>
                     </div>
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 코딩규칙 :s -->
@@ -179,20 +182,20 @@
                         <div class="form_left">
                             <p class="title">개발언어</p>
                         </div>
-                            <div class="form_right" id="langText">
-                                <div class="formBox">
+                        <div class="form_right" id="langText">
+                            <div class="formBox">
                                 <span id="profileLang"></span>
-                                </div>
                             </div>
-                            <div class="form_right">
-                                <div class="formBox" id="langSelect">
-                                    <p><select class="input-medium" id="langSelectList">
-
-                                    </select></p>
-                                </div>
-                            </div>
-
                         </div>
+                        <div class="form_right">
+                            <div class="formBox" id="langSelect">
+                                <p><select class="input-medium" id="langSelectList">
+
+                                </select></p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <!--//form -->
             </div>
@@ -207,7 +210,7 @@
                 </div>
 
                 <div class="fr" id="frUdtBtn">
-                    <button type="button" class="button btn_pop" id="deleteProfileBtn">삭제</button> <button type="button" class="button btn_pop" id="updateProfileeBtn">수정</button> <button type="button" class="button btn_pop profileClose">취소</button>
+                    <button type="button" class="button btn_pop" id="updateProfileeBtn">수정</button> <button type="button" class="button btn_pop profileClose">취소</button>
                 </div>
 
             </div>
@@ -220,16 +223,34 @@
 
 
 
-<input type="text" name="profileKey" id="profileKey"/>
+<input type="hidden" name="profileKey" id="profileKey"/>
 <input type="hidden" name="profileId" id="profileId"/>
 <input type="hidden" name="langName" id="langName">
 <input type="hidden" name="language" id="language">
 <input type="text" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
+<input type="text" id="defaultYn">
 <script type="text/javascript">
+
+    var doubleSubmitFlag = false;
+    //더블클릭 방지
+    function doubleSubmitCheck(){
+
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+
 
     $(document.body).ready(function () {
         getList();
     });
+
+
+
+
 
 
     $(function(){
@@ -257,7 +278,10 @@
         });
 
         $("#updateProfileeBtn").click(function(){
-            if($("#copyProfileText").val() == ""){
+            if($("#defaultVn").val() == "Y"){
+                procPopupAlert("기본으로 제공되는 품질 프로파일은 삭제, 수정 할 수 없습니다.");
+                return false;
+            } else if($("#copyProfileText").val() == ""){
                 procPopupAlert("품질 프로파일 명을 입력하세요.");
                 $("#copyProfileText").val("");
             }else{
@@ -303,7 +327,7 @@
 
 //        procPopupAlert(  $("#profileName").text()+'를 기본으로 설정 하였습니다.');
         getList();
-        profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val() );
+        profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val(),$("#defaultYn").val() );
 
 
 
@@ -317,7 +341,9 @@
         var param = {
             language:$("#langSelectList").val(),
             name : $("#copyProfileText").val(),
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            defaultYn:"N"
+
         };
 
         procCallAjax("/qualityProfile/qualityProfileCreate.do", param, qualityProfileCreate);
@@ -328,7 +354,7 @@
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         getList();
         getCodingRules(data.language, data.name);
-        profileActive(data.key, data.name,data.id ,data.languageName ,data.language);
+        profileActive(data.key, data.name,data.id ,data.languageName ,data.language, data.defaultYn);
         getProjectList();
         $("#copyProfileText").val("");
         procPopupAlert('생성 되었습니다.');
@@ -354,10 +380,16 @@
     }
 
     function deleteProfile(){
+        if($("#defaultVn").val() == "Y"){
+            procPopupAlert('기본으로 제공하는 품질 프로파일은 삭제,수정 할 수 없습니다.');
+            return false;
+        }
+
         var param = {
             id:$("#profileId").val(),
             profileKey:$("#profileKey").val(),
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            defaultYn:"N"
 
         }
         procCallAjax("/qualityProfile/qualityProfileDelete.do", param, callbackGetQualityProfileDelete);
@@ -381,16 +413,17 @@
         var param = {
             id:$("#profileId").val(),
             name:$("#copyProfileText").val(),
-            key:$("#profileKey").val()
+            key:$("#profileKey").val(),
+            defaultYn:"N"
 
         };
         procCallAjax("/qualityProfile/qualityProfileUpdate.do", param, callbackGetQualityProfileUpdate);
     }
 
     var callbackGetQualityProfileUpdate = function(data){
+
         getList();
-        getCodingRules(data.language,data.name);
-        profileActive(data.key, data.name,data.languageName ,data.language);
+        profileActive(data.key, data.name,data.id , data.languageName ,data.language, data.defaultYn);
         getProjectList();
         $("#copyProfileText").val("");
 //        procClosePopup();
@@ -432,15 +465,17 @@
 
 
     function saveCopyProfile(){
+        if(doubleSubmitCheck()) return;
         var param = {
-                fromKey: $("#profileKey").val(),
-                toName:  $("#copyProfileText").val(),
-                languageName: $("#langName").val(),
-                language:$("#language").val(),
-                 serviceInstancesId:$("#serviceInstancesId").val()
+            fromKey: $("#profileKey").val(),
+            toName:  $("#copyProfileText").val(),
+            languageName: $("#langName").val(),
+            language:$("#language").val(),
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            defaultYn:"N"
 
-            };
-            procCallAjax("/qualityProfile/qualityProfileCopy.do", param, callbackGetQualityProfileCopy);
+        };
+        procCallAjax("/qualityProfile/qualityProfileCopy.do", param, callbackGetQualityProfileCopy);
 
     }
 
@@ -448,7 +483,7 @@
 
 
         getList();
-        profileActive(data.key, data.name, data.id, data.languageName ,data.language);
+        profileActive(data.key, data.name, data.id, data.languageName ,data.language,data.defaultYn);
         getProjectList();
         $("#copyProfileText").val("");
         procPopupAlert('복제 되었습니다.');
@@ -463,7 +498,7 @@
 
     var callbackGetList = function(data){
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-
+        console.log(data);
 
 
         var list = "";
@@ -481,14 +516,14 @@
                 list += "<h4>"+element+"</h4>";
                 for(var i=0 ; i< data.length; i++){
                     if(element == data[i].languageName){
-
-                        if(data[i].qualityProfileDefault == "1"){
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
-                        }else{
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"')\"><span class='block ico_bul'>"+data[i].name+"</span><span class='issue_num'></span></a></li>";
+                        if(data[i].defaultYn == "Y" ){
+                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].defaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+                        } else if(data[i].defaultYn == "N"){
+                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].defaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span><span class='issue_num'></span></a></li>";
                         }
 
                     }
+
                 }
             }
         })
@@ -499,9 +534,17 @@
     }
 
 
-    function profileActive(key , name, id, langName, language){
+    function profileActive(key , name, id, langName, language, defaultYn){
 //        history.pushState(location.pathname);
         procCallSpinner(SPINNER_START);
+        if(defaultYn == "Y") {
+            $("#deleteProfileBtn").hide();
+            $("#profileUpdate").hide();
+        }else{
+            $("#deleteProfileBtn").show();
+            $("#profileUpdate").show();
+        }
+
         $("#contentProfileExp").css("display","none");
         $("#contentProfile").css("display","block");
         $("#profileName").text(name);
@@ -509,17 +552,18 @@
         $("#profileId").val(id);
         $("#profileKey").val(key);
         $("#language").val(language);
+        $("#defaultYn").val(defaultYn);
+        doubleSubmitFlag = false;
         //프로젝트 리스트
         getProjectList();
 
         //코딩 규칙 리스트
-        getCodingRules(language,name);
+        getCodingRules(language, name);
 
         procCallSpinner(SPINNER_STOP);
     }
 
     function getCodingRules(language, name){
-
         var param =  {
             name:name,
             language:language
@@ -570,7 +614,10 @@
     }
 
     function getProjectList(){
-        procCallAjax("/qualityProfile/projectsList.do", null, callbackGetProjectList);
+        var param = {
+            serviceInstancesId:$("#serviceInstancesId").val()
+        }
+        procCallAjax("/qualityProfile/projectsList.do", param, callbackGetProjectList);
     }
 
     var callbackGetProjectList = function(data) {
@@ -589,37 +636,44 @@
         if(data.length != 0){
             for(var i=0; i<data.length; i++){
 
-                projectList += "<tr>";
-                if(data[i].qualityProfileId == profileId){
-                    projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' checked ></td>";
+                if($("#defaultYn").val() != "Y"){
+                    projectList += "<tr>";
+                    if(data[i].qualityProfileId == profileId){
+                        projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' checked ></td>";
+                    }else{
+
+                        projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' ></td>";
+                    }
+
+                    projectList += "<td class='alignL'>"+ data[i].name +"</td>";
+                    projectList += "</tr>";
+
+                    ///////////////////
+
+
+                    if(data[i].qualityProfileId == profileId) {
+                        projectLinkedList += "<tr>";
+                        projectLinkedList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' checked > </td>";
+                        projectLinkedList += "<td class='alignL'>"+ data[i].name +"</td>";
+                        projectLinkedList += "</tr>";
+                    }
+
+
+                    //////////////////////////////////////
+
+
+                    if(data[i].qualityProfileId != profileId){
+                        projectFailureList += "<tr>";
+                        projectFailureList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' > </td>";
+                        projectFailureList += "<td class='alignL' >"+ data[i].name +"</td>";
+                        projectFailureList += "</tr>";
+                    }
                 }else{
-
-                    projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' ></td>";
+                    projectList = "<tr><td colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
+                    projectLinkedList = "<tr><td  colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
+                    projectFailureList = "<tr><td  colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
                 }
 
-                projectList += "<td class='alignL'>"+ data[i].name +"</td>";
-                projectList += "</tr>";
-
-                ///////////////////
-
-
-                if(data[i].qualityProfileId == profileId) {
-                    projectLinkedList += "<tr>";
-                    projectLinkedList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' checked > </td>";
-                    projectLinkedList += "<td class='alignL'>"+ data[i].name +"</td>";
-                    projectLinkedList += "</tr>";
-                }
-
-
-                //////////////////////////////////////
-
-
-                if(data[i].qualityProfileId != profileId){
-                    projectFailureList += "<tr>";
-                    projectFailureList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' > </td>";
-                    projectFailureList += "<td class='alignL' >"+ data[i].name +"</td>";
-                    projectFailureList += "</tr>";
-                }
 
 
 
@@ -638,23 +692,23 @@
 
     //프로젝트 연결
     function projectConnection(id, key,chk){
-         var profileId = $("#profileId").val();
-         var profileKey = $("#profileKey").val();
-         var projectKey = key;
-         var projectId = id;
+        var profileId = $("#profileId").val();
+        var profileKey = $("#profileKey").val();
+        var projectKey = key;
+        var projectId = id;
 
-         var param = {};
+        var param = {};
 
         if(chk.checked == true){
             param = {
-                 qualityProfileId: profileId,
-                 profileKey:profileKey,
-                 projectKey:key,
-                 sonarKey: key,
-                 id: id,
-                 linked: "true"
-             };
-         }if(chk.checked == false){
+                qualityProfileId: profileId,
+                profileKey:profileKey,
+                projectKey:key,
+                sonarKey: key,
+                id: id,
+                linked: "true"
+            };
+        }if(chk.checked == false){
             param = {
                 qualityProfileId: profileId,
                 profileKey:profileKey,
@@ -670,7 +724,7 @@
 
 
     var callbackQualityProfileProjectLinked = function(data){
-        profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val() );
+        profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val(),$("#defaultYn").val() );
     }
 
 
@@ -681,4 +735,6 @@
 //
 //        procMovePage("/codingRules/"+profileKey+"/dashboard");
     }
+
+
 </script>
