@@ -123,7 +123,6 @@ public class QualityGateController {
     }
 
 
-
     /**
      *  QualityGate 조건 옵션조회
      *

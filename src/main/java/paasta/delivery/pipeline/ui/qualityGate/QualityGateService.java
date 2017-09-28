@@ -132,7 +132,6 @@ public class QualityGateService {
     }
 
 
-
     /**
      *  QualityGate 삭제 execute
      *

@@ -238,7 +238,6 @@ public class QualityGate {
         this.metrics = metrics;
     }
 
-
     public List getQualitygates() {
         return qualitygates;
     }

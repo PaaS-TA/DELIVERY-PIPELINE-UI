@@ -593,7 +593,6 @@
             $("#updatePopBtn").show();
         }
 
-
         //프로젝트리스트
         getProjectList();
 
