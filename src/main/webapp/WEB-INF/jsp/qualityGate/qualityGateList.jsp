@@ -59,7 +59,10 @@
                         <h3 class="proj_tit" id="gateName"></h3>
                     </div>
                     <div class="fr mb10">
-                        <button type="button" class="button btn_default" id="defaultSetting">기본으로 설정</button><button type="button" class="button btn_default" id="copyPopBtn">복제</button><button type="button" class="button btn_default" id="craetePopBtn">생성</button><button  type="button" id="updatePopBtn" class="button btn_default">수정</button>
+                        <%--<button type="button" class="button btn_default" id="defaultSetting">기본으로 설정</button>--%>
+                         <button type="button" class="button btn_default" id="copyPopBtn">복제</button>
+                         <button type="button" class="button btn_default" id="craetePopBtn">생성</button>
+                         <button  type="button" id="updatePopBtn" class="button btn_default">수정</button>
                     </div>
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 조건 영역 :s -->
@@ -348,13 +351,21 @@
 
 
 <!-- 선택된 퀄리티게이트 key값 -->
-<input type="hidden" name="gateId" id="gateId">
+<input type="text" name="gateId" id="gateId">
 <input type="hidden" name="serviceInstancesId" id="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-
+<input type="text" id="defaultYn">
 
 <script type="text/javascript">
-
-
+    var doubleSubmitFlag = false;
+    //더블클릭 방지
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
 
 
 
@@ -420,9 +431,11 @@
             procPopupConfirm('품질게이트 삭제', '삭제 하시겠습니까?', 'deleteGate();');
         });
 
+/*
         $("#defaultSetting").click(function(){
             procPopupConfirm('품질게이트 기본설정', $("#gateName").text()+'을 기본으로 설정 하시겠습니까?', 'defaultSetting();', '설정');
         });
+*/
 
     });
 
@@ -439,7 +452,7 @@
     var callbackGateDefaultSetting = function(data){
         procPopupAlert(  $("#gateName").text()+'를 기본으로 설정 하였습니다.');
         getList();
-        gateActive($("#gateId").val());
+        gateActive($("#gateId").val(),$("#defaultYn").val());
     }
 
 
@@ -469,12 +482,14 @@
 
     //게이트 복제하기
     var saveCopyGate = function(){
+        //연속 클릭 방지
+//        if(doubleSubmitCheck()) return;
 
-
-            var param = {
+        var param = {
             id:  $("#gateId").val(),
             name: $("#copyGateText").val(),
-            serviceInstancesId: $("#serviceInstancesId").val()
+            serviceInstancesId: $("#serviceInstancesId").val(),
+            defaultYn:"N"
         };
 
             procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
@@ -487,7 +502,7 @@
 
         $("#copyGateText").val("");
         getList();
-        gateActive(data.id);
+        gateActive(data.id, data.defaultYn);
         procPopupAlert('품질 게이트를 복제 하였습니다.');
     }
 
@@ -495,6 +510,9 @@
 
     //게이트 삭제
     function deleteGate(){
+        //연속 클릭 방지
+//        if(doubleSubmitCheck()) return;
+
         var param = {
             id: $("#gateId").val(),
             serviceInstancesId:$("#serviceInstancesId").val()
@@ -517,9 +535,13 @@
 
     //게이트 수정
     function updateGate(){
+        //연속 클릭 방지
+//        if(doubleSubmitCheck()) return;
         var param = {
             id: $("#gateId").val(),
-            name: $("#copyGateText").val()
+            name: $("#copyGateText").val(),
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            defaultYn:"N"
         };
 
         procCallAjax("/qualityGate/qualityGateUpdate.do", param, callbackGetGateUpdate);
@@ -528,16 +550,22 @@
     var callbackGetGateUpdate = function(data){
         $("#copyGateText").val("");
         getList();
-        gateActive(data.id);
+        gateActive(data.id,data.defaultYn);
         procPopupAlert('품질프로파일을 수정 하였습니다.');
     }
 
 
     //새로운 게이트 생성
     function createGate(){
+
+        //연속 클릭 방지
+//        if(doubleSubmitCheck()) return;
+
+
         var param = {
             name:$("#copyGateText").val(),
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            defaultYn:"N"
         };
         procCallAjax("/qualityGate/qualityGateCreate.do", param, callbackGetGateCreate);
     }
@@ -546,15 +574,26 @@
 
         $("#copyGateText").val("");
         getList();
-        gateActive(data.id);
+        gateActive(data.id,data.defaultYn);
         procPopupAlert('품질 게이트를 생성 하였습니다.');
     }
 
 
     //quality Gate 클릭시 조건 및 프로젝트 리스트 노출
-    function gateActive(id){
+    function gateActive(id , defaultYn){
+
         procCallSpinner(SPINNER_START);
         $("#contentGateExp").css("display","none");
+        $("#defaultYn").val(defaultYn);
+        $("#gateId").val(id);
+
+        if(defaultYn == "Y"){
+            $("#updatePopBtn").hide();
+        }else{
+            $("#updatePopBtn").show();
+        }
+
+
         //프로젝트리스트
         getProjectList();
 
@@ -581,9 +620,8 @@
     var callbackGetGateCondition = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         var list = "";
-        //게이트명과 게이트 id 셋팅
+        //게이트명
         $("#gateName").text(data.name);
-        $("#gateId").val(data.id);
 /*        $("#qualityGateName > li > a > span").each(function(i){
 
             if($(this).text() == $("#gateName").text()){
@@ -597,41 +635,79 @@
             //품질 게이트 명
 
             for (var i = 0; i < data.conditions.length; i++) {
+                if($("#defaultYn").val() == "Y"){
+                    list += "<tr>";
+                    list += "<td class='alignL' id='conditionsKey_"+(i+1)+"'></td><input type='hidden' id='metricsKey_"+(i + 1)+"' value='"+data.conditions[i].metric+"'>";
+                    list += "<td><i class='ico_warn'></i> <input type='text' id='warn_"+(i+1)+"' name='warn' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].warning + "' style='width:70%;' placeholder='' disabled maxlength='15'></td>";
+                    list += "<td><i class='ico_error'></i> <input type='text' id='' name='error' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].error + "' style='width:70%;' placeholder='' maxlength='15' disabled></td>";
+                    list += "<td>";
+                    list += "<select class='input-medium'  disabled='disabled' name='conditionSelect' id='conditionSelect_" + (i + 1) + "'>";
+                    if (data.conditions[i].op == "GT") {
+                        list += "<option value='GT' selected='selected'>이상</option>";
+                    } else {
+                        list += "<option value='GT'>이상</option>";
+                    }
 
-                list += "<tr>";
-                list += "<td class='alignL' id='conditionsKey_"+(i+1)+"'></td><input type='hidden' id='metricsKey_"+(i + 1)+"' value='"+data.conditions[i].metric+"'>";
-                list += "<td><i class='ico_warn'></i> <input type='text' id='warn_"+(i+1)+"' name='warn' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].warning + "' style='width:70%;' placeholder='' maxlength='15'></td>";
-                list += "<td><i class='ico_error'></i> <input type='text' id='' name='error' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].error + "' style='width:70%;' placeholder='' maxlength='15'></td>";
-                list += "<td>";
-                list += "<select class='input-medium' onchange='textChange("+(i + 1)+")' name='conditionSelect' id='conditionSelect_" + (i + 1) + "'>";
-                if (data.conditions[i].op == "GT") {
-                    list += "<option value='GT' selected='selected'>이상</option>";
-                } else {
-                    list += "<option value='GT'>이상</option>";
+                    if (data.conditions[i].op == "LT") {
+                        list += "<option value='LT' selected='selected'>이하</option>";
+                    } else {
+                        list += "<option value='LT'>이하</option>";
+                    }
+
+                    if (data.conditions[i].op == "EQ") {
+                        list += "<option value='EQ' selected='selected'>같음</option>";
+                    } else {
+                        list += "<option value='EQ'>같음</option>";
+                    }
+
+                    if (data.conditions[i].op == "NE") {
+                        list += "<option value='NE' selected='selected'>아님</option>";
+                    } else {
+                        list += "<option value='NE'>아님</option>";
+                    }
+                    list += "</select>";
+                    list += "</td>";
+                    list += "<td></td>";
+                    list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='"+data.conditions[i].id+"' >";
+                    list += "</tr>";
+                }else{
+
+                    list += "<tr>";
+                    list += "<td class='alignL' id='conditionsKey_"+(i+1)+"'></td><input type='hidden' id='metricsKey_"+(i + 1)+"' value='"+data.conditions[i].metric+"'>";
+                    list += "<td><i class='ico_warn'></i> <input type='text' id='warn_"+(i+1)+"' name='warn' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].warning + "' style='width:70%;' placeholder='' maxlength='15'></td>";
+                    list += "<td><i class='ico_error'></i> <input type='text' id='' name='error' onkeydown='onlyNumber(this)' onkeyup='textChange(" + (i + 1) + ")' title='' value='" + data.conditions[i].error + "' style='width:70%;' placeholder='' maxlength='15'></td>";
+                    list += "<td>";
+                    list += "<select class='input-medium'  onchange='textChange("+(i + 1)+")' name='conditionSelect' id='conditionSelect_" + (i + 1) + "'>";
+                    if (data.conditions[i].op == "GT") {
+                        list += "<option value='GT' selected='selected'>이상</option>";
+                    } else {
+                        list += "<option value='GT'>이상</option>";
+                    }
+
+                    if (data.conditions[i].op == "LT") {
+                        list += "<option value='LT' selected='selected'>이하</option>";
+                    } else {
+                        list += "<option value='LT'>이하</option>";
+                    }
+
+                    if (data.conditions[i].op == "EQ") {
+                        list += "<option value='EQ' selected='selected'>같음</option>";
+                    } else {
+                        list += "<option value='EQ'>같음</option>";
+                    }
+
+                    if (data.conditions[i].op == "NE") {
+                        list += "<option value='NE' selected='selected'>아님</option>";
+                    } else {
+                        list += "<option value='NE'>아님</option>";
+                    }
+                    list += "</select>";
+                    list += "</td>";
+                    list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '"+data.conditions[i].id+"' title='삭제' >삭제</button></td>";
+                    list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='"+data.conditions[i].id+"' >";
+                    list += "</tr>";
                 }
 
-                if (data.conditions[i].op == "LT") {
-                    list += "<option value='LT' selected='selected'>이하</option>";
-                } else {
-                    list += "<option value='LT'>이하</option>";
-                }
-
-                if (data.conditions[i].op == "EQ") {
-                    list += "<option value='EQ' selected='selected'>같음</option>";
-                } else {
-                    list += "<option value='EQ'>같음</option>";
-                }
-
-                if (data.conditions[i].op == "NE") {
-                    list += "<option value='NE' selected='selected'>아님</option>";
-                } else {
-                    list += "<option value='NE'>아님</option>";
-                }
-                list += "</select>";
-                list += "</td>";
-                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '"+data.conditions[i].id+"' title='삭제'>삭제</button></td>";
-                list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='"+data.conditions[i].id+"' >";
-                list += "</tr>";
 
             }
 
@@ -674,13 +750,15 @@
         var list = "";
         //리스트 마지막에 defaultKey를 넣어 놨음
         if(data.length != 0){
+
+
             var lastLength = data.length - 1;
-            for(var i=0; i<data.length-1;i++){
-                if(data[lastLength].defaultKey != null && data[lastLength].defaultKey == data[i].id){
-                    list += "<li class='pt10'><a href='javascript:gateActive("+data[i].id+")'><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+            for(var i=0; i<data.length;i++){
+                if(data[i].defaultYn == "Y"){
+                    list += "<li class='pt10'><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].defaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
 
                 }else{
-                    list += "<li><a href='javascript:gateActive("+data[i].id+")'><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> </a></li>";
+                    list += "<li><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].defaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> </a></li>";
                 }
             }
         }
@@ -691,7 +769,10 @@
 
 
     var getProjectList = function(){
-        procCallAjax("/projects/projectsList.do", null, callbackGetProjectList);
+        var param = {
+            serviceInstancesId:$("#serviceInstancesId").val()
+        }
+        procCallAjax("/projects/projectsList.do", param, callbackGetProjectList);
     }
 
 
@@ -707,44 +788,51 @@
         //미연결된 프로젝트리스트
         var projectFailureList = "";
 
+
+
         var gateId = $("#gateId").val();
+
         if(data.length != 0){
-            for(var i=0; i<data.length; i++){
-                projectList += "<tr>";
-                if(data[i].qualityGateId != gateId){
-                    projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick='projectConnection("+data[i].id+",this)' value='"+ data[i].id + "' ></td>";
-                }else if(data[i].qualityGateId == gateId){
-                    projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick='projectConnection("+data[i].id+",this)' value='"+ data[i].id + "' checked ></td>";
+            if($("#defaultYn").val() != "Y") {
+                for(var i=0; i<data.length; i++){
+                    projectList += "<tr>";
+                    if (data[i].qualityGateId != gateId) {
+                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' ></td>";
+                    } else if (data[i].qualityGateId == gateId) {
+                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
+                    }
+
+                    projectList += "<td class='alignL'>" + data[i].name + "</td>";
+                    projectList += "</tr>";
+
+                    ///////////////////
+
+
+                    if (data[i].qualityGateId == gateId) {
+                        projectLinkedList += "<tr>";
+                        projectLinkedList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
+                        projectLinkedList += "<td class='alignL'>" + data[i].name + "</td>";
+                        projectLinkedList += "</tr>";
+                    }
+
+
+                    //////////////////////////////////////
+
+
+                    if (data[i].qualityGateId != gateId) {
+                        projectFailureList += "<tr>";
+                        projectFailureList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' ></td>";
+                        projectFailureList += "<td class='alignL' >" + data[i].name + "</td>";
+                        projectFailureList += "</tr>";
+                    }
+
                 }
 
-                projectList += "<td class='alignL'>"+ data[i].name +"</td>";
-                projectList += "</tr>";
-
-                ///////////////////
-
-
-                if(data[i].qualityGateId == gateId) {
-                    projectLinkedList += "<tr>";
-                    projectLinkedList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick='projectConnection("+data[i].id+",this)' value='" + data[i].id + "' checked ></td>";
-                    projectLinkedList += "<td class='alignL'>"+ data[i].name +"</td>";
-                    projectLinkedList += "</tr>";
-                }
-
-
-                //////////////////////////////////////
-
-
-                if(data[i].qualityGateId != gateId){
-                    projectFailureList += "<tr>";
-                    projectFailureList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick='projectConnection("+data[i].id+",this)' value='" + data[i].id + "' ></td>";
-                    projectFailureList += "<td class='alignL' >"+ data[i].name +"</td>";
-                    projectFailureList += "</tr>";
-                }
-
-
+            }else{
+                projectList += "<tr><td colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
+                projectLinkedList += "<tr><td  colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
+                projectFailureList += "<tr><td  colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
             }
-
-
         }
 
         $("#allProject").html(projectList);
@@ -787,6 +875,12 @@
 
     //조건 추가하기
     function addCondition(){
+       if($("#defaultYn").val() == "Y"){
+
+           procPopupAlert("기본 품질게이트는 조건을 추가 할수 없습니다.");
+           return false;
+       }
+
         var list = "";
 
         var name = $("#addCondition option:selected").text();
@@ -834,8 +928,7 @@
     function saveCondition(index){
         //  metric: $("#gateCondition tr").eq(index-1).children("td:eq(0)").text()
 
-        //insert, update 나누기 나중에 수정해야함
-        var flag = $("#saveBtn_"+index).next().text();
+
         //조건 id
         var condId = $("#conditions_"+index).val();
 
@@ -871,7 +964,7 @@
 
 
     var callbackGetGateSave = function(data){
-        gateActive($("#gateId").val());
+        gateActive($("#gateId").val(),$("#defaultYn").val());
     }
 
 
@@ -901,7 +994,7 @@
     var callbackGetCondDelete = function(data){
 //        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         procClosePopup();
-        gateActive($("#gateId").val());
+        gateActive($("#gateId").val(),$("#defaultYn").val());
     }
 
 

@@ -118,7 +118,7 @@ public class QualityGateController {
      * @return
      */
     @RequestMapping(value = BASE_URL + "/qualityGateList.do", method = RequestMethod.GET)
-    public List getQualityGateList(@PathVariable String serviceInstancesId){
+    public List getQualityGateList(@RequestParam String  serviceInstancesId){
         return qualityGateService.getQualityGateList(serviceInstancesId);
     }
 
@@ -153,13 +153,13 @@ public class QualityGateController {
     /**
      *  project 목록 조회
      *
-     * @param serviceInstancesId
+     * @param project
      * @return
      */
-    @RequestMapping(value =  "/projects/projectsList", method = RequestMethod.GET)
-    public List<Project> getProjectList(@PathVariable String serviceInstancesId){
-//        return projectService.getProjectList(serviceInstancesId);
-        return projectService.getProjectList();
+    @RequestMapping(value =  "/projects/projectsList", method = RequestMethod.POST)
+    public List<Project> getProjectList(@RequestBody Project project){
+        return projectService.getProjectList(project);
+//        return projectService.getProjectList();
     }
 
 

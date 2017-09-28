@@ -45,8 +45,10 @@ public class QualityGate {
 
     //게이트 리스트
     private List qualitygates;
+    //삭제 예정
     private String defaultKey;
 
+    private String defaultYn;
     private List domains;
 
     public Long getId() {
@@ -261,7 +263,13 @@ public class QualityGate {
         this.domains = domains;
     }
 
+    public String getDefaultYn() {
+        return defaultYn;
+    }
 
+    public void setDefaultYn(String defaultYn) {
+        this.defaultYn = defaultYn;
+    }
 
     @Override
     public String toString() {
@@ -291,6 +299,7 @@ public class QualityGate {
                 ", linked=" + linked +
                 ", qualitygates=" + qualitygates +
                 ", defaultKey='" + defaultKey + '\'' +
+                ", defaultYn='" + defaultYn + '\'' +
                 ", domains=" + domains +
                 '}';
     }

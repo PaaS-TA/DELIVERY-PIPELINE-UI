@@ -46,7 +46,8 @@ public class QualityGateService {
      * @return
      */
     public  List getQualityGateList(String serviceInstancesId) {
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateList/"+serviceInstancesId, HttpMethod.GET, null, List.class);
+
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateList?serviceInstancesId="+serviceInstancesId, HttpMethod.GET, null, List.class);
     }
 
     /**
