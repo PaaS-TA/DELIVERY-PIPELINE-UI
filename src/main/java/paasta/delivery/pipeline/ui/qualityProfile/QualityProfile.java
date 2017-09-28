@@ -37,7 +37,6 @@ public class QualityProfile {
     //언어 리스트
     private List languages;
 
-
     public Long getId() {
         return id;
     }

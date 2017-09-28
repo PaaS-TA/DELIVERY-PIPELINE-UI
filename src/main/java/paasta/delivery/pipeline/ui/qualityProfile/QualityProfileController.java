@@ -161,5 +161,4 @@ public class QualityProfileController {
         return qualityProfileService.defaultQualityProfile(qualityProfile);
     }
 
-
 }

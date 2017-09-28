@@ -25,7 +25,6 @@ public class QualityProfileService {
         this.restTemplateService = restTemplateService;
     }
 
-
     /**
      *  QualityPrifile 리스트
      *

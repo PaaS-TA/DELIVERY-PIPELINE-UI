@@ -728,6 +728,7 @@
     }
 
 
+
     //rules page 이동
     var rulesPageMove = function(){
         //profile_key
