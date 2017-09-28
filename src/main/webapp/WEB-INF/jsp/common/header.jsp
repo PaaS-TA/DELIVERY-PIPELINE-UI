@@ -40,7 +40,9 @@
                         생성했습니다.
                     </li>
                     <li>
-                        <h3><i class="glyphicon glyphicon-list"></i>나의 파이프라인 (My Pipeline)</h3>
+                        <h3><i class="glyphicon glyphicon-list"></i>
+                            <a href="javascript:void(0);" onclick="procMovePage('/');" style="display: inline;">나의 파이프라인 (My Pipelines)</a>
+                        </h3>
                         <ul class="h6_ul" id="topMenuPipelineList">
                         </ul>
                     </li>
