@@ -64,13 +64,9 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        request.getSession().invalidate();
-
-
         final String name = authentication.getName();
         final Object details = authentication.getDetails();
+
 
         if (!(details instanceof DashboardAuthenticationDetails)) {
             throw new InternalAuthenticationServiceException("The authentication details [" + details
@@ -79,12 +75,12 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
 
         DashboardAuthenticationDetails dashboardAuthenticationDetails = (DashboardAuthenticationDetails) details;
 
-        try {
 
-            if(!dashboardAuthenticationDetails.isManagingService()){
-                SecurityContextHolder.clearContext();
-                throw new AccessDeniedException("Permission Error on [" + name + "]");
-            }
+        LOGGER.info("###############################################################");
+        LOGGER.info("SESSION INFOMATION SETTING [" + name + "]" + " [" + ((DashboardAuthenticationDetails) details).getUserid() + "]");
+        LOGGER.info("###############################################################");
+
+        try {
 
             //권한들에 대한 정보 추출
             List<Map> pipeauthorities = authorityService.getAuthorityListMap();
@@ -141,8 +137,6 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
             }
 
 
-
-
             InstanceUse instanceUse = instanceUseService.getInstanceUse(dashboardAuthenticationDetails.getManagingServiceInstance(), dashboardAuthenticationDetails.getId());
             if (instanceUse == null && dashboardAuthenticationDetails.isManagingService()) {
                 LOGGER.debug("인스터스 생성 및 롤 권한 설정");
@@ -155,7 +149,7 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
                 List<GrantedAuthority> userAuthorities = createGrantedAuthority(roleId, roleDisplayName, instanceUse.getId());
 
                 authorities.add(new SimpleGrantedAuthority(roleString));
-                dashboardAuthenticationDetails = commonService.setDetails(dashboardAuthenticationDetails,roleString,roleId,roleDisplayName);
+                dashboardAuthenticationDetails = commonService.setDetails(dashboardAuthenticationDetails, roleString, roleId, roleDisplayName);
                 dashboardAuthenticationDetails.setGrantedAuthorities(userAuthorities);
             } else {
                 if (instanceUse != null) {
@@ -188,11 +182,12 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
             }
 
 
-
+            if (!dashboardAuthenticationDetails.isManagingService()) {
+                throw new AccessDeniedException("Permission Error on [" + name + "]");
+            }
 
             //이렇게 까지 했는데...없으면...에러 출력
             if (dashboardAuthenticationDetails.getRoleId() == null) {
-                SecurityContextHolder.clearContext();
                 throw new AccessDeniedException("Permission Error on [" + name + "]");
             }
 
@@ -203,8 +198,13 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
 
         } catch (Exception e) {
             e.printStackTrace();
+            // 세션 초기화
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
+            request.getSession().invalidate();
             SecurityContextHolder.clearContext();
-            throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]");
+
+            throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
         }
 
         return authentication;
