@@ -50,10 +50,9 @@ public class DashboardSecurityConfiguration {
      * to manage this service.
      */
     public static String isManagingApp() {
-        return "(authentication.details != null) "
-                + "and (authentication.details instanceof T(" + DashboardAuthenticationDetails.class.getName() + ")) "
+        return "(authentication.details != null) " +
+                "and (authentication.details instanceof T(" + DashboardAuthenticationDetails.class.getName() + ")) "
                 + "and authentication.details.managingService ";
-//                +"and hasRole('ROLE_" + ApplicationWebSecurityConfigurerAdapter.ROLE_DASHBOARD + "')";
     }
 
     @Value("${cf.uaa.oauth.client.id}")
@@ -89,7 +88,7 @@ public class DashboardSecurityConfiguration {
 
     @Bean(name = "dashboardEntryPointMatcher")
     public RequestMatcher dashboardEntryPointMatcher() {
-        return new AntPathRequestMatcher("/dashboard/**");
+        return new AntPathRequestMatcher("/dashboard/**/**/**");
     }
 
     @Bean(name = "dashboardClientContextFilter")

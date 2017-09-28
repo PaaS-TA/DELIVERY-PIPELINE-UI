@@ -9,7 +9,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<sec:authentication property="details.role" var="role"/>
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="details.role" var="role"/>
+</sec:authorize>
+<sec:authorize access="!isAuthenticated()">
+    <script>
+        location.href='/common/error/unauthorized';
+    </script>
+</sec:authorize>
+
 <!-- header :s -->
 <div id="header">
     <div class="head_inner">
@@ -18,7 +26,8 @@
         <ul class="RP_title">
             <li><a href="#"><span class="RP_num" id="topMenuPipelineListCount">0</span></a></li>
             <li role="presentation" class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">
                     <span class="RP_name"> 파이프라인 목록 </span>
                 </a>
                 <ul class="dropdown-menu togglemenu" style="width:320px;left:-60px;">
@@ -26,7 +35,8 @@
                         <li>
                             <h3><i class="glyphicon glyphicon-plus"></i>신규 생성 (New Pipeline)</h3>
                             <input id="topMenuPipelineName" name="topMenuPipelineName" type="text"
-                                   placeholder="파이프라인 명(필수)" onkeypress="if(event.keyCode==13) {createTopMenuPipeline(); }">
+                                   placeholder="파이프라인 명(필수)"
+                                   onkeypress="if(event.keyCode==13) {createTopMenuPipeline(); }">
                         </li>
 
                         <li class="alignC">
@@ -50,7 +60,8 @@
             </li>
             <c:if test="${role == 'ROLE_ADMIN'}">
                 <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
                         파이프라인 관리
                     </a>
                     <ul class="dropdown-menu togglemenu" style="width:200px;left:-50px;padding-top:4px;">
@@ -59,7 +70,8 @@
                     </ul>
                 </li>
                 <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
                         품질 관리
                     </a>
                     <ul class="dropdown-menu togglemenu" style="width:100px;left:-50px;padding-top:4px;">
@@ -67,7 +79,8 @@
                         </li>
                         <li><a href="javascript:void(0);" onclick="procMovePage('/codingRules/dashboard');">코딩 규칙</a>
                         </li>
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityProfile/dashboard');"> 품질 프로파일</a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityProfile/dashboard');"> 품질
+                            프로파일</a>
                         </li>
                         <li><a href="javascript:void(0);" onclick="procMovePage('/qualityGate/dashboard');">품질 게이트</a>
                         </li>
@@ -76,28 +89,33 @@
             </c:if>
         </ul>
         <ul class="nav_ibtn">
-            <li class="mr20"><span style="color: #efefef; vertical-align: bottom;"><sec:authentication property="details.userid" /></span>
+            <li class="mr20"><span style="color: #efefef; vertical-align: bottom;">
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication property="details.userid"/>
+                    </sec:authorize>
+                </span>
             </li>
             <c:if test="${role == 'ROLE_ADMIN'}">
-                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" style="background: none;">사용자 관리</a>
+                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" style="background: none;">사용자
+                    관리</a>
                 </li>
             </c:if>
         </ul>
     </div>
 </div>
 <!--//header :e -->
-<input type="hidden" id="role" name="role" value="<c:out value='${role}' />" />
+<input type="hidden" id="role" name="role" value="<c:out value='${role}' />"/>
 
 <script type="text/javascript">
 
     // GET LIST
-    var getTopMenuPipelineList = function() {
+    var getTopMenuPipelineList = function () {
         procCallAjax("/pipeline/pipelineList.do?size=10000&sort=created,DESC", null, callbackTopMenuPipelineList);
     };
 
 
     // CALLBACK
-    var callbackTopMenuPipelineList = function(data) {
+    var callbackTopMenuPipelineList = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
         var listLength = data.pipelines.length;
@@ -108,20 +126,20 @@
         } else {
             for (var i = 0; i < listLength; i++) {
                 var html = "<li>";
-                if(document.getElementById('role').value != "ROLE_ADMIN") {
+                if (document.getElementById('role').value != "ROLE_ADMIN") {
                     var count = 0;
-                    for(var j = 0; j < grAry.length; j++) {
+                    for (var j = 0; j < grAry.length; j++) {
                         if (grAry[j].authCode != null && data.pipelines[i].id == grAry[j].authCode) {
                             count++;
                         }
                     }
-                    if(count > 0){
+                    if (count > 0) {
                         html += "<a href='javascript:void(0);' onclick='moveTopMenuPipelineDetailPage(\"" + data.pipelines[i].id + "\");'> " + data.pipelines[i].name + " </a></li>";
-                    }else{
+                    } else {
                         html += data.pipelines[i].name;
                     }
-                }else{
-                    html += "<a href='javascript:void(0);' onclick='moveTopMenuPipelineDetailPage(\"" + data.pipelines[i].id +  "\");'>" + data.pipelines[i].name + "</a></li>";
+                } else {
+                    html += "<a href='javascript:void(0);' onclick='moveTopMenuPipelineDetailPage(\"" + data.pipelines[i].id + "\");'>" + data.pipelines[i].name + "</a></li>";
                 }
                 htmlString.push(html);
             }
@@ -133,14 +151,14 @@
 
 
     // MOVE DETAIL PAGE
-    var moveTopMenuPipelineDetailPage = function(id) {
+    var moveTopMenuPipelineDetailPage = function (id) {
         procMovePage("/pipeline/" + id + "/detail");
     };
 
 
     // CREATE PIPELINE
-    var createTopMenuPipeline = function() {
-        var serviceInstancesId = (procIsNullString(G_SUID))? G_SERVICE_INSTANCE_ID : G_SUID;
+    var createTopMenuPipeline = function () {
+        var serviceInstancesId = (procIsNullString(G_SUID)) ? G_SERVICE_INSTANCE_ID : G_SUID;
         var pipelineName = $('#topMenuPipelineName').val();
 
         if (procIsNullString(pipelineName)) {
@@ -157,7 +175,7 @@
     };
 
     // CALLBACK
-    var callbackCreateTopMenuPipeline = function(data) {
+    var callbackCreateTopMenuPipeline = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
         $('#topMenuPipelineName').val('');
@@ -168,13 +186,13 @@
 
 
     // BIND
-    $("#btnTopMenuPipelineCreate").on("click", function() {
+    $("#btnTopMenuPipelineCreate").on("click", function () {
         createTopMenuPipeline();
     });
 
 
     // BIND
-    $("#btnTopMenuPipelineCancel").on("click", function() {
+    $("#btnTopMenuPipelineCancel").on("click", function () {
         $('#topMenuPipelineName').val('');
         $('#topMenuPipelineCreateResultArea').hide();
         $('.togglemenu').hide();
@@ -187,7 +205,6 @@
     }).on('hide.bs.dropdown', function (e) {
         $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
     });
-
 
 
     // ON LOAD

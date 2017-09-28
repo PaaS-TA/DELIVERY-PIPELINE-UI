@@ -55,21 +55,12 @@ public class PipelineController {
      */
     @GetMapping
     public ModelAndView redirectPipelineDashboard(@PathVariable("suid") String serviceInstancesId, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-
         if(httpServletRequest.getSession() != null) {
-            LOGGER.info("###############################################################");
-            LOGGER.info("UPDATE SESSION");
-            LOGGER.info("###############################################################");
-            //기존에 세션이 있을 경우가 있어...세션을 초기화후 새로운 세션을 생성한다.
-            try{
-                commonService.updateSession();
-            }catch (Exception e){
-                LOGGER.info("redirect:/common/error/unauthorized");
-                return new ModelAndView("redirect:/common/error/unauthorized");
-            }
-
+            commonService.updateSession();
+            return new ModelAndView("redirect:/dashboard/" + serviceInstancesId + "/pipeline/dashboard");
+        }else{
+            return new ModelAndView("redirect:/common/unauthorized");
         }
-        return new ModelAndView("redirect:/dashboard/" + serviceInstancesId + "/pipeline/dashboard");
     }
 
 
@@ -77,7 +68,7 @@ public class PipelineController {
      * Gets pipeline list page
      *
      * @param httpServletRequest the http servlet request
-     * @param name search by pipelineName
+     * @param name               search by pipelineName
      * @return the pipeline list page
      */
     @RequestMapping(value = {BASE_URL + "/dashboard"}, method = RequestMethod.GET)
@@ -100,18 +91,17 @@ public class PipelineController {
     public ModelAndView getPipelineDetailPage(HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("authorityList", commonService.getUserInfo().getGrantedAuthorities());
-        mv.setViewName(BASE_URL+"/pipelineDetail");
-        
+        mv.setViewName(BASE_URL + "/pipelineDetail");
+
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/pipelineDetail", mv);
     }
-
 
 
     /**
      * Gets pipeline detail_contributor list page
      *
      * @param httpServletRequest the http servlet request
-     * @param name search by userName
+     * @param name               search by userName
      * @return the contributor list page
      */
     @RequestMapping(value = {BASE_URL + "/{pipelineId}/contributor"}, method = RequestMethod.GET)
@@ -121,7 +111,6 @@ public class PipelineController {
 
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/pipelineDetailContributorTabList", new ModelAndView());
     }
-
 
 
     /**
@@ -138,18 +127,17 @@ public class PipelineController {
     }
 
 
-
     /**
      * Gets pipeline detail_contributor update page
      *
      * @param httpServletRequest the http servlet request
-     * @param suid the service instances id
-     * @param pipelineId the pipeline id
-     * @param id the user id
+     * @param suid               the service instances id
+     * @param pipelineId         the pipeline id
+     * @param id                 the user id
      * @return the detail_contributor update page
      */
     @RequestMapping(value = {BASE_URL + "/{pipelineId}/contributor/update/{id}"}, method = RequestMethod.GET)
-    public ModelAndView getPipelineDetailContributorUpdatePage(HttpServletRequest httpServletRequest,@PathVariable String suid, @PathVariable String pipelineId, @PathVariable String id) {
+    public ModelAndView getPipelineDetailContributorUpdatePage(HttpServletRequest httpServletRequest, @PathVariable String suid, @PathVariable String pipelineId, @PathVariable String id) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("authList", authorityService.getAuthorityList());
         mv.addObject("pipelineId", pipelineId);
@@ -158,9 +146,8 @@ public class PipelineController {
     }
 
 
-
     /**
-     *  Gets pipeline create page
+     * Gets pipeline create page
      *
      * @param httpServletRequest the http servlet request
      * @return the pipeline create page
@@ -171,9 +158,8 @@ public class PipelineController {
     }
 
 
-
     /**
-     *  Gets pipeline update page
+     * Gets pipeline update page
      *
      * @param httpServletRequest the http servlet request
      * @return the pipeline update page
@@ -184,12 +170,11 @@ public class PipelineController {
     }
 
 
-
     /**
-     *  Gets pipeline list
+     * Gets pipeline list
      *
      * @param httpServletRequest the http servlet request
-     * @param suid the service instances id
+     * @param suid               the service instances id
      * @return the pipeline list
      */
     @RequestMapping(value = {BASE_URL + "/pipelineList.do"}, method = RequestMethod.GET)
@@ -197,7 +182,6 @@ public class PipelineController {
     public PipelineList getPipelineList(HttpServletRequest httpServletRequest, @PathVariable String suid) {
         return pipelineService.getPipelineList(suid, commonService.setParameters(httpServletRequest));
     }
-
 
 
     /**
@@ -213,7 +197,6 @@ public class PipelineController {
     }
 
 
-
     /**
      * Sets create pipeline
      *
@@ -225,7 +208,6 @@ public class PipelineController {
     public Pipeline setCreatePipeline(@RequestBody Pipeline pipeline) {
         return pipelineService.setCreatePipeline(pipeline);
     }
-
 
 
     /**
@@ -241,9 +223,8 @@ public class PipelineController {
     }
 
 
-
     /**
-     *  Sets delete pipeline
+     * Sets delete pipeline
      *
      * @param pipeline the pipeline
      * @return the delete pipeline
@@ -255,13 +236,12 @@ public class PipelineController {
     }
 
 
-
     /**
      * Gets contributor list
      *
      * @param httpServletRequest the http servlet request
-     * @param suid the service instances id
-     * @param pipelineId the pipeline id
+     * @param suid               the service instances id
+     * @param pipelineId         the pipeline id
      * @return the contributor list
      */
     @RequestMapping(value = {BASE_URL + "/{pipelineId}/contributorList.do"}, method = RequestMethod.GET)
@@ -270,7 +250,6 @@ public class PipelineController {
         InstanceUseList list = instanceUseService.getInstanceUseListByPipelineContributor(suid, pipelineId, commonService.setParameters(httpServletRequest));
         return list;
     }
-
 
 
     /**
@@ -288,23 +267,22 @@ public class PipelineController {
     }
 
 
-
     /**
      * Sets create contributor's authority
      *
      * @param reqGrantedAuthority the grantedAuthority
-     * @param suid the service instances id
+     * @param suid                the service instances id
      * @return the create contributor's authority
      */
     @RequestMapping(value = {BASE_URL + "/contributorGrantedAuthority.do"}, method = RequestMethod.POST)
     @ResponseBody
-    public GrantedAuthority createContributorGrantedAuthority(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid){
+    public GrantedAuthority createContributorGrantedAuthority(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid) {
         GrantedAuthority newGrantedAuthority = new GrantedAuthority();
         newGrantedAuthority.setInstanceUseId(reqGrantedAuthority.getInstanceUseId());
         newGrantedAuthority.setAuthorityId(reqGrantedAuthority.getAuthorityId());
         newGrantedAuthority.setAuthCode(reqGrantedAuthority.getPipelineId());
 
-        if(reqGrantedAuthority.getDescription() != null){
+        if (reqGrantedAuthority.getDescription() != null) {
             InstanceUse instanceUse = instanceUseService.getInstanceUse(suid, reqGrantedAuthority.getUserId());
             instanceUse.getUser().setDescription(reqGrantedAuthority.getDescription());
 
@@ -314,17 +292,16 @@ public class PipelineController {
     }
 
 
-
     /**
      * Sets update contributor's authority
      *
      * @param reqGrantedAuthority the grantedAuthority
-     * @param suid the service instances id
+     * @param suid                the service instances id
      * @return the update contributor's authority
      */
     @RequestMapping(value = {BASE_URL + "/contributorGrantedAuthorityUpdate.do"}, method = RequestMethod.POST)
     @ResponseBody
-    public InstanceUse setContributorUpdate(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid){
+    public InstanceUse setContributorUpdate(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid) {
         InstanceUse instanceUse = instanceUseService.getInstanceUse(suid, reqGrantedAuthority.getUserId());
         instanceUse.setPipelineId(reqGrantedAuthority.getPipelineId());
         instanceUse.setAuthListStr(reqGrantedAuthority.getAuthorityId());
@@ -335,30 +312,28 @@ public class PipelineController {
     }
 
 
-
     /**
      * Sets delete contributor's authority
      *
      * @param reqGrantedAuthority the grantedAuthority
-     * @param suid the service instances id
+     * @param suid                the service instances id
      * @return the delete contributor's authority
      */
     @RequestMapping(value = {BASE_URL + "/contributorGrantedAuthorityDelete.do"}, method = RequestMethod.POST)
     @ResponseBody
-    public InstanceUse deleteContributor(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid){
+    public InstanceUse deleteContributor(@RequestBody GrantedAuthority reqGrantedAuthority, @PathVariable String suid) {
         // 1. instanceUse -> 53 번(hrjin) user 에 해당하는 값들이 나옴.
         InstanceUse instanceUse = instanceUseService.getInstanceUse(suid, reqGrantedAuthority.getUserId());
 
         // 2. instanceUse 의 grantedAuthority 중에 authCode 가 넘어온 pipelineId 값이랑 같을 경우 해당 grantedAuthorities 의 행을 지운다.
-        for(int i = 0; i < instanceUse.getGrantedAuthorities().size(); i++){
-            if(instanceUse.getGrantedAuthorities().get(i).getAuthCode() != null && instanceUse.getGrantedAuthorities().get(i).getAuthCode().intValue() == reqGrantedAuthority.getPipelineId().intValue()){
+        for (int i = 0; i < instanceUse.getGrantedAuthorities().size(); i++) {
+            if (instanceUse.getGrantedAuthorities().get(i).getAuthCode() != null && instanceUse.getGrantedAuthorities().get(i).getAuthCode().intValue() == reqGrantedAuthority.getPipelineId().intValue()) {
                 String resultMessage = grantedAuthorityService.deleteContributor(instanceUse.getGrantedAuthorities().get(i).getId());
                 LOGGER.info(resultMessage);
             }
         }
         return instanceUseService.getInstanceUse(suid, reqGrantedAuthority.getUserId());
     }
-
 
 
     /**
@@ -368,7 +343,7 @@ public class PipelineController {
      */
     @RequestMapping(value = "/grantedAuthorities", method = RequestMethod.GET)
     @ResponseBody
-    public List<GrantedAuthority> getGrantedAuthorities(){
+    public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> grantedAuthorities = commonService.getUserInfo().getGrantedAuthorities();
         return grantedAuthorities;
     }

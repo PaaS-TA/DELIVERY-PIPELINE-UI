@@ -36,7 +36,7 @@ public class ApplicationWebSecurityConfigurerAdapter extends WebSecurityConfigur
     /**
      * Role that users accessing the dashboard endpoint must have.
      */
-    public static final String ROLE_DASHBOARD = "DASHBOARD";
+    public static final String ROLE_DASHBOARD = "USER";
 
     /**
      * Role that users accessing a web-service endpoint must have.

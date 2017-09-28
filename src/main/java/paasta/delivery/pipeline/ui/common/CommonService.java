@@ -21,6 +21,8 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import paasta.delivery.pipeline.ui.auth.Authority;
@@ -293,8 +295,13 @@ public class CommonService {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                // 세션 초기화
+                ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpServletRequest request = attributes.getRequest();
+                request.getSession().invalidate();
                 SecurityContextHolder.clearContext();
-                throw new InternalAuthenticationServiceException("Error while creating a user based on [" + name + "]", e);
+
+                throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
 
             }
         }
