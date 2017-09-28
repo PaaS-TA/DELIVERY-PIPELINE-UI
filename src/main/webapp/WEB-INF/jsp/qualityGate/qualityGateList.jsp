@@ -602,8 +602,6 @@
         //도메인 조건 리스트
         getMetricsList();
 
-//        geteDomains();
-
         //탭 처음으로 이동
         sub_tab(0);
         $("#contentGate").css("display","block");
