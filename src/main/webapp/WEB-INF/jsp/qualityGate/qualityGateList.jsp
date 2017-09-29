@@ -382,7 +382,7 @@
     }
 
     //게이트 복제하기
-    var saveCopyGate = function(){
+    function saveCopyGate(){
         //연속 클릭 방지
         if(doubleSubmitCheck()) return;
 
@@ -393,13 +393,12 @@
             defaultYn:"N"
         };
 
-            procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
+        procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
 
     }
 
     //복제 콜백
     var callbackGateCopy = function(data){
-//        $('div.modal').modal('hide');
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         $("#copyGateText").val("");
         getList();
@@ -449,6 +448,7 @@
     }
 
     var callbackGetGateUpdate = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         $("#copyGateText").val("");
         getList();
         gateActive(data.id,data.defaultYn);
