@@ -177,26 +177,29 @@
             $(".tbodyDatas  > :last").append(loadingImg);
 
             if (pageSize != "") {
-                 pageSize = parseInt(pageSize) + 50;
-                 $("#issuesPs").val(pageSize);
-                getList();
+                if($("#issuesTable").css("display") == "block") {
+                    pageSize = parseInt(pageSize) + 50;
+                    $("#issuesPs").val(pageSize);
+                    getList();
+                }
              } else {
                  pageSize = 0;
                  pageSize = parseInt(pageSize) + 50;
                  $("#issuesPs").val(pageSize);
              }
+  /*           if($("#issuesTable").css("display") == "block") {
+              if (pageSize != "" && pageSize <= pageTotal) {
+              pageSize = parseInt(pageSize) + 50;
+              $("#issuesPs").val(pageSize);
+              getList();
+              } else if (pageSize > pageTotal) {
+              return false;
+              }
+              }*/
 
          }
 
-/*     if($("#issuesTable").css("display") == "block") {
-         if (pageSize != "" && pageSize <= pageTotal) {
-             pageSize = parseInt(pageSize) + 50;
-             $("#issuesPs").val(pageSize);
-            getList();
-         } else if (pageSize > pageTotal) {
-            return false;
-         }
-     }*/
+
 
 
         }
