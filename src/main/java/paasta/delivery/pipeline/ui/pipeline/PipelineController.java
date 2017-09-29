@@ -54,13 +54,10 @@ public class PipelineController {
      * @return the model and view
      */
     @GetMapping
-    public ModelAndView redirectPipelineDashboard(@PathVariable("suid") String serviceInstancesId, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        if(httpServletRequest.getSession() != null) {
-            commonService.updateSession();
-            return new ModelAndView("redirect:/dashboard/" + serviceInstancesId + "/pipeline/dashboard");
-        }else{
-            return new ModelAndView("redirect:/common/unauthorized");
-        }
+    public ModelAndView redirectlogin(@PathVariable("suid") String serviceInstancesId, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        commonService.updateSession();
+        return new ModelAndView("redirect:/dashboard/" + serviceInstancesId + "/pipeline/dashboard");
+
     }
 
 
@@ -75,7 +72,6 @@ public class PipelineController {
     public ModelAndView getPipelineListPage(HttpServletRequest httpServletRequest, @RequestParam(value = "name", required = false) String name) {
         ListRequest listRequest = new ListRequest();
         listRequest.setName(name);
-
         ModelAndView mv = new ModelAndView();
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/pipelineList", mv);
     }

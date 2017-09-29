@@ -77,7 +77,7 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
 
 
         LOGGER.info("###############################################################");
-        LOGGER.info("SESSION INFOMATION SETTING [" + name + "]" + " [" + ((DashboardAuthenticationDetails) details).getUserid() + "]");
+        LOGGER.info("SESSION INFOMATION SETTING [" + name + "]" + " [" + ((DashboardAuthenticationDetails) details).getUserid() + "]" + " [" + authentication.getPrincipal() + "] ");
         LOGGER.info("###############################################################");
 
         try {
@@ -182,9 +182,6 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
             }
 
 
-            if (!dashboardAuthenticationDetails.isManagingService()) {
-                throw new AccessDeniedException("Permission Error on [" + name + "]");
-            }
 
             //이렇게 까지 했는데...없으면...에러 출력
             if (dashboardAuthenticationDetails.getRoleId() == null) {
@@ -194,7 +191,6 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
             //이상없으면 세션에 저장
             authentication = new OAuth2Authentication(((OAuth2Authentication) authentication).getOAuth2Request(), new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), "N/A", authorities));
             ((OAuth2Authentication) authentication).setDetails(dashboardAuthenticationDetails);
-
 
         } catch (Exception e) {
             e.printStackTrace();

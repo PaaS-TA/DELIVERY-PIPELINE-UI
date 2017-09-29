@@ -48,6 +48,7 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
         final Authentication authentication = super.attemptAuthentication(request, response);
         if (detailsSource != null) {
+            request.getSession().invalidate();
             ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));
         }
 
