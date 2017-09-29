@@ -57,7 +57,8 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td class="alignC" id="coverageNum"></td>
+
+                    <td class="alignC"> <div style="display: inline;"><div id='coverageChat' style="display: inline-block;"></div><div style="display: inline-block;"><a href='javascript:void(0)' onclick="movePage('coverageList')"><h3>4.5%</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div></td>
                     <td class="alignC" id="testsNum"></td>
                 </tr>
                 </tbody>
@@ -254,7 +255,7 @@
             key = data.key;
             projectName = data.name;
             lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
-            coverage = "<a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a>";
+            coverage = "<div id='coverageChat'></div><div><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div>";
             issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>"+data.measures.issues+"</h3><span style='text-decoration: underline;'>Issues</span></a>";
             tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>"+data.measures.tests+"</h3><span style='text-decoration: underline;'>Tests</span></a>";
             debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>"+data.measures.debt+"</h3><span style='text-decoration: underline;'>Debt</span></a>";
@@ -264,10 +265,12 @@
         $("#projectKey").val(key);
         $("#issueDay").html(debt);
         $("#issuesNum").html(issues);
-        $("#coverageNum").html(coverage);
+//        $("#coverageNum").html(coverage);
         $("#testsNum").html(tests);
         $("#codeLine").html(lines);
         $("#projectName").text(projectName);
+
+
 
         getCoverageList();
     }
@@ -321,6 +324,15 @@
                 if(datas.key == 'coverage' || datas.key == null){
                     coverage = datas.frmt_val;
                     covarage_num = datas.fvar1;
+                    $('#coverageChat').doughnutChart({
+                        positiveColor: "#4FBAFF",
+                        negativeColor: "#FF9CA5",
+                        backgroundColor: "white",
+                        percentage: datas.val,
+                        size: 50,
+                        doughnutSize: 0.35,
+                    });
+
                 }else if(datas.key == 'line_coverage' || datas.key == null){
                     line_coverage = datas.frmt_val;
                     line_coverage_num = datas.fvar1;
@@ -433,6 +445,8 @@
     $(document.body).ready(function () {
         //sonarKey(소나 uuid 가져오기)
         getSonarKey();
+
+
 
 
     })

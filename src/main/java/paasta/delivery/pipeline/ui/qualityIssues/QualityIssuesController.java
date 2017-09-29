@@ -104,5 +104,11 @@ public class QualityIssuesController {
         return qualityIssuesService.getQualityIssuesDetail(qualityIssues);
     }
 
+    @RequestMapping(value = BASE_URL+"/setSeverity.do", method = RequestMethod.POST)
+    public Object setSeverity(@RequestBody QualityIssues qualityIssues){
+        return qualityIssuesService.setSeverity(qualityIssues);
+    }
+
+
 
 }

@@ -51,7 +51,8 @@
                         <%--<button type="button" class="button btn_default" id="defaultSetting">기본으로 설정</button>--%>
                          <button type="button" class="button btn_default" id="copyPopBtn">복제</button>
                          <button type="button" class="button btn_default" id="craetePopBtn">생성</button>
-                         <button  type="button" id="updatePopBtn" class="button btn_default">수정</button>
+                         <button  type="button" id="updatePopBtn" class="button btn_default">수정</button>'
+                         <button type="button" class="button btn_default" id="deleteGateBtn">삭제</button>
                     </div>
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 조건 영역 :s -->
@@ -233,7 +234,7 @@
                 </div>
 
                 <div class="fr" id="frUdtBtn">
-                    <button type="button" class="button btn_pop" id="deleteGateBtn">삭제</button> <button type="button" class="button btn_pop" id="updateGateBtn">수정</button> <button type="button" class="button btn_pop copyGateClose"  data-dismiss="modal">취소</button>
+                    <button type="button" class="button btn_pop" id="updateGateBtn">수정</button> <button type="button" class="button btn_pop copyGateClose"  data-dismiss="modal">취소</button>
                 </div>
 
             </div>
@@ -246,9 +247,9 @@
 
 
 <!-- 선택된 퀄리티게이트 key값 -->
-<input type="text" name="gateId" id="gateId">
+<input type="hidden" name="gateId" id="gateId">
 <input type="hidden" name="serviceInstancesId" id="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-<input type="text" id="defaultYn">
+<input type="hidden" id="defaultYn">
 
 <script type="text/javascript">
     var doubleSubmitFlag = false;
@@ -381,7 +382,7 @@
     }
 
     //게이트 복제하기
-    var saveCopyGate = function(){
+    function saveCopyGate(){
         //연속 클릭 방지
         if(doubleSubmitCheck()) return;
 
@@ -392,14 +393,13 @@
             defaultYn:"N"
         };
 
-            procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
+        procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
 
     }
 
     //복제 콜백
     var callbackGateCopy = function(data){
-//        $('div.modal').modal('hide');
-
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         $("#copyGateText").val("");
         getList();
         gateActive(data.id, data.defaultYn);
@@ -448,6 +448,7 @@
     }
 
     var callbackGetGateUpdate = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         $("#copyGateText").val("");
         getList();
         gateActive(data.id,data.defaultYn);
@@ -483,11 +484,12 @@
 
     //quality Gate 클릭시 조건 및 프로젝트 리스트 노출
     function gateActive(gateid , defaultYn){
-
         if(defaultYn == "Y"){
             $("#updatePopBtn").hide();
+            $("#deleteGateBtn").hide();
         }else{
             $("#updatePopBtn").show();
+            $("#deleteGateBtn").show();
         }
         procClosePopup();
         procCallSpinner(SPINNER_START);

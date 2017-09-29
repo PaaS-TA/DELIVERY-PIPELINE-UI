@@ -29,13 +29,13 @@
                     <ul>
                         <h4>해결여부 (Resolution)</h4>
                         <div id="issueResolution">
-                            <li><a href="#"><input type="checkbox" name="resolutionCheck" value="UNRESOLVED" onclick="resolutionChecked('0')"> <span class="block">미해결 (Unresolved)</span> <span class="issue_num" id="unresolved">0</span></a></li>
-                            <li><a href="#"><input type="checkbox" name="resolutionCheck" value="FIXED" onclick="resolutionChecked('1')"> <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a></li>
-                            <li><a href="#"><input type="checkbox" name="resolutionCheck" value="FALSE-POSITIVE" onclick="resolutionChecked('2')"> <span class="block">보류 (False positive)</span> <span class="issue_num" id="false_positive">0</span></a></li>
-                            <li><a href="#"><input type="checkbox" name="resolutionCheck" value="WONTFIX" onclick="resolutionChecked('3')"> <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a></li>
-                            <li class="last"><a href="#"><input type="checkbox" name="resolutionCheck" value="REMOVED" onclick="resolutionChecked('4')"> <span class="block">제거됨 (Removed)</span> <span class="issue_num" id="removed">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(0);"><input type="checkbox" name="resolutionCheck" value="UNRESOLVED" onclick="resolutionChecked('0')"> <span class="block">미해결 (Unresolved)</span> <span class="issue_num" id="unresolved">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(1);"><input type="checkbox" name="resolutionCheck" value="FIXED" onclick="resolutionChecked('1')"> <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(2);"><input type="checkbox" name="resolutionCheck" value="FALSE-POSITIVE" onclick="resolutionChecked('2')"> <span class="block">보류 (False positive)</span> <span class="issue_num" id="false_positive">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(3);"><input type="checkbox" name="resolutionCheck" value="WONTFIX" onclick="resolutionChecked('3')"> <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a></li>
+                            <li class="last"><a href="javascript:resolutionChecked(4);"><input type="checkbox" name="resolutionCheck" value="REMOVED" onclick="resolutionChecked('4')"> <span class="block">제거됨 (Removed)</span> <span class="issue_num" id="removed">0</span></a></li>
                         </div>
-                            <h4>이슈 수준 (Severity)</h4>
+                        <h4>이슈 수준 (Severity)</h4>
                         <div id="issueSeverity">
                             <li><a href="javascript:chkOn(0,'severityCheck');"><input type="checkbox" name="severityCheck" value="BLOCKER" onclick="getList()"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span class="issue_num" id="blocker">0</span></a></li>
                             <li><a href="javascript:chkOn(1,'severityCheck');"><input type="checkbox" name="severityCheck" value="CRITICAL" onclick="getList()"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span class="issue_num" id="critical">0</span></a></li>
@@ -43,7 +43,7 @@
                             <li><a href="javascript:chkOn(3,'severityCheck');"><input type="checkbox" name="severityCheck" value="MINOR" onclick="getList()"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span class="issue_num" id="minor">0</span></a></li>
                             <li class="last"><a href="javascript:chkOn(4,'severityCheck');"><input type="checkbox" name="severityCheck" value="INFO" onclick="getList()"> <span class="block"><i class="ico_info"></i>정보 (Info)</span> <span class="issue_num" id="info">0</span></a></li>
                         </div>
-                            <h4>상태 (Status)</h4>
+                        <h4>상태 (Status)</h4>
                         <div id="issueStatus">
                             <li><a href="javascript:chkOn(0,'statusCheck');"><input type="checkbox"  name="statusCheck" value="OPEN" onclick="getList()"> <span class="block">활성 (Open)</span> <span class="issue_num" id="open">0</span></a></li>
                             <li><a href="javascript:chkOn(1,'statusCheck');"><input type="checkbox"  name="statusCheck" value="RESOLVED" onclick="getList()"> <span class="block">해결됨 (Resolved)</span> <span class="issue_num" id="resolved">0</span></a></li>
@@ -52,11 +52,11 @@
                             <li class="last"><a href="javascript:chkOn(4,'statusCheck');"><input type="checkbox" name="statusCheck" value="CONFIRMED" onclick="getList()"> <span class="block">확인됨 (Confirmed)</span> <span class="issue_num" id="confirmed">0</span></a></li>
 
                         </div>
-                            <h4>개발언어 (Language)</h4>
+                        <h4>개발언어 (Language)</h4>
                         <div id="issueLanguage">
 
                         </div>
-                            <h4>프로젝트 (Project)</h4>
+                        <h4>프로젝트 (Project)</h4>
                         <div id="issueProject">
 
                         </div>
@@ -68,202 +68,6 @@
             <div class="contentWrap">
                 <div class="content_in" id="issuesTable" style="display: block">
 
-
-
-
-                    <!-- 테이블 1단 -->
-<%--                    <table summary="품질이슈 리스트 테이블입니다." class="quality_list">
-                        <caption>품질이슈 리스트</caption>
-                        <colgroup>
-                            <col style="width: *" />
-                            <col style="width:10%">
-                        </colgroup>
-                        <thead id="">
-                        <tr>
-                            <th colspan="2" scope="col">
-                                <div class="tit">
-                                    hello-spring-cloud <span>src/test/java/smoke/SmokeTests.java</span>
-                                </div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="IssuesList">
-                        <tr>
-                            <td>
-                                <div class="rule_tit">규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.<br />규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.</div>
-                                <ul class="sel_menu">
-                                    <li>
-                                        <div class="selectbox select1" style="width:95px;">
-                                            <div>
-                                                <strong><img src="/resources/images/ico_blocker.png"> 심각</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li><span class="ico_blocker"></span>심각</li>
-                                                <li><span class="ico_critical"></span>높음</li>
-                                                <li><span class="ico_major"></span>보통</li>
-                                                <li><span class="ico_minor"></span>낮음</li>
-                                                <li><span class="ico_info"></span>정보</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="selectbox select2" style="width:90px;">
-                                            <div>
-                                                <strong>활성</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li>활성</li>
-                                                <li>확인됨</li>
-                                                <li>수정됨</li>
-                                                <li>보류</li>
-                                                <li>무시</li>
-                                                <li>재활성</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="loca_txt">위치 : 12345라인</li>
-                                </ul>
-                            </td>
-                            <td><button type="submit" class="button quality_btn">규칙상세</button></td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                    <!--//테이블 1단 -->
-                    <!-- 테이블 2단 -->
-                    <table summary="품질이슈 리스트 테이블입니다." class="quality_list">
-                        <caption>품질이슈 리스트</caption>
-                        <colgroup>
-                            <col style="width: *" />
-                            <col style="width:10%">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th colspan="2" scope="col">
-                                <div class="tit">
-                                    hello-spring-cloud <span>src/test/java/smoke/SmokeTests.java</span>
-                                </div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <div class="rule_tit">규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.<br />규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.</div>
-                                <ul class="sel_menu">
-                                    <li>
-                                        <div class="selectbox select7" style="width:95px;">
-                                            <div>
-                                                <strong><img src="/resources/images/ico_blocker.png"> 심각</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li><span class="ico_blocker"></span>심각</li>
-                                                <li><span class="ico_critical"></span>높음</li>
-                                                <li><span class="ico_major"></span>보통</li>
-                                                <li><span class="ico_minor"></span>낮음</li>
-                                                <li><span class="ico_info"></span>정보</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="selectbox select8" style="width:90px;">
-                                            <div>
-                                                <strong>활성</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li>활성</li>
-                                                <li>확인됨</li>
-                                                <li>수정됨</li>
-                                                <li>보류</li>
-                                                <li>무시</li>
-                                                <li>재활성</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="loca_txt">위치 : 12345라인</li>
-                                </ul>
-                            </td>
-                            <td><button type="submit" class="button quality_btn">규칙상세</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="rule_tit">Immediately return this expression instead of assigning it to the temporary<br />variable "connection".</div>
-                                <ul class="sel_menu">
-                                    <li>
-                                        <div class="selectbox select9" style="width:95px;">
-                                            <div>
-                                                <strong><img src="/resources/images/ico_blocker.png"> 심각</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li><span class="ico_blocker"></span>심각</li>
-                                                <li><span class="ico_critical"></span>높음</li>
-                                                <li><span class="ico_major"></span>보통</li>
-                                                <li><span class="ico_minor"></span>낮음</li>
-                                                <li><span class="ico_info"></span>정보</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="selectbox select10" style="width:90px;">
-                                            <div>
-                                                <strong>활성</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li>활성</li>
-                                                <li>확인됨</li>
-                                                <li>수정됨</li>
-                                                <li>보류</li>
-                                                <li>무시</li>
-                                                <li>재활성</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="loca_txt">위치 : 12345라인</li>
-                                </ul>
-                            </td>
-                            <td><button type="submit" class="button quality_btn">규칙상세</button></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="rule_tit">Close this "ConfigurableApplicationContext</div>
-                                <ul class="sel_menu">
-                                    <li>
-                                        <div class="selectbox select11" style="width:95px;">
-                                            <div>
-                                                <strong><img src="/resources/images/ico_blocker.png"> 심각</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li><span class="ico_blocker"></span>심각</li>
-                                                <li><span class="ico_critical"></span>높음</li>
-                                                <li><span class="ico_major"></span>보통</li>
-                                                <li><span class="ico_minor"></span>낮음</li>
-                                                <li><span class="ico_info"></span>정보</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="selectbox select12" style="width:90px;">
-                                            <div>
-                                                <strong>활성</strong><span class="bul"></span>
-                                            </div>
-                                            <ul class="select-list">
-                                                <li>활성</li>
-                                                <li>확인됨</li>
-                                                <li>수정됨</li>
-                                                <li>보류</li>
-                                                <li>무시</li>
-                                                <li>재활성</li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="loca_txt">위치 : 12345라인</li>
-                                </ul>
-                            </td>
-                            <td><button type="submit" class="button quality_btn">규칙상세</button></td>
-                        </tr>
-                        </tbody>
-                    </table>--%>
-                    <!--//테이블 2단 -->
                 </div>
 
                 <div class="content_in" id="issuesDetail" style="display:none;">
@@ -347,7 +151,7 @@
 
 
             </div>
-                <!--//contentWrap :e -->
+            <!--//contentWrap :e -->
         </div>
         <!--//full_sub_content :e -->
     </div>
@@ -356,35 +160,50 @@
 <!--//container :e -->
 
 
-    <input type="hidden" name="issuesTotal" id="issuesTotal"/>
-    <input type="hidden" name="issuesPs" id="issuesPs" value="50"/>
+<input type="hidden" name="issuesTotal" id="issuesTotal"/>
+<input type="hidden" name="issuesPs" id="issuesPs" value="50"/>
+<input type="hidden" name="serviceInstancesId" id="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
 
 
 
 <script type="text/javascript">
-/*    $(window).scroll(function(){
-        if($(window).scrollTop() >= $(document).height() - $(window).height()){
-            var pageSize = $("#issuesPs").val();
-            var pageTotal = $("#issuesTotal").val();
-/!*            if(pageSize < pageTotal ) {
-                var loadingImg = "<div><img src = '/resources/images/img_loading.gif'></div>";
-            $(".tbodyDatas-body").html(loadingImg);
-            }*!/
+    $(window).scroll(function(){
+     if($(window).scrollTop() >= $(document).height() - $(window).height()){
 
-            if($("#issuesTable").css("display") == "block") {
-                if (pageSize != "" && pageSize <= pageTotal) {
+         var pageSize = $("#issuesPs").val();
+         var pageTotal = $("#issuesTotal").val();
+         if(parseInt(pageSize) < parseInt(pageTotal) ) {
+             var loadingImg = " <tr><td class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
+            $(".tbodyDatas  > :last").append(loadingImg);
+
+            if (pageSize != "") {
+                if($("#issuesTable").css("display") == "block") {
                     pageSize = parseInt(pageSize) + 50;
                     $("#issuesPs").val(pageSize);
                     getList();
-//                $("#laypop").show();
-                } else if (pageSize > pageTotal) {
-                    return false;
                 }
-            }
+             } else {
+                 pageSize = 0;
+                 pageSize = parseInt(pageSize) + 50;
+                 $("#issuesPs").val(pageSize);
+             }
+  /*           if($("#issuesTable").css("display") == "block") {
+              if (pageSize != "" && pageSize <= pageTotal) {
+              pageSize = parseInt(pageSize) + 50;
+              $("#issuesPs").val(pageSize);
+              getList();
+              } else if (pageSize > pageTotal) {
+              return false;
+              }
+              }*/
+
+         }
+
+
 
 
         }
-    })*/
+     })
 
     $(function(){
 
@@ -392,6 +211,9 @@
             $("#issuesTable").css("display", "block");
             $("#issuesDetail").css("display", "none");
         })
+
+
+
     });
 
 
@@ -413,12 +235,8 @@
 
         $("#issueResolution").find("input[name=resolutionCheck]").each(function(i){
             if($(this).is(":checked") == true){
-                if($(this).val() == ""){
-                    resolved = "&resolved=false";
-                }else{
-                    resolutions += $(this).val()+",";
-                }
 
+                resolutions += $(this).val()+",";
             }
         });
 
@@ -448,17 +266,32 @@
         statuses = statuses.slice(0,-1);
         componentKeys = componentKeys.slice(0,-1);
 
+
+
         var param = {
             ps : ps,
             resolutions: resolutions,
             severities: severities,
             statuses: statuses,
             componentKeys: componentKeys,
-            resolved: resolved
+            resolved: resolved,
+            serviceInstancesId:$("#serviceInstancesId").val()
 
         }
 
         procCallAjax("/qualityIssues/qualityIssuesList.do", param, callbackGetList);
+//        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+
+
+        if(componentKeys != ""){
+
+            var param = {
+                serviceInstancesId:$("#serviceInstancesId").val(),
+                componentKeys:componentKeys
+            }
+            procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+        }
+
     }
 
 
@@ -470,34 +303,34 @@
         var listHead = "";
         var listFile = "";
         if(data.length != 0) {
+
             $("#issuesTotal").val(data.total);
-            if(data.components.length >0) {
+            if(data.components != null && data.components.length >0) {
                 for (var j = 0; j < data.components.length; j++) {
 
-                        if (data.components[j].qualifier == "FIL") {
-                            listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
-                            listHead += "<caption>품질이슈 리스트</caption>";
-                            listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
-
-                            listHead += "<thead><tr><th colspan='2' scope='col'>";
-                            listHead += "<div class='tit' id='file_header_" + j + "'>";
-                            listHead += "<span class='filePath_" + data.components[j].projectId + "'>" + data.components[j].path + "</span>";
-                            listHead += "</div>";
-                            listHead += "</th>";
-                            listHead += "</tr>";
-                            listHead += "</thead>";
-                            listHead += "<tbody id='tbodyData_" + data.components[j].id + "' class='tbodyDatas'>";
-                            listHead += "</tbody>";
-                            listHead += "</table>";
-                        }
+                    if (data.components[j].qualifier == "FIL") {
+                        listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
+                        listHead += "<caption>품질이슈 리스트</caption>";
+                        listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
+                        listHead += "<thead><tr><th colspan='2' scope='col'>";
+                        listHead += "<div class='tit' id='file_header_" + j + "'>";
+                        listHead += "<span class='filePath_" + data.components[j].projectId + "'>" + data.components[j].path + "</span>";
+                        listHead += "</div>";
+                        listHead += "</th>";
+                        listHead += "</tr>";
+                        listHead += "</thead>";
+                        listHead += "<tbody id='tbodyData_" + data.components[j].id + "' class='tbodyDatas'>";
+                        listHead += "</tbody>";
+                        listHead += "</table>";
                     }
+                }
             }else{
                 listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
                 listHead += "<caption>품질이슈 리스트</caption>";
                 listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
 
 
-                listHead +=  "<tbody>";
+                listHead +=  "<tbody  class='tbodyDatas'>";
                 listHead += "<tr><td class='alignC'>검색한 데이터가 없습니다.</td></tr>";
                 listHead += "</tbody>";
                 listHead += "</table>";
@@ -507,64 +340,97 @@
 
             $("#issuesTable").html(listHead);
 
-            for (var j = 0; j < data.components.length; j++) {
-                if (data.components[j].qualifier == "TRK") {
-                    $(".filePath_" + data.components[j].id).before(data.components[j].name);
+            if(data.components != null && data.components.length >0) {
+                for (var j = 0; j < data.components.length; j++) {
+                    if (data.components[j].qualifier == "TRK") {
+                        $(".filePath_" + data.components[j].id).before(data.components[j].name);
+                    }
                 }
-            }
 
 
-            for (var i = 0; i < data.issues.length; i++) {
+                for (var i = 0; i < data.issues.length; i++) {
+                    list += "<tr>";
+                    list += "<td>";
+                    list += "<div class='rule_tit'>" + data.issues[i].message + "</div>";
+                    list += "<ul class='sel_menu'>";
+                    list += "<li>";
+                    /*                list += "<div class='selectbox' style='width:95px;'>";
+                 list += "<div>";
+                     list += "<strong><img src='/resources/images/ico_blocker.png'> 심각</strong><span class='bul'></span>";
+                     } else if (data.issues[i].severity == "CRITICAL") {
+                     list += "<strong><img src='/resources/images/ico_critical.png'> 높음</strong><span class='bul'></span>";
+                     } else if (data.issues[i].severity == "MAJOR") {
+                     list += "<strong><img src='/resources/images/ico_major.png'> 보통</strong><span class='bul'></span>";
+                     } else if (data.issues[i].severity == "MINOR") {
+                     list += "<strong><img src='/resources/images/ico_minor.png'> 낮음</strong><span class='bul'></span>";
+                     } else if (data.issues[i].severity == "INFO") {
+                     list += "<strong><img src='/resources/images/ico_info.png'> 정보</strong><span class='bul'></span>";
+                     }
+                     if (data.issues[i].severity == "BLOCKER") {
 
-                list += "<tr>";
-                list += "<td>";
-                list += "<div class='rule_tit'>" + data.issues[i].message + "</div>";
-                list += "<ul class='sel_menu'>";
-                list += "<li>";
-                list += "<div class='selectbox select1' style='width:95px;'>";
-                list += "<div>";
+                 list += "</div>";
+                 list += "<ul class='select-list'>";
+                 list += "<li><span class='ico_blocker'></span>심각</li>";
+                 list += "<li><span class='ico_critical'></span>높음</li>";
+                 list += "<li><span class='ico_major'></span>보통</li>";
+                 list += "<li><span class='ico_minor'></span>낮음</li>";
+                 list += "<li><span class='ico_info'></span>정보</li>";
+                 list += "</ul>";
+                 list += "</div>";*/
+                 list += "<input type='hidden' id='issueKey_"+i+"' value='"+data.issues[i].key+"'>";
+                 list += "<select id='issueSelect_"+i+"' class ='makeMeFancy' onchange='setSeverity("+i+")' style='width:95px;'>";
 
-                if (data.issues[i].severity == "BLOCKER") {
-                    list += "<strong><img src='/resources/images/ico_blocker.png'> 심각</strong><span class='bul'></span>";
+                if(data.issues[i].severity == "BLOCKER"){
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER' selected>심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL' >높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' >보통</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
                 } else if (data.issues[i].severity == "CRITICAL") {
-                    list += "<strong><img src='/resources/images/ico_critical.png'> 높음</strong><span class='bul'></span>";
+
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL' selected>높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' >보통</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
                 } else if (data.issues[i].severity == "MAJOR") {
-                    list += "<strong><img src='/resources/images/ico_major.png'> 보통</strong><span class='bul'></span>";
+
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' selected>보통</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
                 } else if (data.issues[i].severity == "MINOR") {
-                    list += "<strong><img src='/resources/images/ico_minor.png'> 낮음</strong><span class='bul'></span>";
+
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR'>보통</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' selected>낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
                 } else if (data.issues[i].severity == "INFO") {
-                    list += "<strong><img src='/resources/images/ico_info.png'> 정보</strong><span class='bul'></span>";
+
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR'>보통</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='낮음' value='MINOR'>낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_info.png' data-html-text='정보' value='INFO'selected>정보</option>";
+
                 }
 
-
-                list += "</div>";
-                list += "<ul class='select-list'>";
-                list += "<li><span class='ico_blocker'></span>심각</li>";
-                list += "<li><span class='ico_critical'></span>높음</li>";
-                list += "<li><span class='ico_major'></span>보통</li>";
-                list += "<li><span class='ico_minor'></span>낮음</li>";
-                list += "<li><span class='ico_info'></span>정보</li>";
-                list += "</ul>";
-                list += "</div>";
-
-
-
+                list += " </select>";
                 list += "</li>";
+
                 list += "<li>";
-                list += "<div class='selectbox select2' style='width:90px;'>";
-                list += "<div>";
-                list += "<strong>활성</strong><span class='bul'></span>";
-                list += "</div>";
-                list += "<ul class='select-list'>";
-                list += "<li>활성</li>";
-                list += "<li>확인됨</li>";
-                list += "<li>수정됨</li>";
-                list += "<li>보류</li>";
-                list += "<li>무시</li>";
-                list += "<li>재활성</li>";
-                list += "</ul>";
-                list += "</div>";
+                list += "<select style='width:95px;'>";
+                list += "<option>활성</option>";
+                list += "<option>확인됨</option>";
+                list += "<option>수정됨</option>";
+                list += "<option>보류</option>";
+                list += "<option>무시</option>";
+                list += "<option>재활성</option>";
+                list += "</select>";
                 list += "</li>";
+
                 if (data.issues[i].textRange == "" || data.issues[i].textRange == "undefined" || data.issues[i].textRange == null) {
                     list += "<li class='loca_txt'></li>";
                 } else {
@@ -579,26 +445,70 @@
                 $("#tbodyData_" + data.issues[i].componentId).append(list);
                 list = "";
             }
-
+         }
         }
+
         procCallSpinner(SPINNER_STOP);
 
     }
 
+/*    var test = function(){
+        $('select.makeMeFancy').tzSelect({
+            render : function(option){
+                alert(+option.data);
+                return $('<li>',{
+                    html:	'<img src="'+option.data('icon')+'" /><span>'+
+                    option.data('html-text')+'</span>'
+                });
+            },
+            className : 'hasDetails'
+        });
+    }*/
+
+
     var getProjectList = function(){
-        procCallAjax("/qualityIssues/projectList.do",null,callbackGetIssueProject);
+        var param = {
+            serviceInstancesId:$("#serviceInstancesId").val()
+        };
+        procCallAjax("/qualityIssues/projectList.do",param,callbackGetProjectList);
     }
 
-    var callbackGetIssueProject = function(data){
+    var callbackGetProjectList = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        var list = "";
+        if(data.length > 0){
+
+            for(var i=0 ; i<data.length; i++) {
+                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
+            }
+        }
+
+        $("#issueProject").html(list);
+
+    }
+
+
+    var getIssuesCondition = function(){
+        var param = {
+            serviceInstancesId:$("#serviceInstancesId").val()
+        }
+        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+    }
+
+    var callbackGetIssuesCondition = function(data){
 
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+
+        //값 초기화
+        conditionSetting();
+
 
         var projectKey = new Array();
         var severity = new Array();
         var status = new Array();
         var resolution = new Array();
 
-        var projectList = "";
+//        var projectList = "";
         var count = 0 ;
         if(data.length != 0) {
             for(var i=0;i<data.length;i++){
@@ -654,21 +564,25 @@
             }
 
 
-
             //////////////////////////////////////////////////////////
             var count = 0;
             for (var projectName in projectResults) {
-                 for(var i=0;i<data.length;i++) {
+                for(var i=0;i<data.length;i++) {
                     for (var j = 0; j < data[i].components.length; j++) {
                         if (data[i].components[j].qualifier == "TRK" && projectName == data[i].components[j].key) {
-                            projectList += "<li><a href=\"javascript:chkOn(\'"+(count)+"','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].components[j].key + "'> <span class='block'>" + data[i].components[j].name + "</span> <span class='issue_num'>" +projectResults[projectName] + "</span></a></li>";
+                            $("#issueProject").find("li").each(function(k){
+                                if($(this).find(".block").text() ==data[i].components[j].name){
+                                    $(this).find(".issue_num").text(projectResults[projectName]);
+                                }
+                            });
+//                            projectList += "<li><a href=\"javascript:chkOn(\'"+(count)+"','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].components[j].key + "'> <span class='block'>" + data[i].components[j].name + "</span> <span class='issue_num'>" +projectResults[projectName] + "</span></a></li>";
                             count++;
                         }
                     }
                 }
 
             }
-
+//            $("#issueProject").html(projectList);
 
 
             for (var resolutionNum in resolutionResults) {
@@ -720,7 +634,7 @@
 
         }
 
-        $("#issueProject").html(projectList);
+
 
     }
 
@@ -729,7 +643,7 @@
     }
 
     var callbackGetIssueLanguageList = function(data){
-
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         var list = "";
         if(data.languages.length > 0){
             for(var i=0;i<data.languages.length;i++){
@@ -755,7 +669,9 @@
     }
 
     var callbackGetIssuesDetail = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         procCallSpinner(SPINNER_START);
+
         //소스
         var list = "";
         var source_num = "";
@@ -893,8 +809,48 @@
         getList();
     }
 
+
+    //검색조건 갯수 초기화
+    var conditionSetting = function(){
+
+        $("#issueResolution").find(".issue_num").each(function(i){
+            $(this).text("0");
+        })
+
+        $("#issueSeverity").find(".issue_num").each(function(i){
+            $(this).text("0");
+        })
+
+        $("#issueStatus").find(".issue_num").each(function(i){
+            $(this).text("0");
+        })
+
+    }
+
+
+    var setSeverity = function(num){
+       var issue = $("#issueKey_"+num).val();
+       var severity = $("#issueSelect_"+num).val();
+
+
+        var param ={
+            issue:issue,
+            severity:severity
+        };
+        procCallAjax("/qualityIssues/setSeverity.do",param,callbackGetServerity);
+    }
+
+    var callbackGetServerity = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        getProjectList();
+        getIssuesCondition();
+        getLanguage();
+        getList();
+    }
+
     $(document.body).ready(function () {
         getProjectList();
+        getIssuesCondition();
         getLanguage();
         getList();
 
