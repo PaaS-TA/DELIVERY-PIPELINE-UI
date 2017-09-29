@@ -56,4 +56,15 @@ public class QualityIssuesService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityIssuesDetail?fileKey="+qualityIssues.getFileKey()+"&fileUuid="+qualityIssues.getFileUuid(), HttpMethod.GET, null, List.class);
     }
 
+
+    /**
+     *  QualityIssues 이슈 설정
+     *
+     * @param qualityIssues
+     * @return QualityIssues
+     */
+    public Object setSeverity(QualityIssues qualityIssues){
+      return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/setSeverity", HttpMethod.POST, qualityIssues, Object.class);
+    }
+
 }

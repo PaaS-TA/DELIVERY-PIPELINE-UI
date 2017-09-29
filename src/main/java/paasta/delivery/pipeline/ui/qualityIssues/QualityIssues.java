@@ -43,6 +43,11 @@ public class QualityIssues {
     private List sources;
     private String fileUuid;
 
+    //이슈 설정
+    private String issue;
+    private String severity;
+
+
     public Long getId() {
         return id;
     }
@@ -251,6 +256,22 @@ public class QualityIssues {
         this.serviceInstancesId = serviceInstancesId;
     }
 
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
     @Override
     public String toString() {
         return "QualityIssues{" +
@@ -280,6 +301,8 @@ public class QualityIssues {
                 ", fileKey='" + fileKey + '\'' +
                 ", sources=" + sources +
                 ", fileUuid='" + fileUuid + '\'' +
+                ", issue='" + issue + '\'' +
+                ", severity='" + severity + '\'' +
                 '}';
     }
 }

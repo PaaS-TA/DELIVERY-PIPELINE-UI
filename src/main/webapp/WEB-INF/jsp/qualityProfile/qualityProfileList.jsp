@@ -227,8 +227,8 @@
 <input type="hidden" name="profileId" id="profileId"/>
 <input type="hidden" name="langName" id="langName">
 <input type="hidden" name="language" id="language">
-<input type="text" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-<input type="text" id="defaultYn">
+<input type="hidden" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
+<input type="hidden" id="defaultYn">
 <script type="text/javascript">
 
     var doubleSubmitFlag = false;
@@ -498,7 +498,7 @@
 
     var callbackGetList = function(data){
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        console.log(data);
+
 
 
         var list = "";
