@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.common;
 
+import org.apache.catalina.connector.Request;
 import org.aspectj.weaver.bcel.LazyClassGen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,9 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
 import paasta.delivery.pipeline.ui.auth.Authority;
 import paasta.delivery.pipeline.ui.auth.AuthorityService;
 import paasta.delivery.pipeline.ui.auth.GrantedAuthority;
+import paasta.delivery.pipeline.ui.config.security.DashboardSecurityConfiguration;
 import paasta.delivery.pipeline.ui.security.DashboardAuthenticationDetails;
+import paasta.delivery.pipeline.ui.security.DashboardAuthenticationDetailsSource;
 import paasta.delivery.pipeline.ui.serviceInstance.InstanceUse;
 import paasta.delivery.pipeline.ui.serviceInstance.InstanceUseService;
+import paasta.delivery.pipeline.ui.serviceInstance.ServiceInstancesService;
+import paasta.delivery.pipeline.ui.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -197,7 +203,7 @@ public class CommonService {
      */
     public DashboardAuthenticationDetails getUserInfo() {
 
-        return (DashboardAuthenticationDetails)SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return (DashboardAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
     }
 
 
@@ -211,6 +217,9 @@ public class CommonService {
     }
 
 
+
+
+
     /**
      * Update session.
      */
@@ -219,12 +228,17 @@ public class CommonService {
         List authorities = new ArrayList();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = authentication.getName();
         if (authentication != null) {
+            String name = authentication.getName();
             try {
                 DashboardAuthenticationDetails dashboardAuthenticationDetails = (DashboardAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 
-                if(!dashboardAuthenticationDetails.isManagingService()){
+
+                LOGGER.info("###############################################################");
+                LOGGER.info("SESSION INFOMATION UPDATE [" + name + "]" + " [" + dashboardAuthenticationDetails.getUserid() + "]" + " [" + authentication.getPrincipal() + "] ");
+                LOGGER.info("###############################################################");
+
+                if (!isManagingApp(dashboardAuthenticationDetails.getManagingServiceInstance())) {
                     SecurityContextHolder.clearContext();
                     throw new AccessDeniedException("Permission Error on [" + name + "]");
                 }
@@ -282,7 +296,6 @@ public class CommonService {
                 authentication = new OAuth2Authentication(((OAuth2Authentication) authentication).getOAuth2Request(), new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), "N/A", authorities));
 
 
-
                 //이렇게 까지 했는데...없으면...에러 출력
                 if (dashboardAuthenticationDetails.getRoleId() == null) {
                     SecurityContextHolder.clearContext();
@@ -291,7 +304,7 @@ public class CommonService {
 
                 //이상없으면 세션에 저장
                 ((OAuth2Authentication) authentication).setDetails(dashboardAuthenticationDetails);
-                printSessionInfo(dashboardAuthenticationDetails);
+                //printSessionInfo(dashboardAuthenticationDetails);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -300,14 +313,21 @@ public class CommonService {
                 HttpServletRequest request = attributes.getRequest();
                 request.getSession().invalidate();
                 SecurityContextHolder.clearContext();
-
+                SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
                 throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
 
             }
+        }else{
+            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpServletRequest request = attributes.getRequest();
+            request.getSession().invalidate();
+            SecurityContextHolder.clearContext();
+            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+            throw new InternalAuthenticationServiceException("Access Denied");
         }
     }
 
-    private void printSessionInfo(DashboardAuthenticationDetails dashboardAuthenticationDetails){
+    private void printSessionInfo(DashboardAuthenticationDetails dashboardAuthenticationDetails) {
         LOGGER.info("####################################################################");
         LOGGER.info(dashboardAuthenticationDetails.getSessionId());
         LOGGER.info(dashboardAuthenticationDetails.getId());
@@ -316,6 +336,8 @@ public class CommonService {
         LOGGER.info(dashboardAuthenticationDetails.getRoleDisplayName());
         LOGGER.info("####################################################################");
     }
+
+
 
 
     /**
@@ -380,6 +402,32 @@ public class CommonService {
         resource.setAccessTokenUri(url);
 
         return resource;
+    }
+
+    public static final String MANAGED_KEY = "manage";
+    /**
+     * Checks whether the user is allowed to manage the current service instance.
+     */
+    private boolean isManagingApp(String serviceInstanceId) {
+        final String url = getCheckUrl(serviceInstanceId);
+
+        try {
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            final Map<?, ?> result = restTemplate.getForObject(url, Map.class);
+
+            return Boolean.TRUE.toString().equals(result.get(MANAGED_KEY).toString().toLowerCase());
+        } catch (RestClientException e) {
+            LOGGER.error("Error while retrieving authorization from [" + url + "].", e);
+            return false;
+        }
+    }
+
+
+    public static final String TOKEN_SUID = "[SUID]";
+    private String getCheckUrl(String serviceInstanceId) {
+        return apiUrl.replace(TOKEN_SUID, serviceInstanceId);
     }
 
 

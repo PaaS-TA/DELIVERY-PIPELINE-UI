@@ -188,6 +188,11 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
                 throw new AccessDeniedException("Permission Error on [" + name + "]");
             }
 
+            if(!dashboardAuthenticationDetails.isManagingService()){
+                SecurityContextHolder.clearContext();
+                throw new AccessDeniedException("Permission Error on [" + name + "]");
+            }
+
             //이상없으면 세션에 저장
             authentication = new OAuth2Authentication(((OAuth2Authentication) authentication).getOAuth2Request(), new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), "N/A", authorities));
             ((OAuth2Authentication) authentication).setDetails(dashboardAuthenticationDetails);

@@ -115,7 +115,7 @@ public class ApplicationWebSecurityConfigurerAdapter extends WebSecurityConfigur
                         .logoutSuccessHandler(dashboardLogoutSuccessHandler)
                         .logoutRequestMatcher(dashboardLogoutUrlMatcher)
                     .and()
-                    .exceptionHandling().accessDeniedPage("/common/error/forbidden");
+                    .exceptionHandling().accessDeniedPage("/common/error/unauthorized");
 
         }
 

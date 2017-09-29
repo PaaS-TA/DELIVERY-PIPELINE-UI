@@ -55,9 +55,7 @@ public class PipelineController {
      */
     @GetMapping
     public ModelAndView redirectlogin(@PathVariable("suid") String serviceInstancesId, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        commonService.updateSession();
         return new ModelAndView("redirect:/dashboard/" + serviceInstancesId + "/pipeline/dashboard");
-
     }
 
 
@@ -342,5 +340,22 @@ public class PipelineController {
     public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> grantedAuthorities = commonService.getUserInfo().getGrantedAuthorities();
         return grantedAuthorities;
+    }
+
+
+
+    /**
+     * Gets session update
+     *
+     * @return the boolean
+     */
+    @RequestMapping(value = "/updatesession", method = RequestMethod.GET)
+    public boolean updatesession(@PathVariable("suid") String serviceInstancesId, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        try{
+            commonService.updateSession();
+            return  true;
+        }catch (Exception e){
+            return  false;
+        }
     }
 }

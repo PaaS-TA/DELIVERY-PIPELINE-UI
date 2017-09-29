@@ -12,6 +12,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -109,6 +110,17 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             registry.addErrorPages(new ErrorPage(HttpStatus.CONFLICT,"/common/error/system-error"));
             registry.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/common/error/system-error"));
         }
+    }
+
+
+    @Bean
+    CustomIntercepter customIntercepter() {
+        return new CustomIntercepter();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(customIntercepter());
     }
 
 }
