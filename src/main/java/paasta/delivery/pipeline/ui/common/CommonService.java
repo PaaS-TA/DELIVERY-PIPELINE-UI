@@ -238,10 +238,10 @@ public class CommonService {
                 LOGGER.info("SESSION INFOMATION UPDATE [" + name + "]" + " [" + dashboardAuthenticationDetails.getUserid() + "]" + " [" + authentication.getPrincipal() + "] ");
                 LOGGER.info("###############################################################");
 
-                if (!isManagingApp(dashboardAuthenticationDetails.getManagingServiceInstance())) {
-                    SecurityContextHolder.clearContext();
-                    throw new AccessDeniedException("Permission Error on [" + name + "]");
-                }
+//                if (!isManagingApp(dashboardAuthenticationDetails.getManagingServiceInstance())) {
+//                    SecurityContextHolder.clearContext();
+//                    throw new AccessDeniedException("Permission Error on [" + name + "]");
+//                }
 
 
                 //권한들에 대한 정보 추출
@@ -412,11 +412,8 @@ public class CommonService {
         final String url = getCheckUrl(serviceInstanceId);
 
         try {
-
             RestTemplate restTemplate = new RestTemplate();
-
             final Map<?, ?> result = restTemplate.getForObject(url, Map.class);
-
             return Boolean.TRUE.toString().equals(result.get(MANAGED_KEY).toString().toLowerCase());
         } catch (RestClientException e) {
             LOGGER.error("Error while retrieving authorization from [" + url + "].", e);
