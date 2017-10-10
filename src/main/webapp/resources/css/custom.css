@@ -167,3 +167,12 @@ pre {
 .location {
     margin-bottom: 0;
 }
+
+.tool-ico-revert {
+    display: block;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    background: url(../images/tool_ico_revert.png) no-repeat;
+    vertical-align: middle;
+}
