@@ -92,7 +92,7 @@
             <li class="mr20"><span style="color: #efefef; vertical-align: bottom;">
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication property="details.userid"/>
-                    </sec:authorize>
+                    </sec:authorize>님, 환영합니다.
                 </span>
             </li>
             <c:if test="${role == 'ROLE_ADMIN'}">
