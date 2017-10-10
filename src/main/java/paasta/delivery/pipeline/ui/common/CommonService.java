@@ -6,6 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -217,9 +221,6 @@ public class CommonService {
     }
 
 
-
-
-
     /**
      * Update session.
      */
@@ -231,6 +232,7 @@ public class CommonService {
         if (authentication != null) {
             String name = authentication.getName();
             try {
+
                 DashboardAuthenticationDetails dashboardAuthenticationDetails = (DashboardAuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
 
 
@@ -238,10 +240,10 @@ public class CommonService {
                 LOGGER.info("SESSION INFOMATION UPDATE [" + name + "]" + " [" + dashboardAuthenticationDetails.getUserid() + "]" + " [" + authentication.getPrincipal() + "] ");
                 LOGGER.info("###############################################################");
 
-//                if (!isManagingApp(dashboardAuthenticationDetails.getManagingServiceInstance())) {
-//                    SecurityContextHolder.clearContext();
-//                    throw new AccessDeniedException("Permission Error on [" + name + "]");
-//                }
+                if (!isManagingApp(dashboardAuthenticationDetails.getManagingServiceInstance())) {
+                    SecurityContextHolder.clearContext();
+                    throw new AccessDeniedException("Permission Error on [" + name + "]");
+                }
 
 
                 //권한들에 대한 정보 추출
@@ -317,7 +319,7 @@ public class CommonService {
                 throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
 
             }
-        }else{
+        } else {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             request.getSession().invalidate();
@@ -336,8 +338,6 @@ public class CommonService {
         LOGGER.info(dashboardAuthenticationDetails.getRoleDisplayName());
         LOGGER.info("####################################################################");
     }
-
-
 
 
     /**
@@ -405,6 +405,7 @@ public class CommonService {
     }
 
     public static final String MANAGED_KEY = "manage";
+
     /**
      * Checks whether the user is allowed to manage the current service instance.
      */
@@ -413,9 +414,16 @@ public class CommonService {
 
         try {
             RestTemplate restTemplate = new RestTemplate();
-            final Map<?, ?> result = restTemplate.getForObject(url, Map.class);
-            return Boolean.TRUE.toString().equals(result.get(MANAGED_KEY).toString().toLowerCase());
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + getToken());
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+
+            ResponseEntity<Map> result = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+            Map body = result.getBody();
+
+            return Boolean.TRUE.toString().equals(body.get(MANAGED_KEY).toString().toLowerCase());
         } catch (RestClientException e) {
+            e.printStackTrace();
             LOGGER.error("Error while retrieving authorization from [" + url + "].", e);
             return false;
         }
@@ -423,6 +431,7 @@ public class CommonService {
 
 
     public static final String TOKEN_SUID = "[SUID]";
+
     private String getCheckUrl(String serviceInstanceId) {
         return apiUrl.replace(TOKEN_SUID, serviceInstanceId);
     }
