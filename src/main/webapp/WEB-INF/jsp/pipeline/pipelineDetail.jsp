@@ -93,7 +93,7 @@
 
     // GET
     var getPipeline = function() {
-        procCallAjax("/pipeline/pipelineDetail.do", {id : "<c:out value='${pipelineId}' default='' />"}, callbackGetPipeline);
+        procCallAjax('/pipeline/pipelineDetail.do', {id : "<c:out value='${pipelineId}' default='' />"}, callbackGetPipeline);
     };
 
 
@@ -110,7 +110,7 @@
 
     // GET JOB LIST FROM DB
     var getJobListFromDb = function() {
-        procCallAjax(JOB_PIPELINE_URL + "/list.do", null, callbackGetJobListFromDb);
+        procCallAjax(JOB_PIPELINE_URL + '/list.do', null, callbackGetJobListFromDb);
     };
 
 
@@ -125,7 +125,7 @@
             groupWrapperEndCss = '',
             objJobCount = $('#jobCount');
 
-        jobListArea.html("");
+        jobListArea.html('');
         objJobCount.html(listLength);
 
         for (var i = 0; i < listLength; i++) {
@@ -161,9 +161,9 @@
 
             startGetJobStatusTimer(jobId, data[i].lastSuccessJobNumber);
 
-            if ("<%= Constants.RESULT_STATUS_JOB_WORKING %>" === lastJobStatus
-                || "<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>" === lastJobStatus) {
-                $('#jobIsBuilding_' + jobId).val("<%= Constants.CHECK_YN_Y %>");
+            if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === lastJobStatus
+                || '<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>' === lastJobStatus) {
+                $('#jobIsBuilding_' + jobId).val('<%= Constants.CHECK_YN_Y %>');
                 procSetFadeInOutJobTitle(jobId, 'ADD');
             }
         }
@@ -174,7 +174,7 @@
             $('#createJobButtonWrap').show();
         } else {
             $('#jobListWrap').show();
-            $("#classification2").hide();
+            $('#classification2').hide();
         }
 
         if (0 === gCheckInit) {
@@ -182,7 +182,7 @@
             gCheckInit++;
         }
 
-        var testPermissionContributor = "permission_contributor";
+        var testPermissionContributor = 'permission_contributor';
         jobContributorGrantedAuthorities(grAry,  document.getElementById('pipelineIdControlAuthority').value, testPermissionContributor);
     };
 
@@ -199,54 +199,54 @@
             jobName = data.jobName,
             repositoryUrl = data.repositoryUrl,
             repositoryCommitRevision = data.repositoryCommitRevision,
-            repositoryCommitRevisionPostfix = "",
+            repositoryCommitRevisionPostfix = '',
             lastModifiedString = data.lastModifiedString,
             lastJobStatus = data.lastJobStatus,
             lastJobModified = data.lastJobModified,
-            initJobStatusText = "실행 전",
+            initJobStatusText = '실행 전',
             lastJobStatusText = initJobStatusText,
             lastJobModifiedText = initJobStatusText,
-            portletBoxCss = " wait",
-            jobWrapTriggerStyle = "",
+            portletBoxCss = ' wait',
+            jobWrapTriggerStyle = '',
             jobWrapStopStyle = 'style="display: none;"',
             confirmMessage = '';
 
         if ('null' !== lastJobStatus) {
-            if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === lastJobStatus) {
-                lastJobStatusText = "실행완료";
+            if ('<%= Constants.RESULT_STATUS_SUCCESS %>' === lastJobStatus) {
+                lastJobStatusText = '실행완료';
                 lastJobModifiedText = lastJobModified;
-                portletBoxCss = " success";
+                portletBoxCss = ' success';
             }
 
-            if ("<%= Constants.RESULT_STATUS_FAILURE %>" === lastJobStatus) {
-                lastJobStatusText = "실패";
+            if ('<%= Constants.RESULT_STATUS_FAILURE %>' === lastJobStatus) {
+                lastJobStatusText = '실패';
                 lastJobModifiedText = lastJobModified;
-                portletBoxCss = " fail";
+                portletBoxCss = ' fail';
             }
 
-            if ("<%= Constants.RESULT_STATUS_CANCELLED %>" === lastJobStatus) {
-                lastJobStatusText = "취소";
+            if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === lastJobStatus) {
+                lastJobStatusText = '취소';
                 lastJobModifiedText = lastJobModified;
-                portletBoxCss = " retract";
+                portletBoxCss = ' retract';
             }
 
-            if ("<%= Constants.RESULT_STATUS_ABORTED %>" === lastJobStatus) {
-                lastJobStatusText = "중지";
+            if ('<%= Constants.RESULT_STATUS_ABORTED %>' === lastJobStatus) {
+                lastJobStatusText = '중지';
                 lastJobModifiedText = lastJobModified;
-                portletBoxCss = " retract";
+                portletBoxCss = ' retract';
             }
 
-            if ("<%= Constants.RESULT_STATUS_JOB_WORKING %>" === lastJobStatus
-                || "<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>" === lastJobStatus) {
-                lastJobStatusText = "실행 중";
-                lastJobModifiedText = " - ";
-                portletBoxCss = " custom-progress";
+            if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === lastJobStatus
+                || '<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>' === lastJobStatus) {
+                lastJobStatusText = '실행 중';
+                lastJobModifiedText = ' - ';
+                portletBoxCss = ' custom-progress';
                 jobWrapTriggerStyle = 'style="display: none;"';
                 jobWrapStopStyle = '';
             }
         }
 
-        var jobOrderListString = "";
+        var jobOrderListString = '';
         var arrangeJobNumber = 0;
 
         if (lastJobOrder > 1) {
@@ -268,9 +268,9 @@
             confirmMessage = '빌드 JOB';
 
             if (repositoryCommitRevision.length > 18) {
-                repositoryCommitRevisionPostfix = "...";
+                repositoryCommitRevisionPostfix = '...';
             } else {
-                repositoryCommitRevisionPostfix = "";
+                repositoryCommitRevisionPostfix = '';
             }
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
@@ -334,9 +334,9 @@
             confirmMessage = '테스트 JOB';
 
             if (repositoryCommitRevision.length > 18) {
-                repositoryCommitRevisionPostfix = "...";
+                repositoryCommitRevisionPostfix = '...';
             } else {
-                repositoryCommitRevisionPostfix = "";
+                repositoryCommitRevisionPostfix = '';
             }
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
@@ -399,47 +399,61 @@
         if ("<%= Constants.JOB_TYPE_DEPLOY %>" === jobType) {
             var deployType = data.deployType,
                 blueGreenDeployStatus = data.blueGreenDeployStatus,
-                deployTypeOriginalString = "Deploy",
-                deployTypeString = "Deploy",
+                deployTypeOriginalString = 'Deploy',
+                deployTypeString = 'Deploy',
                 tempAppUrlArray,
                 appUrl = data.appUrl,
                 hiddenAppUrl,
                 displayAppUrl,
                 appName = data.appName,
-                blueGreenPostfix = "";
+                blueGreenPostfix = '',
+                revertGreenDeployJobWrapStyle = 'style="display: none;"',
+                revertGreenDeployConfirmMessage = '운영 GREEN 배포 JOB 되돌리기';
 
             confirmMessage = '개발 배포 JOB';
             hiddenAppUrl = appUrl;
             tempAppUrlArray = appUrl.split(appName);
 
             if ("<%=Constants.DeployType.PRD %>" === deployType) {
-                deployTypeOriginalString = "Green Deploy";
-                deployTypeString = "Green Deploy";
-                blueGreenPostfix = "-GREEN";
-                confirmMessage = '운영 Green 배포 JOB';
+                deployTypeOriginalString = 'Green Deploy';
+                deployTypeString = 'Green Deploy';
+                blueGreenPostfix = '-GREEN';
+                confirmMessage = '운영 GREEN 배포 JOB';
                 hiddenAppUrl = tempAppUrlArray[0] + appName + blueGreenPostfix + tempAppUrlArray[1];
 
                 if (lastJobModifiedText !== initJobStatusText) {
                     if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === lastJobStatus) {
                         if ("<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>" === blueGreenDeployStatus) {
-                            deployTypeString = "Blue Deploy";
-                            blueGreenPostfix = "";
+                            deployTypeString = 'Blue Deploy';
+                            blueGreenPostfix = '';
                         }
 
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-                            confirmMessage = '운영 Blue 배포 JOB';
+                            confirmMessage = '운영 BLUE 배포 JOB';
+
+                            // SHOW BUTTON FOR REVERTING GREEN DEPLOY
+                            revertGreenDeployJobWrapStyle = '';
+                        }
+
+                        if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
+                            deployTypeString = 'Green Deploy';
+                            lastJobStatusText = '실행 전';
                         }
                     } else {
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-                            deployTypeString = "Blue Deploy";
-                            blueGreenPostfix = "";
-                            confirmMessage = '운영 Blue 배포 JOB';
+                            deployTypeString = 'Blue Deploy';
+                            blueGreenPostfix = '';
+                            confirmMessage = '운영 BLUE 배포 JOB';
+                        }
+
+                        if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
+                            deployTypeString = 'Reverting Green Deploy';
                         }
                     }
                 }
 
                 if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-                    deployTypeOriginalString = "Blue Deploy";
+                    deployTypeOriginalString = 'Blue Deploy';
                     hiddenAppUrl = tempAppUrlArray[0] + appName + tempAppUrlArray[1];
                 }
             }
@@ -466,6 +480,11 @@
             htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="로그/히스토리" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_LOG %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_log"></i></a></li>');
+            htmlString.push('<li id="jobWrap_' + jobId + '_revertGreenDeployJobTrigger" ' + revertGreenDeployJobWrapStyle + '>');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="운영 GREEN 배포 JOB 되돌리기" ');
+            htmlString.push('onclick="triggerRevertGreenDeployJob(\'' + jobId +  '\', \'' + revertGreenDeployConfirmMessage + '\');">');
+            htmlString.push('<i class="tool-ico-revert" id="jobIcon_' + jobId + '"></i></a>');
+            htmlString.push('</li>');
             htmlString.push('<li role="presentation" class="dropdown"><a class="dropdown-toggle icon closed-tool permission_contributor"  ');
             htmlString.push('title="작업 정렬" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
             htmlString.push('<i class="tool-ico-rearrange"></i></a>');
@@ -524,7 +543,7 @@
             jobNumber : parseInt(reqJobNumber, 10) + 1
         };
 
-        procCallAjax(JOB_PIPELINE_URL + "/status.do", param, callbackGetJobStatusById);
+        procCallAjax(JOB_PIPELINE_URL + '/status.do', param, callbackGetJobStatusById);
     };
 
 
@@ -537,16 +556,16 @@
         var lastJobStatus = data.lastJobStatus;
         var objJobIsBuilding = $('#jobIsBuilding_' + reqJobId);
         var jobIsBuilding = objJobIsBuilding.val();
-        var checkY = "<%= Constants.CHECK_YN_Y %>";
-        var checkN = "<%= Constants.CHECK_YN_N %>";
-        var statusJobWorking = "<%= Constants.RESULT_STATUS_JOB_WORKING %>";
-        var statusBuiltFileUploading = "<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>";
+        var checkY = '<%= Constants.CHECK_YN_Y %>';
+        var checkN = '<%= Constants.CHECK_YN_N %>';
+        var statusJobWorking = '<%= Constants.RESULT_STATUS_JOB_WORKING %>';
+        var statusBuiltFileUploading = '<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>';
 
-        if ("" === jobIsBuilding) {
+        if ('' === jobIsBuilding) {
             objJobIsBuilding.val(checkN);
         }
 
-        if ("true" === isBuilding || statusJobWorking === lastJobStatus || statusBuiltFileUploading === lastJobStatus || checkY === jobIsBuilding) {
+        if ('true' === isBuilding || statusJobWorking === lastJobStatus || statusBuiltFileUploading === lastJobStatus || checkY === jobIsBuilding) {
             if (checkY !== jobIsBuilding) {
                 objJobIsBuilding.val(checkY);
                 procSetFadeInOutJobTitle(reqJobId, 'ADD');
@@ -554,7 +573,7 @@
             }
         }
 
-        if ("false" === isBuilding && checkY === jobIsBuilding && !(statusJobWorking === lastJobStatus || statusBuiltFileUploading === lastJobStatus)) {
+        if ('false' === isBuilding && checkY === jobIsBuilding && !(statusJobWorking === lastJobStatus || statusBuiltFileUploading === lastJobStatus)) {
             objJobIsBuilding.val(checkN);
             setUpdateJobDetailDiv(reqJobId);
         }
@@ -608,12 +627,12 @@
     var changeTriggerJobHtml = function (reqJobId) {
         var jobPortlet = $('#jobPortlet_' + reqJobId);
         var jobWrapString = '#jobWrap_' + reqJobId;
-        var progressCss = "custom-progress";
+        var progressCss = 'custom-progress';
 
-        jobPortlet.removeClass("wait").addClass(progressCss);
-        jobPortlet.removeClass("success").addClass(progressCss);
-        jobPortlet.removeClass("fail").addClass(progressCss);
-        jobPortlet.removeClass("retract").addClass(progressCss);
+        jobPortlet.removeClass('wait').addClass(progressCss);
+        jobPortlet.removeClass('success').addClass(progressCss);
+        jobPortlet.removeClass('fail').addClass(progressCss);
+        jobPortlet.removeClass('retract').addClass(progressCss);
 
         $(jobWrapString + '_trigger').hide();
         $(jobWrapString + '_stop').show();
@@ -625,14 +644,14 @@
         $('#lastJobDisplayText_' + reqJobId).hide();
         // FOR DEPLOY JOB :: END
 
-        $('#lastJobStatusText_' + reqJobId).html("실행 중");
-        $('#lastJobModifiedText_' + reqJobId).html(" - ");
+        $('#lastJobStatusText_' + reqJobId).html('실행 중');
+        $('#lastJobModifiedText_' + reqJobId).html(' - ');
     };
 
 
     // SET UPDATE JOB DETAIL DIV
     var setUpdateJobDetailDiv = function (reqJobId) {
-        var reqUrl = JOB_PIPELINE_URL + "/get.do?id=" + reqJobId;
+        var reqUrl = JOB_PIPELINE_URL + '/get.do?id=' + reqJobId;
         procCallAjax(reqUrl, null, callbackSetUpdateJobDetailDiv);
     };
 
@@ -651,19 +670,39 @@
 
     // TRIGGER JOB
     var triggerJob = function (reqJobId, reqConfirmMessage) {
-        procPopupConfirm('작업 실행', reqConfirmMessage + '을 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\');', '실행');
+        procPopupConfirm('작업 실행', reqConfirmMessage + '을 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_N %>\');', '실행');
+    };
+
+
+    // TRIGGER REVERT GREEN DEPLOY JOB
+    var triggerRevertGreenDeployJob = function (reqJobId, reqConfirmMessage) {
+        procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', reqConfirmMessage + '를 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_Y %>\');', '실행');
     };
 
 
     // TRIGGER JOB
-    var procTriggerJob = function (reqJobId) {
+    var procTriggerJob = function (reqJobId, reqRevertGreenDeploy) {
         procClosePopup();
 
-        $('#jobIsBuilding_' + reqJobId).val("<%= Constants.CHECK_YN_Y %>");
+        var param = {
+            id : reqJobId
+        };
+
+        // CHECK REVERT GREEN DEPLOY
+        if ('<%= Constants.CHECK_YN_Y %>' === reqRevertGreenDeploy) {
+            var greenDeployRevertParam = {
+                blueGreenDeployStatus : '<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>'
+            };
+
+            $.extend(param, greenDeployRevertParam);
+            $('#lastJobOriginalText_' + reqJobId).html('Reverting Green Deploy');
+        }
+
+        $('#jobIsBuilding_' + reqJobId).val('<%= Constants.CHECK_YN_Y %>');
         procSetFadeInOutJobTitle(reqJobId, 'ADD');
         changeTriggerJobHtml(reqJobId);
 
-        procCallAjax(JOB_PIPELINE_URL + "/trigger.do", { id : reqJobId }, callbackTriggerJob);
+        procCallAjax(JOB_PIPELINE_URL + '/trigger.do', param, callbackTriggerJob);
     };
 
 
@@ -684,16 +723,16 @@
         procClosePopup();
 
         var param = {
-            serviceInstancesId: "<c:out value='${suid}' default='' />",
+            serviceInstancesId: '<c:out value='${suid}' default='' />',
             jobGuid : reqJobGuid,
             jobNumber : parseInt(reqJobNumber, 10) + 1,
             reqJobId: reqJobId
         };
 
-        $('#lastJobStatusText_' + reqJobId).html("정지 중");
-        $('#lastJobModifiedText_' + reqJobId).html(" - ");
+        $('#lastJobStatusText_' + reqJobId).html('정지 중');
+        $('#lastJobModifiedText_' + reqJobId).html(' - ');
 
-        procCallAjax(JOB_PIPELINE_URL + "/stop.do", param, callbackStopJob);
+        procCallAjax(JOB_PIPELINE_URL + '/stop.do', param, callbackStopJob);
     };
 
 
@@ -703,8 +742,8 @@
 
         var reqJobId = reqParam.reqJobId;
 
-        $('#lastJobStatusText_' + reqJobId).html("실행완료");
-        $('#lastJobModifiedText_' + reqJobId).html(" - ");
+        $('#lastJobStatusText_' + reqJobId).html('실행완료');
+        $('#lastJobModifiedText_' + reqJobId).html(' - ');
 
         setUpdateJobDetailDiv(reqJobId);
     };
@@ -724,7 +763,7 @@
         };
 
         procCallSpinner(SPINNER_START);
-        procCallAjax(JOB_PIPELINE_URL + "/rearrangeJobOrder.do", param, callbackRearrangeJobOrder);
+        procCallAjax(JOB_PIPELINE_URL + '/rearrangeJobOrder.do', param, callbackRearrangeJobOrder);
     };
 
 
@@ -739,7 +778,7 @@
 
     // ADD JOB
     var addJob = function(groupOrder, jobOrder) {
-        var reqUrl = JOB_PIPELINE_URL + "/create?groupOrder=" + groupOrder + "&jobOrder=" + jobOrder;
+        var reqUrl = JOB_PIPELINE_URL + '/create?groupOrder=' + groupOrder + '&jobOrder=' + jobOrder;
         procMovePage(reqUrl);
     };
 
@@ -755,7 +794,7 @@
         procCallSpinner(SPINNER_START);
 
         resetAllTimer();
-        procCallAjax(JOB_PIPELINE_URL + "/replicate.do", { id : reqJobId }, callbackReplicateJob);
+        procCallAjax(JOB_PIPELINE_URL + '/replicate.do', { id : reqJobId }, callbackReplicateJob);
     };
 
 
@@ -790,7 +829,7 @@
         procCallSpinner(SPINNER_START);
 
         resetAllTimer();
-        procCallAjax(JOB_PIPELINE_URL + "/delete.do", { id : reqJobId }, callbackDeleteJob);
+        procCallAjax(JOB_PIPELINE_URL + '/delete.do', { id : reqJobId }, callbackDeleteJob);
     };
 
 
@@ -805,10 +844,10 @@
 
     // MOVE PAGE
     var movePage = function(reqType, jobType, id) {
-        var reqUrl = JOB_PIPELINE_URL + "/" + id + "/" + jobType;
+        var reqUrl = JOB_PIPELINE_URL + '/' + id + '/' + jobType;
 
-        if ("<%= Constants.REQUEST_TYPE_SET %>" === reqType) {
-            reqUrl += "/update";
+        if ('<%= Constants.REQUEST_TYPE_SET %>' === reqType) {
+            reqUrl += '/update';
         }
 
         procMovePage(reqUrl);
@@ -823,8 +862,8 @@
 
     // MOVE PAGE
     var procMovePipelineDetailTabPage = function(reqPage) {
-        var reqUrl = "/pipeline/<c:out value='${pipelineId}' default='' />/";
-        reqUrl += ('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>' === reqPage)? "detail" : "contributor";
+        var reqUrl = '/pipeline/<c:out value='${pipelineId}' default='' />/';
+        reqUrl += ('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>' === reqPage)? 'detail' : 'contributor';
 
         procMovePage(reqUrl);
     };
@@ -833,23 +872,23 @@
     // BIND
     $("button[id^='btn']").on("click", function() {
         switch(this.id) {
-            case "btnCreatePipeline" :
-                procMovePage("/pipeline/create");
+            case 'btnCreatePipeline' :
+                procMovePage('/pipeline/create');
                 break;
 
-            case "btnUpdatePipeline" :
-                procMovePage("/pipeline/update/<c:out value='${pipelineId}' default='' />");
+            case 'btnUpdatePipeline' :
+                procMovePage('/pipeline/update/<c:out value='${pipelineId}' default='' />');
                 break;
 
-            case "btnAddNewGroup" :
-                procMovePage(JOB_PIPELINE_URL + "/create?groupOrder=" + (gLastGroupOrder + 1) + "&jobOrder=0");
+            case 'btnAddNewGroup' :
+                procMovePage(JOB_PIPELINE_URL + '/create?groupOrder=' + (gLastGroupOrder + 1) + '&jobOrder=0');
                 break;
         }
     });
 
     var getContributorList = function(){
         var reqUrl;
-        reqUrl = "/pipeline/<c:out value='${pipelineId}' default='' />/contributorList.do?size=" + 10000;
+        reqUrl = '/pipeline/<c:out value='${pipelineId}' default='' />/contributorList.do?size=' + 10000;
 
         procCallAjax(reqUrl, null, callbackGetContributorList);
     };
@@ -873,7 +912,7 @@
     $(document.body).ready(function () {
         procCallSpinner(SPINNER_START);
         startJobTitleTimer();
-        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, "pipeline", null);
+        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'pipeline', null);
         getPipeline();
         getJobListFromDb();
         getContributorList();
