@@ -109,8 +109,8 @@
                         <p class="sub_title">MANIFEST 사용 여부</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="manifestUseYn">
-                                <option title="" value="Y">Y</option>
-                                <option title="" value="N" selected>N</option>
+                                <option title="" value="<%= Constants.CHECK_YN_Y %>"><%= Constants.CHECK_YN_Y %></option>
+                                <option title="" value="<%= Constants.CHECK_YN_N %>" selected><%= Constants.CHECK_YN_N %></option>
                             </select>
                         </div>
                         <!--//2뎁스 영역(MANIFEST 사용 여부) -->
@@ -236,6 +236,7 @@
 
         var doc = document,
             cfInfoId = data.cfInfoId,
+            manifestUseYn = data.manifestUseYn,
             deployTargetSpace = data.deployTargetSpace;
 
         doc.getElementById('jobId').value = data.id;
@@ -252,7 +253,7 @@
         doc.getElementById('blueGreenDeployStatus').value = data.blueGreenDeployStatus;
         doc.getElementById('deployTargetOrg').value = data.deployTargetOrg;
         doc.getElementById('appName').value = data.appName;
-        doc.getElementById('manifestUseYn').value = data.manifestUseYn;
+        doc.getElementById('manifestUseYn').value = manifestUseYn;
         doc.getElementById('manifestScript').value = data.manifestScript;
         doc.getElementById('created').value = data.created;
 
@@ -260,6 +261,7 @@
 
         $("input:radio[name='deployJobTrigger']:radio[value='" + data.jobTrigger + "']").attr("checked", true);
 
+        setManifestScriptForm(manifestUseYn);
         getCfOrgNameAndSpaceList(cfInfoId);
         getBuildJobList();
     };
@@ -305,7 +307,15 @@
             deployTargetSpace = $('#deployTargetSpace').val(),
             appName = $('#appName').val(),
             cfInfoId = $('#cfInfoId').val(),
-            buildJobId = $('#buildJobId').val();
+            buildJobId = $('#buildJobId').val(),
+            deployType = $('#deployType').val(),
+            blueGreenDeployStatus = $('#blueGreenDeployStatus').val();
+
+        // CHECK DEPLOYTYPE AND BLUE GREEN DEPLOY STATUS
+        if ("<%= Constants.DeployType.DEV %>" !== deployType && "<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
+            procPopupAlert("운영 GREEN 배포 완료 또는 진행 중에는 수정할 수 없습니다.");
+            return false;
+        }
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
@@ -425,9 +435,55 @@
     };
 
 
+    // SET MANIFEST SCRIPT FORM
+    var setManifestScriptForm = function(reqManifestUseYn) {
+        var objManifestScript = $('#manifestScript'),
+            appName = $('#appName').val(),
+            booleanDisabled = false;
+
+        if ('<%= Constants.CHECK_YN_N %>' === reqManifestUseYn) {
+            booleanDisabled = true;
+        }
+
+        objManifestScript.attr('disabled' , booleanDisabled);
+        setAppNameToManifestScriptForm(appName);
+    };
+
+
+    // SET APP NAME TO MANIFEST SCRIPT FORM
+    var setAppNameToManifestScriptForm = function(reqAppName) {
+        var appNameInitString = '%APP_NAME%',
+            objManifestScript = $('#manifestScript');
+
+        if (procIsNullString(reqAppName)) {
+            objManifestScript.val(objManifestScript.val().replace(gLastAppName, appNameInitString));
+        } else {
+            gLastAppName = reqAppName;
+
+            if ("<%= Constants.CHECK_YN_Y %>" === $("#manifestUseYn").val()) {
+                objManifestScript.val(objManifestScript.val().replace(appNameInitString, reqAppName));
+            } else {
+                objManifestScript.val(objManifestScript.val().replace(reqAppName, appNameInitString));
+            }
+        }
+    };
+
+
     // BIND
     $("#cfInfoId").on("change", function(){
         getCfOrgNameAndSpaceList($(this).val());
+    });
+
+
+    // BIND
+    $("#appName").on("blur", function() {
+        setAppNameToManifestScriptForm($(this).val());
+    });
+
+
+    // BIND
+    $("#manifestUseYn").on("change", function() {
+        setManifestScriptForm($(this).val());
     });
 
 

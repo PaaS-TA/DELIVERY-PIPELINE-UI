@@ -51,6 +51,9 @@
 
 <script type="text/javascript">
 
+    var gLastAppName;
+
+
     // GET
     var getPipeline = function() {
         procCallAjax("/pipeline/pipelineDetail.do", {id : document.getElementById('pipelineId').value}, callbackGetPipeline);
@@ -483,6 +486,40 @@
     };
 
 
+    // SET MANIFEST SCRIPT FORM
+    var setManifestScriptForm = function(reqManifestUseYn) {
+        var objManifestScript = $('#manifestScript'),
+            appName = $('#appName').val(),
+            booleanDisabled = false;
+
+        if ('<%= Constants.CHECK_YN_N %>' === reqManifestUseYn) {
+            booleanDisabled = true;
+        }
+
+        objManifestScript.attr('disabled' , booleanDisabled);
+        setAppNameToManifestScriptForm(appName);
+    };
+
+
+    // SET APP NAME TO MANIFEST SCRIPT FORM
+    var setAppNameToManifestScriptForm = function(reqAppName) {
+        var appNameInitString = '%APP_NAME%',
+            objManifestScript = $('#manifestScript');
+
+        if (procIsNullString(reqAppName)) {
+            objManifestScript.val(objManifestScript.val().replace(gLastAppName, appNameInitString));
+        } else {
+            gLastAppName = reqAppName;
+
+            if ("<%= Constants.CHECK_YN_Y %>" === $("#manifestUseYn").val()) {
+                objManifestScript.val(objManifestScript.val().replace(appNameInitString, reqAppName));
+            } else {
+                objManifestScript.val(objManifestScript.val().replace(reqAppName, appNameInitString));
+            }
+        }
+    };
+
+
     // BIND
     $(".jobType").on("change", function() {
         var reqJobType = $(this).val();
@@ -542,14 +579,26 @@
 
 
     // BIND
+    $("#btnGetBranchList").on("click", function() {
+        getBranchList();
+    });
+
+
+    // BIND
     $("#cfInfoId").on("change", function() {
         getCfOrgNameAndSpaceList($(this).val());
     });
 
 
     // BIND
-    $("#btnGetBranchList").on("click", function() {
-        getBranchList();
+    $("#appName").on("blur", function() {
+        setAppNameToManifestScriptForm($(this).val());
+    });
+
+
+    // BIND
+    $("#manifestUseYn").on("change", function() {
+        setManifestScriptForm($(this).val());
     });
 
 
@@ -588,6 +637,8 @@
 
         getPipeline();
         getBuildJobList();
+        setManifestScriptForm("<%= Constants.CHECK_YN_N %>");
+
         $('#buildJobType').val("<%= Constants.JOB_TYPE_BUILD %>");
         $('#buildJobName').putCursorAtEnd();
     });

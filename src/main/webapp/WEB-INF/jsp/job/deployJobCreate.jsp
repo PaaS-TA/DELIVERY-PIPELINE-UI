@@ -99,8 +99,8 @@
                             <p class="sub_title">MANIFEST 사용 여부</p>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="manifestUseYn">
-                                    <option title="" value="Y">Y</option>
-                                    <option title="" value="N" selected>N</option>
+                                    <option title="" value="<%= Constants.CHECK_YN_Y %>"><%= Constants.CHECK_YN_Y %></option>
+                                    <option title="" value="<%= Constants.CHECK_YN_N %>" selected><%= Constants.CHECK_YN_N %></option>
                                 </select>
                             </div>
                             <!--//2뎁스 영역(MANIFEST 사용 여부) -->
@@ -109,7 +109,7 @@
                             <div class="formBox">
                                 <textarea class="input-medium" name="manifestScript" id="manifestScript" cols="30" rows="6" title="">---
 applications:
-- name: manifest-test-app
+- name: %APP_NAME%
   memory: 512M</textarea>
                             </div>
                             <!--//2뎁스 영역(MANIFEST YML) -->

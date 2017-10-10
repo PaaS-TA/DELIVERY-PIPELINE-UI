@@ -504,6 +504,7 @@
                 appName : doc.getElementById('popupAppName').value,
                 cfInfoId: doc.getElementById('cfInfoId').value
             };
+
             $.extend(param, rollBackParam);
         }
 
