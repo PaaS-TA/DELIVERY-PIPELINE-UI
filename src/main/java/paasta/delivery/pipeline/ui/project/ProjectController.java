@@ -25,6 +25,13 @@ public class ProjectController {
         this.commonService = commonService;
         this.projectService = projectService;
     }
+    @RequestMapping(value = BASE_URL+"/dashboard" , method = RequestMethod.GET)
+    public ModelAndView getProjectTest(HttpServletRequest httpServletRequest){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName(BASE_URL + "/testProject");
+        return commonService.setPathVariables(httpServletRequest, BASE_URL+ "/testProject", mv);
+    }
+
 
     /**
      *  quality management
@@ -39,23 +46,6 @@ public class ProjectController {
         mv.setViewName(BASE_URL + "/projectList");
         return commonService.setPathVariables(httpServletRequest, BASE_URL+ "/projectList", mv);
     }
-
-    /**
-     *  testsSource
-     *
-     * @param
-     * @return project
-     */
-/*    @RequestMapping(value = BASE_URL+"/{projectKey}/testsSource",method = RequestMethod.GET)
-    public ModelAndView getTestsSourcePage(HttpServletRequest httpServletRequest,@PathVariable String projectKey){
-        ModelAndView mv = new ModelAndView();
-
-        mv.addObject("projectKey", projectKey);
-        mv.addObject("sourceCode","unitCode");
-        mv.setViewName(BASE_URL + "/testsSource");
-
-        return commonService.setPathVariables(httpServletRequest, BASE_URL+ "/testsSource", mv);
-    }*/
 
 
     /**
@@ -74,23 +64,32 @@ public class ProjectController {
     }
 
 
-
-
-
-
-
-
-
     /**
      *  project 리스트
      *
      * @param
      * @return project
      */
-    @RequestMapping(value = BASE_URL +"projectsList.do", method = RequestMethod.POST)
+    @RequestMapping(value = BASE_URL +"/projectsList.do", method = RequestMethod.POST)
     public List getProjectList(@RequestBody Project project){
         return projectService.getProjectList(project);
     }
+
+    /**
+     *  getProject
+     *
+     *  serviceInstancesId
+     *  pipelineId
+     *
+     * @param project
+     * @return Project
+     */
+    @RequestMapping(value={BASE_URL+"/getProject.do"} , method = RequestMethod.POST)
+    public List getProject(@RequestBody Project project){
+        return projectService.getProject(project);
+    }
+
+
 
     /**
      *  project create
@@ -130,7 +129,6 @@ public class ProjectController {
     }
 
 
-    //////////////////////////
 
     @RequestMapping(value = BASE_URL+"/getProjectSonarKey.do", method = RequestMethod.GET)
     public List getProjectSonarKey(Project project){

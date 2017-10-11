@@ -38,6 +38,17 @@ public class ProjectService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectList", HttpMethod.POST, project, List.class);
     }
 
+    /**
+     * pipelineId에 속한 project
+     *
+     * @param
+     * @return Project
+     */
+    public List getProject(Project project){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/getProject", HttpMethod.POST, project, List.class);
+    }
+
+
 
     /**
      * project create
