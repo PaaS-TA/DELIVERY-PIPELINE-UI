@@ -211,8 +211,8 @@
             jobWrapStopStyle = 'style="display: none;"',
             confirmMessage = '';
 
-        if ('null' !== lastJobStatus) {
-            if ('<%= Constants.RESULT_STATUS_SUCCESS %>' === lastJobStatus) {
+        if (null !== lastJobStatus && 'null' !== lastJobStatus) {
+            if (lastJobStatus.indexOf('<%= Constants.RESULT_STATUS_SUCCESS %>') > -1) {
                 lastJobStatusText = '실행완료';
                 lastJobModifiedText = lastJobModified;
                 portletBoxCss = ' success';
@@ -422,7 +422,7 @@
                 hiddenAppUrl = tempAppUrlArray[0] + appName + blueGreenPostfix + tempAppUrlArray[1];
 
                 if (lastJobModifiedText !== initJobStatusText) {
-                    if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === lastJobStatus) {
+                    if (lastJobStatus.indexOf('<%= Constants.RESULT_STATUS_SUCCESS %>') > -1) {
                         if ("<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>" === blueGreenDeployStatus) {
                             deployTypeString = 'Blue Deploy';
                             blueGreenPostfix = '';
@@ -447,7 +447,7 @@
                         }
 
                         if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
-                            deployTypeString = 'Reverting Green Deploy';
+                            deployTypeString = 'Revert Green Deploy';
                         }
                     }
                 }

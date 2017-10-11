@@ -67,7 +67,8 @@
                     <div class="contentArea" style="position: inherit; float: none; clear: none;">
                         <div style="float: left;"><h3>로그</h3></div>
                         <div style="float: right;">
-                            <button type="button" class="button btn_default" title="롤백" id="btnPopupRollBack">현재 작업으로 롤백</button>
+                            <button type="button" class="button btn_default" title="롤백" id="btnRevertGreenDeploy" style="display: none;">운영 GREEN 배포 되돌리기</button>
+                            <button type="button" class="button btn_default" title="롤백" id="btnPopupRollBack" disabled>현재 작업으로 롤백</button>
                         </div>
                         <!-- 내용 들어갈곳-->
                         <div class="log_body2" id="jobLogHistoryConsoleLogArea">
@@ -181,6 +182,8 @@
 <input type="hidden" id="jobIsBuilding" name="jobIsBuilding" value="<%= Constants.CHECK_YN_N %>" />
 <input type="hidden" id="deployTargetOrg" name="deployTargetOrg" value="" />
 <input type="hidden" id="originalDeployTargetSpace" name="originalDeployTargetSpace" value="" />
+<input type="hidden" id="deployType" name="deployType" value="<%= Constants.DeployType.DEV %>" />
+<input type="hidden" id="revertGreenDeployStatus" name="revertGreenDeployStatus" value="<%= Constants.CHECK_YN_N %>" />
 
 
 <script type="text/javascript">
@@ -189,12 +192,14 @@
         gJobLogTimer,
         gJobStatusTimer,
         gBuildingCount = 0,
-        gCheckInit = 0;
+        gCheckInit = 0,
+        gDeployTypePRD = '<%= Constants.DeployType.PRD %>';
+        gResultStatusSuccess = '<%= Constants.RESULT_STATUS_SUCCESS %>';
 
 
     // GET JOB
     var getJob = function() {
-        var reqUrl = JOB_PIPELINE_URL + "/get.do?id=<c:out value='${id}' default='' />";
+        var reqUrl = JOB_PIPELINE_URL + '/get.do?id=<c:out value='${id}' default='' />';
         procCallAjax(reqUrl, null, callbackGetJob);
     };
 
@@ -208,6 +213,15 @@
 
         var doc = document,
             cfInfoId = data.cfInfoId;
+
+        // SET REVERT GREEN DEPLOY STATUS
+        if (gDeployTypePRD === data.deployType) {
+            doc.getElementById('deployType').value = gDeployTypePRD;
+
+            if ('<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>' === data.blueGreenDeployStatus) {
+                doc.getElementById('revertGreenDeployStatus').value = '<%= Constants.CHECK_YN_Y %>';
+            }
+        }
 
         doc.getElementById('pipelineName').innerHTML= data.pipelineName;
         doc.getElementById('jobName').innerHTML= data.jobName;
@@ -259,16 +273,17 @@
             createdString,
             objJobStatusText = $('#jobStatusText'),
             objJobIsBuilding = $('#jobIsBuilding'),
-            noDataString = " - ",
-            progressString = "진행중";
+            noDataString = ' - ',
+            progressString = '진행중';
 
         if (listLength < 1) {
-            htmlString.push("이력이 없습니다.");
+            htmlString.push('이력이 없습니다.');
             lastJobNumber = 0;
 
             objJobStatusText.html(noDataString);
             $('#jobCreatedString').html(noDataString);
             $('#jobLastModifiedString').html(noDataString);
+            $('#btnPopupRollBack').attr('disabled', true);
 
         } else {
             for (var i = 0; i < listLength; i++) {
@@ -282,48 +297,52 @@
                 listNumberString = listLength - i;
                 createdString = data[i].createdString;
 
-                objJobStatusText.removeClass().addClass("data_txt_box");
+                objJobStatusText.removeClass().addClass('data_txt_box');
 
                 // STATUS :: SUCCESS
-                if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === jobStatus) {
-                    jobStatusCss = "success";
-                    jobStatusText = "성공";
-                    objJobStatusText.addClass("font-success");
+                if (jobStatus.indexOf(gResultStatusSuccess) > -1) {
+                    jobStatusCss = 'success';
+                    jobStatusText = '성공';
+                    objJobStatusText.addClass('font-success');
+
+                    if ('<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>' + '_' + gResultStatusSuccess === jobStatus && i === 0) {
+                        $('#btnRevertGreenDeploy').show();
+                    }
                 }
 
                 // STATUS :: FAIL
-                if ("<%= Constants.RESULT_STATUS_FAILURE %>" === jobStatus) {
-                    jobStatusCss = "failure";
-                    jobStatusText = "실패";
-                    objJobStatusText.addClass("font-fail");
+                if ('<%= Constants.RESULT_STATUS_FAILURE %>' === jobStatus) {
+                    jobStatusCss = 'failure';
+                    jobStatusText = '실패';
+                    objJobStatusText.addClass('font-fail');
                 }
 
                 // STATUS :: ABORTED
-                if ("<%= Constants.RESULT_STATUS_ABORTED %>" === jobStatus) {
-                    jobStatusCss = "cancel";
-                    jobStatusText = "중단";
-                    objJobStatusText.addClass("font-retract");
+                if ('<%= Constants.RESULT_STATUS_ABORTED %>' === jobStatus) {
+                    jobStatusCss = 'cancel';
+                    jobStatusText = '중단';
+                    objJobStatusText.addClass('font-retract');
                 }
 
                 // STATUS :: CANCELED
-                if ("<%= Constants.RESULT_STATUS_CANCELLED %>" === jobStatus) {
-                    jobStatusCss = "cancel";
-                    jobStatusText = "취소";
-                    objJobStatusText.addClass("font-retract");
+                if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === jobStatus) {
+                    jobStatusCss = 'cancel';
+                    jobStatusText = '취소';
+                    objJobStatusText.addClass('font-retract');
                 }
 
                 // STATUS :: JOB WORKING
-                if ("<%= Constants.RESULT_STATUS_JOB_WORKING %>" === jobStatus) {
-                    jobStatusCss = "action";
+                if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === jobStatus) {
+                    jobStatusCss = 'action';
                     jobStatusText = progressString;
-                    objJobStatusText.addClass("font-progress");
+                    objJobStatusText.addClass('font-progress');
 
                     listNumberString = progressString;
                     createdString = noDataString;
 
-                    objJobIsBuilding.val("<%= Constants.CHECK_YN_Y %>");
+                    objJobIsBuilding.val('<%= Constants.CHECK_YN_Y %>');
 
-                    $('#jobLogHistoryConsoleLogArea').html("진행 중입니다.");
+                    $('#jobLogHistoryConsoleLogArea').html('진행 중입니다.');
                     $('#btnTrigger').hide();
                     $('#btnStop').show();
                 }
@@ -344,7 +363,7 @@
         var lastJobNumberForJobStatus = parseInt(getLastJobNumber(), 10) + 1;
         startGetJobStatusTimer(lastJobNumberForJobStatus);
 
-        if ("<%= Constants.CHECK_YN_N %>" === objJobIsBuilding.val()) {
+        if ('<%= Constants.CHECK_YN_N %>' === objJobIsBuilding.val()) {
             getJobHistoryConsoleLog(lastJobNumber, 0);
         } else {
             if (listLength > 0) {
@@ -361,7 +380,7 @@
         }
 
         if (parseInt(reqJobNumber, 10) < 1) {
-            $('#jobLogHistoryConsoleLogArea').html("상세 이력이 없습니다.");
+            $('#jobLogHistoryConsoleLogArea').html('상세 이력이 없습니다.');
             return false;
         }
 
@@ -379,7 +398,7 @@
 
         var consoleOutputHtml = data.consoleOutputHtml;
         if (consoleOutputHtml !== null) {
-            $('#jobLogHistoryConsoleLogArea').html("<pre>" + consoleOutputHtml + "</pre>");
+            $('#jobLogHistoryConsoleLogArea').html('<pre>' + consoleOutputHtml + '</pre>');
         }
     };
 
@@ -387,66 +406,96 @@
     // SET JOB HISTORY INFO
     var setJobHistoryInfo = function (reqDataIndex) {
         var objJobStatusText = $('#jobStatusText'),
+            btnRevertGreenDeploy = $('#btnRevertGreenDeploy'),
             jobHistoryList = gJobHistoryList[reqDataIndex],
-            lastJobStatus = jobHistoryList.status,
+            jobStatus = jobHistoryList.status,
             jobCreatedString = jobHistoryList.createdString,
             jobLastModifiedString = jobHistoryList.lastModifiedString,
             previousJobNameString = jobHistoryList.previousJobName,
             previousJobNumberString = jobHistoryList.previousJobNumber,
-            jobStatusText = " - ",
-            noDataString = " - ",
+            jobStatusText = ' - ',
+            noDataString = ' - ',
             rollBackYn = true,
             triggerType = jobHistoryList.triggerType,
-            triggerTypeString = "<%= Constants.JOB_TRIGGER_MANUAL_TRIGGER_STRING %>";
+            triggerTypeString = '<%= Constants.JOB_TRIGGER_MANUAL_TRIGGER_STRING %>',
+            connString = '_';
 
-        if ("<%= Constants.JOB_TRIGGER_ROLLBACK %>" === triggerType) {
-            triggerTypeString = "<%= Constants.JOB_TRIGGER_ROLLBACK_STRING %>";
+        btnRevertGreenDeploy.hide();
+
+        if ('<%= Constants.JOB_TRIGGER_ROLLBACK %>' === triggerType) {
+            triggerTypeString = '<%= Constants.JOB_TRIGGER_ROLLBACK_STRING %>';
         }
 
-        if ("<%= Constants.JOB_TRIGGER_PREVIOUS_JOB_SUCCESS %>" === triggerType) {
-            triggerTypeString = "<%= Constants.JOB_TRIGGER_PREVIOUS_JOB_SUCCESS_STRING %>";
+        if ('<%= Constants.JOB_TRIGGER_PREVIOUS_JOB_SUCCESS %>' === triggerType) {
+            triggerTypeString = '<%= Constants.JOB_TRIGGER_PREVIOUS_JOB_SUCCESS_STRING %>';
         }
 
-        if ("<%= Constants.JOB_TRIGGER_MODIFIED_PUSH %>" === triggerType) {
-            triggerTypeString = "<%= Constants.JOB_TRIGGER_MODIFIED_PUSH_STRING %>";
+        if ('<%= Constants.JOB_TRIGGER_MODIFIED_PUSH %>' === triggerType) {
+            triggerTypeString = '<%= Constants.JOB_TRIGGER_MODIFIED_PUSH_STRING %>';
         }
 
-        objJobStatusText.removeClass().addClass("data_txt_box");
+        objJobStatusText.removeClass().addClass('data_txt_box');
 
-        // STATUS :: SUCCESS
-        if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === lastJobStatus) {
-            jobStatusText = "성공";
-            objJobStatusText.addClass("font-success");
-            rollBackYn = false;
+        // CHECK PRD
+        if (gDeployTypePRD === $('#deployType').val()) {
+            // STATUS :: PRD :: BLUE DEPLOY :: SUCCESS
+            if (('<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
+                jobStatusText = '성공';
+                objJobStatusText.addClass('font-success');
+                rollBackYn = false;
+            }
+
+            // STATUS :: PRD :: GREEN DEPLOY :: SUCCESS
+            if (('<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
+                jobStatusText = '성공';
+                objJobStatusText.addClass('font-success');
+
+                if ('<%= Constants.CHECK_YN_Y %>' === $('#revertGreenDeployStatus').val() && reqDataIndex === 0) {
+                    btnRevertGreenDeploy.show();
+                }
+            }
+
+            // STATUS :: PRD :: REVERT GREEN DEPLOY :: SUCCESS
+            if (('<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
+                jobStatusText = '성공';
+                objJobStatusText.addClass('font-success');
+            }
+        } else {
+            // STATUS :: DEV :: SUCCESS
+            if (gResultStatusSuccess === jobStatus) {
+                jobStatusText = '성공';
+                objJobStatusText.addClass('font-success');
+                rollBackYn = false;
+            }
         }
 
         // STATUS :: FAIL
-        if ("<%= Constants.RESULT_STATUS_FAILURE %>" === lastJobStatus) {
-            jobStatusText = "실패";
-            objJobStatusText.addClass("font-fail");
+        if ('<%= Constants.RESULT_STATUS_FAILURE %>' === jobStatus) {
+            jobStatusText = '실패';
+            objJobStatusText.addClass('font-fail');
         }
 
         // STATUS :: ABORTED
-        if ("<%= Constants.RESULT_STATUS_ABORTED %>" === lastJobStatus) {
-            jobStatusText = "중단";
-            objJobStatusText.addClass("font-retract");
+        if ('<%= Constants.RESULT_STATUS_ABORTED %>' === jobStatus) {
+            jobStatusText = '중단';
+            objJobStatusText.addClass('font-retract');
         }
 
         // STATUS :: CANCELED
-        if ("<%= Constants.RESULT_STATUS_CANCELLED %>" === lastJobStatus) {
-            jobStatusText = "취소";
-            objJobStatusText.addClass("font-retract");
+        if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === jobStatus) {
+            jobStatusText = '취소';
+            objJobStatusText.addClass('font-retract');
         }
 
         // STATUS :: JOB WORKING
-        if ("<%= Constants.RESULT_STATUS_JOB_WORKING %>" === lastJobStatus) {
-            jobStatusText = "진행중";
+        if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === jobStatus) {
+            jobStatusText = '진행중';
             jobCreatedString = noDataString;
             jobLastModifiedString = noDataString;
             previousJobNameString = noDataString;
             previousJobNumberString = noDataString;
             triggerTypeString = noDataString;
-            objJobStatusText.addClass("font-progress");
+            objJobStatusText.addClass('font-progress');
         }
 
         // CHECK PREVIOUS JOB NUMBER
@@ -470,7 +519,7 @@
 
 
     // TRIGGER JOB
-    var triggerJob = function (checkRollBack) {
+    var triggerJob = function (reqRollBack, reqRevertGreenDeploy) {
         procClosePopup();
 
         $('#btnTrigger').hide();
@@ -492,11 +541,21 @@
             id : doc.getElementById('jobId').value,
             jobGuid : doc.getElementById('jobGuid').value,
             jobNumber : jobNumber,
-            jobType : "<%= Constants.JOB_TYPE_DEPLOY %>",
+            jobType : '<%= Constants.JOB_TYPE_DEPLOY %>',
             buildJobId : doc.getElementById('buildJobId').value
         };
 
-        if (checkRollBack) {
+        // CHECK REVERT GREEN DEPLOY
+        if ('<%= Constants.CHECK_YN_Y %>' === reqRevertGreenDeploy) {
+            var greenDeployRevertParam = {
+                blueGreenDeployStatus : '<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>'
+            };
+
+            $.extend(param, greenDeployRevertParam);
+        }
+
+        // CHECK ROLL BACK
+        if (reqRollBack) {
             var rollBackParam = {
                 jobHistoryId : doc.getElementById('jobHistoryId').value,
                 deployTargetOrg : doc.getElementById('deployTargetOrg').value,
@@ -508,8 +567,10 @@
             $.extend(param, rollBackParam);
         }
 
-        $('#jobIsTriggering').val("<%= Constants.CHECK_YN_Y %>");
-        procCallAjax(JOB_PIPELINE_URL + "/trigger.do", param, callbackTriggerJob);
+        $('#btnRevertGreenDeploy').hide();
+
+        $('#jobIsTriggering').val('<%= Constants.CHECK_YN_Y %>');
+        procCallAjax(JOB_PIPELINE_URL + '/trigger.do', param, callbackTriggerJob);
         setInitTriggerJobLogHistory();
         startJobLogTimer(jobNumber);
     };
@@ -527,14 +588,14 @@
         $('#btnTrigger').show();
         $('#btnStop').hide();
 
-        if ("<%= Constants.CHECK_YN_N %>" === objJobIsStopping.val()) {
+        if ('<%= Constants.CHECK_YN_N %>' === objJobIsStopping.val()) {
             procPopupAlert('실행이 완료 되었습니다.');
         }
 
-        objJobIsStopping.val("<%= Constants.CHECK_YN_N %>");
-        $('#jobIsTriggering').val("<%= Constants.CHECK_YN_N %>");
+        objJobIsStopping.val('<%= Constants.CHECK_YN_N %>');
+        $('#jobIsTriggering').val('<%= Constants.CHECK_YN_N %>');
 
-        getJobHistoryList();
+        getJob();
     };
 
 
@@ -575,21 +636,21 @@
         var htmlString = '<li><span class="action"></span><span class="action_txt" style="width: 38px;">진행중</span></li>',
             objJobLogHistoryArea = $('#jobLogHistoryArea'),
             objJobStatusText = $('#jobStatusText'),
-            noDataString = " - ";
+            noDataString = ' - ';
 
-        objJobStatusText.removeClass().addClass("data_txt_box").addClass("font-progress");
-        objJobStatusText.html("진행중");
+        objJobStatusText.removeClass().addClass('data_txt_box').addClass('font-progress');
+        objJobStatusText.html('진행중');
 
         $('#jobCreatedString').html(noDataString);
         $('#jobLastModifiedString').html(noDataString);
         $('#jobTriggerType').html(noDataString);
 
         if (gJobHistoryList.length < 1) {
-            objJobLogHistoryArea.html("");
+            objJobLogHistoryArea.html('');
         }
 
         objJobLogHistoryArea.prepend(htmlString);
-        $('#jobLogHistoryConsoleLogArea').html("");
+        $('#jobLogHistoryConsoleLogArea').html('');
     };
 
 
@@ -606,7 +667,7 @@
 
     // GET JOB LOG
     var getJobLog = function (reqJobNumber) {
-        var reqUrl = JOB_PIPELINE_URL + "/<c:out value='${id}' default='' />/log.do/" + reqJobNumber;
+        var reqUrl = JOB_PIPELINE_URL + '/<c:out value='${id}' default='' />/log.do/' + reqJobNumber;
         procCallAjax(reqUrl, null, callbackGetJobLog);
     };
 
@@ -622,7 +683,7 @@
             consoleOutputHtml = data.consoleOutputHtml;
 
         if (consoleOutputHtml !== null) {
-            $('#jobLogHistoryConsoleLogArea').html("<pre>" + consoleOutputHtml + "</pre>" + spinnerDiv);
+            $('#jobLogHistoryConsoleLogArea').html('<pre>' + consoleOutputHtml + '</pre>' + spinnerDiv);
         }
     };
 
@@ -632,18 +693,18 @@
         var doc = document,
             jobNumber = parseInt(doc.getElementById('jobNumber').value, 10);
 
-        if ("<%= Constants.CHECK_YN_Y %>" === $('#jobIsTriggering').val()) {
+        if ('<%= Constants.CHECK_YN_Y %>' === $('#jobIsTriggering').val()) {
             jobNumber++;
         }
 
         var param = {
-            serviceInstancesId: "<c:out value='${serviceInstancesId}' default='' />",
+            serviceInstancesId: '<c:out value='${serviceInstancesId}' default='' />',
             jobGuid : doc.getElementById('jobGuid').value,
             jobNumber : jobNumber
         };
 
-        $('#jobIsStopping').val("<%= Constants.CHECK_YN_Y %>");
-        procCallAjax(JOB_PIPELINE_URL + "/stop.do", param, callbackStopJob);
+        $('#jobIsStopping').val('<%= Constants.CHECK_YN_Y %>');
+        procCallAjax(JOB_PIPELINE_URL + '/stop.do', param, callbackStopJob);
     };
 
 
@@ -677,11 +738,11 @@
         }
 
         var param = {
-            id : "<c:out value='${id}' default='' />",
+            id : '<c:out value='${id}' default='' />',
             jobNumber : reqJobNumber
         };
 
-        procCallAjax(JOB_PIPELINE_URL + "/status.do", param, callbackGetJobStatus);
+        procCallAjax(JOB_PIPELINE_URL + '/status.do', param, callbackGetJobStatus);
     };
 
 
@@ -698,11 +759,11 @@
             objJobIsTriggering = $('#jobIsTriggering'),
             jobIsBuilding = objJobIsBuilding.val(),
             jobIsTriggering = objJobIsTriggering.val(),
-            checkY = "<%= Constants.CHECK_YN_Y %>",
-            checkN = "<%= Constants.CHECK_YN_N %>",
-            statusJobWorking = "<%= Constants.RESULT_STATUS_JOB_WORKING %>";
+            checkY = '<%= Constants.CHECK_YN_Y %>',
+            checkN = '<%= Constants.CHECK_YN_N %>',
+            statusJobWorking = '<%= Constants.RESULT_STATUS_JOB_WORKING %>';
 
-        if ("true" === isBuilding
+        if ('true' === isBuilding
             || statusJobWorking === lastJobStatus
             || checkY === jobIsBuilding) {
             if (statusJobWorking === lastJobStatus) {
@@ -716,7 +777,7 @@
             gBuildingCount++;
         }
 
-        if ("false" === isBuilding
+        if ('false' === isBuilding
             && (checkY === jobIsBuilding || checkY === jobIsTriggering)
             && !(statusJobWorking === lastJobStatus)) {
             objJobIsBuilding.val(checkN);
@@ -736,7 +797,7 @@
             return false;
         }
 
-        procCallAjax("/cf/get.do/" + reqCfInfoId, null, callbackGetCfOrgNameAndSpaceList);
+        procCallAjax('/cf/get.do/' + reqCfInfoId, null, callbackGetCfOrgNameAndSpaceList);
     };
 
 
@@ -775,34 +836,40 @@
 
 
     // BIND
-    $("#btnTrigger").on("click", function() {
+    $('#btnTrigger').on('click', function() {
         procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob(false);');
     });
 
 
     // BIND
-    $("#btnStop").on("click", function() {
+    $('#btnStop').on('click', function() {
         procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
     });
 
 
     // BIND
-    $("#btnUpdate").on("click", function() {
-        var reqUrl = JOB_PIPELINE_URL + "/<c:out value='${id}' default='' />/deploy/update";
+    $('#btnUpdate').on('click', function() {
+        var reqUrl = JOB_PIPELINE_URL + '/<c:out value='${id}' default='' />/deploy/update';
         procMovePage(reqUrl);
     });
 
 
     // BIND
-    $("#btnPopupRollBack").on("click", function() {
-        $("#modalRollbackJob").modal('toggle');
+    $('#btnPopupRollBack').on('click', function() {
+        $('#modalRollbackJob').modal('toggle');
     });
 
 
     // BIND
-    $("#btnRollBack").on("click", function() {
+    $('#btnRevertGreenDeploy').on('click', function() {
+        procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
+    });
+
+
+    // BIND
+    $('#btnRollBack').on('click', function() {
         procClosePopup();
-        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, "job", "deployTrigger");
+        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'job', 'deployTrigger');
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read"){
@@ -816,13 +883,13 @@
 
 
     // BIND
-    $("#btnList").on("click", function() {
-        procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");
+    $('#btnList').on('click', function() {
+        procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');
     });
 
 
     // BIND
-    $("#cfInfoId").on("change", function(){
+    $('#cfInfoId').on('change', function(){
         getCfOrgNameAndSpaceList($(this).val());
     });
 
