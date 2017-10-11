@@ -80,6 +80,15 @@ public class ProjectService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectsUpdate", HttpMethod.POST, project, Project.class);
     }
 
+    /**
+     *  projectid로 projectKey 가져오기
+     *
+     * @param  project
+     * @return project
+     */
+    public Project getProjectKey(Project project){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectKey", HttpMethod.POST, project, Project.class);
+    }
 
 
     /**

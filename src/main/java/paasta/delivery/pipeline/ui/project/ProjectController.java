@@ -129,6 +129,19 @@ public class ProjectController {
     }
 
 
+    /**
+     *  getProjectKey
+     *
+     * @param  project
+     * @return project
+     */
+    @RequestMapping(value = BASE_URL+"/projectsKey.do" , method = RequestMethod.POST)
+    public Project getProjectKey(@RequestBody Project project){
+        return projectService.getProjectKey(project);
+    }
+
+
+
 
     @RequestMapping(value = BASE_URL+"/getProjectSonarKey.do", method = RequestMethod.GET)
     public List getProjectSonarKey(Project project){
