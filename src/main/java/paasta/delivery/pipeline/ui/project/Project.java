@@ -34,7 +34,6 @@ public class Project {
 
     private Long jobId;
 
-
     //testJob
     private String jobName;
     private String branch;
