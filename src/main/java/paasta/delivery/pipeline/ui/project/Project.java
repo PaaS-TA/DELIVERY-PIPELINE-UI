@@ -32,7 +32,7 @@ public class Project {
 
     private int pipelineId;
 
-    private Long jobId;
+    private long jobId;
 
     //testJob
     private String jobName;
@@ -302,11 +302,11 @@ public class Project {
         this.pipelineId = pipelineId;
     }
 
-    public Long getJobId() {
+    public long getJobId() {
         return jobId;
     }
 
-    public void setJobId(Long jobId) {
+    public void setJobId(long jobId) {
         this.jobId = jobId;
     }
 

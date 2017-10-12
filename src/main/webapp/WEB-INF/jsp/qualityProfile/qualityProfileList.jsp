@@ -32,7 +32,7 @@
             </div>
             <!--//left :e -->
             <div clss="contentWrap" id="contentProfileExp"style="display: block">
-                <h5 class="sub_title">&nbsp;품질 프로파일은 분석하는 동안 적용 할 규칙 모음입니다. <br>&nbsp;각 언어별로 기본 프로파일이 있습니다. 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다.</h5>
+               <span style="line-height:2.3em;"><br>&nbsp;&nbsp;품질 프로파일은 분석하는 동안 적용 할 규칙 모음입니다. <br>&nbsp;&nbsp;각 언어별로 기본 프로파일이 있습니다. 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다.</span>
             </div>
             <!-- contentWrap :s -->
             <div class="contentWrap" id="contentProfile" style="display: none">
