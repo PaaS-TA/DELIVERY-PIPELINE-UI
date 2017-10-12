@@ -133,6 +133,7 @@
                 jobOrder = data[i].jobOrder,
                 jobId = data[i].id,
                 lastJobStatus = data[i].lastJobStatus,
+                previousJobStatus = '<%= Constants.RESULT_STATUS_SUCCESS %>',
                 nextGroupOrder;
 
             // SET LAST GROUP ORDER
@@ -149,12 +150,18 @@
                 groupWrapperEndCss = '</ol>';
             }
 
+            // CHECK PREVIOUS JOB STATUS
+            if (i > 0) {
+                previousJobStatus = data[i - 1].lastJobStatus;
+            }
+
             htmlString.push(groupWrapperStartCss);
             htmlString.push('<li id="jobWrap_' + jobId + '">');
             htmlString.push(setJobDetailHtmlString(data[i]));
             htmlString.push('</li>');
             htmlString.push(groupWrapperEndCss);
             htmlString.push('<input type="hidden" id="jobIsBuilding_' + jobId + '" value="" />');
+            htmlString.push('<input type="hidden" id="previousJobStatus_' + jobId + '" value="' + previousJobStatus + '" />');
 
             groupWrapperStartCss = '';
             groupWrapperEndCss = '';
@@ -674,6 +681,12 @@
 
     // TRIGGER JOB
     var triggerJob = function (reqJobId, reqConfirmMessage) {
+        var previousJobStatus = $('#previousJobStatus_' + reqJobId).val();
+
+        if ('<%= Constants.RESULT_STATUS_SUCCESS %>' !== previousJobStatus) {
+            reqConfirmMessage = '<p>이전 단계의 JOB이 성공하지 못했습니다.</p>' + reqConfirmMessage;
+        }
+
         procPopupConfirm('작업 실행', reqConfirmMessage + '을 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_N %>\');', '실행');
     };
 
