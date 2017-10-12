@@ -197,6 +197,7 @@
             jobOrder = data.jobOrder,
             lastJobOrder = data.lastJobOrder,
             jobName = data.jobName,
+            jobNamePostfix = '',
             repositoryUrl = data.repositoryUrl,
             repositoryCommitRevision = data.repositoryCommitRevision,
             repositoryCommitRevisionPostfix = '',
@@ -263,19 +264,22 @@
         }
 
 
+        if (jobName.length > 14) {
+            jobNamePostfix = '...';
+        }
+
         // BUILD JOB
         if ("<%= Constants.JOB_TYPE_BUILD %>" === jobType) {
             confirmMessage = '빌드 JOB';
 
             if (repositoryCommitRevision.length > 18) {
                 repositoryCommitRevisionPostfix = '...';
-            } else {
-                repositoryCommitRevisionPostfix = '';
             }
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
             htmlString.push('<div class="portlet-title">');
-            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '"> ' + jobOrder +  '. ' + jobName + '</div>');
+            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '" title="' + jobName + '"> ');
+            htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
             htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
@@ -335,13 +339,12 @@
 
             if (repositoryCommitRevision.length > 18) {
                 repositoryCommitRevisionPostfix = '...';
-            } else {
-                repositoryCommitRevisionPostfix = '';
             }
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
             htmlString.push('<div class="portlet-title">');
-            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '"> ' + jobOrder +  '. ' + jobName + '</div>');
+            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '" title="' + jobName + '"> ');
+            htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
             htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
@@ -462,7 +465,8 @@
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
             htmlString.push('<div class="portlet-title">');
-            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '"> ' + jobOrder +  '. ' + jobName + '</div>');
+            htmlString.push('<div class="caption" id="jobPortletTitle_' + jobId + '" title="' + jobName + '"> ');
+            htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
             htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
