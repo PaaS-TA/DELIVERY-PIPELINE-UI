@@ -42,6 +42,7 @@ public class Job {
     private String manifestUseYn;
     private String manifestScript;
     private String inspectionProjectId;
+    private String inspectionProjectKey;
     private String inspectionProfileId;
     private String inspectionGateId;
     private String userId;
@@ -77,7 +78,6 @@ public class Job {
     private String newWorkGroupYn;
     private String triggerType;
     private String inspectionProjectName;
-    private String inspectionProjectKey;
 
     // UI
     private String createdString;
@@ -321,6 +321,14 @@ public class Job {
         this.inspectionProjectId = inspectionProjectId;
     }
 
+    public String getInspectionProjectKey() {
+        return inspectionProjectKey;
+    }
+
+    public void setInspectionProjectKey(String inspectionProjectKey) {
+        this.inspectionProjectKey = inspectionProjectKey;
+    }
+
     public String getInspectionProfileId() {
         return inspectionProfileId;
     }
@@ -535,14 +543,6 @@ public class Job {
 
     public void setInspectionProjectName(String inspectionProjectName) {
         this.inspectionProjectName = inspectionProjectName;
-    }
-
-    public String getInspectionProjectKey() {
-        return inspectionProjectKey;
-    }
-
-    public void setInspectionProjectKey(String inspectionProjectKey) {
-        this.inspectionProjectKey = inspectionProjectKey;
     }
 
     public String getCreatedString() {
