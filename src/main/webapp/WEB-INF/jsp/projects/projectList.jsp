@@ -18,11 +18,11 @@
 <div id="container" class="mt25">
     <!-- content :s -->
     <div class="contents">
-        <div class="sub_titlebox">
-            <h3 class="title" id="projectName"></h3>
-        </div>
 
-        <h3 class="full_sub_title">Technical Debt</h3>
+        <h2 class="title" style="margin: 15px; padding: 10px;" id="projectName"></h2>
+
+
+        <h3 class="full_sub_title"  style="margin: 15px;padding: 10px;">Technical Debt</h3>
         <!--//타이틀 :e -->
         <!-- full_sub_content :s -->
         <%--<div class="full_sub_content">--%>
@@ -44,7 +44,7 @@
                         </tr>
                 </tbody>
             </table>
-            <h3 class="full_sub_title">Coverage</h3>
+            <h3 class="full_sub_title"  style="margin: 15px;padding: 10px;">Coverage</h3>
             <table summary="COVERAGE" class="BasicTable" >
                 <caption>
 
@@ -58,12 +58,12 @@
                 <tbody>
                 <tr>
 
-                    <td class="alignC"> <div style="display: inline;"><div id='coverageChat' style="display: inline-block;"></div><div style="display: inline-block;"><a href='javascript:void(0)' onclick="movePage('coverageList')"><h3>4.5%</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div></td>
+                    <td class="alignC" id ="coverageNum"> </td>
                     <td class="alignC" id="testsNum"></td>
                 </tr>
                 </tbody>
             </table>
-        <h3 class="full_sub_title">Structure</h3>
+        <h3 class="full_sub_title"  style="margin: 15px;padding: 10px;">Structure</h3>
         <table summary="COVERAGE" class="BasicTable" >
             <caption>
 
@@ -152,7 +152,7 @@
                 <!--//좌 테이블 :e -->
                 <!-- 우 테이블 :s -->
                 <div class="col_2_r">
-                    <h3 class="full_sub_title">단위 테스트 (Unit test) </h3> <%--<span>최종 테스트 : 2017-06-30</span>--%>
+                    <h3 class="full_sub_title" >단위 테스트 (Unit test) </h3> <%--<span>최종 테스트 : 2017-06-30</span>--%>
                     <table summary="항목, 수치, 증감 등의 단위테스트 리스트 테이블입니다." class="BasicTable" >
                         <caption>
                             단위 테스트 (Unit test) 리스트
@@ -255,7 +255,8 @@
             key = data.key;
             projectName = data.name;
             lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
-            coverage = "<div id='coverageChat'></div><div><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div>";
+//            coverage = "<div id='coverageChat'></div><div><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div>";
+            coverage =  "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div>";
             issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>"+data.measures.issues+"</h3><span style='text-decoration: underline;'>Issues</span></a>";
             tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>"+data.measures.tests+"</h3><span style='text-decoration: underline;'>Tests</span></a>";
             debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>"+data.measures.debt+"</h3><span style='text-decoration: underline;'>Debt</span></a>";
@@ -265,7 +266,7 @@
         $("#projectKey").val(key);
         $("#issueDay").html(debt);
         $("#issuesNum").html(issues);
-//        $("#coverageNum").html(coverage);
+        $("#coverageNum").html(coverage);
         $("#testsNum").html(tests);
         $("#codeLine").html(lines);
         $("#projectName").text(projectName);
@@ -446,11 +447,7 @@
         //sonarKey(소나 uuid 가져오기)
         getSonarKey();
 
-
-
-
     })
-
 
 
 

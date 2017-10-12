@@ -8,11 +8,13 @@ import java.util.List;
 public class Project {
     private Long id;
 
+    private String name;
+
     private String key;
 
     private String sonarKey; // sonarqube의 key 값
 
-    private String name;
+    private String sonar_name;
 
     private String qualifier;
 
@@ -79,12 +81,12 @@ public class Project {
         this.sonarKey = sonarKey;
     }
 
-    public String getName() {
-        return name;
+    public String getSonar_name() {
+        return sonar_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSonar_name(String sonar_name) {
+        this.sonar_name = sonar_name;
     }
 
     public String getQualifier() {
@@ -310,13 +312,22 @@ public class Project {
         this.jobId = jobId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", key='" + key + '\'' +
                 ", sonarKey='" + sonarKey + '\'' +
-                ", name='" + name + '\'' +
+                ", sonar_name='" + sonar_name + '\'' +
                 ", qualifier='" + qualifier + '\'' +
                 ", orgName='" + orgName + '\'' +
                 ", orgGuid='" + orgGuid + '\'' +

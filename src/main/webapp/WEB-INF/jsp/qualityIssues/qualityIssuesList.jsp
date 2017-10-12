@@ -479,7 +479,7 @@
         if(data.length > 0){
 
             for(var i=0 ; i<data.length; i++) {
-                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
+                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block' title='"+data[i].name+"'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
             }
         }
 
