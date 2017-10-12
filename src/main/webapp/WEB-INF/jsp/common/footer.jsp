@@ -236,7 +236,7 @@
         for(var i = 0; i < data.length; i++){
             if(data[i].authCode != null && data[i].authCode == id && message == "update"){
                 if(data[i].authority.description == 'write'){
-                    updateJob();
+                    procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
                 if(data[i].authority.description == 'read'){
                     procPopupAlert("권한이 없습니다.");
@@ -269,7 +269,7 @@
             }
             if(data[i].authCode != null && data[i].authCode == id && message == "deployUpdate"){
                 if(data[i].authority.description == 'write'){
-                    updateJob();
+                    procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
                 if(data[i].authority.description == 'read'){
                     procPopupAlert("권한이 없습니다.");
@@ -291,7 +291,7 @@
             }
             if(data[i].authCode != null && data[i].authCode == id && message == "testUpdate"){
                 if(data[i].authority.description == 'write'){
-                    updateJob();
+                    procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
                 if(data[i].authority.description == 'read'){
                     procPopupAlert("권한이 없습니다.");
