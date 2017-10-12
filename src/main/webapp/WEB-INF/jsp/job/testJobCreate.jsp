@@ -73,13 +73,11 @@
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionProfileId">
                                     <option value="">품질 프로파일 선택</option>
-                                    <option value="temp">Egov-QualityProfile</option>
                                 </select>
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionGateId">
                                     <option value="">품질 게이트 선택</option>
-                                    <option value="temp">defuault-quality-gate</option>
                                 </select>
                             </div>
                             <div class="formBox">

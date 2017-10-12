@@ -29,6 +29,7 @@
     var RESULT_STATUS_FAIL = "<%= Constants.RESULT_STATUS_FAIL %>";
     var DOWNLOAD_API_URL = "<c:url value='/file/download/'/>";
     var JOB_PIPELINE_URL = "/pipelines/<c:out value='${pipelineId}' default='' />/jobs";
+    var INSPECTION_PIPELINE_URL = "/pipelines/<c:out value='${pipelineId}' default='' />/inspections";
     var G_SUID = "<c:out value='${suid}' default='' />";
     var G_SERVICE_INSTANCE_ID = "<c:out value='${serviceInstancesId}' default='' />";
     var G_PIPELINE_ID = "<c:out value='${pipelineId}' default='' />";

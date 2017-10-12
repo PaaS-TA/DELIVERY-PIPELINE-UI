@@ -83,13 +83,11 @@
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionProfileId">
                                     <option value="">품질 프로파일 선택</option>
-                                    <option value="temp">Egov-QualityProfile</option>
                                 </select>
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionGateId">
                                     <option value="">품질 게이트 선택</option>
-                                    <option value="temp">defuault-quality-gate</option>
                                 </select>
                             </div>
                             <div class="formBox">
@@ -231,6 +229,72 @@
     };
 
 
+    // GET QUALITY PROFILE LIST
+    var getQualityProfileList = function() {
+        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityProfileList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
+        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
+    };
+
+
+    // CALLBACK GET QUALITY PROFILE LIST
+    var callbackGetQualityProfileList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var listLength = data.length,
+            selectedCss = '',
+            listNumber = 0,
+            htmlString = [];
+
+        htmlString.push('<option value="">품질 프로파일 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            selectedCss = (listNumber === 0)? ' selected' : '';
+            listNumber++;
+            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+        }
+
+        $('#inspectionProfileId').html(htmlString);
+
+        procCallSpinner(SPINNER_STOP);
+    };
+
+
+    // GET QUALITY GATE LIST
+    var getQualityGateList = function() {
+        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityGateList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
+        procCallAjax(reqUrl, null, callbackGetQualityGateList);
+    };
+
+
+    // CALLBACK GET QUALITY GATE LIST
+    var callbackGetQualityGateList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var listLength = data.length,
+            selectedCss = '',
+            listNumber = 0,
+            htmlString = [];
+
+        htmlString.push('<option value="">품질 게이트 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            selectedCss = (listNumber === 0)? ' selected' : '';
+            listNumber++;
+            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+        }
+
+        $('#inspectionGateId').html(htmlString);
+
+        procCallSpinner(SPINNER_STOP);
+    };
+
+
     // GET BUILD JOB LIST
     var getBuildJobList = function() {
         var reqUrl = JOB_PIPELINE_URL + "/list.do?pipelineId=<c:out value='${pipelineId}' default='' />&jobType=<%= Constants.JOB_TYPE_BUILD %>";
@@ -307,6 +371,7 @@
             groupOrder: doc.getElementById('groupOrder').value,
             jobOrder: doc.getElementById('jobOrder').value,
             buildJobId: buildJobId,
+            pipelineName: $('#pipelineName').html(),
             jobName: jobName,
             jobType: doc.getElementById('jobType').value,
             postActionYn: postActionYn,
@@ -367,6 +432,8 @@
         //getGrantedAuthorities();
         getPipeline();
         getJob();
+        getQualityProfileList();
+        getQualityGateList();
         $('#jobName').putCursorAtEnd();
     });
 

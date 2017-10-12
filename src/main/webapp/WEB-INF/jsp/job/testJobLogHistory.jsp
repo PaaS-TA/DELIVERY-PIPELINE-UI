@@ -67,7 +67,7 @@
                     <div class="contentArea" style="position: inherit; float: none; clear: none;">
                         <div style="float: left;"><h3>로그</h3></div>
                         <div style="float: right;">
-                            <button type="button" class="button btn_default" title="품질 이슈 결과" id="btnMoveInspectionResultPage">품질 이슈 결과</button>
+                            <button type="button" class="button btn_default" title="품질 이슈 결과" id="btnMoveInspectionResultPage" disabled>품질 이슈 결과</button>
                         </div>
                         <!-- 내용 들어갈곳-->
                         <div class="log_body2" id="jobLogHistoryConsoleLogArea">
@@ -95,6 +95,7 @@
 <input type="hidden" id="jobIsTriggering" name="jobIsTriggering" value="<%= Constants.CHECK_YN_N %>" />
 <input type="hidden" id="jobIsStopping" name="jobIsStopping" value="<%= Constants.CHECK_YN_N %>" />
 <input type="hidden" id="jobIsBuilding" name="jobIsBuilding" value="<%= Constants.CHECK_YN_N %>" />
+<input type="hidden" id="inspectionProjectKey" name="inspectionProjectKey" value="" />
 
 
 <script type="text/javascript">
@@ -124,6 +125,7 @@
         doc.getElementById('pipelineName').innerHTML= data.pipelineName;
         doc.getElementById('jobName').innerHTML= data.jobName;
         doc.getElementById('jobGuid').value = data.jobGuid;
+        doc.getElementById('inspectionProjectKey').value = data.inspectionProjectKey;
 
         procCallSpinner(SPINNER_STOP);
         getJobHistoryList();
@@ -163,6 +165,7 @@
             createdString,
             objJobStatusText = $('#jobStatusText'),
             objJobIsBuilding = $('#jobIsBuilding'),
+            objBtnMoveInspectionResultPage = $('#btnMoveInspectionResultPage'),
             noDataString = " - ",
             progressString = "진행중";
 
@@ -173,6 +176,7 @@
             objJobStatusText.html(noDataString);
             $('#jobCreatedString').html(noDataString);
             $('#jobLastModifiedString').html(noDataString);
+            objBtnMoveInspectionResultPage.attr('disabled', true);
 
         } else {
             for (var i = 0; i < listLength; i++) {
@@ -241,6 +245,7 @@
             }
 
             lastJobNumber = data[0].jobNumber;
+            objBtnMoveInspectionResultPage.attr('disabled', false);
         }
 
         $('#jobLogHistoryArea').html(htmlString.join(''));
@@ -660,8 +665,7 @@
 
     // BIND
     $("#btnMoveInspectionResultPage").on("click", function() {
-        // TODO :: APPLY INSEPECTION DASHBOARD
-        procMovePage("/projects/-Pipeline-Inspection-API-Project-Key/dashboard");
+        procMovePage('/projects/' + $('#inspectionProjectKey').val() + '/dashboard');
     });
 
 
