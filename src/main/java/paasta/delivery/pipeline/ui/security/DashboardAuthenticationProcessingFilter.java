@@ -38,6 +38,16 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        //설정 - 톰캣용
+        if (isLoginUrl(request)) {
+             request.getSession().invalidate();
+            try {
+                response.sendRedirect(request.getRequestURI() + "/pipeline/dashboard");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ((authentication == null) || !(((DashboardAuthenticationDetails) authentication.getDetails()).isManagedServiceInstance(request.getServletPath().split("/")[2])))
                 && super.requiresAuthentication(request, response);
@@ -46,15 +56,11 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-
         final Authentication authentication = super.attemptAuthentication(request, response);
         if (detailsSource != null) {
             request.getSession().invalidate();
-            try {
-                ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));
-            }catch (Exception e){
-                throw new InternalAuthenticationServiceException("Access Denied", e);
-            }
+            ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));
+
         }
 
         return getAuthenticationManager().authenticate(authentication);
@@ -69,5 +75,19 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
     public void setCommonService(CommonService commonService) {
         this.commonService = commonService;
+    }
+
+
+    private boolean isLoginUrl(HttpServletRequest request) {
+        String url = request.getRequestURI();
+        String urls[] = url.split("/");
+        if (urls != null) {
+            if (urls.length == 3) {
+                if (urls[0].indexOf("/dashboard") >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

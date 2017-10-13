@@ -21,48 +21,45 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        try {
 
-            String url = request.getRequestURI();
 
-            LOGGER.info("#######################################################");
-            LOGGER.info("#######################################################");
-            LOGGER.info("REQUEST URL : " + url);
-            LOGGER.info("#######################################################");
-            LOGGER.info("#######################################################");
+        String url = request.getRequestURI();
 
-            String urls[] = url.split("/");
-            if (urls != null) {
-                if (urls.length == 3) {
-                    if (urls[0].indexOf("/dashboard") < 0) {
+        LOGGER.info("#######################################################");
+        LOGGER.info("#######################################################");
+        LOGGER.info("REQUEST URL : " + url);
+        LOGGER.info("#######################################################");
+        LOGGER.info("#######################################################");
 
-                        request.getSession().invalidate();
-                        //Tomcat 용
-                        response.sendRedirect(url + "/pipeline/dashboard");
-                        return super.preHandle(request, response, handler);
-                    }
+        //Spring-Boot 사용 시
+        //1. CustomIntercepter - 설정 주석 해제
+        //2. DashboardAuthenticationProcessingFilter - 설정 주석 처리
+        //Tomcat 사용 시
+        //1. CustomIntercepter - 설정 주석 처리
+        //2. DashboardAuthenticationProcessingFilter - 설정 주석 해제
+
+//        if(isLoginUrl(request)){
+//            request.getSession().invalidate();
+//            SecurityContextHolder.clearContext();
+//        }
+
+
+        //URL이 다른게 추가될 수 있어...아닌 애들로 체크하게 설정함
+        if (!(url.indexOf("/common") >= 0 ||
+                url.indexOf("/css") >= 0 ||
+                url.indexOf("/webjars") >= 0 ||
+                url.indexOf("/js") >= 0
+        )) {
+            if (SecurityContextHolder.getContext() != null) {
+                try {
+                    commonService.updateSession();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.sendRedirect(request.getContextPath() + "/common/error/unauthorized");
                 }
             }
-
-            //URL이 다른게 추가될 수 있어...아닌 애들로 체크하게 설정함
-            if (!(url.indexOf("/common") >= 0 ||
-                    url.indexOf("/css") >= 0 ||
-                    url.indexOf("/webjars") >= 0 ||
-                    url.indexOf("/js") >= 0
-            )) {
-                if (SecurityContextHolder.getContext() != null) {
-                    try {
-                        commonService.updateSession();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        request.getSession().invalidate();
-                        response.sendRedirect(request.getContextPath() + "/common/error/unauthorized");
-                    }
-                }
-            }
-        } catch (Exception e) {
-
         }
+
 
         return super.preHandle(request, response, handler);
     }
@@ -81,5 +78,18 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
             throws Exception {
 
         super.afterCompletion(request, response, handler, ex);
+    }
+
+    private boolean isLoginUrl(HttpServletRequest request) {
+        String url = request.getRequestURI();
+        String urls[] = url.split("/");
+        if (urls != null) {
+            if (urls.length == 3) {
+                if (urls[0].indexOf("/dashboard") >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

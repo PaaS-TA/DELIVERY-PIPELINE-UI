@@ -300,7 +300,6 @@ public class CommonService {
 
                 //이렇게 까지 했는데...없으면...에러 출력
                 if (dashboardAuthenticationDetails.getRoleId() == null) {
-                    SecurityContextHolder.clearContext();
                     throw new AccessDeniedException("Permission Error on [" + name + "]");
                 }
 
@@ -312,19 +311,11 @@ public class CommonService {
                 e.printStackTrace();
                 // 세션 초기화
                 ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-                HttpServletRequest request = attributes.getRequest();
-                request.getSession().invalidate();
-                SecurityContextHolder.clearContext();
-                SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
                 throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
 
             }
         } else {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            request.getSession().invalidate();
-            SecurityContextHolder.clearContext();
-            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
             throw new InternalAuthenticationServiceException("Access Denied");
         }
     }
@@ -394,7 +385,6 @@ public class CommonService {
         ResourceOwnerPasswordResourceDetails resource = new ResourceOwnerPasswordResourceDetails();
         resource.setUsername(username);
         resource.setPassword(password);
-
         resource.setClientId(clientId);
         resource.setClientSecret(clientSecret);
         resource.setId(clientId);
