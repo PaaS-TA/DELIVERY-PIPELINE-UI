@@ -30,7 +30,6 @@ public class DashboardAuthenticationSuccessHandler extends SavedRequestAwareAuth
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
         requestCache.saveRequest(request, response);
-        logger.info("###### onAuthenticationSuccesss");
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

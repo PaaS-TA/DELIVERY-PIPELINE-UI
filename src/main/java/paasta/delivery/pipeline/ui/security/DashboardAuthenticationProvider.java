@@ -201,10 +201,6 @@ public class DashboardAuthenticationProvider implements AuthenticationProvider {
             e.printStackTrace();
             // 세션 초기화
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
-            request.getSession().invalidate();
-            SecurityContextHolder.clearContext();
-
             throw new InternalAuthenticationServiceException("Permission Error on [" + name + "]", e);
         }
 
