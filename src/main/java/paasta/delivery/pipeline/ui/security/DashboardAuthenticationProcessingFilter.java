@@ -79,12 +79,24 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
 
     private boolean isLoginUrl(HttpServletRequest request) {
+        boolean allowedrange = false;
         String url = request.getRequestURI();
         String urls[] = url.split("/");
         if (urls != null) {
-            if (urls.length == 3) {
-                if (urls[0].indexOf("/dashboard") >= 0) {
-                    return true;
+            if (urls.length == 3 && urls.length == 4) {
+                if(urls.length == 4) {
+                    if (urls[4].length() == 0) {
+                        allowedrange = true;
+                    }
+                }
+
+                if(urls.length == 3) {
+                    allowedrange = true;
+                }
+                if(allowedrange) {
+                    if (urls[0].indexOf("/dashboard") >= 0) {
+                        return true;
+                    }
                 }
             }
         }

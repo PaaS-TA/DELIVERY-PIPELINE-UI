@@ -38,7 +38,9 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
         //1. CustomIntercepter - 설정 주석 처리
         //2. DashboardAuthenticationProcessingFilter - 설정 주석 해제
 
+        //Spring-Boot 용
 //        if(isLoginUrl(request)){
+//            LOGGER.info("로그아웃");
 //            request.getSession().invalidate();
 //            SecurityContextHolder.clearContext();
 //        }
@@ -81,12 +83,24 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
     }
 
     private boolean isLoginUrl(HttpServletRequest request) {
+        boolean allowedrange = false;
         String url = request.getRequestURI();
         String urls[] = url.split("/");
         if (urls != null) {
-            if (urls.length == 3) {
-                if (urls[0].indexOf("/dashboard") >= 0) {
-                    return true;
+            if (urls.length == 3 && urls.length == 4) {
+                if(urls.length == 4) {
+                    if (urls[4].length() == 0) {
+                        allowedrange = true;
+                    }
+                }
+
+                if(urls.length == 3) {
+                    allowedrange = true;
+                }
+                if(allowedrange) {
+                    if (urls[0].indexOf("/dashboard") >= 0) {
+                        return true;
+                    }
                 }
             }
         }
