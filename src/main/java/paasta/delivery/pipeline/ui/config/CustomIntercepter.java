@@ -57,9 +57,10 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
         if (!(url.indexOf("/common") >= 0 ||
                 url.indexOf("/css") >= 0 ||
                 url.indexOf("/webjars") >= 0 ||
-                url.indexOf("/js") >= 0
+                url.indexOf("/js") >= 0 ||
+                url.indexOf("/common") >= 0
+                || url.indexOf("/error") >= 0
         )) {
-        } else {
             if (SecurityContextHolder.getContext() != null) {
                 try {
                     commonService.updateSession();
