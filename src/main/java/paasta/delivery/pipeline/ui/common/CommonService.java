@@ -427,6 +427,43 @@ public class CommonService {
     }
 
 
+    public boolean isLoginUrl(HttpServletRequest request) {
+        boolean logoutPlay = false;
+        boolean allowedrange = false;
+        String url = request.getRequestURI();
+        LOGGER.info("#######################################################");
+        LOGGER.info("#######################################################");
+        LOGGER.info("REQUEST URL : " + url);
+        LOGGER.info("#######################################################");
+        LOGGER.info("#######################################################");
+        try {
+            String urls[] = url.split("/");
+            if (urls != null) {
+                if (urls.length == 3 || urls.length == 4) {
+                    if (urls.length == 4) {
+                        if (urls[3].length() == 0) {
+                            allowedrange = true;
+                        }
+                    }
+
+                    if (urls.length == 3) {
+                        allowedrange = true;
+                    }
+                    if (allowedrange) {
+                        if (urls[1].indexOf("dashboard") >= 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+
     /**
      * The enum Path variables list.
      */

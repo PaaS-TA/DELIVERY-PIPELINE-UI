@@ -25,11 +25,6 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
 
         String url = request.getRequestURI();
 
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
-        LOGGER.info("REQUEST URL : " + url);
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
 
         //Spring-Boot 사용 시
         //1. CustomIntercepter - 설정 주석 해제
@@ -39,10 +34,8 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
         //2. DashboardAuthenticationProcessingFilter - 설정 주석 해제
 
         //Spring-Boot 용
-//        if(isLoginUrl(request)){
-//            LOGGER.info("로그아웃");
+//        if(commonService.isLoginUrl(request)){
 //            request.getSession().invalidate();
-//            SecurityContextHolder.clearContext();
 //        }
 
 
@@ -82,28 +75,4 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
         super.afterCompletion(request, response, handler, ex);
     }
 
-    private boolean isLoginUrl(HttpServletRequest request) {
-        boolean allowedrange = false;
-        String url = request.getRequestURI();
-        String urls[] = url.split("/");
-        if (urls != null) {
-            if (urls.length == 3 && urls.length == 4) {
-                if(urls.length == 4) {
-                    if (urls[4].length() == 0) {
-                        allowedrange = true;
-                    }
-                }
-
-                if(urls.length == 3) {
-                    allowedrange = true;
-                }
-                if(allowedrange) {
-                    if (urls[0].indexOf("/dashboard") >= 0) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 }
