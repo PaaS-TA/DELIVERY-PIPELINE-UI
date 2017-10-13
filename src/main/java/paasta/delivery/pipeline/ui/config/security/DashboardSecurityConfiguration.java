@@ -92,7 +92,7 @@ public class DashboardSecurityConfiguration {
 
     @Bean(name = "dashboardEntryPointMatcher")
     public RequestMatcher dashboardEntryPointMatcher() {
-        return new AntPathRequestMatcher("/dashboard/**");
+        return new AntPathRequestMatcher("/dashboard/**/**/**");
     }
 
     @Bean(name = "dashboardClientContextFilter")

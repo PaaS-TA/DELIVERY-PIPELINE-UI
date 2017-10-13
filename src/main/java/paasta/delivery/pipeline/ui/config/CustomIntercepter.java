@@ -21,33 +21,49 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        String url = request.getRequestURI();
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
-        LOGGER.info("REQUEST URL : " + url);
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
-        LOGGER.info("#######################################################");
+        try {
 
+            String url = request.getRequestURI();
 
+            LOGGER.info("#######################################################");
+            LOGGER.info("#######################################################");
+            LOGGER.info("REQUEST URL : " + url);
+            LOGGER.info("#######################################################");
+            LOGGER.info("#######################################################");
 
-        //URL이 다른게 추가될 수 있어...아닌 애들로 체크하게 설정함
-        if (!(url.indexOf("/common") >= 0 ||
-                url.indexOf("/css") >= 0 ||
-                url.indexOf("/webjars") >= 0 ||
-                url.indexOf("/js") >= 0
-        )) {
-            if (SecurityContextHolder.getContext() != null) {
-                try {
-                    commonService.updateSession();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.getSession().invalidate();
-                    response.sendRedirect(request.getContextPath() + "/common/error/unauthorized");
+            String urls[] = url.split("/");
+            if (urls != null) {
+                if (urls.length == 3) {
+                    if (urls[0].indexOf("/dashboard") < 0) {
+
+                        request.getSession().invalidate();
+                        //Tomcat 용
+                        response.sendRedirect(url + "/pipeline/dashboard");
+                        return super.preHandle(request, response, handler);
+                    }
                 }
             }
+
+            //URL이 다른게 추가될 수 있어...아닌 애들로 체크하게 설정함
+            if (!(url.indexOf("/common") >= 0 ||
+                    url.indexOf("/css") >= 0 ||
+                    url.indexOf("/webjars") >= 0 ||
+                    url.indexOf("/js") >= 0
+            )) {
+                if (SecurityContextHolder.getContext() != null) {
+                    try {
+                        commonService.updateSession();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        request.getSession().invalidate();
+                        response.sendRedirect(request.getContextPath() + "/common/error/unauthorized");
+                    }
+                }
+            }
+        } catch (Exception e) {
+
         }
+
         return super.preHandle(request, response, handler);
     }
 

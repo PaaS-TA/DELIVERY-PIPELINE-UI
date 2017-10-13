@@ -96,6 +96,7 @@ public class DashboardAuthenticationDetailsSource
             uaaUserInfo = restTemplate.getForObject(userInfoUrl, Map.class);
         } catch (RestClientException e) {
             logger.error("Error while user full name from [" + userInfoUrl + "].", e);
+            return null;
         }
 
         String id = uaaUserInfo.get("user_id");

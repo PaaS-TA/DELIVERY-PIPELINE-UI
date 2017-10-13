@@ -110,7 +110,6 @@ public class ApplicationWebSecurityConfigurerAdapter extends WebSecurityConfigur
                     .and()
                     .addFilterBefore(dashboardClientContextFilter.unwrap(), AbstractPreAuthenticatedProcessingFilter.class)
                     .addFilterBefore(dashboardSocialClientFilter.unwrap(), AbstractPreAuthenticatedProcessingFilter.class)
-
                     .logout()
                         .logoutSuccessHandler(dashboardLogoutSuccessHandler)
                         .logoutRequestMatcher(dashboardLogoutUrlMatcher)

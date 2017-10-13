@@ -3,6 +3,7 @@ package paasta.delivery.pipeline.ui.security;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +38,6 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("###### requiresAuthentication");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ((authentication == null) || !(((DashboardAuthenticationDetails) authentication.getDetails()).isManagedServiceInstance(request.getServletPath().split("/")[2])))
                 && super.requiresAuthentication(request, response);
@@ -46,12 +46,15 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        logger.info("###### requiresAuthentication");
-        final Authentication authentication = super.attemptAuthentication(request, response);
 
+        final Authentication authentication = super.attemptAuthentication(request, response);
         if (detailsSource != null) {
             request.getSession().invalidate();
-            ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));
+            try {
+                ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));
+            }catch (Exception e){
+                throw new InternalAuthenticationServiceException("Access Denied", e);
+            }
         }
 
         return getAuthenticationManager().authenticate(authentication);
