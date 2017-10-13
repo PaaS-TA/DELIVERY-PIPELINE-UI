@@ -92,7 +92,7 @@ public class DashboardSecurityConfiguration {
 
     @Bean(name = "dashboardEntryPointMatcher")
     public RequestMatcher dashboardEntryPointMatcher() {
-        return new AntPathRequestMatcher("/dashboard/**/**/**");
+        return new AntPathRequestMatcher("/dashboard/**");
     }
 
     @Bean(name = "dashboardClientContextFilter")
@@ -107,7 +107,6 @@ public class DashboardSecurityConfiguration {
         // If it was a Filter bean it would be automatically added out of the Spring security filter chain.
         final DashboardAuthenticationProcessingFilter filter
               = new DashboardAuthenticationProcessingFilter();
-        logger.info("###### dashboardSocialClientFilter");
         filter.setRestTemplate(dashboardRestOperations());
         filter.setTokenServices(dashboardResourceServerTokenServices());
         filter.setAuthenticationManager(authenticationManager);
@@ -129,7 +128,6 @@ public class DashboardSecurityConfiguration {
                 return true;
             }
         };
-        logger.info("###### AuthorizationCodeResourceDetails");
         resourceDetails.setClientId(clientId);
         resourceDetails.setClientSecret(clientSecret);
         resourceDetails.setUserAuthorizationUri(authorizationUri);
@@ -144,7 +142,6 @@ public class DashboardSecurityConfiguration {
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Autowired
     public OAuth2ClientContext dashboardClientContext() {
-        logger.info("###### dashboardClientContext");
         return new DefaultOAuth2ClientContext(dashboardAccessTokenRequest());
     }
 
@@ -152,7 +149,6 @@ public class DashboardSecurityConfiguration {
     @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Autowired
     public AccessTokenRequest dashboardAccessTokenRequest() {
-        logger.info("###### dashboardAccessTokenRequest");
         final DefaultAccessTokenRequest request = new DefaultAccessTokenRequest(httpServletRequest.getParameterMap());
 
         final Object currentUri = httpServletRequest.getAttribute(OAuth2ClientContextFilter.CURRENT_URI);
@@ -208,7 +204,6 @@ public class DashboardSecurityConfiguration {
     @Bean(name = "dashboardAuthenticationDetailsSource")
     @Autowired
     public org.springframework.security.authentication.AuthenticationDetailsSource dashboardAuthenticationDetailsSource() {
-        logger.info("###### dashboardAuthenticationDetailsSource");
         return new DashboardAuthenticationDetailsSource(dashboardRestOperations(), oauthInfoUrl, apiUrl);
     }
 
@@ -216,14 +211,12 @@ public class DashboardSecurityConfiguration {
     @Autowired
     public DashboardAuthenticationProvider dashboardAuthenticationProvider(UserService userService, InstanceUseService instanceUseService
             , ServiceInstancesService servceInstancesService, AuthorityService authorityService, RestTemplateService restTemplateService, CommonService commonService) {
-        logger.info("###### DashboardAuthenticationProvider");
         return new DashboardAuthenticationProvider(userService, instanceUseService , servceInstancesService, authorityService,restTemplateService,commonService);
     }
 
     @Bean(name = "dashboardLogoutSuccessHandler")
     public LogoutSuccessHandler dashboardLogoutSuccessHandler() {
         final SimpleUrlLogoutSuccessHandler logoutSuccessHandler = new SimpleUrlLogoutSuccessHandler();
-        logger.info("###### dashboardLogoutSuccessHandler");
         logoutSuccessHandler.setRedirectStrategy(new DashboardLogoutRedirectStrategy(logoutUrl));
 
         return logoutSuccessHandler;
