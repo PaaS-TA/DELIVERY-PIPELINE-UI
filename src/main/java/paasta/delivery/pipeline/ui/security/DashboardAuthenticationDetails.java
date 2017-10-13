@@ -43,6 +43,7 @@ public class DashboardAuthenticationDetails extends OAuth2AuthenticationDetails 
      */
     public DashboardAuthenticationDetails(HttpServletRequest request, boolean managingService, String id, String user_id,String userFullName, RestTemplate restTemplate) {
         super(request);
+
         this.managingService = managingService;
         this.id = id;
         this.userid = user_id;

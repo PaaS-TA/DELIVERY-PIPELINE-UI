@@ -37,6 +37,7 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
 
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("###### requiresAuthentication");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ((authentication == null) || !(((DashboardAuthenticationDetails) authentication.getDetails()).isManagedServiceInstance(request.getServletPath().split("/")[2])))
                 && super.requiresAuthentication(request, response);
@@ -45,8 +46,9 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-
+        logger.info("###### requiresAuthentication");
         final Authentication authentication = super.attemptAuthentication(request, response);
+
         if (detailsSource != null) {
             request.getSession().invalidate();
             ((OAuth2Authentication) authentication).setDetails(detailsSource.buildDetails(request));

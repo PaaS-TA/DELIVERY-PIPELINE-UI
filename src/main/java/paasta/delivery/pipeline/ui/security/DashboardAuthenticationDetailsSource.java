@@ -79,6 +79,7 @@ public class DashboardAuthenticationDetailsSource
      */
     public DashboardAuthenticationDetailsSource(RestTemplate restTemplate,
                                                 String userInfoUrl, String apiUrl) {
+        logger.info("###### DashboardAuthenticationDetailsSource");
         this.restTemplate = restTemplate;
         this.userInfoUrl = userInfoUrl;
         this.apiUrl = apiUrl;
@@ -86,6 +87,7 @@ public class DashboardAuthenticationDetailsSource
 
     @Override
     public DashboardAuthenticationDetails buildDetails(HttpServletRequest request) {
+        logger.info("###### buildDetails");
 //        String serviceInstanceId = "";
         String serviceInstanceId = request.getServletPath().split("/")[2];
 
@@ -110,6 +112,7 @@ public class DashboardAuthenticationDetailsSource
      * Checks whether the user is allowed to manage the current service instance.
      */
     private boolean isManagingApp(String serviceInstanceId) {
+        logger.info("###### isManagingApp");
         final String url = getCheckUrl(serviceInstanceId);
         try {
             final Map<?, ?> result = restTemplate.getForObject(url, Map.class);
