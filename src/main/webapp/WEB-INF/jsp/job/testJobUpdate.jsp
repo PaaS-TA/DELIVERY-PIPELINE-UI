@@ -235,6 +235,8 @@
         $("input:radio[name='testJobTrigger']:radio[value='" + data.jobTrigger + "']").attr("checked", true);
 
         getBuildJobList();
+        getQualityProfileList();
+        getQualityGateList();
     };
 
 
@@ -450,8 +452,6 @@
         //getGrantedAuthorities();
         getPipeline();
         getJob();
-        getQualityProfileList();
-        getQualityGateList();
         $('#jobName').putCursorAtEnd();
     });
 
