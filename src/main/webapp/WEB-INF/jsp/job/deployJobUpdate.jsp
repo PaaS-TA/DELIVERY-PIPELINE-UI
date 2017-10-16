@@ -195,6 +195,7 @@
 <input type="hidden" id="created" name="created" value="" />
 <input type="hidden" id="deployTargetOrg" name="deployTargetOrg" value="" />
 <input type="hidden" id="originalDeployTargetSpace" name="originalDeployTargetSpace" value="" />
+<input type="hidden" id="originalBuildJobId" name="originalBuildJobId" value="" />
 <input type="hidden" id="blueGreenDeployStatus" name="blueGreenDeployStatus" value="" />
 
 
@@ -237,10 +238,11 @@
         var doc = document,
             cfInfoId = data.cfInfoId,
             manifestUseYn = data.manifestUseYn,
-            deployTargetSpace = data.deployTargetSpace;
+            deployTargetSpace = data.deployTargetSpace,
+            buildJobId = data.buildJobId;
 
         doc.getElementById('jobId').value = data.id;
-        doc.getElementById('buildJobId').value  = data.buildJobId;
+        doc.getElementById('buildJobId').value  = buildJobId;
         doc.getElementById('serviceInstancesId').value = data.serviceInstancesId;
         doc.getElementById('pipelineIdControlAuthority').value = data.pipelineId;
         doc.getElementById('jobGuid').value = data.jobGuid;
@@ -258,12 +260,97 @@
         doc.getElementById('created').value = data.created;
 
         doc.getElementById('originalDeployTargetSpace').value = deployTargetSpace;
+        doc.getElementById('originalBuildJobId').value = buildJobId;
 
         $("input:radio[name='deployJobTrigger']:radio[value='" + data.jobTrigger + "']").attr("checked", true);
 
         setManifestScriptForm(manifestUseYn);
         getCfOrgNameAndSpaceList(cfInfoId);
         getBuildJobList();
+    };
+
+
+    // GET CF ORG NAME AND SPACE LIST
+    var getCfOrgNameAndSpaceList = function(reqCfInfoId) {
+        if (procIsNullString(reqCfInfoId)) {
+            $('#cfInfoResultArea').hide();
+            $('#cfInfoWelcomeArea').show();
+
+            return false;
+        }
+
+        procCallAjax("/cf/get.do/" + reqCfInfoId, null, callbackGetCfOrgNameAndSpaceList);
+    };
+
+
+    // CALLBACK GET CF ORG NAME AND SPACE LIST
+    var callbackGetCfOrgNameAndSpaceList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var objDeployTargetSpace = $('#deployTargetSpace'),
+            originalDeployTargetSpace = $('#originalDeployTargetSpace').val(),
+            orgName = data.orgName,
+            spaceList = data.spaceList,
+            listLength = spaceList.length,
+            deployTargetSpace = '',
+            selectedCss = '',
+            htmlString = [];
+
+        htmlString.push('<option value="">공간 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            deployTargetSpace = spaceList[i];
+            selectedCss = (originalDeployTargetSpace === deployTargetSpace)? ' selected' : '';
+            htmlString.push('<option value="' + deployTargetSpace + '"' + selectedCss + '>' + deployTargetSpace + '</option>');
+        }
+
+        $('#deployTargetOrg').val(orgName);
+        $('#deployTargetOrgView').html(orgName);
+        objDeployTargetSpace.html(htmlString);
+
+        if (0 === gCheckInit) {
+            objDeployTargetSpace.val(document.getElementById('originalDeployTargetSpace').value);
+        }
+
+        $('#cfInfoWelcomeArea').hide();
+        $('#cfInfoResultArea').show();
+    };
+
+
+    // SET MANIFEST SCRIPT FORM
+    var setManifestScriptForm = function(reqManifestUseYn) {
+        var objManifestScript = $('#manifestScript'),
+            appName = $('#appName').val(),
+            booleanDisabled = false;
+
+        if ('<%= Constants.CHECK_YN_N %>' === reqManifestUseYn) {
+            booleanDisabled = true;
+        }
+
+        objManifestScript.attr('disabled' , booleanDisabled);
+        setAppNameToManifestScriptForm(appName);
+    };
+
+
+    // SET APP NAME TO MANIFEST SCRIPT FORM
+    var setAppNameToManifestScriptForm = function(reqAppName) {
+        var appNameInitString = '%APP_NAME%',
+            objManifestScript = $('#manifestScript');
+
+        if (procIsNullString(reqAppName)) {
+            objManifestScript.val(objManifestScript.val().replace(gLastAppName, appNameInitString));
+        } else {
+            gLastAppName = reqAppName;
+
+            if ("<%= Constants.CHECK_YN_Y %>" === $("#manifestUseYn").val()) {
+                objManifestScript.val(objManifestScript.val().replace(appNameInitString, reqAppName));
+            } else {
+                objManifestScript.val(objManifestScript.val().replace(reqAppName, appNameInitString));
+            }
+        }
     };
 
 
@@ -282,15 +369,19 @@
         }
 
         var listLength = data.length,
+            originalBuildJobId = parseInt($('#originalBuildJobId').val(), 10),
+            buildJobId = '',
             selectedCss = '',
             listNumber = 0,
             htmlString = [];
 
+
         for (var i = 0; i < listLength; i++) {
             if (data[i].groupOrder === parseInt(document.getElementById('groupOrder').value, 10)) {
-                selectedCss = (listNumber === 0)? ' selected' : '';
+                buildJobId = parseInt(data[i].id, 10);
+                selectedCss = (originalBuildJobId === buildJobId)? ' selected' : '';
                 listNumber++;
-                htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+                htmlString.push('<option value="' + buildJobId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
             }
         }
 
@@ -311,7 +402,7 @@
             deployType = $('#deployType').val(),
             blueGreenDeployStatus = $('#blueGreenDeployStatus').val();
 
-        // CHECK DEPLOYTYPE AND BLUE GREEN DEPLOY STATUS
+        // CHECK DEPLOY TYPE AND BLUE GREEN DEPLOY STATUS
         if ("<%= Constants.DeployType.DEV %>" !== deployType && "<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
             procPopupAlert("운영 GREEN 배포 완료 또는 진행 중에는 수정할 수 없습니다.");
             return false;
@@ -385,87 +476,6 @@
 
         procCallSpinner(SPINNER_STOP);
         procPopupAlert('수정 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
-    };
-
-
-    // GET CF ORG NAME AND SPACE LIST
-    var getCfOrgNameAndSpaceList = function(reqCfInfoId) {
-        if (procIsNullString(reqCfInfoId)) {
-            $('#cfInfoResultArea').hide();
-            $('#cfInfoWelcomeArea').show();
-
-            return false;
-        }
-
-        procCallAjax("/cf/get.do/" + reqCfInfoId, null, callbackGetCfOrgNameAndSpaceList);
-    };
-
-
-    // CALLBACK GET CF ORG NAME AND SPACE LIST
-    var callbackGetCfOrgNameAndSpaceList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procCallSpinner(SPINNER_STOP);
-            return false;
-        }
-
-        var objDeployTargetSpace = $('#deployTargetSpace'),
-            orgName = data.orgName,
-            spaceList = data.spaceList,
-            listLength = spaceList.length,
-            selectedCss = '',
-            htmlString = [];
-
-        htmlString.push('<option value="">공간 선택</option>');
-
-        for (var i = 0; i < listLength; i++) {
-            selectedCss = (i === 0)? ' selected' : '';
-            htmlString.push('<option value="' + spaceList[i] + '"' + selectedCss + '>' + spaceList[i] + '</option>');
-        }
-
-        $('#deployTargetOrg').val(orgName);
-        $('#deployTargetOrgView').html(orgName);
-        objDeployTargetSpace.html(htmlString);
-
-        if (0 === gCheckInit) {
-            objDeployTargetSpace.val(document.getElementById('originalDeployTargetSpace').value);
-        }
-
-        $('#cfInfoWelcomeArea').hide();
-        $('#cfInfoResultArea').show();
-    };
-
-
-    // SET MANIFEST SCRIPT FORM
-    var setManifestScriptForm = function(reqManifestUseYn) {
-        var objManifestScript = $('#manifestScript'),
-            appName = $('#appName').val(),
-            booleanDisabled = false;
-
-        if ('<%= Constants.CHECK_YN_N %>' === reqManifestUseYn) {
-            booleanDisabled = true;
-        }
-
-        objManifestScript.attr('disabled' , booleanDisabled);
-        setAppNameToManifestScriptForm(appName);
-    };
-
-
-    // SET APP NAME TO MANIFEST SCRIPT FORM
-    var setAppNameToManifestScriptForm = function(reqAppName) {
-        var appNameInitString = '%APP_NAME%',
-            objManifestScript = $('#manifestScript');
-
-        if (procIsNullString(reqAppName)) {
-            objManifestScript.val(objManifestScript.val().replace(gLastAppName, appNameInitString));
-        } else {
-            gLastAppName = reqAppName;
-
-            if ("<%= Constants.CHECK_YN_Y %>" === $("#manifestUseYn").val()) {
-                objManifestScript.val(objManifestScript.val().replace(appNameInitString, reqAppName));
-            } else {
-                objManifestScript.val(objManifestScript.val().replace(reqAppName, appNameInitString));
-            }
-        }
     };
 
 

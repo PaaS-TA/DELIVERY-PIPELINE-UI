@@ -159,7 +159,9 @@
 <input type="hidden" id="repositoryId" name="repositoryId" value="" />
 <input type="hidden" id="repositoryBranch" name="repositoryBranch" value="" />
 <input type="hidden" id="repositoryCommitRevision" name="repositoryCommitRevision" value="" />
-
+<input type="hidden" id="originalInspectionProfileId" name="originalInspectionProfileId" value="" />
+<input type="hidden" id="originalInspectionGateId" name="originalInspectionGateId" value="" />
+<input type="hidden" id="originalBuildJobId" name="originalBuildJobId" value="" />
 
 <script type="text/javascript">
 
@@ -194,10 +196,13 @@
             return false;
         }
 
-        var doc = document;
+        var doc = document,
+            inspectionProfileId = data.inspectionProfileId,
+            inspectionGateId = data.inspectionGateId,
+            buildJobId = data.buildJobId;
 
         doc.getElementById('jobId').value = data.id;
-        doc.getElementById('buildJobId').value  = data.buildJobId;
+        doc.getElementById('buildJobId').value  = buildJobId;
         doc.getElementById('serviceInstancesId').value = data.serviceInstancesId;
         doc.getElementById('pipelineIdControlAuthority').value = data.pipelineId;
         doc.getElementById('jobGuid').value = data.jobGuid;
@@ -206,8 +211,8 @@
         doc.getElementById('groupOrder').value = data.groupOrder;
         doc.getElementById('jobOrder').value = data.jobOrder;
         doc.getElementById('inspectionProjectId').value = data.inspectionProjectId;
-        doc.getElementById('inspectionProfileId').value = data.inspectionProfileId;
-        doc.getElementById('inspectionGateId').value = data.inspectionGateId;
+        doc.getElementById('inspectionProfileId').value = inspectionProfileId;
+        doc.getElementById('inspectionGateId').value = inspectionGateId;
         doc.getElementById('repositoryType').value = data.repositoryType;
         doc.getElementById('repositoryUrl').value = data.repositoryUrl;
         doc.getElementById('repositoryAccountId').value = data.repositoryAccountId;
@@ -218,6 +223,10 @@
         doc.getElementById('repositoryCommitRevision').value = data.repositoryCommitRevision;
         doc.getElementById('builderType').value = data.builderType;
         doc.getElementById('created').value = data.created;
+
+        doc.getElementById('originalInspectionProfileId').value = inspectionProfileId;
+        doc.getElementById('originalInspectionGateId').value = inspectionGateId;
+        doc.getElementById('originalBuildJobId').value = buildJobId;
 
         if ("<%= Constants.CHECK_YN_Y %>" === data.postActionYn) {
             $('#testJobPostActionYn').prop('checked', true);
@@ -244,6 +253,8 @@
         }
 
         var listLength = data.length,
+            originalInspectionProfileId = $('#originalInspectionProfileId').val(),
+            inspectionProfileId = '',
             selectedCss = '',
             listNumber = 0,
             htmlString = [];
@@ -251,9 +262,10 @@
         htmlString.push('<option value="">품질 프로파일 선택</option>');
 
         for (var i = 0; i < listLength; i++) {
-            selectedCss = (listNumber === 0)? ' selected' : '';
+            inspectionProfileId = data[i].id;
+            selectedCss = (originalInspectionProfileId === inspectionProfileId)? ' selected' : '';
             listNumber++;
-            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+            htmlString.push('<option value="' + inspectionProfileId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
         }
 
         $('#inspectionProfileId').html(htmlString);
@@ -277,6 +289,8 @@
         }
 
         var listLength = data.length,
+            originalInspectionGateId = $('#originalInspectionGateId').val(),
+            inspectionGateId = '',
             selectedCss = '',
             listNumber = 0,
             htmlString = [];
@@ -284,9 +298,10 @@
         htmlString.push('<option value="">품질 게이트 선택</option>');
 
         for (var i = 0; i < listLength; i++) {
-            selectedCss = (listNumber === 0)? ' selected' : '';
+            inspectionGateId = data[i].id;
+            selectedCss = (originalInspectionGateId === inspectionGateId)? ' selected' : '';
             listNumber++;
-            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+            htmlString.push('<option value="' + inspectionGateId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
         }
 
         $('#inspectionGateId').html(htmlString);
@@ -307,15 +322,18 @@
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
         var listLength = data.length,
+            originalBuildJobId = parseInt($('#originalBuildJobId').val(), 10),
+            buildJobId = '',
             selectedCss = '',
             listNumber = 0,
             htmlString = [];
 
         for (var i = 0; i < listLength; i++) {
             if (data[i].groupOrder === parseInt(document.getElementById('groupOrder').value, 10)) {
-                selectedCss = (listNumber === 0)? ' selected' : '';
+                buildJobId = parseInt(data[i].id, 10);
+                selectedCss = (originalBuildJobId === buildJobId)? ' selected' : '';
                 listNumber++;
-                htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+                htmlString.push('<option value="' + buildJobId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
             }
         }
 
