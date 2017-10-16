@@ -134,6 +134,7 @@
                 jobId = data[i].id,
                 lastJobStatus = data[i].lastJobStatus,
                 previousJobStatus = '<%= Constants.RESULT_STATUS_SUCCESS %>',
+                nextJobId = 0,
                 nextGroupOrder;
 
             // SET LAST GROUP ORDER
@@ -155,13 +156,19 @@
                 previousJobStatus = data[i - 1].lastJobStatus;
             }
 
+            // SET NEXT JOB NUMBER
+            if (i < listLength - 1) {
+                nextJobId = data[i + 1].id;
+            }
+
             htmlString.push(groupWrapperStartCss);
             htmlString.push('<li id="jobWrap_' + jobId + '">');
             htmlString.push(setJobDetailHtmlString(data[i]));
             htmlString.push('</li>');
-            htmlString.push(groupWrapperEndCss);
             htmlString.push('<input type="hidden" id="jobIsBuilding_' + jobId + '" value="" />');
             htmlString.push('<input type="hidden" id="previousJobStatus_' + jobId + '" value="' + previousJobStatus + '" />');
+            htmlString.push('<input type="hidden" id="nextJobId_' + jobId + '" value="' + nextJobId + '" />');
+            htmlString.push(groupWrapperEndCss);
 
             groupWrapperStartCss = '';
             groupWrapperEndCss = '';
@@ -571,6 +578,9 @@
         var checkN = '<%= Constants.CHECK_YN_N %>';
         var statusJobWorking = '<%= Constants.RESULT_STATUS_JOB_WORKING %>';
         var statusBuiltFileUploading = '<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>';
+
+        // SET PREVIOUS JOB STATUS
+        $('#previousJobStatus_' + $('#nextJobId_' + reqParam.id).val()).val(lastJobStatus);
 
         if ('' === jobIsBuilding) {
             objJobIsBuilding.val(checkN);
