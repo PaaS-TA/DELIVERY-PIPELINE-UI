@@ -31,12 +31,4 @@ public class Cf {
         this.spaceList = spaceList;
     }
 
-    @Override
-    public String toString() {
-        return "Cf{" +
-                "orgName='" + orgName + '\'' +
-                ", spaceList=" + spaceList +
-                '}';
-    }
-
 }
