@@ -280,6 +280,28 @@
             }
             if(data[i].authCode != null && data[i].authCode == id && message == "deployTrigger"){
                 if(data[i].authority.description == 'write'){
+                    procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob(false);');
+                }
+                if(data[i].authority.description == 'read'){
+                    procPopupAlert("권한이 없습니다.");
+                }
+                if(data[i].authority.description == 'execute'){
+                    procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
+                }
+            }
+            if(data[i].authCode != null && data[i].authCode == id && message == "deployTriggerRevertGreenDeploy"){
+                if(data[i].authority.description == 'write'){
+                    procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
+                }
+                if(data[i].authority.description == 'read'){
+                    procPopupAlert("권한이 없습니다.");
+                }
+                if(data[i].authority.description == 'execute'){
+                    procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
+                }
+            }
+            if(data[i].authCode != null && data[i].authCode == id && message == "deployTriggerRollBack"){
+                if(data[i].authority.description == 'write'){
                     procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
                 }
                 if(data[i].authority.description == 'read'){

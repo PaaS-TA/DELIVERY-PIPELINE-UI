@@ -837,7 +837,7 @@
 
     // BIND
     $('#btnTrigger').on('click', function() {
-        procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob(false);');
+        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'job', 'deployTrigger');
     });
 
 
@@ -862,14 +862,14 @@
 
     // BIND
     $('#btnRevertGreenDeploy').on('click', function() {
-        procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
+        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'job', 'deployTriggerRevertGreenDeploy');
     });
 
 
     // BIND
     $('#btnRollBack').on('click', function() {
         procClosePopup();
-        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'job', 'deployTrigger');
+        getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, 'job', 'deployTriggerRollBack');
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read"){
