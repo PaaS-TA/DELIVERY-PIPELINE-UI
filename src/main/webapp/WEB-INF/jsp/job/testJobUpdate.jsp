@@ -255,7 +255,7 @@
         }
 
         var listLength = data.length,
-            originalInspectionProfileId = $('#originalInspectionProfileId').val(),
+            originalInspectionProfileId = parseInt($('#originalInspectionProfileId').val(), 10),
             inspectionProfileId = '',
             selectedCss = '',
             listNumber = 0,
@@ -264,7 +264,7 @@
         htmlString.push('<option value="">품질 프로파일 선택</option>');
 
         for (var i = 0; i < listLength; i++) {
-            inspectionProfileId = data[i].id;
+            inspectionProfileId = parseInt(data[i].id, 10);
             selectedCss = (originalInspectionProfileId === inspectionProfileId)? ' selected' : '';
             listNumber++;
             htmlString.push('<option value="' + inspectionProfileId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
@@ -291,7 +291,7 @@
         }
 
         var listLength = data.length,
-            originalInspectionGateId = $('#originalInspectionGateId').val(),
+            originalInspectionGateId = parseInt($('#originalInspectionGateId').val(), 10),
             inspectionGateId = '',
             selectedCss = '',
             listNumber = 0,
@@ -300,7 +300,7 @@
         htmlString.push('<option value="">품질 게이트 선택</option>');
 
         for (var i = 0; i < listLength; i++) {
-            inspectionGateId = data[i].id;
+            inspectionGateId = parseInt(data[i].id, 10);
             selectedCss = (originalInspectionGateId === inspectionGateId)? ' selected' : '';
             listNumber++;
             htmlString.push('<option value="' + inspectionGateId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
