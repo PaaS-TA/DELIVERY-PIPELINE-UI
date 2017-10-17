@@ -178,8 +178,11 @@ var postProcCallAjax = function (reqUrl, param, callback) {
                 resultMessage : responseResultMessage
             };
 
-            $('#commonPopupAlertMessage').html(responseResultMessage);
-            objModalAlert.modal('show');
+            // PASS :: JOB STATUS EXCEPTION
+            if ('JOB_STATUS_EXCEPTION' !== responseResultMessage) {
+                $('#commonPopupAlertMessage').html(responseResultMessage);
+                objModalAlert.modal('show');
+            }
 
             callback(resData, param);
         },

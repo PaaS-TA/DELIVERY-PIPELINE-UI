@@ -153,7 +153,7 @@
 
             // CHECK PREVIOUS JOB STATUS
             if (i > 0) {
-                previousJobStatus = data[i - 1].lastJobStatus;
+                previousJobStatus = (jobOrder === 1) ? '<%= Constants.RESULT_STATUS_SUCCESS %>' : data[i - 1].lastJobStatus;
             }
 
             // SET NEXT JOB NUMBER
@@ -597,6 +597,7 @@
         if ('false' === isBuilding && checkY === jobIsBuilding && !(statusJobWorking === lastJobStatus || statusBuiltFileUploading === lastJobStatus)) {
             objJobIsBuilding.val(checkN);
             setUpdateJobDetailDiv(reqJobId);
+            procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");
         }
     };
 
