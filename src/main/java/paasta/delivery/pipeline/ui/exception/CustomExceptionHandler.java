@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * paastaDeliveryPipelineApi
@@ -41,6 +42,23 @@ public class CustomExceptionHandler {
         EXCEPTION_LOGGER.error("########## Exception Message  :: {}", ex.getMessage());
         EXCEPTION_LOGGER.error("########## Exception Servlet Path :: {}", request.getServletPath());
         EXCEPTION_LOGGER.error("########## Exception Content Type :: {}", contentType);
+        EXCEPTION_LOGGER.error("########## Exception Method  :: {}", request.getMethod());
+        EXCEPTION_LOGGER.error("########## Exception Message  :: {}", request.getContextPath());
+
+        EXCEPTION_LOGGER.error("########## Exception Method Type:  {}", request.getMethod());
+        EXCEPTION_LOGGER.error("================================================================================");
+        EXCEPTION_LOGGER.error("#### Exception Start Header Section of request");
+
+        Enumeration headerNames = request.getHeaderNames();
+
+        while (headerNames.hasMoreElements()) {
+            String headerName = (String) headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            EXCEPTION_LOGGER.error("##  Exception Header Name: {} || Header Value: {}", headerName, headerValue);
+        }
+
+        EXCEPTION_LOGGER.error("#### Exception End Header Section of request");
+        EXCEPTION_LOGGER.error("================================================================================");
 
         if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)) {
             ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, COMMON_SYSTEM_ERROR_MESSAGE, "ERROR OCCURRED");
