@@ -57,6 +57,7 @@ public class Job {
     private int lastGroupOrder;
     private int lastJobOrder;
     private int lastJobNumber;
+    private String blueDeployedCount;
 
     // CI SERVER BUILD WITH DETAILS
     private long duration;
@@ -425,6 +426,14 @@ public class Job {
         this.lastJobNumber = lastJobNumber;
     }
 
+    public String getBlueDeployedCount() {
+        return blueDeployedCount;
+    }
+
+    public void setBlueDeployedCount(String blueDeployedCount) {
+        this.blueDeployedCount = blueDeployedCount;
+    }
+
     public long getDuration() {
         return duration;
     }
@@ -632,6 +641,7 @@ public class Job {
                 ", manifestUseYn='" + manifestUseYn + '\'' +
                 ", manifestScript='" + manifestScript + '\'' +
                 ", inspectionProjectId='" + inspectionProjectId + '\'' +
+                ", inspectionProjectKey='" + inspectionProjectKey + '\'' +
                 ", inspectionProfileId='" + inspectionProfileId + '\'' +
                 ", inspectionGateId='" + inspectionGateId + '\'' +
                 ", userId='" + userId + '\'' +
@@ -644,6 +654,7 @@ public class Job {
                 ", lastGroupOrder=" + lastGroupOrder +
                 ", lastJobOrder=" + lastJobOrder +
                 ", lastJobNumber=" + lastJobNumber +
+                ", blueDeployedCount='" + blueDeployedCount + '\'' +
                 ", duration=" + duration +
                 ", estimatedDuration=" + estimatedDuration +
                 ", consoleOutputHtml='" + consoleOutputHtml + '\'' +
@@ -659,7 +670,6 @@ public class Job {
                 ", newWorkGroupYn='" + newWorkGroupYn + '\'' +
                 ", triggerType='" + triggerType + '\'' +
                 ", inspectionProjectName='" + inspectionProjectName + '\'' +
-                ", inspectionProjectKey='" + inspectionProjectKey + '\'' +
                 ", createdString='" + createdString + '\'' +
                 ", lastModifiedString='" + lastModifiedString + '\'' +
                 ", repositoryBranchList=" + repositoryBranchList +

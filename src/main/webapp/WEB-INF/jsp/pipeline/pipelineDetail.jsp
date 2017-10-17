@@ -135,6 +135,7 @@
                 lastJobStatus = data[i].lastJobStatus,
                 previousJobStatus = '<%= Constants.RESULT_STATUS_SUCCESS %>',
                 nextJobId = 0,
+                backgroungString = '',
                 nextGroupOrder;
 
             // SET LAST GROUP ORDER
@@ -149,6 +150,7 @@
 
             if ((groupOrder !== gLastGroupOrder) || (i === listLength - 1)) {
                 groupWrapperEndCss = '</ol>';
+                backgroungString = ' style="background: none;"';
             }
 
             // CHECK PREVIOUS JOB STATUS
@@ -162,7 +164,7 @@
             }
 
             htmlString.push(groupWrapperStartCss);
-            htmlString.push('<li id="jobWrap_' + jobId + '">');
+            htmlString.push('<li id="jobWrap_' + jobId + '"' + backgroungString + '>');
             htmlString.push(setJobDetailHtmlString(data[i]));
             htmlString.push('</li>');
             htmlString.push('<input type="hidden" id="jobIsBuilding_' + jobId + '" value="" />');
@@ -416,6 +418,7 @@
         if ("<%= Constants.JOB_TYPE_DEPLOY %>" === jobType) {
             var deployType = data.deployType,
                 blueGreenDeployStatus = data.blueGreenDeployStatus,
+                blueDeployedCount = data.blueDeployedCount,
                 deployTypeOriginalString = 'Deploy',
                 deployTypeString = 'Deploy',
                 tempAppUrlArray,
@@ -424,6 +427,7 @@
                 displayAppUrl,
                 appName = data.appName,
                 blueGreenPostfix = '',
+                isBlueDeployed = false,
                 revertGreenDeployJobWrapStyle = 'style="display: none;"',
                 revertGreenDeployConfirmMessage = '운영 GREEN 배포 JOB 되돌리기';
 
@@ -447,6 +451,8 @@
 
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
                             confirmMessage = '운영 BLUE 배포 JOB';
+                            deployTypeOriginalString = 'Blue Deploy 3';
+                            hiddenAppUrl = tempAppUrlArray[0] + appName + tempAppUrlArray[1];
 
                             // SHOW BUTTON FOR REVERTING GREEN DEPLOY
                             revertGreenDeployJobWrapStyle = '';
@@ -455,6 +461,14 @@
                         if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
                             deployTypeString = 'Green Deploy';
                             lastJobStatusText = '실행 전';
+
+                            if ('0' === blueDeployedCount) {
+                                isBlueDeployed = true;
+                            } else {
+                                deployTypeString = 'Blue Deploy';
+                                blueGreenPostfix = '';
+                                lastJobStatusText = '실행완료';
+                            }
                         }
                     } else {
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
@@ -464,18 +478,35 @@
                         }
 
                         if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
-                            deployTypeString = 'Revert Green Deploy';
+                            deployTypeString = 'Reverting Green Deploy';
                         }
                     }
-                }
-
-                if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-                    deployTypeOriginalString = 'Blue Deploy';
-                    hiddenAppUrl = tempAppUrlArray[0] + appName + tempAppUrlArray[1];
                 }
             }
 
             displayAppUrl = tempAppUrlArray[0] + appName + blueGreenPostfix + tempAppUrlArray[1];
+
+
+            // INIT
+            if (isBlueDeployed ||
+                null === lastJobStatus
+                || 'null' === lastJobStatus
+                || ('' !== revertGreenDeployJobWrapStyle && '0' === blueDeployedCount && 'true' === $('#jobIsBuilding_' + jobId).val())) {
+                deployTypeOriginalString = 'Green Deploy 7';
+                deployTypeString = 'Green Deploy 7';
+                displayAppUrl = 'Green Deploy is not triggered. 7';
+                lastJobStatusText = '실행 전 7';
+
+            }
+
+            // TRIGGERING REVERT GREEN DEPLOY
+            if ('실행 중' === lastJobStatusText && "<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
+                deployTypeOriginalString = 'Reverting Green Deploy 8';
+                deployTypeString = 'Reverting Green Deploy 8';
+                displayAppUrl = 'Reverting Green Deploy 8';
+                hiddenAppUrl = 'Reverting Green Deploy 8';
+            }
+
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
             htmlString.push('<div class="portlet-title">');
@@ -723,6 +754,9 @@
             };
 
             $.extend(param, greenDeployRevertParam);
+
+            $('#appUrlOriginalText_' + reqJobId).html('Reverting Green Deploy');
+            $('#appUrlDisplayText_' + reqJobId).html('Reverting Green Deploy');
             $('#lastJobOriginalText_' + reqJobId).html('Reverting Green Deploy');
         }
 
