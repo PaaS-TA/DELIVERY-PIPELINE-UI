@@ -61,7 +61,13 @@ public class CustomExceptionHandler {
         EXCEPTION_LOGGER.error("================================================================================");
 
         if (MediaType.APPLICATION_JSON_VALUE.equals(contentType)) {
-            ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, COMMON_SYSTEM_ERROR_MESSAGE, "ERROR OCCURRED");
+            String errorMessage = COMMON_SYSTEM_ERROR_MESSAGE;
+
+            if (request.getServletPath().contains("/jobs/status.do")) {
+                errorMessage = "JOB_STATUS_EXCEPTION";
+            }
+
+            ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage, "ERROR OCCURRED");
             return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
         } else {
             return new ModelAndView("redirect:/common/error/system-error");
