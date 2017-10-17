@@ -466,15 +466,15 @@
                                 isBlueDeployed = true;
                             } else {
                                 deployTypeString = 'Blue Deploy';
-                                blueGreenPostfix = '';
                                 lastJobStatusText = '실행완료';
+                                blueGreenPostfix = '';
                             }
                         }
                     } else {
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
                             deployTypeString = 'Blue Deploy';
-                            blueGreenPostfix = '';
                             confirmMessage = '운영 BLUE 배포 JOB';
+                            blueGreenPostfix = '';
                         }
 
                         if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
@@ -492,19 +492,19 @@
                 null === lastJobStatus
                 || 'null' === lastJobStatus
                 || ('' !== revertGreenDeployJobWrapStyle && '0' === blueDeployedCount && 'true' === $('#jobIsBuilding_' + jobId).val())) {
-                deployTypeOriginalString = 'Green Deploy 7';
-                deployTypeString = 'Green Deploy 7';
-                displayAppUrl = 'Green Deploy is not triggered. 7';
-                lastJobStatusText = '실행 전 7';
+                deployTypeOriginalString = 'Green Deploy';
+                deployTypeString = 'Green Deploy';
+                displayAppUrl = 'Green Deploy is not triggered.';
+                lastJobStatusText = '실행 전';
 
             }
 
             // TRIGGERING REVERT GREEN DEPLOY
             if ('실행 중' === lastJobStatusText && "<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
-                deployTypeOriginalString = 'Reverting Green Deploy 8';
-                deployTypeString = 'Reverting Green Deploy 8';
-                displayAppUrl = 'Reverting Green Deploy 8';
-                hiddenAppUrl = 'Reverting Green Deploy 8';
+                deployTypeOriginalString = 'Reverting Green Deploy';
+                deployTypeString = 'Reverting Green Deploy';
+                displayAppUrl = 'Reverting Green Deploy';
+                hiddenAppUrl = 'Reverting Green Deploy';
             }
 
 
