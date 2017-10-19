@@ -283,14 +283,20 @@
 //        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
 
 
-        if(componentKeys != ""){
+/*        if(componentKeys != ""){
 
             var param = {
                 serviceInstancesId:$("#serviceInstancesId").val(),
                 componentKeys:componentKeys
             }
             procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+        }*/
+
+        var param = {
+            serviceInstancesId:$("#serviceInstancesId").val(),
+            componentKeys:componentKeys
         }
+        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
 
     }
 
@@ -303,12 +309,20 @@
         var listHead = "";
         var listFile = "";
         if(data.length != 0) {
+            console.log(data);
+            //data 정렬
+            data.components.sort(function(a,b){
+                return a.name < b.name ? -1 : a.name > b.name ? 1:0;
+            });
+
 
             $("#issuesTotal").val(data.total);
             if(data.components != null && data.components.length >0) {
                 for (var j = 0; j < data.components.length; j++) {
 
+
                     if (data.components[j].qualifier == "FIL") {
+
                         listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
                         listHead += "<caption>품질이슈 리스트</caption>";
                         listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
@@ -422,12 +436,51 @@
 
                 list += "<li>";
                 list += "<select style='width:95px;'>";
-                list += "<option>활성</option>";
-                list += "<option>확인됨</option>";
-                list += "<option>수정됨</option>";
-                list += "<option>보류</option>";
-                list += "<option>무시</option>";
-                list += "<option>재활성</option>";
+                if(data.issues[i].resolution == "OPEN"){
+                    list += "<option value='' selected>활성</option>";
+                    list += "<option>확인됨</option>";
+                    list += "<option>수정됨</option>";
+                    list += "<option>보류</option>";
+                    list += "<option>무시</option>";
+                    list += "<option>재활성</option>";
+                } else if(data.issues[i].resolution =="CONFIRMED"){
+                    list += "<option value=''>활성</option>";
+                    list += "<option value='' selected>확인됨</option>";
+                    list += "<option>수정됨</option>";
+                    list += "<option>보류</option>";
+                    list += "<option>무시</option>";
+                    list += "<option>재활성</option>";
+                } else if(data.issues[i].resolution =="FIXED"){
+                    list += "<option value=''>활성</option>";
+                    list += "<option value=''>확인됨</option>";
+                    list += "<option selected>수정됨</option>";
+                    list += "<option>보류</option>";
+                    list += "<option>무시</option>";
+                    list += "<option>재활성</option>";
+                } else if(data.issues[i].resolution =="FALSE-POSITIVE"){
+                    list += "<option value=''>활성</option>";
+                    list += "<option value=''>확인됨</option>";
+                    list += "<option>수정됨</option>";
+                    list += "<option selected>보류</option>";
+                    list += "<option>무시</option>";
+                    list += "<option>재활성</option>";
+                } else if(data.issues[i].resolution =="WONTFIX"){
+                    list += "<option value='' >활성</option>";
+                    list += "<option value='' >확인됨</option>";
+                    list += "<option>수정됨</option>";
+                    list += "<option>보류</option>";
+                    list += "<option selected>무시</option>";
+                    list += "<option>재활성</option>";
+                } else if(data.issues[i].resolution =="REOPENED"){
+                    list += "<option value='' >활성</option>";
+                    list += "<option value='' >확인됨</option>";
+                    list += "<option>수정됨</option>";
+                    list += "<option>보류</option>";
+                    list += "<option>무시</option>";
+                    list += "<option selected>재활성</option>";
+                }
+
+
                 list += "</select>";
                 list += "</li>";
 
@@ -479,7 +532,7 @@
         if(data.length > 0){
 
             for(var i=0 ; i<data.length; i++) {
-                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block' title='"+data[i].name+"'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
+                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block' title='"+data[i].name+"'>" + data[i].projectName + "</span> <span class='issue_num'></span></a></li>";
             }
         }
 
@@ -565,7 +618,8 @@
 
 
             //////////////////////////////////////////////////////////
-            var count = 0;
+            var projectCount = 0;
+
             for (var projectName in projectResults) {
                 for(var i=0;i<data.length;i++) {
                     for (var j = 0; j < data[i].components.length; j++) {
@@ -576,12 +630,15 @@
                                 }
                             });
 //                            projectList += "<li><a href=\"javascript:chkOn(\'"+(count)+"','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].components[j].key + "'> <span class='block'>" + data[i].components[j].name + "</span> <span class='issue_num'>" +projectResults[projectName] + "</span></a></li>";
-                            count++;
+                            projectCount++;
                         }
                     }
                 }
 
             }
+
+
+
 //            $("#issueProject").html(projectList);
 
 
@@ -621,8 +678,8 @@
                     $("#open").text(statusResults[statusNum]);
                 }else if(statusNum == "RESOLVED") {
                     $("#resolved").text(statusResults[statusNum]);
-                }else if(statusNum == "REOPENDE") {
-                    $("#reopende").text(statusResults[statusNum]);
+                }else if(statusNum == "REOPENED") {
+                    $("#reopened").text(statusResults[statusNum]);
                 }else if(statusNum == "CLOSED") {
                     $("#closed").text(statusResults[statusNum]);
                 }else if(statusNum == "CONFIRMED") {

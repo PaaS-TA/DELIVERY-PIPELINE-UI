@@ -342,7 +342,7 @@
             language:$("#langSelectList").val(),
             name : $("#copyProfileText").val(),
             serviceInstancesId:$("#serviceInstancesId").val(),
-            defaultYn:"N"
+            profileDefaultYn:"N"
 
         };
 
@@ -354,7 +354,7 @@
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         getList();
         getCodingRules(data.language, data.name);
-        profileActive(data.key, data.name,data.id ,data.languageName ,data.language, data.defaultYn);
+        profileActive(data.key, data.name,data.id ,data.languageName ,data.language, data.profileDefaultYn);
         getProjectList();
         $("#copyProfileText").val("");
         procPopupAlert('생성 되었습니다.');
@@ -389,7 +389,7 @@
             id:$("#profileId").val(),
             profileKey:$("#profileKey").val(),
             serviceInstancesId:$("#serviceInstancesId").val(),
-            defaultYn:"N"
+            profileDefaultYn:"N"
 
         }
         procCallAjax("/qualityProfile/qualityProfileDelete.do", param, callbackGetQualityProfileDelete);
@@ -414,7 +414,7 @@
             id:$("#profileId").val(),
             name:$("#copyProfileText").val(),
             key:$("#profileKey").val(),
-            defaultYn:"N"
+            profileDefaultYn:"N"
 
         };
         procCallAjax("/qualityProfile/qualityProfileUpdate.do", param, callbackGetQualityProfileUpdate);
@@ -423,7 +423,7 @@
     var callbackGetQualityProfileUpdate = function(data){
 
         getList();
-        profileActive(data.key, data.name,data.id , data.languageName ,data.language, data.defaultYn);
+        profileActive(data.key, data.name,data.id , data.languageName ,data.language, data.profileDefaultYn);
         getProjectList();
         $("#copyProfileText").val("");
 //        procClosePopup();
@@ -472,7 +472,7 @@
             languageName: $("#langName").val(),
             language:$("#language").val(),
             serviceInstancesId:$("#serviceInstancesId").val(),
-            defaultYn:"N"
+            profileDefaultYn:"N"
 
         };
         procCallAjax("/qualityProfile/qualityProfileCopy.do", param, callbackGetQualityProfileCopy);
@@ -483,7 +483,7 @@
 
 
         getList();
-        profileActive(data.key, data.name, data.id, data.languageName ,data.language,data.defaultYn);
+        profileActive(data.key, data.name, data.id, data.languageName ,data.language,data.profileDefaultYn);
         getProjectList();
         $("#copyProfileText").val("");
         procPopupAlert('복제 되었습니다.');
@@ -516,10 +516,10 @@
                 list += "<h4>"+element+"</h4>";
                 for(var i=0 ; i< data.length; i++){
                     if(element == data[i].languageName){
-                        if(data[i].defaultYn == "Y" ){
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].defaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
-                        } else if(data[i].defaultYn == "N"){
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].defaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span><span class='issue_num'></span></a></li>";
+                        if(data[i].profileDefaultYn == "Y" ){
+                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+                        } else if(data[i].profileDefaultYn == "N"){
+                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span><span class='issue_num'></span></a></li>";
                         }
 
                     }
@@ -645,7 +645,7 @@
                         projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' ></td>";
                     }
 
-                    projectList += "<td class='alignL'>"+ data[i].name +"</td>";
+                    projectList += "<td class='alignL'>"+ data[i].projectName +"</td>";
                     projectList += "</tr>";
 
                     ///////////////////
@@ -654,7 +654,7 @@
                     if(data[i].qualityProfileId == profileId) {
                         projectLinkedList += "<tr>";
                         projectLinkedList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' checked > </td>";
-                        projectLinkedList += "<td class='alignL'>"+ data[i].name +"</td>";
+                        projectLinkedList += "<td class='alignL'>"+ data[i].projectName +"</td>";
                         projectLinkedList += "</tr>";
                     }
 
@@ -665,7 +665,7 @@
                     if(data[i].qualityProfileId != profileId){
                         projectFailureList += "<tr>";
                         projectFailureList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' > </td>";
-                        projectFailureList += "<td class='alignL' >"+ data[i].name +"</td>";
+                        projectFailureList += "<td class='alignL' >"+ data[i].projectName +"</td>";
                         projectFailureList += "</tr>";
                     }
                 }else{

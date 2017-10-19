@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class QualityGate {
 
-    private Long id;
+    private long id;
     private String uuid;
     private String name;
     private String orgName;
@@ -43,17 +43,19 @@ public class QualityGate {
 
     //게이트 리스트
     private List qualitygates;
-    //삭제 예정
-    private String defaultKey;
 
-    private String defaultYn;
+    private String gateDefaultYn;
     private List domains;
 
-    public Long getId() {
+    //삭제 예정
+    private String defaultYn;
+
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -241,20 +243,20 @@ public class QualityGate {
         this.qualitygates = qualitygates;
     }
 
-    public String getDefaultKey() {
-        return defaultKey;
-    }
-
-    public void setDefaultKey(String defaultKey) {
-        this.defaultKey = defaultKey;
-    }
-
     public List getDomains() {
         return domains;
     }
 
     public void setDomains(List domains) {
         this.domains = domains;
+    }
+
+    public String getGateDefaultYn() {
+        return gateDefaultYn;
+    }
+
+    public void setGateDefaultYn(String gateDefaultYn) {
+        this.gateDefaultYn = gateDefaultYn;
     }
 
     public String getDefaultYn() {
@@ -264,7 +266,6 @@ public class QualityGate {
     public void setDefaultYn(String defaultYn) {
         this.defaultYn = defaultYn;
     }
-
 
     @Override
     public String toString() {
@@ -293,9 +294,9 @@ public class QualityGate {
                 ", metrics=" + metrics +
                 ", linked=" + linked +
                 ", qualitygates=" + qualitygates +
-                ", defaultKey='" + defaultKey + '\'' +
-                ", defaultYn='" + defaultYn + '\'' +
+                ", gateDefaultYn='" + gateDefaultYn + '\'' +
                 ", domains=" + domains +
+                ", defaultYn='" + defaultYn + '\'' +
                 '}';
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
  * Created by hrjin on 2017-06-29.
  */
 public class Project {
-    private Long id;
+    private long id;
 
     private String name;
 
@@ -65,11 +65,15 @@ public class Project {
     private List issues;
     private List scm;
 
-    public Long getId() {
+    //프로젝트 추가, 수정시 게이트와 프로파일 default 상태
+    private String gateDefaultYn;
+    private String profileDefaultYn;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -320,6 +324,22 @@ public class Project {
         this.name = name;
     }
 
+    public String getGateDefaultYn() {
+        return gateDefaultYn;
+    }
+
+    public void setGateDefaultYn(String gateDefaultYn) {
+        this.gateDefaultYn = gateDefaultYn;
+    }
+
+    public String getProfileDefaultYn() {
+        return profileDefaultYn;
+    }
+
+    public void setProfileDefaultYn(String profileDefaultYn) {
+        this.profileDefaultYn = profileDefaultYn;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -355,6 +375,8 @@ public class Project {
                 ", sources=" + sources +
                 ", issues=" + issues +
                 ", scm=" + scm +
+                ", gateDefaultYn='" + gateDefaultYn + '\'' +
+                ", profileDefaultYn='" + profileDefaultYn + '\'' +
                 '}';
     }
 }

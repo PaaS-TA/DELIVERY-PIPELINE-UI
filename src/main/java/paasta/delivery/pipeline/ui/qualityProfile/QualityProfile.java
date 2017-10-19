@@ -6,14 +6,14 @@ import java.util.List;
  * Created by hrjin on 2017-06-29.
  */
 public class QualityProfile {
-    private Long id;
+    private long id;
     private String name;
     private String language;
     private String languageName;
     private String sonarKey;
     private String key;
     private List<Long> projectIdList;
-    private String defaultYn;
+    private String profileDefaultYn;
 
     private int activeRuleCount;
 
@@ -37,11 +37,14 @@ public class QualityProfile {
     //언어 리스트
     private List languages;
 
-    public Long getId() {
+    //삭제 예정
+    private String defaultYn;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -181,6 +184,14 @@ public class QualityProfile {
         this.qualityProfileId = qualityProfileId;
     }
 
+    public String getProfileDefaultYn() {
+        return profileDefaultYn;
+    }
+
+    public void setProfileDefaultYn(String profileDefaultYn) {
+        this.profileDefaultYn = profileDefaultYn;
+    }
+
     public String getDefaultYn() {
         return defaultYn;
     }
@@ -199,7 +210,7 @@ public class QualityProfile {
                 ", sonarKey='" + sonarKey + '\'' +
                 ", key='" + key + '\'' +
                 ", projectIdList=" + projectIdList +
-                ", defaultYn='" + defaultYn + '\'' +
+                ", profileDefaultYn='" + profileDefaultYn + '\'' +
                 ", activeRuleCount=" + activeRuleCount +
                 ", activeDeprecatedRuleCount=" + activeDeprecatedRuleCount +
                 ", serviceInstancesId='" + serviceInstancesId + '\'' +
@@ -211,6 +222,7 @@ public class QualityProfile {
                 ", profileKey='" + profileKey + '\'' +
                 ", qualityProfileId='" + qualityProfileId + '\'' +
                 ", languages=" + languages +
+                ", defaultYn='" + defaultYn + '\'' +
                 '}';
     }
 }

@@ -547,12 +547,19 @@
 
         if(listName.length != 0){
             for(var i=0;i<listName.length;i++){
-                if(profileCheck != "" && listName[i].key == profileCheck ){
-                    list += "<li><a href=\"javascript:qpCheck('aTag',"+i+");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox',"+i+")\" checked> <span class=\"block\">"+listName[i].name+"</span> <span class=\"issue_num\"></span></a></li>";
+                if(listName[i].profileDefaultYn == "Y") {
+                    if (profileCheck != "" && listName[i].key == profileCheck) {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
+                    } else {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span><span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
+                    }
                 }else{
-                    list += "<li><a href=\"javascript:qpCheck('aTag',"+i+");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox',"+i+")\"> <span class=\"block\">"+listName[i].name+"</span> <span class=\"issue_num\"></span></a></li>";
+                    if (profileCheck != "" && listName[i].key == profileCheck) {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
+                    } else {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
+                    }
                 }
-
             }
 
         }

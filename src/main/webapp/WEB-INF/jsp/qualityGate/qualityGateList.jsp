@@ -390,7 +390,7 @@
             id:  $("#gateId").val(),
             name: $("#copyGateText").val(),
             serviceInstancesId: $("#serviceInstancesId").val(),
-            defaultYn:"N"
+            gateDefaultYn:"N"
         };
 
         procCallAjax("/qualityGate/qualityGateCopy.do",  param , callbackGateCopy);
@@ -441,7 +441,7 @@
             id: $("#gateId").val(),
             name: $("#copyGateText").val(),
             serviceInstancesId:$("#serviceInstancesId").val(),
-            defaultYn:"N"
+            gateDefaultYn:"N"
         };
 
         procCallAjax("/qualityGate/qualityGateUpdate.do", param, callbackGetGateUpdate);
@@ -465,7 +465,7 @@
         var param = {
             name:$("#copyGateText").val(),
             serviceInstancesId:$("#serviceInstancesId").val(),
-            defaultYn:"N"
+            gateDefaultYn:"N"
         };
         procCallAjax("/qualityGate/qualityGateCreate.do", param, callbackGetGateCreate);
     }
@@ -653,15 +653,12 @@
         var list = "";
         //리스트 마지막에 defaultKey를 넣어 놨음
         if(data.length != 0){
-
-
-            var lastLength = data.length - 1;
             for(var i=0; i<data.length;i++){
-                if(data[i].defaultYn == "Y"){
-                    list += "<li class='pt10'><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].defaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+                if(data[i].gateDefaultYn == "Y"){
+                    list += "<li class='pt10'><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].gateDefaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
 
                 }else{
-                    list += "<li><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].defaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> </a></li>";
+                    list += "<li><a href=\"javascript:gateActive(\'"+data[i].id+"','"+data[i].gateDefaultYn+"')\"><span class='block ico_bul gateStrong'>"+ data[i].name +"</span> </a></li>";
                 }
             }
         }
@@ -704,7 +701,7 @@
                         projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
                     }
 
-                    projectList += "<td class='alignL'>" + data[i].name + "</td>";
+                    projectList += "<td class='alignL'>" + data[i].projectName + "</td>";
                     projectList += "</tr>";
 
                     ///////////////////
@@ -713,7 +710,7 @@
                     if (data[i].qualityGateId == gateId) {
                         projectLinkedList += "<tr>";
                         projectLinkedList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
-                        projectLinkedList += "<td class='alignL'>" + data[i].name + "</td>";
+                        projectLinkedList += "<td class='alignL'>" + data[i].projectName + "</td>";
                         projectLinkedList += "</tr>";
                     }
 
@@ -724,7 +721,7 @@
                     if (data[i].qualityGateId != gateId) {
                         projectFailureList += "<tr>";
                         projectFailureList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' ></td>";
-                        projectFailureList += "<td class='alignL' >" + data[i].name + "</td>";
+                        projectFailureList += "<td class='alignL' >" + data[i].projectName + "</td>";
                         projectFailureList += "</tr>";
                     }
 
