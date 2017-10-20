@@ -37,7 +37,7 @@
                 </colgroup>
                 <thead>
                 </thead>
-                <tbody>
+                <tbody id="technicalDebtBody">
                         <tr>
                             <td class="alignC" id="issueDay"></td>
                             <td class="alignC" id="issuesNum"></td>
@@ -55,9 +55,8 @@
                 </colgroup>
                 <thead>
                 </thead>
-                <tbody>
+                <tbody id="coverTbody">
                 <tr>
-
                     <td class="alignC" id ="coverageNum"> </td>
                     <td class="alignC" id="testsNum"></td>
                 </tr>
@@ -74,7 +73,7 @@
             </colgroup>
             <thead>
             </thead>
-            <tbody>
+            <tbody id="structureBody">
             <tr>
                 <td class="alignC"></td>
                 <td class="alignC" id="codeLine"></td>
@@ -251,7 +250,9 @@
         var projectName = "";
         var key = "";
 
-        if(data.length != 0){
+        var list = "";
+
+        if(data.length > 0){
             key = data.key;
             projectName = data.name;
             lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
@@ -260,16 +261,24 @@
             issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>"+data.measures.issues+"</h3><span style='text-decoration: underline;'>Issues</span></a>";
             tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>"+data.measures.tests+"</h3><span style='text-decoration: underline;'>Tests</span></a>";
             debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>"+data.measures.debt+"</h3><span style='text-decoration: underline;'>Debt</span></a>";
+
+            $("#projectKey").val(key);
+            $("#issueDay").html(debt);
+            $("#issuesNum").html(issues);
+            $("#coverageNum").html(coverage);
+            $("#testsNum").html(tests);
+            $("#codeLine").html(lines);
+            $("#projectName").text(projectName);
+        }else{
+
+            list += "<tr><td colspan='2'>검색한 데이터가 없습니다</td></tr>"
+            $("#technicalDebtBody").html(list)
+            $("#coverTbody").html(list);
+            $("#structureBody").html(list);
         }
 
 
-        $("#projectKey").val(key);
-        $("#issueDay").html(debt);
-        $("#issuesNum").html(issues);
-        $("#coverageNum").html(coverage);
-        $("#testsNum").html(tests);
-        $("#codeLine").html(lines);
-        $("#projectName").text(projectName);
+
 
 
 

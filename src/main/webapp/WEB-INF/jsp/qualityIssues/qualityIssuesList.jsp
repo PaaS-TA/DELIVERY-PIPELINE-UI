@@ -430,11 +430,18 @@
                     list += "<option data-icon='/resources/images/ico_info.png' data-html-text='정보' value='INFO'selected>정보</option>";
 
                 }
-
                 list += " </select>";
                 list += "</li>";
-
                 list += "<li>";
+                list += "<select style='width:95px;'>";
+                list += "<option value='' selected>활성</option>";
+                list += "<option>확인됨</option>";
+                list += "<option>수정됨</option>";
+                list += "<option>보류</option>";
+                list += "<option>무시</option>";
+                list += "<option>재활성</option>";
+
+              /*  list += "<li>";
                 list += "<select style='width:95px;'>";
                 if(data.issues[i].resolution == "OPEN"){
                     list += "<option value='' selected>활성</option>";
@@ -479,7 +486,7 @@
                     list += "<option>무시</option>";
                     list += "<option selected>재활성</option>";
                 }
-
+*/
 
                 list += "</select>";
                 list += "</li>";
@@ -719,8 +726,6 @@
 
         $("#issuesTable").css("display", "none");
         $("#issuesDetail").css("display", "block");
-
-
         procCallAjax("/qualityIssues/qualityIssuesDetail.do?fileKey="+key+"&fileUuid="+uuid ,null,callbackGetIssuesDetail);
 
     }
