@@ -145,15 +145,19 @@
         for(var i = 0; i < data.length; i++){
             if(data[i].authCode != null && data[i].authCode == id && message == null){
                 if(data[i].authority.description == 'write'){
-                    $("#classification2").hide();
+                    //$("#classification2").hide();
                 }
                 if(data[i].authority.description == 'read'){
-                    $("#classification1").hide();
-                    $("#classification2").show();
+                    $("#btnCreateJob").attr('onclick', 'procPopupAlert("권한이 없습니다.");');
+                    $("#btnAddNewGroup").off('click').on('click', function() { procPopupAlert("권한이 없습니다."); });
+                    //$("#classification1").hide();
+                    //$("#classification2").show();
                 }
                 if(data[i].authority.description == 'execute'){
-                    $("#classification1").hide();
-                    $("#classification2").show();
+                    $("#btnCreateJob").attr('onclick', 'procPopupAlert("권한이 없습니다.");');
+                    $("#btnAddNewGroup").off('click').on('click', function() { procPopupAlert("권한이 없습니다."); });
+                    //$("#classification1").hide();
+                    //$("#classification2").show();
                 }
             }
 

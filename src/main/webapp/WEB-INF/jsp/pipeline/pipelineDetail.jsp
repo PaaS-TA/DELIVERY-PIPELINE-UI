@@ -63,13 +63,13 @@
                     <!--//버튼 :e -->
                 </div>
 
-                <div class="classification" id="classification2" style="display: none;">
+                <%--<div class="classification" id="classification2" style="display: none;">
                     <div style="width:292px;margin-bottom:25px;padding: 5px;border-radius: 3px;-webkit-transition: border .2s ease-in-out;-o-transition: border .2s ease-in-out;transition: border .2s ease-in-out;text-align:center;">
                         <div style="height:242px;max-height:242px;padding: 9px;margin:0 auto;font-size: 25px;font-weight: 300;text-align: center;display:table-cell;vertical-align:middle;">
                             현재 작업이 없습니다.
                         </div>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
         <!--//sub탭 콘텐츠01 :e -->
@@ -190,7 +190,7 @@
             $('#createJobButtonWrap').show();
         } else {
             $('#jobListWrap').show();
-            $('#classification2').hide();
+            //$('#classification2').hide();
         }
 
         if (0 === gCheckInit) {
