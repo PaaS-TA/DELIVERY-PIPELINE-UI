@@ -373,6 +373,20 @@
         }
     };
 
+    var managerUUID;
+
+    var getAuthorityList = function () {
+        procCallAjax("/authorities", null, callbackAuthorityList);
+    };
+
+    var callbackAuthorityList = function(data){
+        for(var i = 0; i < data.length; i++){
+            if(data[i].displayName == "관리자"){
+                managerUUID = data[i].id;
+            }
+        }
+    };
+
     // ON LOAD
     $(document.body).ready(function () {
         getGrantedAuthorities();

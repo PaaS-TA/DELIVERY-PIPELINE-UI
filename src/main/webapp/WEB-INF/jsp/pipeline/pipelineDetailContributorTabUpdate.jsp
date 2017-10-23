@@ -153,15 +153,6 @@
 
         $("#btnUpdateContributor").on("click", function(){
             getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, "contributor", "update");
-            /*for(var i = 0; i < grAry.length; i++){
-                if(grAry[i].authCode == <c:out value='${pipelineId}' default='' />){
-                    if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                        procPopupAlert("권한이 없습니다.");
-                    }else{
-                        procPopupConfirm('참여자 수정', '수정 하시겠습니까?', 'updateContributor();');
-                    }
-                }
-            }*/
         });
 
         var updateContributor = function(){
@@ -196,31 +187,35 @@
         //BIND
         $('#btnCreatePipeline').on("click", function(){
             getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, "pipeline", "create");
-            /*for(var i = 0; i < grAry.length; i++){
-                if(grAry[i].authCode == <c:out value='${pipelineId}' default='' />){
-                    if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                        procPopupAlert("권한이 없습니다.");
-                    }else{
-                        procMovePage("/pipeline/create");
-                    }
-                }
-            }*/
         });
+
 
         //BIND
         $("#btnDeleteContributor").on("click", function () {
-            getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value,"contributor", "delete");
-            /*for(var i = 0; i < grAry.length; i++){
-                if(grAry[i].authCode == <c:out value='${pipelineId}' default='' />){
-                    if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                        procPopupAlert("권한이 없습니다.");
-                    }else{
-                        procPopupConfirm('참여자 삭제', '삭제 하시겠습니까?', 'deleteContributor();');
+            var reqParam = {
+                serviceInstancesId : $('#suid').val(),
+                userId : $('#id').val()
+            };
+
+            procCallAjax("/instanceUse/instanceUseDetail.do", reqParam, function(data){
+                var grantedAuthorities = data.grantedAuthorities;
+                var count = 0;
+
+                for(var i = 0; i < grantedAuthorities.length; i++){
+                    if(grantedAuthorities[i].authority.id == managerUUID){
+                        count++;
                     }
                 }
-            }*/
+
+                if(count < 1){
+                    getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value,"contributor", "delete");
+                }else{
+                    procPopupAlert("관리자는 삭제하실 수 없습니다.");
+                }
+            });
 
         });
+
 
         var deleteContributor = function(){
             procCallSpinner(SPINNER_START);
@@ -288,6 +283,7 @@
         $(document.body).ready(function () {
             procCallSpinner(SPINNER_START);
             //getGrantedAuthorities();
+            getAuthorityList();
             getContributor();
             getJobListFromDb();
             getContributorList();
