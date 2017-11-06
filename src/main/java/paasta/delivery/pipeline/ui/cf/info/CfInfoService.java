@@ -1,4 +1,4 @@
-package paasta.delivery.pipeline.ui.cfInfo;
+package paasta.delivery.pipeline.ui.cf.info;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
