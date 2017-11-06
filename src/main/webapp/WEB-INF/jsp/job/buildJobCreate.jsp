@@ -103,7 +103,7 @@
                             <!--버튼 영역-->
                             <div class="btn_Area plr20" id="btnGetBranchListWrapper">
                                 <div class="fr">
-                                    <button type="button" class="button btn_default" title="조회" id="btnGetBranchList">조회</button>
+                                    <button type="button" class="button btn_regist" title="조회" id="btnGetBranchList">조회</button>
                                 </div>
                             </div>
                             <!--//버튼 영역-->
