@@ -3,8 +3,8 @@ package paasta.delivery.pipeline.ui.cf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfo;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfoService;
+import paasta.delivery.pipeline.ui.cf.info.CfInfo;
+import paasta.delivery.pipeline.ui.cf.info.CfInfoService;
 import paasta.delivery.pipeline.ui.common.CommonService;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 

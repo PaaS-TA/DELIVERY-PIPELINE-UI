@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfo;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfoService;
+import paasta.delivery.pipeline.ui.cf.info.CfInfo;
+import paasta.delivery.pipeline.ui.cf.info.CfInfoService;
 import paasta.delivery.pipeline.ui.common.CommonService;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 

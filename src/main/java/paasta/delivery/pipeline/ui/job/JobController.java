@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfoService;
+import paasta.delivery.pipeline.ui.cf.info.CfInfoService;
 import paasta.delivery.pipeline.ui.common.CommonService;
 import paasta.delivery.pipeline.ui.common.Constants;
 

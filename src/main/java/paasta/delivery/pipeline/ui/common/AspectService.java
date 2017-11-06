@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import paasta.delivery.pipeline.ui.cfInfo.CfInfo;
+import paasta.delivery.pipeline.ui.cf.info.CfInfo;
 import paasta.delivery.pipeline.ui.job.Job;
 import paasta.delivery.pipeline.ui.serviceInstance.InstanceUse;
 
