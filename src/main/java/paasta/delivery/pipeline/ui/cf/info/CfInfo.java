@@ -2,7 +2,7 @@ package paasta.delivery.pipeline.ui.cf.info;
 
 /**
  * paastaDeliveryPipelineApi
- * paasta.delivery.pipeline.ui.cfInfo
+ * paasta.delivery.pipeline.ui.cf.info
  *
  * @author REX
  * @version 1.0
@@ -135,25 +135,6 @@ public class CfInfo {
 
     public void setLastModifiedString(String lastModifiedString) {
         this.lastModifiedString = lastModifiedString;
-    }
-
-    @Override
-    public String toString() {
-        return "CfInfo{" +
-                "id=" + id +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", cfName='" + cfName + '\'' +
-                ", cfId='" + cfId + '\'' +
-                ", cfApiUrl='" + cfApiUrl + '\'' +
-                ", description='" + description + '\'' +
-                ", userId='" + userId + '\'' +
-                ", resultStatus='" + resultStatus + '\'' +
-                ", resultMessage='" + resultMessage + '\'' +
-                ", created='" + created + '\'' +
-                ", lastModified='" + lastModified + '\'' +
-                ", createdString='" + createdString + '\'' +
-                ", lastModifiedString='" + lastModifiedString + '\'' +
-                '}';
     }
 
 }

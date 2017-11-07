@@ -1,5 +1,13 @@
 package paasta.delivery.pipeline.ui.cf.url;
 
+/**
+ * paastaDeliveryPipelineApi
+ * paasta.delivery.pipeline.ui.cf.url
+ *
+ * @author REX
+ * @version 1.0
+ * @since 11 /06/2017
+ */
 public class CfUrl {
 
     private long id;
@@ -100,23 +108,6 @@ public class CfUrl {
 
     public void setLastModifiedString(String lastModifiedString) {
         this.lastModifiedString = lastModifiedString;
-    }
-
-    @Override
-    public String toString() {
-        return "CfApi{" +
-                "id=" + id +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", cfApiName='" + cfApiName + '\'' +
-                ", cfApiUrl='" + cfApiUrl + '\'' +
-                ", userId='" + userId + '\'' +
-                ", resultStatus='" + resultStatus + '\'' +
-                ", resultMessage='" + resultMessage + '\'' +
-                ", created='" + created + '\'' +
-                ", lastModified='" + lastModified + '\'' +
-                ", createdString='" + createdString + '\'' +
-                ", lastModifiedString='" + lastModifiedString + '\'' +
-                '}';
     }
 
 }

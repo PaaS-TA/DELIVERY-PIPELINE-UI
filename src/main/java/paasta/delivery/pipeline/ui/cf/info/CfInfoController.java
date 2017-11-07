@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * paastaDeliveryPipelineApi
- * paasta.delivery.pipeline.ui.cfInfo
+ * paasta.delivery.pipeline.ui.cf.info
  *
  * @author REX
  * @version 1.0

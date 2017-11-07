@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * paastaDeliveryPipelineApi
- * paasta.delivery.pipeline.ui.cfInfo
+ * paasta.delivery.pipeline.ui.cf.info
  *
  * @author REX
  * @version 1.0
@@ -66,18 +66,6 @@ public class CfInfoList {
 
     public void setLast(boolean last) {
         isLast = last;
-    }
-
-    @Override
-    public String toString() {
-        return "CfInfoList{" +
-                "cfInfos=" + cfInfos +
-                ", page=" + page +
-                ", size=" + size +
-                ", totalPages=" + totalPages +
-                ", totalElements=" + totalElements +
-                ", isLast=" + isLast +
-                '}';
     }
 
 }
