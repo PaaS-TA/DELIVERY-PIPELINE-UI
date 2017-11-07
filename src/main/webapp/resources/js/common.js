@@ -257,18 +257,8 @@ jQuery.fn.putCursorAtEnd = function() {
 };
 
 
+// VALIDATE URL
 var procValidateUrl = function (reqUrl) {
-    // return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(reqUrl));
     var regex = /^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?/;
     return regex.test(reqUrl);
 };
-
-// function ValidateIPaddress(ipaddress)
-// {
-//     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(myForm.emailAddr.value))
-//     {
-//         return (true)
-//     }
-//     alert("You have entered an invalid IP address!")
-//     return (false)
-// }
