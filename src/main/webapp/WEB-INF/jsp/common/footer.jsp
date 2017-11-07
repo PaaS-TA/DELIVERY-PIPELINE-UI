@@ -29,7 +29,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
+                <button type="button" class="close commonPopupConfirmCancelButton" data-dismiss="" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
                 <h1 id="commonPopupConfirmTitle" class="modal-title"> 알림 </h1>
             </div>
             <div class="modal-body">
@@ -38,8 +38,7 @@
             <div class="modal-footer">
                 <div class="fr">
                     <button type="button" class="button btn_pop" id="commonPopupConfirmButtonText"> 저장 </button>
-                    <button type="button" class="button btn_pop" data-dismiss="modal"> 취소
-                    </button>
+                    <button type="button" class="button btn_pop commonPopupConfirmCancelButton" data-dismiss=""> 취소 </button>
                 </div>
             </div>
         </div>

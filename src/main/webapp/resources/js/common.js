@@ -1,10 +1,11 @@
 // POPUP CONFIRM
-var procPopupConfirm = function(reqTitle, reqMessage, procFunction, reqButtonText) {
+var procPopupConfirm = function(reqTitle, reqMessage, procFunction, reqButtonText, procCancelFunction) {
     if (null === reqTitle || reqTitle.length < 1) return false;
     if (null === reqMessage || reqMessage.length < 1) return false;
     if (null === procFunction) return false;
 
     var objButtonText = $('#commonPopupConfirmButtonText');
+    var objCancelButton = $('.commonPopupConfirmCancelButton');
     var buttonText = (null === reqButtonText || '' === reqButtonText || undefined === reqButtonText) ? reqMessage.split(' ')[0] : reqButtonText;
 
     $('#commonPopupConfirmTitle').html(reqTitle);
@@ -12,6 +13,13 @@ var procPopupConfirm = function(reqTitle, reqMessage, procFunction, reqButtonTex
 
     objButtonText.html(buttonText);
     objButtonText.attr('onclick', procFunction);
+
+    if (null === procCancelFunction || '' === procCancelFunction || undefined === procCancelFunction) {
+        objCancelButton.attr("data-dismiss", "modal");
+    } else {
+        objCancelButton.attr("data-dismiss", "");
+        objCancelButton.attr('onclick', procCancelFunction);
+    }
 
     $('#modalConfirm').modal('toggle');
 };
@@ -36,7 +44,7 @@ var procPopupAlert = function(reqMessage, procFunction, reqClosePopup) {
     var objModalAlert = $('#modalAlert');
 
     objModalAlert.modal('show');
-    objModalAlert.on('hide.bs.modal', function () {
+    objModalAlert.on('hidden.bs.modal', function () {
         if (null !== procFunction && undefined !==  procFunction && reqMessage.length > 0) {
             setTimeout(function() { eval(procFunction); }, 3);
         }
@@ -248,3 +256,19 @@ jQuery.fn.putCursorAtEnd = function() {
     });
 };
 
+
+var procValidateUrl = function (reqUrl) {
+    // return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(reqUrl));
+    var regex = /^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?/;
+    return regex.test(reqUrl);
+};
+
+// function ValidateIPaddress(ipaddress)
+// {
+//     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(myForm.emailAddr.value))
+//     {
+//         return (true)
+//     }
+//     alert("You have entered an invalid IP address!")
+//     return (false)
+// }

@@ -176,3 +176,22 @@ pre {
     background: url(../images/tool_ico_revert.png) no-repeat;
     vertical-align: middle;
 }
+
+.custom-cf-url-list-item {
+    padding: 10px;
+    min-height: 20px;
+}
+
+.custom-cf-url-list-item > div {
+    float: left;
+    width: 46%;
+    font-size: 15px;
+}
+
+.custom-cf-url-list-item:hover {
+    background-color: #f3f5f7;
+}
+
+.custom-cf-url-list-item a:hover {
+    color: #fda811;
+}
