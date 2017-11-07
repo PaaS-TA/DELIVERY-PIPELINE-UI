@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import paasta.delivery.pipeline.ui.cf.info.CfInfo;
+import paasta.delivery.pipeline.ui.cf.url.CfUrl;
 import paasta.delivery.pipeline.ui.job.Job;
 import paasta.delivery.pipeline.ui.serviceInstance.InstanceUse;
 
@@ -94,6 +95,7 @@ public class AspectService {
      * @return the object
      */
     @Around("execution(* paasta.delivery.pipeline.ui.*.*Service.setCreate*(..)) || execution(* paasta.delivery.pipeline.ui.*.*Service.setUpdate*(..)) " +
+            " || execution(* paasta.delivery.pipeline.ui.*.*.*Service.setCreate*(..)) || execution(* paasta.delivery.pipeline.ui.*.*.*Service.setUpdate*(..)) " +
             " || execution(* paasta.delivery.pipeline.ui.*.*Service.setReplicate*(..))")
     public Object onAroundSetUserId(ProceedingJoinPoint joinPoint) {
         Object resultObject = null;
@@ -102,7 +104,8 @@ public class AspectService {
             for (Object obj : joinPoint.getArgs()) {
                 if (obj instanceof Job
                         || obj instanceof InstanceUse
-                        || obj instanceof CfInfo) {
+                        || obj instanceof CfInfo
+                        || obj instanceof CfUrl) {
                     Class<?> aClass = obj.getClass();
                     Method methodSetUserId = aClass.getMethod("setUserId", String.class);
                     methodSetUserId.invoke(obj, commonService.getUserId());
