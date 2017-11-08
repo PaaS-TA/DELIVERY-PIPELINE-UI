@@ -92,6 +92,7 @@ public class CfServiceTest {
      *
      * @throws Exception the exception
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void getCfOrgNameAndSpaceList_ValidString_ReturnModel() throws Exception {
         String token = "test-token";
