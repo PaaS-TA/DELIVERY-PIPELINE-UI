@@ -143,6 +143,9 @@
                                                            </tr>
                                                            </tbody>
                                                        </table>--%>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -280,17 +283,6 @@
         }
 
         procCallAjax("/qualityIssues/qualityIssuesList.do", param, callbackGetList);
-//        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
-
-
-/*        if(componentKeys != ""){
-
-            var param = {
-                serviceInstancesId:$("#serviceInstancesId").val(),
-                componentKeys:componentKeys
-            }
-            procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
-        }*/
 
         var param = {
             serviceInstancesId:$("#serviceInstancesId").val(),
@@ -309,7 +301,7 @@
         var listHead = "";
         var listFile = "";
         if(data.length != 0) {
-            console.log(data);
+
             //data 정렬
             data.components.sort(function(a,b){
                 return a.name < b.name ? -1 : a.name > b.name ? 1:0;
@@ -430,63 +422,54 @@
                     list += "<option data-icon='/resources/images/ico_info.png' data-html-text='정보' value='INFO'selected>정보</option>";
 
                 }
+
                 list += " </select>";
                 list += "</li>";
                 list += "<li>";
-                list += "<select style='width:95px;'>";
-                list += "<option value='' selected>활성</option>";
-                list += "<option>확인됨</option>";
-                list += "<option>수정됨</option>";
-                list += "<option>보류</option>";
-                list += "<option>무시</option>";
-                list += "<option>재활성</option>";
-
-              /*  list += "<li>";
-                list += "<select style='width:95px;'>";
-                if(data.issues[i].resolution == "OPEN"){
+                list += "<select id='transitionSelect' style='width:95px;' onchange=\"setTransition(\'"+data.issues[i].key+"')\">";
+                if(data.issues[i].status == "OPEN"){
                     list += "<option value='' selected>활성</option>";
-                    list += "<option>확인됨</option>";
-                    list += "<option>수정됨</option>";
-                    list += "<option>보류</option>";
-                    list += "<option>무시</option>";
-                    list += "<option>재활성</option>";
-                } else if(data.issues[i].resolution =="CONFIRMED"){
-                    list += "<option value=''>활성</option>";
-                    list += "<option value='' selected>확인됨</option>";
-                    list += "<option>수정됨</option>";
-                    list += "<option>보류</option>";
-                    list += "<option>무시</option>";
-                    list += "<option>재활성</option>";
+                    list += "<option value='confirm'>확인됨</option>";
+                    list += "<option value=''>수정됨</option>";
+                    list += "<option value='falsepositive'>보류</option>";
+                    list += "<option value='wontfix'>무시</option>";
+                    list += "<option value='reopen'>재활성</option>";
+                } else if(data.issues[i].status =="CONFIRMED"){
+                    list += "<option value='' >활성</option>";
+                    list += "<option value='confirm' selected>확인됨</option>";
+                    list += "<option value=''>수정됨</option>";
+                    list += "<option value='falsepositive'>보류</option>";
+                    list += "<option value='wontfix'>무시</option>";
+                    list += "<option value='reopen'>재활성</option>";
                 } else if(data.issues[i].resolution =="FIXED"){
-                    list += "<option value=''>활성</option>";
-                    list += "<option value=''>확인됨</option>";
-                    list += "<option selected>수정됨</option>";
-                    list += "<option>보류</option>";
-                    list += "<option>무시</option>";
-                    list += "<option>재활성</option>";
+                    list += "<option value='' >활성</option>";
+                    list += "<option value='confirm'>확인됨</option>";
+                    list += "<option value='' selected>수정됨</option>";
+                    list += "<option value='falsepositive'>보류</option>";
+                    list += "<option value='wontfix'>무시</option>";
+                    list += "<option value='reopen'>재활성</option>";
                 } else if(data.issues[i].resolution =="FALSE-POSITIVE"){
-                    list += "<option value=''>활성</option>";
-                    list += "<option value=''>확인됨</option>";
-                    list += "<option>수정됨</option>";
-                    list += "<option selected>보류</option>";
-                    list += "<option>무시</option>";
-                    list += "<option>재활성</option>";
+                    list += "<option value='' >활성</option>";
+                    list += "<option value='confirm'>확인됨</option>";
+                    list += "<option value=''>수정됨</option>";
+                    list += "<option value='falsepositive' selected>보류</option>";
+                    list += "<option value='wontfix'>무시</option>";
+                    list += "<option value='reopen'>재활성</option>";
                 } else if(data.issues[i].resolution =="WONTFIX"){
                     list += "<option value='' >활성</option>";
-                    list += "<option value='' >확인됨</option>";
-                    list += "<option>수정됨</option>";
-                    list += "<option>보류</option>";
-                    list += "<option selected>무시</option>";
-                    list += "<option>재활성</option>";
-                } else if(data.issues[i].resolution =="REOPENED"){
+                    list += "<option value='confirm'>확인됨</option>";
+                    list += "<option value=''>수정됨</option>";
+                    list += "<option value='falsepositive'>보류</option>";
+                    list += "<option value='wontfix' selected>무시</option>";
+                    list += "<option value='reopen'>재활성</option>";
+                } else if(data.issues[i].status =="REOPENED"){
                     list += "<option value='' >활성</option>";
-                    list += "<option value='' >확인됨</option>";
-                    list += "<option>수정됨</option>";
-                    list += "<option>보류</option>";
-                    list += "<option>무시</option>";
-                    list += "<option selected>재활성</option>";
+                    list += "<option value='confirm'>확인됨</option>";
+                    list += "<option value=''>수정됨</option>";
+                    list += "<option value='falsepositive'>보류</option>";
+                    list += "<option value='wontfix'>무시</option>";
+                    list += "<option value='reopen' selected>재활성</option>";
                 }
-*/
 
                 list += "</select>";
                 list += "</li>";
@@ -511,20 +494,6 @@
         procCallSpinner(SPINNER_STOP);
 
     }
-
-/*    var test = function(){
-        $('select.makeMeFancy').tzSelect({
-            render : function(option){
-                alert(+option.data);
-                return $('<li>',{
-                    html:	'<img src="'+option.data('icon')+'" /><span>'+
-                    option.data('html-text')+'</span>'
-                });
-            },
-            className : 'hasDetails'
-        });
-    }*/
-
 
     var getProjectList = function(){
         var param = {
@@ -562,7 +531,7 @@
         //값 초기화
         conditionSetting();
 
-
+        //조건 갯수 표시 배열
         var projectKey = new Array();
         var severity = new Array();
         var status = new Array();
@@ -628,25 +597,33 @@
             var projectCount = 0;
 
             for (var projectName in projectResults) {
+
                 for(var i=0;i<data.length;i++) {
                     for (var j = 0; j < data[i].components.length; j++) {
                         if (data[i].components[j].qualifier == "TRK" && projectName == data[i].components[j].key) {
                             $("#issueProject").find("li").each(function(k){
-                                if($(this).find(".block").text() ==data[i].components[j].name){
+
+
+                                if($(this).find(".block").text() == data[i].components[j].name){
                                     $(this).find(".issue_num").text(projectResults[projectName]);
+
                                 }
+
                             });
-//                            projectList += "<li><a href=\"javascript:chkOn(\'"+(count)+"','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].components[j].key + "'> <span class='block'>" + data[i].components[j].name + "</span> <span class='issue_num'>" +projectResults[projectName] + "</span></a></li>";
                             projectCount++;
                         }
                     }
                 }
 
+
             }
+            //프로젝트 갯수 가 없을때 0
+            $("#issueProject").find("li").each(function(i){
+                if( $(this).find(".issue_num").text() == ""){
+                    $(this).find(".issue_num").text("0");
+                }
+            });
 
-
-
-//            $("#issueProject").html(projectList);
 
 
             for (var resolutionNum in resolutionResults) {
@@ -733,7 +710,6 @@
     var callbackGetIssuesDetail = function(data){
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         procCallSpinner(SPINNER_START);
-
         //소스
         var list = "";
         var source_num = "";
@@ -748,8 +724,13 @@
         //파일
         var fileName = ""
             ,filePath = "";
-
-
+        //이슈 표시
+        var issues = "";
+        var allIssues = "";
+        var issuesArray = new Array();
+        var severityArray = new Array();
+        var list = "";
+        var list2 = "";
         if(data.length > 0){
             for(var j=0;j<data.length;j++){
                 //소스 영역
@@ -757,9 +738,9 @@
                     for(var i=0; i<data[j].sources.length;i++){
                         source_num += "<p id='lineNum_"+data[j].sources[i][0]+"'>"+data[j].sources[i][0]+"</p>";
                         if(data[j].sources[i][1] ==""){
-                            list += "<p><br></p>";
+                            list += "<p id='sourceView_"+(i+1)+"'><br></p>";
                         }else{
-                            list += "<p>"+data[j].sources[i][1]+"</p>";
+                            list += "<p id='sourceView_"+(i+1)+"'>"+data[j].sources[i][1]+"</p>";
                         }
 
                     }
@@ -795,8 +776,26 @@
                     }
 
                 }
+                var message = "";
+                //이슈 영역
+                if(data[j].issues != null){
+                    console.log(data[j].issues );
+                    for(var s = 0; s<data[j].issues.length;s++){
+                        if(data[j].issues[s].textRange != null && data[j].issues[s].severity != null){
+                            issues += data[j].issues[s].textRange.startLine+"="+data[j].issues[s].severity+","
+                            message += data[j].issues[s].message;
+                        }else if(data[j].issues[s].textRange == null && data[j].issues[s].severity != null){
+                            allIssues += data[j].issues[s].severity;
+                            message += data[j].issues[s].message;
+                        }
+                    }
+                }
+
 
             }
+
+
+
 
             $("#filePath").text(filePath);
             $("#fileName").text(fileName);
@@ -829,6 +828,69 @@
                     }
                 }
             }
+
+            //라인 소스 이슈
+            if(issues != ""){
+                issues = issues.slice(0,-1);
+                if(issues.indexOf(",") != -1) {
+                    issuesArray = issues.split(",");
+                    for(var i=0;i<issuesArray.length;i++){
+                        severityArray = issuesArray[i].split("=");
+                        if(severityArray[1] == "BLOCKER"){
+                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                        }else if(severityArray[1] == "CRITICAL"){
+                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                        }else if(severityArray[1] == "MAJOR"){
+                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                        }else if(severityArray[1] == "MINOR"){
+                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                        }else if(severityArray[1] == "INFO"){
+                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                        }
+
+                    }
+                }else{
+
+                    severityArray = issues.split("=");
+
+                    if(severityArray[1] == "BLOCKER"){
+                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                    }else if(severityArray[1] == "CRITICAL"){
+                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                    }else if(severityArray[1] == "MAJOR"){
+                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                    }else if(severityArray[1] == "MINOR"){
+                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                    }else if(severityArray[1] == "INFO"){
+                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                    }
+                    //소스 이슈 펼치기 할때 사용
+//                    testView(severityArray[0], message , severityArray[1]);
+                }
+            }
+
+
+            //소스 전체 이슈
+            if(allIssues != ""){
+                if(allIssues == "BLOCKER"){
+                    $("#lineNum_1").before("<img src='/resources/images/ico_blocker.png'>");
+                    $("#sourceView_1").before("<p><br></p>");
+                }else if(allIssues == "CRITICAL"){
+                    $("#lineNum_1").before("<img src='/resources/images/ico_critical.png'>");
+                    $("#sourceView_1").before("<p><br></p>");
+                }else if(allIssues == "MAJOR"){
+                    $("#lineNum_1").before("<img src='/resources/images/ico_major.png'>");
+                    $("#sourceView_1").before("<p><br></p>");
+                }else if(allIssues == "MINOR"){
+                    $("#lineNum_1").before("<img src='/resources/images/ico_minor.png'>");
+                    $("#sourceView_1").before("<p><br></p>");
+                }else if(allIssues == "INFO"){
+                    $("#lineNum_1").before("<img src='/resources/images/ico_info.png'>");
+                    $("#sourceView_1").before("<p><br></p>");
+                }
+            }
+
+
 
         }
         procCallSpinner(SPINNER_STOP);
@@ -910,6 +972,25 @@
         getList();
     }
 
+    //리스트 활성,비활성 콤보박스
+//    var setTransition = function(key){
+//
+//        var param = {
+//            issue:key,
+//            transition:$("#transitionSelect").val()
+//        }
+//        procCallAjax("/qualityIssues/setTransition.do",param,callbackGatTransition);
+//
+//    }
+
+    var callbackGatTransition = function(data){
+        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        getProjectList();
+        getIssuesCondition();
+        getLanguage();
+        getList();
+    }
+
     $(document.body).ready(function () {
         getProjectList();
         getIssuesCondition();
@@ -917,5 +998,38 @@
         getList();
 
     });
+
+
+
+    function testView(num, message){
+        var list = "";
+        var list2 = "";
+        list += "<div>";
+        list += "<table summary='' class='quality_list'>";
+        list += " <caption>품질이슈 리스트</caption>";
+        list += " <colgroup>";
+        list += " <col style='width:*'>";
+        list += " <col style='width:12%'>";
+        list += " </colgroup>";
+        list += " <tbody>";
+        list += " <tr class='bgArea'>";
+        list += " <td>";
+        list += " <div class='rule_tit'>"+message+"</div>";
+        list += " </td>";
+        list += " <td>";
+        list += " <div class='rule_tit'><img src='/resources/images/ico_blocker.png'></div>";
+        list += " </td>";
+        list += " </tbody>";
+        list += " </tr>";
+        list += " </table>";
+        list += "</div>";
+
+
+        $("#sourceView_"+num).append(list);
+
+
+
+    }
+
 
 </script>

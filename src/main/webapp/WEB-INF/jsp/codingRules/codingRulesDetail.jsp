@@ -163,6 +163,7 @@
     <input type="hidden" id="keyword" value="<c:out value='${codingRules.keyword}' default='' />">
 </form>
 
+    <input type="hidden" id="profileName" name="profileName"/>
 
 
 
@@ -174,6 +175,7 @@
 
 
 <script type="text/javascript">
+    var profileNames = null;
     $(document.body).ready(function () {
         procCallSpinner(SPINNER_START);
         //언어 조회
@@ -305,21 +307,32 @@
 
         var listName = data;
         var qprofile = $("#qprofile").val();
-
+        var profileName = "";
 
         if(listName.length != 0){
             for(var i=0;i<listName.length;i++){
-                if(qprofile == listName[i].key ){
-                    list += "<li><a href=\"javascript:qpCheck('aTag',"+i+");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox',"+i+")\" checked> <span class=\"block\">"+listName[i].name+"</span> <span class=\"issue_num\"></span></a></li>";
+                if(listName[i].profileDefaultYn == "Y") {
+                    if (qprofile != "" && listName[i].key == qprofile) {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
+                    } else {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span><span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
+                    }
                 }else{
-                    list += "<li><a href=\"javascript:qpCheck('aTag',"+i+");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox',"+i+")\"> <span class=\"block\">"+listName[i].name+"</span> <span class=\"issue_num\"></span></a></li>";
+                    if (qprofile != "" && listName[i].key == qprofile) {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
+                    } else {
+                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
+                    }
                 }
+
 
             }
 
         }
 
 
+
+        $("#profileName").val(profileName);
         $("#searchProfile").html(list);
 
     }
@@ -391,6 +404,7 @@
     }
 
    var callbackCodingRulesDetail =  function(data){
+        console.log(data);
        var list = data.rule;
        var html = data.rule.htmlDesc;
        var detailList = "";
@@ -425,16 +439,20 @@
        detailList += "</tr>";
 
 
+       detailList += '<tr>';
+       detailList += '<td colspan="2">';
+       detailList += '<h3>연결된 품질 프로파일 <button type="button" class="button tbl_in_btn_sm" id="qprofileAddBtn" onclick="addProfileBtn()">추가</button></h3>';
+       detailList +=  '<div class="rule_tit">Refactor this method to throw at most one checked exception instead of: java.net.MalformedURLException, java.net.URISyntaxExceptio</div>';
 
 
 
-               detailList += '<tr>';
-               detailList += '<td colspan="2">';
-               detailList += '<h3>연결된 품질 프로파일 <button type="button" class="button tbl_in_btn_sm" id="qprofileAddBtn" onclick="addProfileBtn()">추가</button></h3>';
-               detailList +=  '<div class="rule_tit">Refactor this method to throw at most one checked exception instead of: java.net.MalformedURLException, java.net.URISyntaxExceptio</div>';
 
        if(data.actives.length != 0){
-           for(var i=0 ; i<data.actives.length; i++){
+            profileName(data.actives);
+
+
+/*           for(var i=0 ; i<data.actives.length; i++){
+
                detailList += '<ul class="profile_list">';
                detailList += '<li>';
                detailList += '<span class="profile_name">'+data.actives[i].qProfile+'<input type="hidden" id="qprofileId'+i+'" value="'+data.actives[i].qProfile+'"></span>';
@@ -456,9 +474,11 @@
                detailList += '</span>';
                detailList += '</li>';
                detailList += '</ul>';
-           }
+           }*/
 
        }
+       detailList += '<ul class="profile_list">';
+       detailList += '</ul>';
        detailList += '</td>';
        detailList += '</tr>';
        $("#detailData").html(detailList);
@@ -487,9 +507,10 @@
         }
 
         for(var j=0;j<data.length;j++){
-            if(data[j].key != profileArray[j]){
+/*            if(data[j].key != profileArray[j]){
                 list += "<option value='"+data[j].key+"'>"+data[j].name+"</option>";
-            }
+            }*/
+            list += "<option value='"+data[j].key+"'>"+data[j].name+"</option>";
         }
 
         $("#qprofileSelect").html(list);
@@ -543,9 +564,9 @@
 
 
     //프로파일 이슈 변경 팝업창
-    function qprofileUpdatePop(key){
+    function qprofileUpdatePop(key,name){
         popSet("변경");
-        $("#qprofileUpdate").find(".title").text(key);
+        $("#qprofileUpdate").find(".title").text(name);
         $("#qprofileUpdateKey").val(key);
 
         $("#modalCodingDetail").modal('toggle');
@@ -586,6 +607,51 @@
             $("#footerAddBtn").css("display","none")
         }
     }
+
+    function profileName(data){
+        profileNames = data;
+        procCallAjax("/codingRules/qualityProfileList.do",null,callbackProfileName);
+    }
+
+    var callbackProfileName = function(data){
+
+        var profileList = "";
+        if(data.length > 0){
+            for(var j=0;j<profileNames.length;j++){
+                for(var i =0; i< data.length;i++){
+                    if(profileNames[j].qProfile == data[i].key){
+
+                       profileList += '<li>';
+                       profileList += '<span class="profile_name">'+data[i].name+'<input type="hidden" id="qprofileId'+i+'" value="'+data[i].key+'"></span>';
+                       profileList += '<span class="r_box">';
+                       if( profileNames[j].severity == 'BLOCKER'){
+                           profileList += '<span class="ico_issue"><i class="ico_blocker"></i> 심각 (Blocker)</span>';
+                       }else if(profileNames[j].severity == 'CRITICAL'){
+                           profileList += '<span class="ico_issue"><i class="ico_critical"></i> 높음 (Critical)</span>';
+                       }else if(profileNames[j].severity == 'MAJOR'){
+                           profileList += '<span class="ico_issue"><i class="ico_major"></i> 보통 (Major)</span>';
+                       }else if(profileNames[j].severity == 'MINOR'){
+                           profileList += '<span class="ico_issue"><i class="ico_minor"></i> 낮음 (Minor)</span>';
+                       }else if(profileNames[j].severity == 'INFO'){
+                           profileList += '<span class="ico_issue"><i class="ico_info"></i> 정보 (Info)</span>';
+                       }
+                       if(data[i].profileDefaultYn != 'Y'){
+                           profileList += "<button type='button' class='button tbl_in_btn_sm' onclick=\"qprofileUpdatePop(\'"+profileNames[j].qProfile+"','"+data[i].name+"')\">변경</button> <button type='button' onclick=\"qprofileDelete(\'"+profileNames[j].qProfile+"','"+data[i].name+"')\" class='button tbl_in_btn_sm' >제거</button>";
+                       }
+
+
+                       profileList += '</span>';
+                       profileList += '</li>';
+                   }
+               }
+            }
+        }
+        $(".profile_list").html(profileList);
+    }
+
+
+
+
 
 
 </script>

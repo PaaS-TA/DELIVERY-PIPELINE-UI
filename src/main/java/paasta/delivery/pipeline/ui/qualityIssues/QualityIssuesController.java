@@ -104,11 +104,28 @@ public class QualityIssuesController {
         return qualityIssuesService.getQualityIssuesDetail(qualityIssues);
     }
 
+
+
+    /**
+     *  qualityIssues issues 설정
+     *
+     * @param
+     * @return
+     */
     @RequestMapping(value = BASE_URL+"/setSeverity.do", method = RequestMethod.POST)
     public Object setSeverity(@RequestBody QualityIssues qualityIssues){
         return qualityIssuesService.setSeverity(qualityIssues);
     }
 
-
+    /**
+     *  qualityIssues issues 활성 설정
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping(value = BASE_URL+"/setTransition.do", method = RequestMethod.POST)
+    public QualityIssues setTransition(@RequestBody QualityIssues qualityIssues){
+        return qualityIssuesService.setTransition(qualityIssues);
+    }
 
 }

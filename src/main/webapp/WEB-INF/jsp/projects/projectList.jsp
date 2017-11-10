@@ -227,7 +227,6 @@
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
         if(data.length > 0){
-
             $("#sonarKey").val(data[0].uuid);
             getList();
         }
@@ -247,36 +246,46 @@
         var issues = "";
         var tests = "";
         var debt = "";
-        var projectName = "";
         var key = "";
-
         var list = "";
 
-        if(data.length > 0){
-            key = data.key;
-            projectName = data.name;
-            lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
-//            coverage = "<div id='coverageChat'></div><div><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div>";
-            coverage =  "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div>";
-            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>"+data.measures.issues+"</h3><span style='text-decoration: underline;'>Issues</span></a>";
-            tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>"+data.measures.tests+"</h3><span style='text-decoration: underline;'>Tests</span></a>";
-            debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>"+data.measures.debt+"</h3><span style='text-decoration: underline;'>Debt</span></a>";
+        key = data.key;
 
-            $("#projectKey").val(key);
-            $("#issueDay").html(debt);
-            $("#issuesNum").html(issues);
-            $("#coverageNum").html(coverage);
-            $("#testsNum").html(tests);
-            $("#codeLine").html(lines);
-            $("#projectName").text(projectName);
+        lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
+
+
+        if(data.measures.coverage != null || data.measures.coverage != undefined){
+            coverage =  "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>"+data.measures.coverage+"</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div>";
         }else{
+            coverage =  "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3></h3></a></div></div>";
+        }
+
+        if(data.measures.issues != null || data.measures.issues != undefined) {
+            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>" + data.measures.issues + "</h3><span style='text-decoration: underline;'>Issues</span></a>";
+        }else{
+            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3></h3><span style='text-decoration: underline;'>Issues</span></a>";
+        }
+        tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>"+data.measures.tests+"</h3><span style='text-decoration: underline;'>Tests</span></a>";
+
+        debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>"+data.measures.debt+"</h3><span style='text-decoration: underline;'>Debt</span></a>";
+
+
+
+        $("#issueDay").html(debt);
+        $("#issuesNum").html(issues);
+        $("#coverageNum").html(coverage);
+        $("#testsNum").html(tests);
+        $("#codeLine").html(lines);
+
+
+        /*else{
 
             list += "<tr><td colspan='2'>검색한 데이터가 없습니다</td></tr>"
             $("#technicalDebtBody").html(list)
             $("#coverTbody").html(list);
             $("#structureBody").html(list);
         }
-
+*/
 
 
 
@@ -324,7 +333,6 @@
             ,skipped_tests_num = "-"
             ,test_success_density
             ,test_success_density_num = "-";
-
 
 
         if(data.length > 0 ){
@@ -448,6 +456,9 @@
         }
     }
 
+    var getProjectName = function(){
+        procCallAjax("/projects/getProjectName.do?projectKey="+$("#projectKey").val(),null,callbackProjectName)
+    }
 
 
 
@@ -455,7 +466,7 @@
     $(document.body).ready(function () {
         //sonarKey(소나 uuid 가져오기)
         getSonarKey();
-
+//        getProjectName();
     })
 
 

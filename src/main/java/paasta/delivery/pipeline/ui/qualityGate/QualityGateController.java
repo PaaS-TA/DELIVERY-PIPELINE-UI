@@ -138,7 +138,7 @@ public class QualityGateController {
      * @return
      */
     @RequestMapping(value= BASE_URL + "/qualityGateCondition.do", method = RequestMethod.GET)
-    public  QualityGate getQualityGateCondition(@RequestParam Long id){
+    public  QualityGate getQualityGateCondition(@RequestParam long id){
         return qualityGateService.getQualityGateCondition(id);
     }
 

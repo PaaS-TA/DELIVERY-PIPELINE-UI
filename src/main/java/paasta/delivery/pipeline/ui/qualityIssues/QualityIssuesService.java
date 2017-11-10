@@ -25,7 +25,7 @@ public class QualityIssuesService {
         this.restTemplateService = restTemplateService;
     }
 
-    //시연후 인스터스 id 추가
+
     /**
      *  QualityIssues 리스트
      *
@@ -65,6 +65,16 @@ public class QualityIssuesService {
      */
     public Object setSeverity(QualityIssues qualityIssues){
       return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/setSeverity", HttpMethod.POST, qualityIssues, Object.class);
+    }
+
+    /**
+     *  QualityIssues 이슈 활성 설정
+     *
+     * @param qualityIssues
+     * @return QualityIssues
+     */
+    public QualityIssues setTransition(QualityIssues qualityIssues){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/setTransition", HttpMethod.POST, qualityIssues, QualityIssues.class);
     }
 
 }

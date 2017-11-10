@@ -47,8 +47,10 @@ public class QualityIssues {
     private String issue;
     private String severity;
 
+    //이슈 활성 설정
+    private String transition;
 
-    public long getId() {
+   public long getId() {
         return id;
     }
 
@@ -272,6 +274,14 @@ public class QualityIssues {
         this.severity = severity;
     }
 
+    public String getTransition() {
+        return transition;
+    }
+
+    public void setTransition(String transition) {
+        this.transition = transition;
+    }
+
     @Override
     public String toString() {
         return "QualityIssues{" +
@@ -303,6 +313,7 @@ public class QualityIssues {
                 ", fileUuid='" + fileUuid + '\'' +
                 ", issue='" + issue + '\'' +
                 ", severity='" + severity + '\'' +
+                ", transition='" + transition + '\'' +
                 '}';
     }
 }

@@ -172,10 +172,10 @@
     <input type="hidden" id="key" value="<c:out value='${codingRules.key}' default='' />">
     <input type="hidden" id="languages" value="<c:out value='${codingRules.languages}' default='' />">
     <input type="hidden" id="issues" value="<c:out value='${codingRules.issues}' default='' />">
-    <input type="text" id="qprofile" value="<c:out value='${codingRules.qprofile}' default='' />">
+    <input type="hidden" id="qprofile" value="<c:out value='${codingRules.qprofile}' default='' />">
     <input type="hidden" id="keyword" value="<c:out value='${codingRules.keyword}' default='' />">
 </form>
-    <input type="text" id="profileKey" value="<c:out value='${profileKey}' default='' />">
+    <input type="hidden" id="profileKey" value="<c:out value='${profileKey}' default='' />">
 
 <script type="text/javascript">
     //loding bar
@@ -435,7 +435,10 @@
             s:$("#codingRuleSort").val()
         };
 
+
+
         procCallAjax(listUrl,param,callbackCodingRulesList);
+
     }
 
 
@@ -619,11 +622,19 @@
 
                 list += "<td class='alignC'>"+listName[i].langName+"</td>";
 
-                if(profilechecked != "") {
-                    list += "<td class='alignC'><button type='button' class='button quality_btn profileDelete' name ='profileDelete' onclick='qprofileDelete(\""+listName[i].key+"\")'>프로파일에서 제거</button></td>";
+                //나중에 수정해야함
+                if(profilechecked != "java-egov-qualityprofile-79840"){
+                    if(profilechecked != "") {
+                        list += "<td class='alignC'><button type='button' class='button quality_btn profileDelete' name ='profileDelete' onclick='qprofileDelete(\""+listName[i].key+"\")'>프로파일에서 제거</button></td>";
+                    }else {
+                        list += "<td class='alignC'><button type='button' class='button quality_btn profileAdd' name ='profileAdd'  onclick='addProfileBtn(\""+listName[i].key+"\")'>프로파일에 추가</button></td>";
+                    }
                 }else{
-                    list += "<td class='alignC'><button type='button' class='button quality_btn profileAdd' name ='profileAdd'  onclick='addProfileBtn(\""+listName[i].key+"\")'>프로파일에 추가</button></td>";
+                    list += "<td class='alignC'><button type='button' class='button quality_btn profileDelete' name ='profileDelete' disabled onclick='qprofileDelete(\""+listName[i].key+"\")'>프로파일에서 제거</button></td>";
                 }
+
+
+
                 list += "</tr>";
 
 
@@ -637,6 +648,7 @@
 
         $("#lodingTable").hide();
         $("#tbodyData").html(list);
+
     }
 
 
@@ -720,15 +732,22 @@
     //프로파일 추가
     function qprofileAdd(){
         //reset 추가해야함
-        var param = {
-            rule_key : $("#codingRulesKey").val(),
-            profile_key : $("#qprofileSelect").val(),
-            severity : $("#issuesSelect").val(),
-            reset: "true"
-        };
+        if( $("#qprofileSelect").val() != "java-egov-qualityprofile-79840"){
 
-        //api/qualityprofiles/activate_rule
-        procCallAjax("/codingRules/codingRulesProfileAdd.do", param, callbackcodingRulesProfileAdd);
+            var param = {
+                rule_key : $("#codingRulesKey").val(),
+                profile_key : $("#qprofileSelect").val(),
+                severity : $("#issuesSelect").val(),
+                reset: "true"
+            };
+
+            //api/qualityprofiles/activate_rule
+            procCallAjax("/codingRules/codingRulesProfileAdd.do", param, callbackcodingRulesProfileAdd);
+        }else{
+            procPopupAlert('기본 품질 프로파일은 추가, 수정할 수 없습니다.', 'searchList();');
+        }
+
+
     }
 
     var callbackcodingRulesProfileAdd = function(data){

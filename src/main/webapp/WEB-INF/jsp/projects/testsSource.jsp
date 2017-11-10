@@ -268,14 +268,17 @@
 //        $("#sourceBox").css("display","block");
         $("#sourceBox").show();
         //사용자명 가져오기
-        if(data.scm.length > 0 ){
+        if(data.scm != null && data.scm.length > 0 ){
             getAuthor(data.scm);
         }
 
-        if(data.msr.length > 0){
+        if( data.msr != null && data.msr.length > 0 ){
             getMsr(data.msr);
         }
-//        procCallSpinner(SPINNER_STOP);
+
+        if(data.issues != null && data.issues.length > 0){
+            setIssues(data.issues);
+        }
 
         procCallSpinner(SPINNER_STOP);
   }
@@ -300,7 +303,7 @@
         }
   }
 
-   //커버리지 표시
+   //단위테스트 표시
   var getMsr = function(data){
       var coverage = "";
       var msrArray = new Array();
@@ -353,7 +356,42 @@
 
   }
 
+  var setIssues = function(data){
+//      var issue = "";
 
+      for(var i=0;i<data.length;i++){
+          if(data[i].textRange != null){
+
+              if(data[i].severity == "BLOCKER"){
+                  $("#lineNum_"+data[i].textRange.startLine).append("<img src='/resources/images/ico_blocker.png'>");
+              }else if(data[i].severity == "CRITICAL"){
+                  $("#lineNum_"+data[i].textRange.startLine).append("<img src='/resources/images/ico_critical.png'>");
+              }else if(data[i].severity == "MAJOR"){
+                  $("#lineNum_"+data[i].textRange.startLine).append("<img src='/resources/images/ico_major.png'>");
+              }else if(data[i].severity == "MINOR"){
+                  $("#lineNum_"+data[i].textRange.startLine).append("<img src='/resources/images/ico_minor.png'>");
+              }else if(data[i].severity == "INFO"){
+                  $("#lineNum_"+data[i].textRange.startLine).append("<img src='/resources/images/ico_info.png'>");
+              }
+
+
+          }else{
+
+              if(data[i].severity == "BLOCKER"){
+                  $("#lineNum_1").before("<img src='/resources/images/ico_blocker.png'>");
+              }else if(data[i].severity == "CRITICAL"){
+                  $("#lineNum_1").before("<img src='/resources/images/ico_critical.png'>");
+              }else if(data[i].severity == "MAJOR"){
+                  $("#lineNum_1").before("<img src='/resources/images/ico_major.png'>");
+              }else if(data[i].severity == "MINOR"){
+                  $("#lineNum_1").before("<img src='/resources/images/ico_minor.png'>");
+              }else if(data[i].severity == "INFO"){
+                  $("#lineNum_1").before("<img src='/resources/images/ico_info.png'>");
+              }
+          }
+
+      }
+  }
 
 
     //파일 감추기

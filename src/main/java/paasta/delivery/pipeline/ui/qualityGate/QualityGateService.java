@@ -60,7 +60,7 @@ public class QualityGateService {
      * @param id
      * @return
      */
-    public QualityGate getQualityGateCondition(Long id){
+    public QualityGate getQualityGateCondition(long id){
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/condition?id="+id, HttpMethod.GET, null, QualityGate.class);
     }
 
