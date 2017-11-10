@@ -34,9 +34,10 @@ public class CustomIntercepter extends HandlerInterceptorAdapter {
         //2. DashboardAuthenticationProcessingFilter - 설정 주석 해제
 
         //Spring-Boot 용
-//        if(commonService.isLoginUrl(request)){
-//            request.getSession().invalidate();
-//        }
+        if(commonService.isLoginUrl(request)){
+            LOGGER.info("Spring-Boot");
+            request.getSession().invalidate();
+        }
 
 
         //URL이 다른게 추가될 수 있어...아닌 애들로 체크하게 설정함

@@ -114,6 +114,7 @@ public class DashboardAuthenticationDetailsSource
     private boolean isManagingApp(String serviceInstanceId) {
         final String url = getCheckUrl(serviceInstanceId);
         try {
+            logger.info("URL : " + url);
             final Map<?, ?> result = restTemplate.getForObject(url, Map.class);
 
             return Boolean.TRUE.toString().equals(result.get(MANAGED_KEY).toString().toLowerCase());

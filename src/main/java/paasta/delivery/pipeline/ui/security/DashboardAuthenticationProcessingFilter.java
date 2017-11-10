@@ -40,15 +40,16 @@ public class DashboardAuthenticationProcessingFilter extends OAuth2ClientAuthent
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("######### requiresAuthentication");
         //설정 - 톰캣용
-        if (commonService.isLoginUrl(request)) {
-             request.getSession().invalidate();
-            try {
-                response.sendRedirect(request.getRequestURI() + "/pipeline/dashboard");
-                return true;
-            } catch (Exception e) {
-
-            }
-        }
+//        if (commonService.isLoginUrl(request)) {
+//             LOGGER.info("TOMCAT");
+//             request.getSession().invalidate();
+//            try {
+//                response.sendRedirect(request.getRequestURI() + "/pipeline/dashboard");
+//                return true;
+//            } catch (Exception e) {
+//
+//            }
+//        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ((authentication == null) || !(((DashboardAuthenticationDetails) authentication.getDetails()).isManagedServiceInstance(request.getServletPath().split("/")[2])))
