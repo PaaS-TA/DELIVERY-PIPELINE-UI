@@ -6,39 +6,44 @@ import java.util.List;
  * Created by hrjin on 2017-06-29.
  */
 public class QualityProfile {
-    private long id;
-    private String name;
+
+    // DATABASE COLUMNS :: BEGIN
+    private long id; // pid
+    private String serviceInstancesId;
+    private long qualityProfileId; // id -> qualityProfileId
+    private String qualityProfileName; // name -> qualityProfileName
+    private String qualityProfileKey; // key -> qualityProfileKey
     private String language;
     private String languageName;
-    private String sonarKey;
-    private String key;
-    private List<Long> projectIdList;
     private String profileDefaultYn;
-
     private int activeRuleCount;
-
     private int activeDeprecatedRuleCount;
+    private String created;
+    private String lastModified;
+    private String createdString;
+    private String lastModifiedString;
+    // DATABASE COLUMNS :: END
 
-    private String serviceInstancesId;
+    private String resultStatus;
+    private String resultMessage;
+
+    private List<Long> projectIdList;
+
+    //프로파일 복제
+    private String fromKey;
+    private String toName;
+    private String sonarKey;
+
+    //프로파일 삭제
+    private String profileKey;
+
+    //언어 리스트
+    private List languages;
 
     //코딩룰 리스트
     private String qprofile;
     private String activation;
     private String facets;
-
-    //프로파일 복제
-    private String fromKey;
-    private String toName;
-
-    //프로파일 삭제
-    private String profileKey;
-    private String qualityProfileId;
-
-    //언어 리스트
-    private List languages;
-
-    //삭제 예정
-    private String defaultYn;
 
     public long getId() {
         return id;
@@ -48,12 +53,36 @@ public class QualityProfile {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getServiceInstancesId() {
+        return serviceInstancesId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceInstancesId(String serviceInstancesId) {
+        this.serviceInstancesId = serviceInstancesId;
+    }
+
+    public long getQualityProfileId() {
+        return qualityProfileId;
+    }
+
+    public void setQualityProfileId(long qualityProfileId) {
+        this.qualityProfileId = qualityProfileId;
+    }
+
+    public String getQualityProfileName() {
+        return qualityProfileName;
+    }
+
+    public void setQualityProfileName(String qualityProfileName) {
+        this.qualityProfileName = qualityProfileName;
+    }
+
+    public String getQualityProfileKey() {
+        return qualityProfileKey;
+    }
+
+    public void setQualityProfileKey(String qualityProfileKey) {
+        this.qualityProfileKey = qualityProfileKey;
     }
 
     public String getLanguage() {
@@ -72,12 +101,12 @@ public class QualityProfile {
         this.languageName = languageName;
     }
 
-    public List<Long> getProjectIdList() {
-        return projectIdList;
+    public String getProfileDefaultYn() {
+        return profileDefaultYn;
     }
 
-    public void setProjectIdList(List<Long> projectIdList) {
-        this.projectIdList = projectIdList;
+    public void setProfileDefaultYn(String profileDefaultYn) {
+        this.profileDefaultYn = profileDefaultYn;
     }
 
     public int getActiveRuleCount() {
@@ -96,20 +125,60 @@ public class QualityProfile {
         this.activeDeprecatedRuleCount = activeDeprecatedRuleCount;
     }
 
-    public String getServiceInstancesId() {
-        return serviceInstancesId;
+    public String getCreated() {
+        return created;
     }
 
-    public void setServiceInstancesId(String serviceInstancesId) {
-        this.serviceInstancesId = serviceInstancesId;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
-    public String getSonarKey() {
-        return sonarKey;
+    public String getLastModified() {
+        return lastModified;
     }
 
-    public void setSonarKey(String sonarKey) {
-        this.sonarKey = sonarKey;
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public String getCreatedString() {
+        return createdString;
+    }
+
+    public void setCreatedString(String createdString) {
+        this.createdString = createdString;
+    }
+
+    public String getLastModifiedString() {
+        return lastModifiedString;
+    }
+
+    public void setLastModifiedString(String lastModifiedString) {
+        this.lastModifiedString = lastModifiedString;
+    }
+
+    public String getResultStatus() {
+        return resultStatus;
+    }
+
+    public void setResultStatus(String resultStatus) {
+        this.resultStatus = resultStatus;
+    }
+
+    public String getResultMessage() {
+        return resultMessage;
+    }
+
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
+    }
+
+    public List<Long> getProjectIdList() {
+        return projectIdList;
+    }
+
+    public void setProjectIdList(List<Long> projectIdList) {
+        this.projectIdList = projectIdList;
     }
 
     public String getFromKey() {
@@ -128,12 +197,12 @@ public class QualityProfile {
         this.toName = toName;
     }
 
-    public String getKey() {
-        return key;
+    public String getSonarKey() {
+        return sonarKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSonarKey(String sonarKey) {
+        this.sonarKey = sonarKey;
     }
 
     public String getProfileKey() {
@@ -176,53 +245,4 @@ public class QualityProfile {
         this.facets = facets;
     }
 
-    public String getQualityProfileId() {
-        return qualityProfileId;
-    }
-
-    public void setQualityProfileId(String qualityProfileId) {
-        this.qualityProfileId = qualityProfileId;
-    }
-
-    public String getProfileDefaultYn() {
-        return profileDefaultYn;
-    }
-
-    public void setProfileDefaultYn(String profileDefaultYn) {
-        this.profileDefaultYn = profileDefaultYn;
-    }
-
-    public String getDefaultYn() {
-        return defaultYn;
-    }
-
-    public void setDefaultYn(String defaultYn) {
-        this.defaultYn = defaultYn;
-    }
-
-    @Override
-    public String toString() {
-        return "QualityProfile{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", language='" + language + '\'' +
-                ", languageName='" + languageName + '\'' +
-                ", sonarKey='" + sonarKey + '\'' +
-                ", key='" + key + '\'' +
-                ", projectIdList=" + projectIdList +
-                ", profileDefaultYn='" + profileDefaultYn + '\'' +
-                ", activeRuleCount=" + activeRuleCount +
-                ", activeDeprecatedRuleCount=" + activeDeprecatedRuleCount +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", qprofile='" + qprofile + '\'' +
-                ", activation='" + activation + '\'' +
-                ", facets='" + facets + '\'' +
-                ", fromKey='" + fromKey + '\'' +
-                ", toName='" + toName + '\'' +
-                ", profileKey='" + profileKey + '\'' +
-                ", qualityProfileId='" + qualityProfileId + '\'' +
-                ", languages=" + languages +
-                ", defaultYn='" + defaultYn + '\'' +
-                '}';
-    }
 }

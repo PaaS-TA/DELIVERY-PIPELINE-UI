@@ -7,26 +7,26 @@ import java.util.List;
  */
 public class QualityGate {
 
-    private long id;
-    private String uuid;
-    private String name;
-    private String orgName;
-    private String orgGuid;
-    private String userName;
-    private String userGuid;
-    private List<Long> projectIdList;
+    // DATABASE COLUMNS :: BEGIN
+    private long id; // pid
+    private String serviceInstancesId;
+    private long qualityGateId; // id -> qualityGateId
+    private String qualityGateName; // name -> qualityGateName
+    private String gateDefaultYn;
     private String created;
     private String lastModified;
     private String createdString;
     private String lastModifiedString;
+    // DATABASE COLUMNS :: END
+
+    private String uuid;
+    private List<Long> projectIdList;
     private String resultStatus;
     private String resultMessage;
-
-    //////////////////////////////////////
-    private String serviceInstancesId;
-
-    //게이트 조건 목록
     private List conditions;
+
+    //조건 명
+    private List metrics;
 
     //게이트 조건 저장 목록
     private String gateId;
@@ -35,21 +35,14 @@ public class QualityGate {
     private String warning;
     private String op;
 
-    //게이트 조건 콤보박스 목록
-    private  List metrics;
-
     //프로젝트 연결상태
-    private Boolean linked;
+    private boolean linked;
 
     //게이트 리스트
-    private List qualitygates;
+    private List qualityGates; // qualitygates -> qualityGates
+    private String defaultKey;
 
-    private String gateDefaultYn;
     private List domains;
-
-    //삭제 예정
-    private String defaultYn;
-
 
     public long getId() {
         return id;
@@ -59,60 +52,36 @@ public class QualityGate {
         this.id = id;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getServiceInstancesId() {
+        return serviceInstancesId;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setServiceInstancesId(String serviceInstancesId) {
+        this.serviceInstancesId = serviceInstancesId;
     }
 
-    public String getName() {
-        return name;
+    public long getQualityGateId() {
+        return qualityGateId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setQualityGateId(long qualityGateId) {
+        this.qualityGateId = qualityGateId;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public String getQualityGateName() {
+        return qualityGateName;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setQualityGateName(String qualityGateName) {
+        this.qualityGateName = qualityGateName;
     }
 
-    public String getOrgGuid() {
-        return orgGuid;
+    public String getGateDefaultYn() {
+        return gateDefaultYn;
     }
 
-    public void setOrgGuid(String orgGuid) {
-        this.orgGuid = orgGuid;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserGuid() {
-        return userGuid;
-    }
-
-    public void setUserGuid(String userGuid) {
-        this.userGuid = userGuid;
-    }
-
-    public List<Long> getProjectIdList() {
-        return projectIdList;
-    }
-
-    public void setProjectIdList(List<Long> projectIdList) {
-        this.projectIdList = projectIdList;
+    public void setGateDefaultYn(String gateDefaultYn) {
+        this.gateDefaultYn = gateDefaultYn;
     }
 
     public String getCreated() {
@@ -147,6 +116,22 @@ public class QualityGate {
         this.lastModifiedString = lastModifiedString;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public List<Long> getProjectIdList() {
+        return projectIdList;
+    }
+
+    public void setProjectIdList(List<Long> projectIdList) {
+        this.projectIdList = projectIdList;
+    }
+
     public String getResultStatus() {
         return resultStatus;
     }
@@ -169,6 +154,14 @@ public class QualityGate {
 
     public void setConditions(List conditions) {
         this.conditions = conditions;
+    }
+
+    public List getMetrics() {
+        return metrics;
+    }
+
+    public void setMetrics(List metrics) {
+        this.metrics = metrics;
     }
 
     public String getGateId() {
@@ -211,36 +204,28 @@ public class QualityGate {
         this.op = op;
     }
 
-    public String getServiceInstancesId() {
-        return serviceInstancesId;
-    }
-
-    public void setServiceInstancesId(String serviceInstancesId) {
-        this.serviceInstancesId = serviceInstancesId;
-    }
-
-    public Boolean getLinked() {
+    public boolean isLinked() {
         return linked;
     }
 
-    public void setLinked(Boolean linked) {
+    public void setLinked(boolean linked) {
         this.linked = linked;
     }
 
-    public List getMetrics() {
-        return metrics;
+    public List getQualityGates() {
+        return qualityGates;
     }
 
-    public void setMetrics(List metrics) {
-        this.metrics = metrics;
+    public void setQualityGates(List qualityGates) {
+        this.qualityGates = qualityGates;
     }
 
-    public List getQualitygates() {
-        return qualitygates;
+    public String getDefaultKey() {
+        return defaultKey;
     }
 
-    public void setQualitygates(List qualitygates) {
-        this.qualitygates = qualitygates;
+    public void setDefaultKey(String defaultKey) {
+        this.defaultKey = defaultKey;
     }
 
     public List getDomains() {
@@ -251,52 +236,4 @@ public class QualityGate {
         this.domains = domains;
     }
 
-    public String getGateDefaultYn() {
-        return gateDefaultYn;
-    }
-
-    public void setGateDefaultYn(String gateDefaultYn) {
-        this.gateDefaultYn = gateDefaultYn;
-    }
-
-    public String getDefaultYn() {
-        return defaultYn;
-    }
-
-    public void setDefaultYn(String defaultYn) {
-        this.defaultYn = defaultYn;
-    }
-
-    @Override
-    public String toString() {
-        return "QualityGate{" +
-                "id=" + id +
-                ", uuid='" + uuid + '\'' +
-                ", name='" + name + '\'' +
-                ", orgName='" + orgName + '\'' +
-                ", orgGuid='" + orgGuid + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userGuid='" + userGuid + '\'' +
-                ", projectIdList=" + projectIdList +
-                ", created='" + created + '\'' +
-                ", lastModified='" + lastModified + '\'' +
-                ", createdString='" + createdString + '\'' +
-                ", lastModifiedString='" + lastModifiedString + '\'' +
-                ", resultStatus='" + resultStatus + '\'' +
-                ", resultMessage='" + resultMessage + '\'' +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", conditions=" + conditions +
-                ", gateId='" + gateId + '\'' +
-                ", metric='" + metric + '\'' +
-                ", error='" + error + '\'' +
-                ", warning='" + warning + '\'' +
-                ", op='" + op + '\'' +
-                ", metrics=" + metrics +
-                ", linked=" + linked +
-                ", qualitygates=" + qualitygates +
-                ", gateDefaultYn='" + gateDefaultYn + '\'' +
-                ", domains=" + domains +
-                ", defaultYn='" + defaultYn + '\'' +
-                '}';
-    }
 }

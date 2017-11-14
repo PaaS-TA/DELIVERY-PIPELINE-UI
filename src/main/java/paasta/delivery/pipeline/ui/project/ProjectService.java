@@ -2,14 +2,11 @@ package paasta.delivery.pipeline.ui.project;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by kim on 2017-08-01.
@@ -160,7 +157,7 @@ public class ProjectService {
      * @return Project
      */
     public Project testsSourceShow(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getSonarKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
     }
 
 }
