@@ -157,7 +157,7 @@ public class ProjectService {
      * @return Project
      */
     public Project testsSourceShow(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getSonarKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getProjectKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
     }
 
 }
