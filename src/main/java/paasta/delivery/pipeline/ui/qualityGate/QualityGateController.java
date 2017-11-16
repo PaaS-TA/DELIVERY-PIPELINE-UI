@@ -115,7 +115,9 @@ public class QualityGateController {
      */
     @RequestMapping(value = BASE_URL + "/qualityGateList.do", method = RequestMethod.GET)
     public List getQualityGateList(@RequestParam String  serviceInstancesId){
-        return qualityGateService.getQualityGateList(serviceInstancesId);
+
+        List result = qualityGateService.getQualityGateList(serviceInstancesId);
+        return result;
     }
 
 
@@ -163,7 +165,9 @@ public class QualityGateController {
      */
     @RequestMapping(value= BASE_URL+"/qualityGateCondSave.do", method = RequestMethod.POST)
     public QualityGate createQualityGateCond(@RequestBody QualityGate qualityGate){
-        return qualityGateService.createQualityGateCond(qualityGate);
+        QualityGate returnValue = qualityGateService.createQualityGateCond(qualityGate);
+        returnValue.setIndex(qualityGate.getIndex());
+        return returnValue;
     }
 
     /**
@@ -186,8 +190,8 @@ public class QualityGateController {
      */
     @RequestMapping(value = BASE_URL + "/qualityGateCondDelete.do",method = RequestMethod.POST)
     @ResponseBody
-    public QualityGate deleteQualityGateCond(@RequestBody String id){
-        return qualityGateService.deleteQualityGateCond(id);
+    public QualityGate deleteQualityGateCond(@RequestBody QualityGate qualityGate){
+        return qualityGateService.deleteQualityGateCond(qualityGate);
     }
 
 

@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hrjin on 2017-06-29.
@@ -39,8 +37,8 @@ public class QualityGateService {
      * @return
      */
     public  List getQualityGateList(String serviceInstancesId) {
-
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateList?serviceInstancesId="+serviceInstancesId, HttpMethod.GET, null, List.class);
+        List result = restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateList?serviceInstancesId="+serviceInstancesId, HttpMethod.GET, null, List.class);
+        return result;
     }
 
     /**
@@ -50,7 +48,8 @@ public class QualityGateService {
      * @return QualityGate
      */
     public List getMetricsList(){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/metricsList", HttpMethod.GET, null, List.class);
+        List result = restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/metricsList", HttpMethod.GET, null, List.class);
+        return result;
     }
 
 
@@ -61,7 +60,8 @@ public class QualityGateService {
      * @return
      */
     public QualityGate getQualityGateCondition(long id){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/condition?id="+id, HttpMethod.GET, null, QualityGate.class);
+        QualityGate qualityGate = restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/condition?id="+id, HttpMethod.GET, null, QualityGate.class);
+        return qualityGate;
     }
 
     /**
@@ -81,7 +81,7 @@ public class QualityGateService {
      * @return
      */
     public QualityGate updateQualityGateCond(QualityGate qualityGate){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateCondUpdate", HttpMethod.POST, qualityGate, QualityGate.class);
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateCondUpdate", HttpMethod.PUT, qualityGate, QualityGate.class);
     }
 
     /**
@@ -90,8 +90,8 @@ public class QualityGateService {
      * @param
      * @return
      */
-    public QualityGate deleteQualityGateCond(String id){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateCondDelete", HttpMethod.POST, id, QualityGate.class);
+    public QualityGate deleteQualityGateCond(QualityGate qualityGate){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateCondDelete", HttpMethod.DELETE, qualityGate, QualityGate.class);
     }
 
     /**
@@ -121,7 +121,7 @@ public class QualityGateService {
      * @return
      */
     public QualityGate updateQualityGate(QualityGate qualityGate) {
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityGateUpdate", HttpMethod.POST, qualityGate, QualityGate.class);
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityGateUpdate", HttpMethod.PUT, qualityGate, QualityGate.class);
     }
 
 
@@ -132,7 +132,7 @@ public class QualityGateService {
      * @return
      */
     public QualityGate deleteQualityGate(QualityGate qualityGate) {
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityGateDelete", HttpMethod.POST, qualityGate, QualityGate.class);
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityGateDelete", HttpMethod.DELETE, qualityGate, QualityGate.class);
 
     }
 

@@ -43,6 +43,8 @@ public class QualityGate {
     private String defaultKey;
 
     private List domains;
+    //화면 처리를 위한감 별다른 의미없음
+    private String index;
 
     public long getId() {
         return id;
@@ -236,4 +238,12 @@ public class QualityGate {
         this.domains = domains;
     }
 
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 }
