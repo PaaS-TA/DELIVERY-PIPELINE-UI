@@ -43,7 +43,7 @@ public class Job {
     private String manifestScript;
     private String inspectionProjectId;
     private String inspectionProjectKey;
-    private String inspectionProfileId;
+    private String inspectionProfileKey;
     private String inspectionGateId;
     private String userId;
     private String created;
@@ -330,12 +330,12 @@ public class Job {
         this.inspectionProjectKey = inspectionProjectKey;
     }
 
-    public String getInspectionProfileId() {
-        return inspectionProfileId;
+    public String getInspectionProfileKey() {
+        return inspectionProfileKey;
     }
 
-    public void setInspectionProfileId(String inspectionProfileId) {
-        this.inspectionProfileId = inspectionProfileId;
+    public void setInspectionProfileKey(String inspectionProfileKey) {
+        this.inspectionProfileKey = inspectionProfileKey;
     }
 
     public String getInspectionGateId() {
@@ -608,76 +608,6 @@ public class Job {
 
     public void setResultMessage(String resultMessage) {
         this.resultMessage = resultMessage;
-    }
-
-    @Override
-    public String toString() {
-        return "Job{" +
-                "id=" + id +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", pipelineId=" + pipelineId +
-                ", jobType='" + jobType + '\'' +
-                ", jobName='" + jobName + '\'' +
-                ", jobGuid='" + jobGuid + '\'' +
-                ", groupOrder=" + groupOrder +
-                ", jobOrder=" + jobOrder +
-                ", builderType='" + builderType + '\'' +
-                ", buildJobId=" + buildJobId +
-                ", jobTrigger='" + jobTrigger + '\'' +
-                ", postActionYn='" + postActionYn + '\'' +
-                ", repositoryType='" + repositoryType + '\'' +
-                ", repositoryUrl='" + repositoryUrl + '\'' +
-                ", repositoryId='" + repositoryId + '\'' +
-                ", repositoryAccountId='" + repositoryAccountId + '\'' +
-                ", repositoryBranch='" + repositoryBranch + '\'' +
-                ", repositoryCommitRevision='" + repositoryCommitRevision + '\'' +
-                ", cfInfoId=" + cfInfoId +
-                ", appName='" + appName + '\'' +
-                ", appUrl='" + appUrl + '\'' +
-                ", deployType='" + deployType + '\'' +
-                ", blueGreenDeployStatus='" + blueGreenDeployStatus + '\'' +
-                ", deployTargetOrg='" + deployTargetOrg + '\'' +
-                ", deployTargetSpace='" + deployTargetSpace + '\'' +
-                ", manifestUseYn='" + manifestUseYn + '\'' +
-                ", manifestScript='" + manifestScript + '\'' +
-                ", inspectionProjectId='" + inspectionProjectId + '\'' +
-                ", inspectionProjectKey='" + inspectionProjectKey + '\'' +
-                ", inspectionProfileId='" + inspectionProfileId + '\'' +
-                ", inspectionGateId='" + inspectionGateId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", created='" + created + '\'' +
-                ", lastModified='" + lastModified + '\'' +
-                ", buildJobName='" + buildJobName + '\'' +
-                ", lastJobStatus='" + lastJobStatus + '\'' +
-                ", lastJobModified='" + lastJobModified + '\'' +
-                ", lastSuccessJobNumber=" + lastSuccessJobNumber +
-                ", lastGroupOrder=" + lastGroupOrder +
-                ", lastJobOrder=" + lastJobOrder +
-                ", lastJobNumber=" + lastJobNumber +
-                ", blueDeployedCount='" + blueDeployedCount + '\'' +
-                ", duration=" + duration +
-                ", estimatedDuration=" + estimatedDuration +
-                ", consoleOutputHtml='" + consoleOutputHtml + '\'' +
-                ", isBuilding='" + isBuilding + '\'' +
-                ", isWorking='" + isWorking + '\'' +
-                ", timeStamp='" + timeStamp + '\'' +
-                ", fileId=" + fileId +
-                ", buildFilePath='" + buildFilePath + '\'' +
-                ", buildFileName='" + buildFileName + '\'' +
-                ", buildPackName='" + buildPackName + '\'' +
-                ", jobNumber=" + jobNumber +
-                ", jobHistoryId=" + jobHistoryId +
-                ", newWorkGroupYn='" + newWorkGroupYn + '\'' +
-                ", triggerType='" + triggerType + '\'' +
-                ", inspectionProjectName='" + inspectionProjectName + '\'' +
-                ", createdString='" + createdString + '\'' +
-                ", lastModifiedString='" + lastModifiedString + '\'' +
-                ", repositoryBranchList=" + repositoryBranchList +
-                ", cfApiUrl='" + cfApiUrl + '\'' +
-                ", pipelineName='" + pipelineName + '\'' +
-                ", resultStatus='" + resultStatus + '\'' +
-                ", resultMessage='" + resultMessage + '\'' +
-                '}';
     }
 
 }
