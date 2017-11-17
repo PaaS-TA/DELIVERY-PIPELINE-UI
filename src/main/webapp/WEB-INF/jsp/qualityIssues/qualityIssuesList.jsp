@@ -340,7 +340,6 @@
 
         procCallAjax("/qualityIssues/qualityIssuesList.do", param, callbackGetList);
 
-        alert(componentKeys);
         var param = {
             serviceInstancesId: $("#serviceInstancesId").val(),
             componentKeys: componentKeys
@@ -456,7 +455,7 @@
                 }
             }
         }
-        alert(data.length);
+
         procCallSpinner(SPINNER_STOP);
 
     }
@@ -465,7 +464,7 @@
         var param = {
             serviceInstancesId: $("#serviceInstancesId").val()
         };
-        procCallAjax("/qualityIssues/projectList.do", param, callbackGetProjectList);
+        procCallAjax("/projects/projectsList.do", param, callbackGetProjectList);
     }
 
     var callbackGetProjectList = function (data) {
@@ -525,6 +524,7 @@
             var resolutionResults = new Array();
 
             for (var k = 0; k < projectKey.length; k++) {
+
                 var key = projectKey[k];
                 var severityKey = severity[k];
                 var statusKey = status[k];
@@ -553,7 +553,6 @@
                 } else {
                     resolutionResults[resolutionKey] = resolutionResults[resolutionKey] + 1;
                 }
-
 
             }
 
@@ -592,9 +591,8 @@
 
             for (var resolutionNum in resolutionResults) {
 
-
                 if (resolutionNum == "FALSE-POSITIVE") {
-                    $("#ㅋ").text(resolutionResults[resolutionNum]);
+                    $("#false_positive").text(resolutionResults[resolutionNum]);
                 } else if (resolutionNum == "WONTFIX") {
                     $("#wontfix").text(resolutionResults[resolutionNum]);
                 } else if (resolutionNum == "FIXED") {
@@ -945,8 +943,8 @@
     }
 
     $(document.body).ready(function () {
-//        getProjectList();
-        getIssuesCondition();
+        getProjectList();
+//        getIssuesCondition();
 //        getLanguage();
 //        getList();
 
