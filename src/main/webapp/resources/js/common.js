@@ -1,5 +1,5 @@
 // POPUP CONFIRM
-var procPopupConfirm = function(reqTitle, reqMessage, procFunction, reqButtonText, procCancelFunction) {
+var procPopupConfirm = function (reqTitle, reqMessage, procFunction, reqButtonText, procCancelFunction) {
     if (null === reqTitle || reqTitle.length < 1) return false;
     if (null === reqMessage || reqMessage.length < 1) return false;
     if (null === procFunction) return false;
@@ -26,14 +26,14 @@ var procPopupConfirm = function(reqTitle, reqMessage, procFunction, reqButtonTex
 
 
 // CLOSE POPUP
-var procClosePopup = function() {
+var procClosePopup = function () {
     $('div.modal').modal('hide');
 };
 
 
 // POPUP ALERT
-var procPopupAlert = function(reqMessage, procFunction, reqClosePopup) {
-    if (null === reqClosePopup || undefined ===  reqClosePopup) {
+var procPopupAlert = function (reqMessage, procFunction, reqClosePopup) {
+    if (null === reqClosePopup || undefined === reqClosePopup) {
         procClosePopup();
     }
 
@@ -45,15 +45,17 @@ var procPopupAlert = function(reqMessage, procFunction, reqClosePopup) {
 
     objModalAlert.modal('show');
     objModalAlert.on('hidden.bs.modal', function () {
-        if (null !== procFunction && undefined !==  procFunction && reqMessage.length > 0) {
-            setTimeout(function() { eval(procFunction); }, 3);
+        if (null !== procFunction && undefined !== procFunction && reqMessage.length > 0) {
+            setTimeout(function () {
+                eval(procFunction);
+            }, 3);
         }
     })
 };
 
 
 // CALL SPINNER
-var procCallSpinner = function(reqStatus) {
+var procCallSpinner = function (reqStatus) {
     var objModalSpinner = $('#modalSpinner');
 
     if ('' === reqStatus || undefined === reqStatus || SPINNER_START === reqStatus) {
@@ -71,7 +73,7 @@ var procCallSpinner = function(reqStatus) {
 
 // CHECK IS NULL STRING
 var procIsNullString = function (reqString) {
-    return (reqString === null) || (reqString === "undefined") || (reqString === "null") || (reqString + ''.replace(/ /gi,"") === "");
+    return (reqString === null) || (reqString === "undefined") || (reqString === "null") || (reqString + ''.replace(/ /gi, "") === "");
 };
 
 // GET DASHBOARD URL
@@ -124,7 +126,7 @@ var getProcCallAjax = function (reqUrl, callback) {
 
             var resData = {
                 resultStatus: RESULT_STATUS_FAIL,
-                resultMessage : responseResultMessage
+                resultMessage: responseResultMessage
             };
 
             $('#commonPopupAlertMessage').html(responseResultMessage);
@@ -154,7 +156,7 @@ var postProcCallAjax = function (reqUrl, param, callback) {
         data: reqData,
         dataType: 'json',
         contentType: "application/json",
-        beforeSend : function(xhr){
+        beforeSend: function (xhr) {
             xhr.setRequestHeader(_csrf_header, _csrf_token);
         },
         success: function (data) {
@@ -183,7 +185,68 @@ var postProcCallAjax = function (reqUrl, param, callback) {
 
             var resData = {
                 resultStatus: RESULT_STATUS_FAIL,
-                resultMessage : responseResultMessage
+                resultMessage: responseResultMessage
+            };
+
+            // PASS :: JOB STATUS EXCEPTION
+            if ('JOB_STATUS_EXCEPTION' !== responseResultMessage) {
+                $('#commonPopupAlertMessage').html(responseResultMessage);
+                objModalAlert.modal('show');
+            }
+
+            callback(resData, param);
+        },
+        complete: function (data) {
+            console.log("COMPLETE :: data :: ", data);
+        }
+    });
+};
+
+var getProcCallAjaxData = function (reqUrl, param, callback) {
+    console.log("POST REQUEST");
+
+    var reqData = {};
+
+    if (param !== null) {
+        reqData = JSON.stringify(param);
+    }
+
+    $.ajax({
+        url: reqUrl,
+        method: "GET",
+        data: reqData,
+        dataType: 'json',
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(_csrf_header, _csrf_token);
+        },
+        success: function (data) {
+            if (data) {
+                callback(data, param);
+            } else {
+                var resData = {
+                    resultStatus: RESULT_STATUS_SUCCESS
+                    // RESULT: RESULT_STATUS_SUCCESS,
+                    // RESULT_MESSAGE: RESULT_STATUS_SUCCESS_MESSAGE
+                };
+
+                callback(resData, param);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log("ERROR :: xhr :: ", xhr);
+            console.log("ERROR :: status :: ", status);
+            console.log("ERROR :: error :: ", error);
+
+            var responseString = '시스템 장애가 발생했습니다.';
+            var objModalAlert = $('#modalAlert');
+            var responseText = xhr.responseText;
+            var tempResultMessage = (null === responseText || 'null' === responseText || '' === responseText) ? responseString : JSON.parse(responseText).message;
+            var responseResultMessage = (null === tempResultMessage || 'null' === tempResultMessage || '' === tempResultMessage) ? responseString : tempResultMessage;
+
+            var resData = {
+                resultStatus: RESULT_STATUS_FAIL,
+                resultMessage: responseResultMessage
             };
 
             // PASS :: JOB STATUS EXCEPTION
@@ -211,16 +274,23 @@ var procCallAjax = function (reqUrl, param, callback) {
 };
 
 
+var procCallAjaxGet = function (reqUrl, param, callback) {
+    reqUrl = procGetDashboardUrl() + reqUrl;
+    getProcCallAjaxData(reqUrl, param, callback);
+
+};
+
+
 // MOVE PAGE
 var procMovePage = function (pageUrl) {
     if (pageUrl === null || pageUrl.length < 1) {
         return false;
     }
 
-    if((!!pageUrl && typeof pageUrl === 'number') && -1 === pageUrl) {
+    if ((!!pageUrl && typeof pageUrl === 'number') && -1 === pageUrl) {
         history.back();
     } else {
-        pageUrl = ("/" === pageUrl)? "" : pageUrl;
+        pageUrl = ("/" === pageUrl) ? "" : pageUrl;
         location.href = procGetDashboardUrl() + pageUrl;
     }
 
@@ -229,14 +299,14 @@ var procMovePage = function (pageUrl) {
 
 // DOWNLOAD
 var procDownload = function (fileId) {
-    procMovePage(DOWNLOAD_API_URL + fileId) ;
+    procMovePage(DOWNLOAD_API_URL + fileId);
 };
 
 
 // MOVE CURSOR TO END OF TEXTAREA OR INPUT
-jQuery.fn.putCursorAtEnd = function() {
+jQuery.fn.putCursorAtEnd = function () {
 
-    return this.each(function() {
+    return this.each(function () {
         var $el = $(this), el = this;
         if (!$el.is(":focus")) {
             $el.focus();
@@ -244,7 +314,7 @@ jQuery.fn.putCursorAtEnd = function() {
 
         if (el.setSelectionRange) {
             var len = $el.val().length * 2;
-            setTimeout(function() {
+            setTimeout(function () {
                 el.setSelectionRange(len, len);
             }, 1);
 

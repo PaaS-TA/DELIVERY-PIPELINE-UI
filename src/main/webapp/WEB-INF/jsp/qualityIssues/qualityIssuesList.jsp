@@ -29,27 +29,94 @@
                     <ul>
                         <h4>해결여부 (Resolution)</h4>
                         <div id="issueResolution">
-                            <li><a href="javascript:resolutionChecked(0);"><input type="checkbox" name="resolutionCheck" value="UNRESOLVED" onclick="resolutionChecked('0')"> <span class="block">미해결 (Unresolved)</span> <span class="issue_num" id="unresolved">0</span></a></li>
-                            <li><a href="javascript:resolutionChecked(1);"><input type="checkbox" name="resolutionCheck" value="FIXED" onclick="resolutionChecked('1')"> <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a></li>
-                            <li><a href="javascript:resolutionChecked(2);"><input type="checkbox" name="resolutionCheck" value="FALSE-POSITIVE" onclick="resolutionChecked('2')"> <span class="block">보류 (False positive)</span> <span class="issue_num" id="false_positive">0</span></a></li>
-                            <li><a href="javascript:resolutionChecked(3);"><input type="checkbox" name="resolutionCheck" value="WONTFIX" onclick="resolutionChecked('3')"> <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a></li>
-                            <li class="last"><a href="javascript:resolutionChecked(4);"><input type="checkbox" name="resolutionCheck" value="REMOVED" onclick="resolutionChecked('4')"> <span class="block">제거됨 (Removed)</span> <span class="issue_num" id="removed">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(0);"><input type="checkbox" name="resolutionCheck"
+                                                                                  value="UNRESOLVED"
+                                                                                  onclick="resolutionChecked('0')">
+                                <span class="block">미해결 (Unresolved)</span> <span class="issue_num"
+                                                                                  id="unresolved">0</span></a></li>
+                            <li><a href="javascript:resolutionChecked(1);"><input type="checkbox" name="resolutionCheck"
+                                                                                  value="FIXED"
+                                                                                  onclick="resolutionChecked('1')">
+                                <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a>
+                            </li>
+                            <li><a href="javascript:resolutionChecked(2);"><input type="checkbox" name="resolutionCheck"
+                                                                                  value="FALSE-POSITIVE"
+                                                                                  onclick="resolutionChecked('2')">
+                                <span class="block">보류 (False positive)</span> <span class="issue_num"
+                                                                                     id="false_positive">0</span></a>
+                            </li>
+                            <li><a href="javascript:resolutionChecked(3);"><input type="checkbox" name="resolutionCheck"
+                                                                                  value="WONTFIX"
+                                                                                  onclick="resolutionChecked('3')">
+                                <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a>
+                            </li>
+                            <li class="last"><a href="javascript:resolutionChecked(4);"><input type="checkbox"
+                                                                                               name="resolutionCheck"
+                                                                                               value="REMOVED"
+                                                                                               onclick="resolutionChecked('4')">
+                                <span class="block">제거됨 (Removed)</span> <span class="issue_num"
+                                                                               id="removed">0</span></a></li>
                         </div>
                         <h4>이슈 수준 (Severity)</h4>
                         <div id="issueSeverity">
-                            <li><a href="javascript:chkOn(0,'severityCheck');"><input type="checkbox" name="severityCheck" value="BLOCKER" onclick="getList()"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span class="issue_num" id="blocker">0</span></a></li>
-                            <li><a href="javascript:chkOn(1,'severityCheck');"><input type="checkbox" name="severityCheck" value="CRITICAL" onclick="getList()"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span class="issue_num" id="critical">0</span></a></li>
-                            <li><a href="javascript:chkOn(2,'severityCheck');"><input type="checkbox" name="severityCheck" value="MAJOR" onclick="getList()"> <span class="block"><i class="ico_major"></i>보통 (Major)</span> <span class="issue_num" id="major">0</span></a></li>
-                            <li><a href="javascript:chkOn(3,'severityCheck');"><input type="checkbox" name="severityCheck" value="MINOR" onclick="getList()"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span class="issue_num" id="minor">0</span></a></li>
-                            <li class="last"><a href="javascript:chkOn(4,'severityCheck');"><input type="checkbox" name="severityCheck" value="INFO" onclick="getList()"> <span class="block"><i class="ico_info"></i>정보 (Info)</span> <span class="issue_num" id="info">0</span></a></li>
+                            <li><a href="javascript:chkOn(0,'severityCheck');"><input type="checkbox"
+                                                                                      name="severityCheck"
+                                                                                      value="BLOCKER"
+                                                                                      onclick="getList()"> <span
+                                    class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span class="issue_num"
+                                                                                                       id="blocker">0</span></a>
+                            </li>
+                            <li><a href="javascript:chkOn(1,'severityCheck');"><input type="checkbox"
+                                                                                      name="severityCheck"
+                                                                                      value="CRITICAL"
+                                                                                      onclick="getList()"> <span
+                                    class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span
+                                    class="issue_num" id="critical">0</span></a></li>
+                            <li><a href="javascript:chkOn(2,'severityCheck');"><input type="checkbox"
+                                                                                      name="severityCheck" value="MAJOR"
+                                                                                      onclick="getList()"> <span
+                                    class="block"><i class="ico_major"></i>보통 (Major)</span> <span class="issue_num"
+                                                                                                   id="major">0</span></a>
+                            </li>
+                            <li><a href="javascript:chkOn(3,'severityCheck');"><input type="checkbox"
+                                                                                      name="severityCheck" value="MINOR"
+                                                                                      onclick="getList()"> <span
+                                    class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span class="issue_num"
+                                                                                                   id="minor">0</span></a>
+                            </li>
+                            <li class="last"><a href="javascript:chkOn(4,'severityCheck');"><input type="checkbox"
+                                                                                                   name="severityCheck"
+                                                                                                   value="INFO"
+                                                                                                   onclick="getList()">
+                                <span class="block"><i class="ico_info"></i>정보 (Info)</span> <span class="issue_num"
+                                                                                                   id="info">0</span></a>
+                            </li>
                         </div>
                         <h4>상태 (Status)</h4>
                         <div id="issueStatus">
-                            <li><a href="javascript:chkOn(0,'statusCheck');"><input type="checkbox"  name="statusCheck" value="OPEN" onclick="getList()"> <span class="block">활성 (Open)</span> <span class="issue_num" id="open">0</span></a></li>
-                            <li><a href="javascript:chkOn(1,'statusCheck');"><input type="checkbox"  name="statusCheck" value="RESOLVED" onclick="getList()"> <span class="block">해결됨 (Resolved)</span> <span class="issue_num" id="resolved">0</span></a></li>
-                            <li><a href="javascript:chkOn(2,'statusCheck');"><input type="checkbox"  name="statusCheck" value="REOPENED" onclick="getList()"> <span class="block">재활성 (Reopened)</span> <span class="issue_num" id="reopened">0</span></a></li>
-                            <li><a href="javascript:chkOn(3,'statusCheck');"><input type="checkbox"  name="statusCheck" value="CLOSED" onclick="getList()"> <span class="block">비활성 (Closed)</span> <span class="issue_num" id="closed">0</span></a></li>
-                            <li class="last"><a href="javascript:chkOn(4,'statusCheck');"><input type="checkbox" name="statusCheck" value="CONFIRMED" onclick="getList()"> <span class="block">확인됨 (Confirmed)</span> <span class="issue_num" id="confirmed">0</span></a></li>
+                            <li><a href="javascript:chkOn(0,'statusCheck');"><input type="checkbox" name="statusCheck"
+                                                                                    value="OPEN" onclick="getList()">
+                                <span class="block">활성 (Open)</span> <span class="issue_num" id="open">0</span></a></li>
+                            <li><a href="javascript:chkOn(1,'statusCheck');"><input type="checkbox" name="statusCheck"
+                                                                                    value="RESOLVED"
+                                                                                    onclick="getList()"> <span
+                                    class="block">해결됨 (Resolved)</span> <span class="issue_num"
+                                                                              id="resolved">0</span></a></li>
+                            <li><a href="javascript:chkOn(2,'statusCheck');"><input type="checkbox" name="statusCheck"
+                                                                                    value="REOPENED"
+                                                                                    onclick="getList()"> <span
+                                    class="block">재활성 (Reopened)</span> <span class="issue_num"
+                                                                              id="reopened">0</span></a></li>
+                            <li><a href="javascript:chkOn(3,'statusCheck');"><input type="checkbox" name="statusCheck"
+                                                                                    value="CLOSED" onclick="getList()">
+                                <span class="block">비활성 (Closed)</span> <span class="issue_num" id="closed">0</span></a>
+                            </li>
+                            <li class="last"><a href="javascript:chkOn(4,'statusCheck');"><input type="checkbox"
+                                                                                                 name="statusCheck"
+                                                                                                 value="CONFIRMED"
+                                                                                                 onclick="getList()">
+                                <span class="block">확인됨 (Confirmed)</span> <span class="issue_num"
+                                                                                 id="confirmed">0</span></a></li>
 
                         </div>
                         <h4>개발언어 (Language)</h4>
@@ -145,12 +212,9 @@
                                                        </table>--%>
 
 
-
                         </div>
                     </div>
                 </div>
-
-
 
 
             </div>
@@ -165,65 +229,59 @@
 
 <input type="hidden" name="issuesTotal" id="issuesTotal"/>
 <input type="hidden" name="issuesPs" id="issuesPs" value="50"/>
-<input type="hidden" name="serviceInstancesId" id="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-
+<input type="hidden" name="serviceInstancesId" id="serviceInstancesId"
+       value="<c:out value='${serviceInstancesId}' default='' />">
 
 
 <script type="text/javascript">
-    $(window).scroll(function(){
-     if($(window).scrollTop() >= $(document).height() - $(window).height()){
+    $(window).scroll(function () {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
 
-         var pageSize = $("#issuesPs").val();
-         var pageTotal = $("#issuesTotal").val();
-         if(parseInt(pageSize) < parseInt(pageTotal) ) {
-             var loadingImg = " <tr><td class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
-            $(".tbodyDatas  > :last").append(loadingImg);
+            var pageSize = $("#issuesPs").val();
+            var pageTotal = $("#issuesTotal").val();
+            if (parseInt(pageSize) < parseInt(pageTotal)) {
+                var loadingImg = " <tr><td class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
+                $(".tbodyDatas  > :last").append(loadingImg);
 
-            if (pageSize != "") {
-                if($("#issuesTable").css("display") == "block") {
+                if (pageSize != "") {
+                    if ($("#issuesTable").css("display") == "block") {
+                        pageSize = parseInt(pageSize) + 50;
+                        $("#issuesPs").val(pageSize);
+                        getList();
+                    }
+                } else {
+                    pageSize = 0;
                     pageSize = parseInt(pageSize) + 50;
                     $("#issuesPs").val(pageSize);
-                    getList();
                 }
-             } else {
-                 pageSize = 0;
-                 pageSize = parseInt(pageSize) + 50;
-                 $("#issuesPs").val(pageSize);
-             }
-  /*           if($("#issuesTable").css("display") == "block") {
-              if (pageSize != "" && pageSize <= pageTotal) {
-              pageSize = parseInt(pageSize) + 50;
-              $("#issuesPs").val(pageSize);
-              getList();
-              } else if (pageSize > pageTotal) {
-              return false;
-              }
-              }*/
+                /*           if($("#issuesTable").css("display") == "block") {
+                            if (pageSize != "" && pageSize <= pageTotal) {
+                            pageSize = parseInt(pageSize) + 50;
+                            $("#issuesPs").val(pageSize);
+                            getList();
+                            } else if (pageSize > pageTotal) {
+                            return false;
+                            }
+                            }*/
 
-         }
-
-
+            }
 
 
         }
-     })
+    })
 
-    $(function(){
+    $(function () {
 
-        $("#issuesListReturn").click(function(){
+        $("#issuesListReturn").click(function () {
             $("#issuesTable").css("display", "block");
             $("#issuesDetail").css("display", "none");
         })
 
 
-
     });
 
 
-
-
-
-    function getList(){
+    function getList() {
 
         $("#issuesTable").css("display", "block");
         $("#issuesDetail").css("display", "none");
@@ -236,80 +294,79 @@
         var resolved = "";
 
 
-        $("#issueResolution").find("input[name=resolutionCheck]").each(function(i){
-            if($(this).is(":checked") == true){
+        $("#issueResolution").find("input[name=resolutionCheck]").each(function (i) {
+            if ($(this).is(":checked") == true) {
 
-                resolutions += $(this).val()+",";
+                resolutions += $(this).val() + ",";
             }
         });
 
-        $("#issueSeverity").find("input[name=severityCheck]").each(function(i){
-            if($(this).is(":checked") == true){
-                severities += $(this).val()+",";
+        $("#issueSeverity").find("input[name=severityCheck]").each(function (i) {
+            if ($(this).is(":checked") == true) {
+                severities += $(this).val() + ",";
             }
         });
 
-        $("#issueStatus").find("input[name=statusCheck]").each(function(i){
-            if($(this).is(":checked") == true){
-                statuses += $(this).val()+",";
+        $("#issueStatus").find("input[name=statusCheck]").each(function (i) {
+            if ($(this).is(":checked") == true) {
+                statuses += $(this).val() + ",";
             }
         });
 
-        $("#issueProject").find("input[name=projectCheck]").each(function(i){
+        $("#issueProject").find("input[name=projectCheck]").each(function (i) {
 
-            if($(this).is(":checked") == true){
-                componentKeys += $(this).val()+",";
+            if ($(this).is(":checked") == true) {
+                componentKeys += $(this).val() + ",";
             }
         });
 
 
-
-        resolutions = resolutions.slice(0,-1);
-        severities = severities.slice(0,-1);
-        statuses = statuses.slice(0,-1);
-        componentKeys = componentKeys.slice(0,-1);
-
+        resolutions = resolutions.slice(0, -1);
+        severities = severities.slice(0, -1);
+        statuses = statuses.slice(0, -1);
+        componentKeys = componentKeys.slice(0, -1);
 
 
         var param = {
-            ps : ps,
+            ps: ps,
             resolutions: resolutions,
             severities: severities,
             statuses: statuses,
             componentKeys: componentKeys,
             resolved: resolved,
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId: $("#serviceInstancesId").val()
 
         }
 
         procCallAjax("/qualityIssues/qualityIssuesList.do", param, callbackGetList);
 
+        alert(componentKeys);
         var param = {
-            serviceInstancesId:$("#serviceInstancesId").val(),
-            componentKeys:componentKeys
+            serviceInstancesId: $("#serviceInstancesId").val(),
+            componentKeys: componentKeys
         }
-        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+        //      procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
 
     }
 
 
-
-    var callbackGetList = function(data){
+    var callbackGetList = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        procCallSpinner(SPINNER_START);
+        //procCallSpinner(SPINNER_START);
         var list = "";
         var listHead = "";
         var listFile = "";
-        if(data.length != 0) {
+
+        if (data != undefined && data.length != 0) {
 
             //data 정렬
-            data.components.sort(function(a,b){
-                return a.name < b.name ? -1 : a.name > b.name ? 1:0;
+            data.components.sort(function (a, b) {
+                return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
             });
 
 
             $("#issuesTotal").val(data.total);
-            if(data.components != null && data.components.length >0) {
+            if (data.components != null && data.components.length > 0) {
                 for (var j = 0; j < data.components.length; j++) {
 
 
@@ -330,13 +387,13 @@
                         listHead += "</table>";
                     }
                 }
-            }else{
+            } else {
                 listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
                 listHead += "<caption>품질이슈 리스트</caption>";
                 listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
 
 
-                listHead +=  "<tbody  class='tbodyDatas'>";
+                listHead += "<tbody  class='tbodyDatas'>";
                 listHead += "<tr><td class='alignC'>검색한 데이터가 없습니다.</td></tr>";
                 listHead += "</tbody>";
                 listHead += "</table>";
@@ -346,7 +403,7 @@
 
             $("#issuesTable").html(listHead);
 
-            if(data.components != null && data.components.length >0) {
+            if (data.components != null && data.components.length > 0) {
                 for (var j = 0; j < data.components.length; j++) {
                     if (data.components[j].qualifier == "TRK") {
                         $(".filePath_" + data.components[j].id).before(data.components[j].name);
@@ -360,155 +417,64 @@
                     list += "<div class='rule_tit'>" + data.issues[i].message + "</div>";
                     list += "<ul class='sel_menu'>";
                     list += "<li>";
-                    /*                list += "<div class='selectbox' style='width:95px;'>";
-                 list += "<div>";
-                     list += "<strong><img src='/resources/images/ico_blocker.png'> 심각</strong><span class='bul'></span>";
-                     } else if (data.issues[i].severity == "CRITICAL") {
-                     list += "<strong><img src='/resources/images/ico_critical.png'> 높음</strong><span class='bul'></span>";
-                     } else if (data.issues[i].severity == "MAJOR") {
-                     list += "<strong><img src='/resources/images/ico_major.png'> 보통</strong><span class='bul'></span>";
-                     } else if (data.issues[i].severity == "MINOR") {
-                     list += "<strong><img src='/resources/images/ico_minor.png'> 낮음</strong><span class='bul'></span>";
-                     } else if (data.issues[i].severity == "INFO") {
-                     list += "<strong><img src='/resources/images/ico_info.png'> 정보</strong><span class='bul'></span>";
-                     }
-                     if (data.issues[i].severity == "BLOCKER") {
-
-                 list += "</div>";
-                 list += "<ul class='select-list'>";
-                 list += "<li><span class='ico_blocker'></span>심각</li>";
-                 list += "<li><span class='ico_critical'></span>높음</li>";
-                 list += "<li><span class='ico_major'></span>보통</li>";
-                 list += "<li><span class='ico_minor'></span>낮음</li>";
-                 list += "<li><span class='ico_info'></span>정보</li>";
-                 list += "</ul>";
-                 list += "</div>";*/
-                 list += "<input type='hidden' id='issueKey_"+i+"' value='"+data.issues[i].key+"'>";
-                 list += "<select id='issueSelect_"+i+"' class ='makeMeFancy' onchange='setSeverity("+i+")' style='width:95px;'>";
-
-                if(data.issues[i].severity == "BLOCKER"){
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER' selected>심각</option>";
+                    list += "<input type='hidden' id='issueKey_" + i + "' value='" + data.issues[i].key + "'>";
+                    list += "<select id='issueSelect_" + i + "' class ='makeMeFancy' onchange='setSeverity(" + i + ")' style='width:95px;'>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER' >심각</option>";
                     list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL' >높음</option>";
                     list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' >보통</option>";
                     list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
                     list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
-                } else if (data.issues[i].severity == "CRITICAL") {
+                    list += " </select>";
+                    list += "</li>";
+                    list += "<li>";
+                    list += "<select id='transitionSelect_" + i + "' style='width:95px;' onchange=\"setTransition(\'" + data.issues[i].key + "')\">";
+                    list += "<option value='OPEN'>활성</option>";
+                    list += "<option value='CONFIRMED'>확인됨</option>";
+                    list += "<option value='FIXED'>수정됨</option>";
+                    list += "<option value='POSITIVE'>보류</option>";
+                    list += "<option value='WONTFIX'>무시</option>";
+                    list += "<option value='REOPENED'>재활성</option>";
+                    list += "</select>";
+                    list += "</li>";
 
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL' selected>높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' >보통</option>";
-                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
-                } else if (data.issues[i].severity == "MAJOR") {
+                    if (data.issues[i].textRange == "" || data.issues[i].textRange == "undefined" || data.issues[i].textRange == null) {
+                        list += "<li class='loca_txt'></li>";
+                    } else {
+                        list += "<li class='loca_txt'>위치 : " + data.issues[i].textRange.startLine + " 라인</li>";
+                    }
+                    list += " </ul>";
+                    list += "</td>";
+                    list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">규칙상세</button></td>";
+                    list += "</tr>";
 
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' selected>보통</option>";
-                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
-                } else if (data.issues[i].severity == "MINOR") {
 
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR'>보통</option>";
-                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' selected>낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
-                } else if (data.issues[i].severity == "INFO") {
-
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER'>심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL'>높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR'>보통</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='낮음' value='MINOR'>낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_info.png' data-html-text='정보' value='INFO'selected>정보</option>";
-
+                    $("#tbodyData_" + data.issues[i].componentId).append(list);
+                    //셀렉트
+                    //$("#transitionSelect_" + i)
+                    //$("#issueSelect_" + i)
+                    list = "";
                 }
-
-                list += " </select>";
-                list += "</li>";
-                list += "<li>";
-                list += "<select id='transitionSelect' style='width:95px;' onchange=\"setTransition(\'"+data.issues[i].key+"')\">";
-                if(data.issues[i].status == "OPEN"){
-                    list += "<option value='' selected>활성</option>";
-                    list += "<option value='confirm'>확인됨</option>";
-                    list += "<option value=''>수정됨</option>";
-                    list += "<option value='falsepositive'>보류</option>";
-                    list += "<option value='wontfix'>무시</option>";
-                    list += "<option value='reopen'>재활성</option>";
-                } else if(data.issues[i].status =="CONFIRMED"){
-                    list += "<option value='' >활성</option>";
-                    list += "<option value='confirm' selected>확인됨</option>";
-                    list += "<option value=''>수정됨</option>";
-                    list += "<option value='falsepositive'>보류</option>";
-                    list += "<option value='wontfix'>무시</option>";
-                    list += "<option value='reopen'>재활성</option>";
-                } else if(data.issues[i].resolution =="FIXED"){
-                    list += "<option value='' >활성</option>";
-                    list += "<option value='confirm'>확인됨</option>";
-                    list += "<option value='' selected>수정됨</option>";
-                    list += "<option value='falsepositive'>보류</option>";
-                    list += "<option value='wontfix'>무시</option>";
-                    list += "<option value='reopen'>재활성</option>";
-                } else if(data.issues[i].resolution =="FALSE-POSITIVE"){
-                    list += "<option value='' >활성</option>";
-                    list += "<option value='confirm'>확인됨</option>";
-                    list += "<option value=''>수정됨</option>";
-                    list += "<option value='falsepositive' selected>보류</option>";
-                    list += "<option value='wontfix'>무시</option>";
-                    list += "<option value='reopen'>재활성</option>";
-                } else if(data.issues[i].resolution =="WONTFIX"){
-                    list += "<option value='' >활성</option>";
-                    list += "<option value='confirm'>확인됨</option>";
-                    list += "<option value=''>수정됨</option>";
-                    list += "<option value='falsepositive'>보류</option>";
-                    list += "<option value='wontfix' selected>무시</option>";
-                    list += "<option value='reopen'>재활성</option>";
-                } else if(data.issues[i].status =="REOPENED"){
-                    list += "<option value='' >활성</option>";
-                    list += "<option value='confirm'>확인됨</option>";
-                    list += "<option value=''>수정됨</option>";
-                    list += "<option value='falsepositive'>보류</option>";
-                    list += "<option value='wontfix'>무시</option>";
-                    list += "<option value='reopen' selected>재활성</option>";
-                }
-
-                list += "</select>";
-                list += "</li>";
-
-                if (data.issues[i].textRange == "" || data.issues[i].textRange == "undefined" || data.issues[i].textRange == null) {
-                    list += "<li class='loca_txt'></li>";
-                } else {
-                    list += "<li class='loca_txt'>위치 : " + data.issues[i].textRange.startLine + " 라인</li>";
-                }
-                list += " </ul>";
-                list += "</td>";
-                list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">규칙상세</button></td>";
-                list += "</tr>";
-
-
-                $("#tbodyData_" + data.issues[i].componentId).append(list);
-                list = "";
             }
-         }
         }
-
+        alert(data.length);
         procCallSpinner(SPINNER_STOP);
 
     }
 
-    var getProjectList = function(){
+    var getProjectList = function () {
         var param = {
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId: $("#serviceInstancesId").val()
         };
-        procCallAjax("/qualityIssues/projectList.do",param,callbackGetProjectList);
+        procCallAjax("/qualityIssues/projectList.do", param, callbackGetProjectList);
     }
 
-    var callbackGetProjectList = function(data){
+    var callbackGetProjectList = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         var list = "";
-        if(data.length > 0){
+        if (data.length > 0) {
 
-            for(var i=0 ; i<data.length; i++) {
-                list += "<li><a href=\"javascript:chkOn(\'" +i+ "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block' title='"+data[i].name+"'>" + data[i].projectName + "</span> <span class='issue_num'></span></a></li>";
+            for (var i = 0; i < data.length; i++) {
+                list += "<li><a href=\"javascript:chkOn(\'" + i + "','projectCheck');\"><input type='checkbox' name='projectCheck' onclick='getList()' value='" + data[i].sonarKey + "'> <span class='block' title='" + data[i].name + "'>" + data[i].projectName + "</span> <span class='issue_num'></span></a></li>";
             }
         }
 
@@ -517,14 +483,14 @@
     }
 
 
-    var getIssuesCondition = function(){
+    var getIssuesCondition = function () {
         var param = {
-            serviceInstancesId:$("#serviceInstancesId").val()
+            serviceInstancesId: $("#serviceInstancesId").val()
         }
-        procCallAjax("/qualityIssues/issuesConditionList.do", param ,callbackGetIssuesCondition);
+        procCallAjax("/qualityIssues/issuesConditionList.do", param, callbackGetIssuesCondition);
     }
 
-    var callbackGetIssuesCondition = function(data){
+    var callbackGetIssuesCondition = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
@@ -538,10 +504,10 @@
         var resolution = new Array();
 
 //        var projectList = "";
-        var count = 0 ;
-        if(data.length != 0) {
-            for(var i=0;i<data.length;i++){
-                count +=i;
+        var count = 0;
+        if (data.length != 0) {
+            for (var i = 0; i < data.length; i++) {
+                count += i;
                 for (var j = 0; j < data[i].issues.length; j++) {
                     projectKey[count] = data[i].issues[j].project;
                     severity[count] = data[i].issues[j].severity;
@@ -589,7 +555,6 @@
                 }
 
 
-
             }
 
 
@@ -598,13 +563,13 @@
 
             for (var projectName in projectResults) {
 
-                for(var i=0;i<data.length;i++) {
+                for (var i = 0; i < data.length; i++) {
                     for (var j = 0; j < data[i].components.length; j++) {
                         if (data[i].components[j].qualifier == "TRK" && projectName == data[i].components[j].key) {
-                            $("#issueProject").find("li").each(function(k){
+                            $("#issueProject").find("li").each(function (k) {
 
 
-                                if($(this).find(".block").text() == data[i].components[j].name){
+                                if ($(this).find(".block").text() == data[i].components[j].name) {
                                     $(this).find(".issue_num").text(projectResults[projectName]);
 
                                 }
@@ -618,77 +583,74 @@
 
             }
             //프로젝트 갯수 가 없을때 0
-            $("#issueProject").find("li").each(function(i){
-                if( $(this).find(".issue_num").text() == ""){
+            $("#issueProject").find("li").each(function (i) {
+                if ($(this).find(".issue_num").text() == "") {
                     $(this).find(".issue_num").text("0");
                 }
             });
 
 
-
             for (var resolutionNum in resolutionResults) {
 
 
-                if(resolutionNum == "FALSE-POSITIVE") {
-                    $("#false_positive").text(resolutionResults[resolutionNum]);
-                }else if(resolutionNum == "WONTFIX") {
+                if (resolutionNum == "FALSE-POSITIVE") {
+                    $("#ㅋ").text(resolutionResults[resolutionNum]);
+                } else if (resolutionNum == "WONTFIX") {
                     $("#wontfix").text(resolutionResults[resolutionNum]);
-                }else if(resolutionNum == "FIXED") {
+                } else if (resolutionNum == "FIXED") {
                     $("#fixed").text(resolutionResults[resolutionNum]);
-                }else if(resolutionNum == "REMOVED") {
+                } else if (resolutionNum == "REMOVED") {
                     $("#removed").text(resolutionResults[resolutionNum]);
-                }else{
+                } else {
                     $("#unresolved").text(resolutionResults[resolutionNum]);
                 }
             }
 
 
             for (var severityNum in severityResults) {
-                if(severityNum == "BLOCKER"){
+                if (severityNum == "BLOCKER") {
                     $("#blocker").text(severityResults[severityNum]);
-                }else if(severityNum == "CRITICAL") {
+                } else if (severityNum == "CRITICAL") {
                     $("#critical").text(severityResults[severityNum]);
-                }else if(severityNum == "MAJOR") {
+                } else if (severityNum == "MAJOR") {
                     $("#major").text(severityResults[severityNum]);
-                }else if(severityNum == "MINOR") {
+                } else if (severityNum == "MINOR") {
                     $("#minor").text(severityResults[severityNum]);
-                }else if(severityNum == "INFO") {
+                } else if (severityNum == "INFO") {
                     $("#info").text(severityResults[severityNum]);
                 }
             }
 
             for (var statusNum in statusResults) {
-                if(statusNum == "OPEN"){
+                if (statusNum == "OPEN") {
                     $("#open").text(statusResults[statusNum]);
-                }else if(statusNum == "RESOLVED") {
+                } else if (statusNum == "RESOLVED") {
                     $("#resolved").text(statusResults[statusNum]);
-                }else if(statusNum == "REOPENED") {
+                } else if (statusNum == "REOPENED") {
                     $("#reopened").text(statusResults[statusNum]);
-                }else if(statusNum == "CLOSED") {
+                } else if (statusNum == "CLOSED") {
                     $("#closed").text(statusResults[statusNum]);
-                }else if(statusNum == "CONFIRMED") {
+                } else if (statusNum == "CONFIRMED") {
                     $("#confirmed").text(statusResults[statusNum]);
                 }
             }
 
 
-
         }
 
 
-
     }
 
-    var getLanguage = function(){
-        procCallAjax("/qualityIssues/getLanguageList.do",null,callbackGetIssueLanguageList);
+    var getLanguage = function () {
+        procCallAjax("/qualityIssues/getLanguageList.do", null, callbackGetIssueLanguageList);
     }
 
-    var callbackGetIssueLanguageList = function(data){
+    var callbackGetIssueLanguageList = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         var list = "";
-        if(data.languages.length > 0){
-            for(var i=0;i<data.languages.length;i++){
-                list += " <li><a href='#'><input type='checkbox' id='' value='"+data.languages[i].key+"'> <span class='block'>"+data.languages[i].name+"</span> <span class='issue_num'></span></a></li>";
+        if (data.languages.length > 0) {
+            for (var i = 0; i < data.languages.length; i++) {
+                list += " <li><a href='#'><input type='checkbox' id='' value='" + data.languages[i].key + "'> <span class='block'>" + data.languages[i].name + "</span> <span class='issue_num'></span></a></li>";
             }
 
         }
@@ -696,18 +658,15 @@
     }
 
 
-
-
-
-    function issuesDetail(key,uuid){
+    function issuesDetail(key, uuid) {
 
         $("#issuesTable").css("display", "none");
         $("#issuesDetail").css("display", "block");
-        procCallAjax("/qualityIssues/qualityIssuesDetail.do?fileKey="+key+"&fileUuid="+uuid ,null,callbackGetIssuesDetail);
+        procCallAjax("/qualityIssues/qualityIssuesDetail.do?fileKey=" + key + "&fileUuid=" + uuid, null, callbackGetIssuesDetail);
 
     }
 
-    var callbackGetIssuesDetail = function(data){
+    var callbackGetIssuesDetail = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         procCallSpinner(SPINNER_START);
         //소스
@@ -715,15 +674,15 @@
         var source_num = "";
         //커버리지
         var lines = ""
-            ,coverage = ""
-            ,issue = ""
-            ,lineData = "";
+            , coverage = ""
+            , issue = ""
+            , lineData = "";
         var msrArray = new Array();
         var coverageArray = new Array();
 
         //파일
         var fileName = ""
-            ,filePath = "";
+            , filePath = "";
         //이슈 표시
         var issues = "";
         var allIssues = "";
@@ -731,16 +690,16 @@
         var severityArray = new Array();
         var list = "";
         var list2 = "";
-        if(data.length > 0){
-            for(var j=0;j<data.length;j++){
+        if (data.length > 0) {
+            for (var j = 0; j < data.length; j++) {
                 //소스 영역
-                if(data[j].sources != null){
-                    for(var i=0; i<data[j].sources.length;i++){
-                        source_num += "<p id='lineNum_"+data[j].sources[i][0]+"'>"+data[j].sources[i][0]+"</p>";
-                        if(data[j].sources[i][1] ==""){
-                            list += "<p id='sourceView_"+(i+1)+"'><br></p>";
-                        }else{
-                            list += "<p id='sourceView_"+(i+1)+"'>"+data[j].sources[i][1]+"</p>";
+                if (data[j].sources != null) {
+                    for (var i = 0; i < data[j].sources.length; i++) {
+                        source_num += "<p id='lineNum_" + data[j].sources[i][0] + "'>" + data[j].sources[i][0] + "</p>";
+                        if (data[j].sources[i][1] == "") {
+                            list += "<p id='sourceView_" + (i + 1) + "'><br></p>";
+                        } else {
+                            list += "<p id='sourceView_" + (i + 1) + "'>" + data[j].sources[i][1] + "</p>";
                         }
 
                     }
@@ -748,11 +707,11 @@
                 }
 
                 //파일이름 영역
-                if(data[j].components != null){
-                    for(var h=0;h<data[j].components.length;h++){
-                        if(data[j].components[h].qualifier == "TRK"){
+                if (data[j].components != null) {
+                    for (var h = 0; h < data[j].components.length; h++) {
+                        if (data[j].components[h].qualifier == "TRK") {
                             fileName = data[j].components[h].name;
-                        }else if(data[j].components[h].qualifier == "FIL"){
+                        } else if (data[j].components[h].qualifier == "FIL") {
                             filePath = data[j].components[h].path;
                         }
                     }
@@ -760,15 +719,15 @@
                 }
 
                 //커버리지 영역
-                if(data[j].msr != null){
-                    for(var k=0;k<data[j].msr.length;k++){
-                        if(data[j].msr[k].key == "lines"){
+                if (data[j].msr != null) {
+                    for (var k = 0; k < data[j].msr.length; k++) {
+                        if (data[j].msr[k].key == "lines") {
                             lines = data[j].msr[k].frmt_val;
-                        }else if(data[j].msr[k].key == "coverage"){
+                        } else if (data[j].msr[k].key == "coverage") {
                             coverage = data[j].msr[k].frmt_val;
-                        }else if(data[j].msr[k].key == "violations"){
+                        } else if (data[j].msr[k].key == "violations") {
                             issue = data[j].msr[k].frmt_val;
-                        }else if(data[j].msr[k].key == "coverage_line_hits_data"){
+                        } else if (data[j].msr[k].key == "coverage_line_hits_data") {
                             lineData = data[j].msr[k].data;
                         }
 
@@ -778,13 +737,13 @@
                 }
                 var message = "";
                 //이슈 영역
-                if(data[j].issues != null){
-                    console.log(data[j].issues );
-                    for(var s = 0; s<data[j].issues.length;s++){
-                        if(data[j].issues[s].textRange != null && data[j].issues[s].severity != null){
-                            issues += data[j].issues[s].textRange.startLine+"="+data[j].issues[s].severity+","
+                if (data[j].issues != null) {
+                    console.log(data[j].issues);
+                    for (var s = 0; s < data[j].issues.length; s++) {
+                        if (data[j].issues[s].textRange != null && data[j].issues[s].severity != null) {
+                            issues += data[j].issues[s].textRange.startLine + "=" + data[j].issues[s].severity + ","
                             message += data[j].issues[s].message;
-                        }else if(data[j].issues[s].textRange == null && data[j].issues[s].severity != null){
+                        } else if (data[j].issues[s].textRange == null && data[j].issues[s].severity != null) {
                             allIssues += data[j].issues[s].severity;
                             message += data[j].issues[s].message;
                         }
@@ -793,8 +752,6 @@
 
 
             }
-
-
 
 
             $("#filePath").text(filePath);
@@ -806,63 +763,62 @@
             $(".source_num").html(source_num);
 
 
-
-            if(lineData != ""){
-                if(lineData.indexOf(";") != -1) {
+            if (lineData != "") {
+                if (lineData.indexOf(";") != -1) {
                     msrArray = lineData.split(";");
-                    for(var i=0;i<msrArray.length;i++){
+                    for (var i = 0; i < msrArray.length; i++) {
                         coverageArray = msrArray[i].split("=");
-                        if(coverageArray[1] == "1"){
-                            $("#lineNum_"+coverageArray[0]).attr("class","line_bar_green");
-                        }else if(coverageArray[1] == "0"){
-                            $("#lineNum_"+coverageArray[0]).attr("class","line_bar_red");
+                        if (coverageArray[1] == "1") {
+                            $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                        } else if (coverageArray[1] == "0") {
+                            $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
                         }
 
                     }
-                }else{
+                } else {
                     coverageArray = lineData.split("=");
-                    if(coverageArray[1] == "1"){
-                        $("#lineNum_"+coverageArray[0]).attr("class","line_bar_green");
-                    }else if(coverageArray[1] == "0"){
-                        $("#lineNum_"+coverageArray[0]).attr("class","line_bar_red");
+                    if (coverageArray[1] == "1") {
+                        $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                    } else if (coverageArray[1] == "0") {
+                        $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
                     }
                 }
             }
 
             //라인 소스 이슈
-            if(issues != ""){
-                issues = issues.slice(0,-1);
-                if(issues.indexOf(",") != -1) {
+            if (issues != "") {
+                issues = issues.slice(0, -1);
+                if (issues.indexOf(",") != -1) {
                     issuesArray = issues.split(",");
-                    for(var i=0;i<issuesArray.length;i++){
+                    for (var i = 0; i < issuesArray.length; i++) {
                         severityArray = issuesArray[i].split("=");
-                        if(severityArray[1] == "BLOCKER"){
-                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
-                        }else if(severityArray[1] == "CRITICAL"){
-                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
-                        }else if(severityArray[1] == "MAJOR"){
-                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
-                        }else if(severityArray[1] == "MINOR"){
-                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
-                        }else if(severityArray[1] == "INFO"){
-                            $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                        if (severityArray[1] == "BLOCKER") {
+                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                        } else if (severityArray[1] == "CRITICAL") {
+                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                        } else if (severityArray[1] == "MAJOR") {
+                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                        } else if (severityArray[1] == "MINOR") {
+                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                        } else if (severityArray[1] == "INFO") {
+                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
                         }
 
                     }
-                }else{
+                } else {
 
                     severityArray = issues.split("=");
 
-                    if(severityArray[1] == "BLOCKER"){
-                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
-                    }else if(severityArray[1] == "CRITICAL"){
-                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
-                    }else if(severityArray[1] == "MAJOR"){
-                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
-                    }else if(severityArray[1] == "MINOR"){
-                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
-                    }else if(severityArray[1] == "INFO"){
-                        $("#lineNum_"+severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                    if (severityArray[1] == "BLOCKER") {
+                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                    } else if (severityArray[1] == "CRITICAL") {
+                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                    } else if (severityArray[1] == "MAJOR") {
+                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                    } else if (severityArray[1] == "MINOR") {
+                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                    } else if (severityArray[1] == "INFO") {
+                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
                     }
                     //소스 이슈 펼치기 할때 사용
 //                    testView(severityArray[0], message , severityArray[1]);
@@ -871,25 +827,24 @@
 
 
             //소스 전체 이슈
-            if(allIssues != ""){
-                if(allIssues == "BLOCKER"){
+            if (allIssues != "") {
+                if (allIssues == "BLOCKER") {
                     $("#lineNum_1").before("<img src='/resources/images/ico_blocker.png'>");
                     $("#sourceView_1").before("<p><br></p>");
-                }else if(allIssues == "CRITICAL"){
+                } else if (allIssues == "CRITICAL") {
                     $("#lineNum_1").before("<img src='/resources/images/ico_critical.png'>");
                     $("#sourceView_1").before("<p><br></p>");
-                }else if(allIssues == "MAJOR"){
+                } else if (allIssues == "MAJOR") {
                     $("#lineNum_1").before("<img src='/resources/images/ico_major.png'>");
                     $("#sourceView_1").before("<p><br></p>");
-                }else if(allIssues == "MINOR"){
+                } else if (allIssues == "MINOR") {
                     $("#lineNum_1").before("<img src='/resources/images/ico_minor.png'>");
                     $("#sourceView_1").before("<p><br></p>");
-                }else if(allIssues == "INFO"){
+                } else if (allIssues == "INFO") {
                     $("#lineNum_1").before("<img src='/resources/images/ico_info.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 }
             }
-
 
 
         }
@@ -897,31 +852,29 @@
     }
 
 
-
-
     //button 이벤트
-    $(function(){
+    $(function () {
         //상세 버튼
-        $(".issuesBtn").click(function(){
+        $(".issuesBtn").click(function () {
             $("#issuesTable").css("display", "none");
             $("#issuesDetail").css("display", "block");
 
         })
     })
 
-    var resolutionChecked = function(chk){
-        if(chk == "0"){
-            for(var i=1;i<=4;i++){
-                $("input[name=resolutionCheck]").eq(i).prop("checked",false);
+    var resolutionChecked = function (chk) {
+        if (chk == "0") {
+            for (var i = 1; i <= 4; i++) {
+                $("input[name=resolutionCheck]").eq(i).prop("checked", false);
             }
 
-        }else{
-            $("input[name=resolutionCheck]").eq(0).prop("checked",false);
+        } else {
+            $("input[name=resolutionCheck]").eq(0).prop("checked", false);
         }
         getList();
     }
 
-    var chkOn = function(chkNum, chkName){
+    var chkOn = function (chkNum, chkName) {
         if ($("input[name=" + chkName + "]").eq(chkNum).is(":checked") == false) {
 
             $("input[name=" + chkName + "]").eq(chkNum).prop('checked', true);
@@ -935,36 +888,36 @@
 
 
     //검색조건 갯수 초기화
-    var conditionSetting = function(){
+    var conditionSetting = function () {
 
-        $("#issueResolution").find(".issue_num").each(function(i){
+        $("#issueResolution").find(".issue_num").each(function (i) {
             $(this).text("0");
         })
 
-        $("#issueSeverity").find(".issue_num").each(function(i){
+        $("#issueSeverity").find(".issue_num").each(function (i) {
             $(this).text("0");
         })
 
-        $("#issueStatus").find(".issue_num").each(function(i){
+        $("#issueStatus").find(".issue_num").each(function (i) {
             $(this).text("0");
         })
 
     }
 
 
-    var setSeverity = function(num){
-       var issue = $("#issueKey_"+num).val();
-       var severity = $("#issueSelect_"+num).val();
+    var setSeverity = function (num) {
+        var issue = $("#issueKey_" + num).val();
+        var severity = $("#issueSelect_" + num).val();
 
 
-        var param ={
-            issue:issue,
-            severity:severity
+        var param = {
+            issue: issue,
+            severity: severity
         };
-        procCallAjax("/qualityIssues/setSeverity.do",param,callbackGetServerity);
+        procCallAjax("/qualityIssues/setSeverity.do", param, callbackGetServerity);
     }
 
-    var callbackGetServerity = function(data){
+    var callbackGetServerity = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         getProjectList();
         getIssuesCondition();
@@ -973,17 +926,17 @@
     }
 
     //리스트 활성,비활성 콤보박스
-//    var setTransition = function(key){
-//
-//        var param = {
-//            issue:key,
-//            transition:$("#transitionSelect").val()
-//        }
-//        procCallAjax("/qualityIssues/setTransition.do",param,callbackGatTransition);
-//
-//    }
+    //    var setTransition = function(key){
+    //
+    //        var param = {
+    //            issue:key,
+    //            transition:$("#transitionSelect").val()
+    //        }
+    //        procCallAjax("/qualityIssues/setTransition.do",param,callbackGatTransition);
+    //
+    //    }
 
-    var callbackGatTransition = function(data){
+    var callbackGatTransition = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         getProjectList();
         getIssuesCondition();
@@ -992,16 +945,15 @@
     }
 
     $(document.body).ready(function () {
-        getProjectList();
+//        getProjectList();
         getIssuesCondition();
-        getLanguage();
-        getList();
+//        getLanguage();
+//        getList();
 
     });
 
 
-
-    function testView(num, message){
+    function testView(num, message) {
         var list = "";
         var list2 = "";
         list += "<div>";
@@ -1014,7 +966,7 @@
         list += " <tbody>";
         list += " <tr class='bgArea'>";
         list += " <td>";
-        list += " <div class='rule_tit'>"+message+"</div>";
+        list += " <div class='rule_tit'>" + message + "</div>";
         list += " </td>";
         list += " <td>";
         list += " <div class='rule_tit'><img src='/resources/images/ico_blocker.png'></div>";
@@ -1025,8 +977,7 @@
         list += "</div>";
 
 
-        $("#sourceView_"+num).append(list);
-
+        $("#sourceView_" + num).append(list);
 
 
     }

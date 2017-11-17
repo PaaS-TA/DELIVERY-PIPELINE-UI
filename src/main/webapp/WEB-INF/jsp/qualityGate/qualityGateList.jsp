@@ -10,9 +10,10 @@
 
 
 <style>
-    .sub_tab_cont00, sub_tab_cont01, sub_tab_cont01 {
+    .sub_tab_cont00, .sub_tab_cont01 .sub_tab_cont02 {
         height: 50px;
     }
+
     .right {
         position: absolute;
         right: 10px;
@@ -679,8 +680,8 @@
         var param = {
             serviceInstancesId: $("#serviceInstancesId").val()
         }
-        // 프로젝트쪽 수정이 필요함..
-        //procCallAjax("/qualityGate/projectsList.do", param, callbackGetProjectList);
+
+        procCallAjax("/projects/projectsList.do", param, callbackGetProjectList);
     }
 
 
@@ -698,17 +699,16 @@
 
 
         var gateId = $("#gateId").val();
-
         if (data.length != 0) {
             if ($("#defaultYn").val() != "Y") {
                 for (var i = 0; i < data.length; i++) {
                     projectList += "<tr>";
                     if (data[i].qualityGateId != gateId) {
-                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' ></td>";
+                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' ></td>";
                     } else if (data[i].qualityGateId == gateId) {
-                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
+                        projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' checked ></td>";
                     }
-
+                    projectList += "<input type='hidden' id='projectKey_" + data[i].id + "'  value='" + data[i].projectKey + "' >";
                     projectList += "<td class='alignL'>" + data[i].projectName + "</td>";
                     projectList += "</tr>";
 
@@ -717,7 +717,7 @@
 
                     if (data[i].qualityGateId == gateId) {
                         projectLinkedList += "<tr>";
-                        projectLinkedList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' checked ></td>";
+                        projectLinkedList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' checked ></td>";
                         projectLinkedList += "<td class='alignL'>" + data[i].projectName + "</td>";
                         projectLinkedList += "</tr>";
                     }
@@ -728,7 +728,7 @@
 
                     if (data[i].qualityGateId != gateId) {
                         projectFailureList += "<tr>";
-                        projectFailureList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].id + "' ></td>";
+                        projectFailureList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' ></td>";
                         projectFailureList += "<td class='alignL' >" + data[i].projectName + "</td>";
                         projectFailureList += "</tr>";
                     }
@@ -755,13 +755,17 @@
         var param = {};
         if (chk.checked == true) {
             param = {
-                id: $("input[name=projectConnection" + id + "]").val(),
+                id: id,
+                projectId: $("input[name=projectConnection" + id + "]").val(),
+                projectKey: $("#projectKey_" + id).val(),
                 qualityGateId: $("#gateId").val(),
                 linked: "true"
             };
         } else if (chk.checked == false) {
             param = {
-                id: $("input[name=projectConnection" + id + "]").val(),
+                id: id,
+                projectId: $("input[name=projectConnection" + id + "]").val(),
+                projectKey: $("#projectKey_" + id).val(),
                 qualityGateId: $("#gateId").val(),
                 linked: "false"
             };

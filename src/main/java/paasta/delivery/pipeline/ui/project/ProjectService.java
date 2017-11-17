@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.project;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,15 @@ import paasta.delivery.pipeline.ui.common.RestTemplateService;
 
 import java.util.List;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Created by kim on 2017-08-01.
  */
 @Service
 public class ProjectService {
+
+    private final Logger LOGGER = getLogger(getClass());
 
     private static final String REQ_URL_Inspection = "/projects";
     private static final String REQ_URL_Common = "/project";
@@ -32,7 +37,7 @@ public class ProjectService {
      * @return Project
      */
     public List getProjectList(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectList", HttpMethod.POST, project, List.class);
+        return restTemplateService.send(Constants.TARGET_COMMON_API, REQ_URL_Common+"/projectsList", HttpMethod.POST, project, List.class);
     }
 
     /**
@@ -95,6 +100,10 @@ public class ProjectService {
      * @return project
      */
     public Project qualityGateProjectLiked(Project project){
+        LOGGER.info("Likend ProjectKey : " + project.getProjectKey());
+        LOGGER.info("Likend ProjectId : " + project.getProjectId());
+        LOGGER.info("Likend QualityGateId : " + project.getQualityGateId());
+
         return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityGateProjectLiked", HttpMethod.POST, project, Project.class );
     }
 
