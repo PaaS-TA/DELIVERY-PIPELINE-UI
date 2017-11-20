@@ -95,7 +95,7 @@
 <input type="hidden" id="jobIsTriggering" name="jobIsTriggering" value="<%= Constants.CHECK_YN_N %>" />
 <input type="hidden" id="jobIsStopping" name="jobIsStopping" value="<%= Constants.CHECK_YN_N %>" />
 <input type="hidden" id="jobIsBuilding" name="jobIsBuilding" value="<%= Constants.CHECK_YN_N %>" />
-<input type="hidden" id="inspectionProjectKey" name="inspectionProjectKey" value="" />
+<input type="hidden" id="inspectionProjectId" name="inspectionProjectId" value="" />
 
 
 <script type="text/javascript">
@@ -125,7 +125,7 @@
         doc.getElementById('pipelineName').innerHTML= data.pipelineName;
         doc.getElementById('jobName').innerHTML= data.jobName;
         doc.getElementById('jobGuid').value = data.jobGuid;
-        doc.getElementById('inspectionProjectKey').value = data.inspectionProjectKey;
+        doc.getElementById('inspectionProjectId').value = data.inspectionProjectId;
 
         procCallSpinner(SPINNER_STOP);
         getJobHistoryList();
@@ -665,7 +665,7 @@
 
     // BIND
     $("#btnMoveInspectionResultPage").on("click", function() {
-        procMovePage('/projects/' + $('#inspectionProjectKey').val() + '/dashboard');
+        procMovePage('/projects/' + $('#inspectionProjectId').val() + '/dashboard');
     });
 
 

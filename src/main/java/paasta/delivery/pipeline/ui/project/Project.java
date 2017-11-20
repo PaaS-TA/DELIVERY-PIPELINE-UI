@@ -21,6 +21,7 @@ public class Project {
     private String lastModified;
     private String createdString;
     private String lastModifiedString;
+    private String projectViewName;
     // DATABASE COLUMNS :: END
 
     private String qualifier;
@@ -160,6 +161,14 @@ public class Project {
 
     public void setLastModifiedString(String lastModifiedString) {
         this.lastModifiedString = lastModifiedString;
+    }
+
+    public String getProjectViewName() {
+        return projectViewName;
+    }
+
+    public void setProjectViewName(String projectViewName) {
+        this.projectViewName = projectViewName;
     }
 
     public String getQualifier() {

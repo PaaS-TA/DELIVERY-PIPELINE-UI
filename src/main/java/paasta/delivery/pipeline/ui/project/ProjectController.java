@@ -8,7 +8,6 @@ import paasta.delivery.pipeline.ui.common.CommonService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -44,10 +43,18 @@ public class ProjectController {
      * @param
      * @return project
      */
-    @RequestMapping(value = BASE_URL + "/{projectKey}/dashboard", method = RequestMethod.GET)
-    public ModelAndView getProjectPage(HttpServletRequest httpServletRequest, @PathVariable String projectKey) {
+//    @RequestMapping(value = BASE_URL + "/{projectKey}/dashboard", method = RequestMethod.GET)
+//    public ModelAndView getProjectPage(HttpServletRequest httpServletRequest, @PathVariable String projectKey) {
+//        ModelAndView mv = new ModelAndView();
+//        mv.addObject("projectKey", projectKey);
+//        mv.setViewName(BASE_URL + "/projectList");
+//        return commonService.setPathVariables(httpServletRequest, BASE_URL + "/projectList", mv);
+//    }
+
+
+    @RequestMapping(value = BASE_URL + "/{id:.+}/dashboard", method = RequestMethod.GET)
+    public ModelAndView getProjectPage(HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("projectKey", projectKey);
         mv.setViewName(BASE_URL + "/projectList");
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/projectList", mv);
     }
@@ -195,5 +202,16 @@ public class ProjectController {
         return projectService.testsSourceShow(project);
     }
 
+
+    /**
+     * Gets project detail.
+     *
+     * @param id the id
+     * @return the project detail
+     */
+    @GetMapping(value = BASE_URL + "/getProjectDetail.do/{id:.+}")
+    public Project getProjectDetail(@PathVariable("id") int id) {
+        return projectService.getProjectDetail(id);
+    }
 
 }

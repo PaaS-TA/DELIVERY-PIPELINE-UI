@@ -169,4 +169,14 @@ public class ProjectService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getProjectKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
     }
 
+
+    /**
+     * Get project detail project.
+     *
+     * @param id the id
+     * @return the project
+     */
+    Project getProjectDetail(int id){
+        return restTemplateService.send(Constants.TARGET_COMMON_API,REQ_URL_Common + "/" + id, HttpMethod.GET, null, Project.class );
+    }
 }
