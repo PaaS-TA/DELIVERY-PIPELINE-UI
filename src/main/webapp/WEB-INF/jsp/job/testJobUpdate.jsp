@@ -241,7 +241,7 @@
 
     // GET QUALITY PROFILE LIST
     var getQualityProfileList = function() {
-        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityProfileList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
+        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityProfileList.do';
         procCallAjax(reqUrl, null, callbackGetQualityProfileList);
     };
 
