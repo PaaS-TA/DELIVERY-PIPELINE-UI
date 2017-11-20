@@ -71,7 +71,7 @@
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <select class="input-medium" title="" id="inspectionProfileId">
+                                <select class="input-medium" title="" id="inspectionProfileKey">
                                     <option value="">품질 프로파일 선택</option>
                                 </select>
                             </div>

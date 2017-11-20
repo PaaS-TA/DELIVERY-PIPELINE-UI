@@ -218,6 +218,7 @@
         }
 
         document.getElementById('pipelineName').innerHTML= data.name;
+        getJob();
     };
 
 
@@ -266,7 +267,6 @@
 
         setManifestScriptForm(manifestUseYn);
         getCfOrgNameAndSpaceList(cfInfoId);
-        getBuildJobList();
     };
 
 
@@ -317,6 +317,8 @@
 
         $('#cfInfoWelcomeArea').hide();
         $('#cfInfoResultArea').show();
+
+        getBuildJobList();
     };
 
 
@@ -523,7 +525,6 @@
         procCallSpinner(SPINNER_START);
         //getGrantedAuthorities();
         getPipeline();
-        getJob();
         $('#jobName').putCursorAtEnd();
     });
 

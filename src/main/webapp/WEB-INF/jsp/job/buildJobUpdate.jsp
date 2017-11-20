@@ -200,6 +200,7 @@
         }
 
         document.getElementById('pipelineName').innerHTML= data.name;
+        getJob();
     };
 
 
@@ -463,7 +464,6 @@
     $(document.body).ready(function () {
         procCallSpinner(SPINNER_START);
         getPipeline();
-        getJob();
         $('#jobName').putCursorAtEnd();
     });
 

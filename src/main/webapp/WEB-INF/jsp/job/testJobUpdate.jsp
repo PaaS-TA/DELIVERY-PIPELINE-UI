@@ -81,7 +81,7 @@
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <select class="input-medium" title="" id="inspectionProfileId">
+                                <select class="input-medium" title="" id="inspectionProfileKey">
                                     <option value="">품질 프로파일 선택</option>
                                 </select>
                             </div>
@@ -159,7 +159,7 @@
 <input type="hidden" id="repositoryId" name="repositoryId" value="" />
 <input type="hidden" id="repositoryBranch" name="repositoryBranch" value="" />
 <input type="hidden" id="repositoryCommitRevision" name="repositoryCommitRevision" value="" />
-<input type="hidden" id="originalInspectionProfileId" name="originalInspectionProfileId" value="" />
+<input type="hidden" id="originalInspectionProfileKey" name="originalInspectionProfileKey" value="" />
 <input type="hidden" id="originalInspectionGateId" name="originalInspectionGateId" value="" />
 <input type="hidden" id="originalBuildJobId" name="originalBuildJobId" value="" />
 
@@ -179,6 +179,7 @@
         }
 
         document.getElementById('pipelineName').innerHTML= data.name;
+        getJob();
     };
 
 
@@ -197,7 +198,7 @@
         }
 
         var doc = document,
-            inspectionProfileId = data.inspectionProfileId,
+            inspectionProfileKey = data.inspectionProfileKey,
             inspectionGateId = data.inspectionGateId,
             buildJobId = data.buildJobId;
 
@@ -211,7 +212,7 @@
         doc.getElementById('groupOrder').value = data.groupOrder;
         doc.getElementById('jobOrder').value = data.jobOrder;
         doc.getElementById('inspectionProjectId').value = data.inspectionProjectId;
-        doc.getElementById('inspectionProfileId').value = inspectionProfileId;
+        doc.getElementById('inspectionProfileKey').value = inspectionProfileKey;
         doc.getElementById('inspectionGateId').value = inspectionGateId;
         doc.getElementById('repositoryType').value = data.repositoryType;
         doc.getElementById('repositoryUrl').value = data.repositoryUrl;
@@ -224,7 +225,7 @@
         doc.getElementById('builderType').value = data.builderType;
         doc.getElementById('created').value = data.created;
 
-        doc.getElementById('originalInspectionProfileId').value = inspectionProfileId;
+        doc.getElementById('originalInspectionProfileKey').value = inspectionProfileKey;
         doc.getElementById('originalInspectionGateId').value = inspectionGateId;
         doc.getElementById('originalBuildJobId').value = buildJobId;
 
@@ -234,9 +235,7 @@
 
         $("input:radio[name='testJobTrigger']:radio[value='" + data.jobTrigger + "']").attr("checked", true);
 
-        getBuildJobList();
         getQualityProfileList();
-        getQualityGateList();
     };
 
 
@@ -255,8 +254,8 @@
         }
 
         var listLength = data.length,
-            originalInspectionProfileId = parseInt($('#originalInspectionProfileId').val(), 10),
-            inspectionProfileId = '',
+            originalInspectionProfileKey = $('#originalInspectionProfileKey').val(),
+            inspectionProfileKey = '',
             selectedCss = '',
             listNumber = 0,
             htmlString = [];
@@ -264,15 +263,15 @@
         htmlString.push('<option value="">품질 프로파일 선택</option>');
 
         for (var i = 0; i < listLength; i++) {
-            inspectionProfileId = parseInt(data[i].id, 10);
-            selectedCss = (originalInspectionProfileId === inspectionProfileId)? ' selected' : '';
+            inspectionProfileKey = data[i].key;
+            selectedCss = (originalInspectionProfileKey === inspectionProfileKey)? ' selected' : '';
             listNumber++;
-            htmlString.push('<option value="' + inspectionProfileId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+            htmlString.push('<option value="' + inspectionProfileKey + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
         }
 
-        $('#inspectionProfileId').html(htmlString);
+        $('#inspectionProfileKey').html(htmlString);
 
-        procCallSpinner(SPINNER_STOP);
+        getQualityGateList();
     };
 
 
@@ -308,7 +307,7 @@
 
         $('#inspectionGateId').html(htmlString);
 
-        procCallSpinner(SPINNER_STOP);
+        getBuildJobList();
     };
 
 
@@ -321,7 +320,10 @@
 
     // CALLBACK GET BUILD JOB LIST
     var callbackGetBuildJobList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
 
         var listLength = data.length,
             originalBuildJobId = parseInt($('#originalBuildJobId').val(), 10),
@@ -350,7 +352,7 @@
         var doc = document,
             postActionYn = "<%= Constants.CHECK_YN_N %>",
             jobName = $('#jobName').val(),
-            inspectionProfileId = $('#inspectionProfileId').val(),
+            inspectionProfileKey = $('#inspectionProfileKey').val(),
             inspectionGateId = $('#inspectionGateId').val(),
             buildJobId = $('#buildJobId').val();
 
@@ -365,9 +367,9 @@
             postActionYn = "<%= Constants.CHECK_YN_Y %>";
         }
 
-        // CHECK INSPECTION PROFILE ID
-        if (procIsNullString(inspectionProfileId)) {
-            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileId').focus();");
+        // CHECK INSPECTION PROFILE KEY
+        if (procIsNullString(inspectionProfileKey)) {
+            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileKey').focus();");
             return false;
         }
 
@@ -396,7 +398,7 @@
             jobType: doc.getElementById('jobType').value,
             postActionYn: postActionYn,
             jobTrigger: $(':input:radio[name=testJobTrigger]:checked').val(),
-            inspectionProfileId: inspectionProfileId,
+            inspectionProfileKey: inspectionProfileKey,
             inspectionGateId: inspectionGateId,
             builderType: doc.getElementById('builderType').value,
             repositoryType: doc.getElementById('repositoryType').value,
@@ -451,7 +453,6 @@
 
         //getGrantedAuthorities();
         getPipeline();
-        getJob();
         $('#jobName').putCursorAtEnd();
     });
 

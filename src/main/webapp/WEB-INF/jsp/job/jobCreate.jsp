@@ -68,6 +68,110 @@
         }
 
         document.getElementById('pipelineName').innerHTML= data.name;
+
+        getQualityProfileList();
+    };
+
+
+    // GET QUALITY PROFILE LIST
+    var getQualityProfileList = function() {
+        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityProfileList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
+        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
+    };
+
+
+    // CALLBACK GET QUALITY PROFILE LIST
+    var callbackGetQualityProfileList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var listLength = data.length,
+            selectedCss = '',
+            listNumber = 0,
+            htmlString = [];
+
+        htmlString.push('<option value="">품질 프로파일 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            selectedCss = (listNumber === 0)? ' selected' : '';
+            listNumber++;
+            htmlString.push('<option value="' + data[i].key + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+        }
+
+        $('#inspectionProfileKey').html(htmlString);
+
+        getQualityGateList();
+    };
+
+
+    // GET QUALITY GATE LIST
+    var getQualityGateList = function() {
+        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityGateList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
+        procCallAjax(reqUrl, null, callbackGetQualityGateList);
+    };
+
+
+    // CALLBACK GET QUALITY GATE LIST
+    var callbackGetQualityGateList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var listLength = data.length,
+            selectedCss = '',
+            listNumber = 0,
+            htmlString = [];
+
+        htmlString.push('<option value="">품질 게이트 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            selectedCss = (listNumber === 0)? ' selected' : '';
+            listNumber++;
+            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+        }
+
+        $('#inspectionGateId').html(htmlString);
+
+        getBuildJobList();
+    };
+
+
+    // GET BUILD JOB LIST
+    var getBuildJobList = function() {
+        var reqUrl = JOB_PIPELINE_URL + "/list.do?pipelineId=<c:out value='${pipelineId}' default='' />&jobType=<%= Constants.JOB_TYPE_BUILD %>";
+        procCallAjax(reqUrl, null, callbackGetBuildJobList);
+    };
+
+
+    // CALLBACK GET BUILD JOB LIST
+    var callbackGetBuildJobList = function(data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        var listLength = data.length,
+            selectedCss = '',
+            listNumber = 0,
+            htmlString = [];
+
+        htmlString.push('<option value="">스테이징 선택</option>');
+
+        for (var i = 0; i < listLength; i++) {
+            if (data[i].groupOrder === parseInt("<c:out value='${groupOrder}' default='' />", 10)) {
+                selectedCss = (listNumber === 0)? ' selected' : '';
+                listNumber++;
+                htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+            }
+        }
+
+        $('#buildJobIdForTestJob').html(htmlString);
+        $('#buildJobIdForDeployJob').html(htmlString);
+
+        procCallSpinner(SPINNER_STOP);
     };
 
 
@@ -257,7 +361,7 @@
             jobName = $('#testJobName').val(),
             jobType = $('#testJobType').val(),
             postActionYn = "<%= Constants.CHECK_YN_N %>",
-            inspectionProfileId = $('#inspectionProfileId').val(),
+            inspectionProfileKey = $('#inspectionProfileKey').val(),
             inspectionGateId = $('#inspectionGateId').val(),
             buildJobId = $('#buildJobIdForTestJob').val();
 
@@ -278,9 +382,9 @@
             postActionYn = "<%= Constants.CHECK_YN_Y %>";
         }
 
-        // CHECK INSPECTION PROFILE ID
-        if (procIsNullString(inspectionProfileId)) {
-            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileId').focus();");
+        // CHECK INSPECTION PROFILE KEY
+        if (procIsNullString(inspectionProfileKey)) {
+            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileKey').focus();");
             return false;
         }
 
@@ -305,7 +409,7 @@
             jobName: jobName,
             jobType: jobType,
             postActionYn: postActionYn,
-            inspectionProfileId: inspectionProfileId,
+            inspectionProfileKey: inspectionProfileKey,
             inspectionGateId: inspectionGateId,
             buildJobId: buildJobId,
             jobTrigger: $(':input:radio[name=testJobTrigger]:checked').val(),
@@ -406,108 +510,6 @@
 
         procCallSpinner(SPINNER_START);
         procCallAjax(JOB_PIPELINE_URL + "/deploy/create.do", reqParam, callbackCreateJob);
-    };
-
-
-    // GET QUALITY PROFILE LIST
-    var getQualityProfileList = function() {
-        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityProfileList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
-        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
-    };
-
-
-    // CALLBACK GET QUALITY PROFILE LIST
-    var callbackGetQualityProfileList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procCallSpinner(SPINNER_STOP);
-            return false;
-        }
-
-        var listLength = data.length,
-            selectedCss = '',
-            listNumber = 0,
-            htmlString = [];
-
-        htmlString.push('<option value="">품질 프로파일 선택</option>');
-
-        for (var i = 0; i < listLength; i++) {
-            selectedCss = (listNumber === 0)? ' selected' : '';
-            listNumber++;
-            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
-        }
-
-        $('#inspectionProfileId').html(htmlString);
-
-        procCallSpinner(SPINNER_STOP);
-    };
-
-
-    // GET QUALITY GATE LIST
-    var getQualityGateList = function() {
-        var reqUrl = INSPECTION_PIPELINE_URL + '/getQualityGateList.do?pipelineId=<c:out value='${pipelineId}' default='' />';
-        procCallAjax(reqUrl, null, callbackGetQualityGateList);
-    };
-
-
-    // CALLBACK GET QUALITY GATE LIST
-    var callbackGetQualityGateList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procCallSpinner(SPINNER_STOP);
-            return false;
-        }
-
-        var listLength = data.length,
-            selectedCss = '',
-            listNumber = 0,
-            htmlString = [];
-
-        htmlString.push('<option value="">품질 게이트 선택</option>');
-
-        for (var i = 0; i < listLength; i++) {
-            selectedCss = (listNumber === 0)? ' selected' : '';
-            listNumber++;
-            htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
-        }
-
-        $('#inspectionGateId').html(htmlString);
-
-        procCallSpinner(SPINNER_STOP);
-    };
-
-
-    // GET BUILD JOB LIST
-    var getBuildJobList = function() {
-        var reqUrl = JOB_PIPELINE_URL + "/list.do?pipelineId=<c:out value='${pipelineId}' default='' />&jobType=<%= Constants.JOB_TYPE_BUILD %>";
-        procCallAjax(reqUrl, null, callbackGetBuildJobList);
-    };
-
-
-    // CALLBACK GET BUILD JOB LIST
-    var callbackGetBuildJobList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procCallSpinner(SPINNER_STOP);
-            return false;
-        }
-
-        var listLength = data.length,
-            selectedCss = '',
-            listNumber = 0,
-            htmlString = [];
-
-        htmlString.push('<option value="">스테이징 선택</option>');
-
-        for (var i = 0; i < listLength; i++) {
-            if (data[i].groupOrder === parseInt("<c:out value='${groupOrder}' default='' />", 10)) {
-                selectedCss = (listNumber === 0)? ' selected' : '';
-                listNumber++;
-                htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
-            }
-        }
-
-        $('#buildJobIdForTestJob').html(htmlString);
-        $('#buildJobIdForDeployJob').html(htmlString);
-
-        procCallSpinner(SPINNER_STOP);
     };
 
 
@@ -703,9 +705,6 @@
         procCallSpinner(SPINNER_START);
 
         getPipeline();
-        getQualityProfileList();
-        getQualityGateList();
-        getBuildJobList();
         setManifestScriptForm("<%= Constants.CHECK_YN_N %>");
 
         $('#buildJobType').val("<%= Constants.JOB_TYPE_BUILD %>");
