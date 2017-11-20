@@ -39,7 +39,7 @@ public class JobInspectionService {
      * @return the quality profile list
      */
     List getQualityProfileList(String serviceInstancesId) {
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL + "/qualityProfile/qualityProfileList?serviceInstancesId=" + serviceInstancesId + "&language=java", HttpMethod.GET, null, List.class);
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL + "/qualityProfile/qualityProfileList?serviceInstanceId=" + serviceInstancesId + "&language=java", HttpMethod.GET, null, List.class);
     }
 
 
