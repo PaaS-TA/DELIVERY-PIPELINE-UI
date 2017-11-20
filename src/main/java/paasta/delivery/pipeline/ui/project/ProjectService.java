@@ -25,7 +25,7 @@ public class ProjectService {
     private final RestTemplateService restTemplateService;
 
     @Autowired
-    public ProjectService(RestTemplateService restTemplateService){
+    public ProjectService(RestTemplateService restTemplateService) {
         this.restTemplateService = restTemplateService;
     }
 
@@ -36,8 +36,18 @@ public class ProjectService {
      * @param
      * @return Project
      */
-    public List getProjectList(Project project){
-        return restTemplateService.send(Constants.TARGET_COMMON_API, REQ_URL_Common+"/projectsList", HttpMethod.POST, project, List.class);
+    public List getProjectList(Project project) {
+        String param = "";
+        if (project != null) {
+            param += "?";
+            param += "serviceInstancesId=" + project.getServiceInstancesId() + "&";
+            param += "projectId=" + project.getProjectId() + "&";
+            param += "projectKey=" + project.getProjectKey() + "&";
+            param += "projectName=" + project.getProjectName();
+        }
+
+
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectList" + param, HttpMethod.GET, null, List.class);
     }
 
     /**
@@ -46,10 +56,9 @@ public class ProjectService {
      * @param
      * @return Project
      */
-    public List getProject(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/getProject", HttpMethod.POST, project, List.class);
+    public List getProject(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/getProject", HttpMethod.POST, project, List.class);
     }
-
 
 
     /**
@@ -58,8 +67,8 @@ public class ProjectService {
      * @param project
      * @return Project
      */
-    public Project createProjects(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectsCreate", HttpMethod.POST, project, Project.class);
+    public Project createProjects(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectsCreate", HttpMethod.POST, project, Project.class);
     }
 
     /**
@@ -68,105 +77,105 @@ public class ProjectService {
      * @param project
      * @return Project
      */
-    public Project deleteProjects(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectsDelete", HttpMethod.POST, project, Project.class);
+    public Project deleteProjects(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectsDelete", HttpMethod.POST, project, Project.class);
     }
 
     /**
-     *  project update
+     * project update
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public Project updateProjects(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectsUpdate", HttpMethod.POST, project, Project.class);
+    public Project updateProjects(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectsUpdate", HttpMethod.POST, project, Project.class);
     }
 
     /**
-     *  projectid로 projectKey 가져오기
+     * projectid로 projectKey 가져오기
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public Project getProjectKey(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/projectKey", HttpMethod.POST, project, Project.class);
+    public Project getProjectKey(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectKey", HttpMethod.POST, project, Project.class);
     }
 
 
     /**
-     *  qualityGate Linked
+     * qualityGate Linked
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public Project qualityGateProjectLiked(Project project){
+    public Project qualityGateProjectLiked(Project project) {
         LOGGER.info("Likend ProjectKey : " + project.getProjectKey());
         LOGGER.info("Likend ProjectId : " + project.getProjectId());
         LOGGER.info("Likend QualityGateId : " + project.getQualityGateId());
 
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityGateProjectLiked", HttpMethod.POST, project, Project.class );
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityGateProjectLiked", HttpMethod.POST, project, Project.class);
     }
 
     /**
-     *  qualityProfile Linked
+     * qualityProfile Linked
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public Project qualityProfileProjectLinked(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityProfileProjectLinked", HttpMethod.POST, project, Project.class );
+    public Project qualityProfileProjectLinked(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityProfileProjectLinked", HttpMethod.POST, project, Project.class);
     }
 
     ///////////////////////////////////
 
     /**
-     *  getProject sonarKey(uuid)
+     * getProject sonarKey(uuid)
      *
      * @param
      * @return List
      */
-    public List getProjectSonarKey(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/getProjectSonarKey?projectKey="+project.getProjectKey(), HttpMethod.GET, null, List.class );
+    public List getProjectSonarKey(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/getProjectSonarKey?projectKey=" + project.getProjectKey(), HttpMethod.GET, null, List.class);
     }
 
     /**
-     *  quality Management
+     * quality Management
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public Project qualityManagementList(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityManagementList?uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
+    public Project qualityManagementList(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityManagementList?uuid=" + project.getUuid(), HttpMethod.GET, null, Project.class);
     }
 
     /**
-     *  quality coverage
+     * quality coverage
      *
-     * @param  project
+     * @param project
      * @return project
      */
-    public List<Project> qualityCoverageList(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityCoverageList?resource="+project.getResource(), HttpMethod.GET, null, List.class );
+    public List<Project> qualityCoverageList(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityCoverageList?resource=" + project.getResource(), HttpMethod.GET, null, List.class);
     }
 
     /**
-     *  tests source
+     * tests source
      *
-     * @param  project
+     * @param project
      * @return List
      */
-    public List testsSourceList(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSource?projectKey="+project.getProjectKey()+"&metrics="+project.getMetrics(), HttpMethod.GET, null, List.class );
+    public List testsSourceList(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/testsSource?projectKey=" + project.getProjectKey() + "&metrics=" + project.getMetrics(), HttpMethod.GET, null, List.class);
     }
 
     /**
-     *  tests source
+     * tests source
      *
-     * @param  project
+     * @param project
      * @return Project
      */
-    public Project testsSourceShow(Project project){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/testsSourceShow?key="+project.getProjectKey()+"&uuid="+project.getUuid(), HttpMethod.GET, null, Project.class );
+    public Project testsSourceShow(Project project) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/testsSourceShow?key=" + project.getProjectKey() + "&uuid=" + project.getUuid(), HttpMethod.GET, null, Project.class);
     }
 
 
@@ -176,7 +185,7 @@ public class ProjectService {
      * @param id the id
      * @return the project
      */
-    Project getProjectDetail(int id){
-        return restTemplateService.send(Constants.TARGET_COMMON_API,REQ_URL_Common + "/" + id, HttpMethod.GET, null, Project.class );
+    Project getProjectDetail(int id) {
+        return restTemplateService.send(Constants.TARGET_COMMON_API, REQ_URL_Common + "/" + id, HttpMethod.GET, null, Project.class);
     }
 }

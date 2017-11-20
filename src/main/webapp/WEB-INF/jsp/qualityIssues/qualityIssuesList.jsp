@@ -29,31 +29,25 @@
                     <ul>
                         <h4>해결여부 (Resolution)</h4>
                         <div id="issueResolution">
-                            <li><a href="javascript:resolutionChecked(0);"><input type="checkbox" name="resolutionCheck"
-                                                                                  value="UNRESOLVED"
-                                                                                  onclick="resolutionChecked('0')">
+                            <li><a href="javascript:resolutionChecked(0);">
+                                <input type="checkbox" name="resolutionCheck" value="UNRESOLVED">
                                 <span class="block">미해결 (Unresolved)</span> <span class="issue_num"
                                                                                   id="unresolved">0</span></a></li>
-                            <li><a href="javascript:resolutionChecked(1);"><input type="checkbox" name="resolutionCheck"
-                                                                                  value="FIXED"
-                                                                                  onclick="resolutionChecked('1')">
+                            <li><a href="javascript:resolutionChecked(1);">
+                                <input type="checkbox" name="resolutionCheck" value="FIXED" >
                                 <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a>
                             </li>
-                            <li><a href="javascript:resolutionChecked(2);"><input type="checkbox" name="resolutionCheck"
-                                                                                  value="FALSE-POSITIVE"
-                                                                                  onclick="resolutionChecked('2')">
+                            <li><a href="javascript:resolutionChecked(2);">
+                                <input type="checkbox" name="resolutionCheck" value="FALSE-POSITIVE">
                                 <span class="block">보류 (False positive)</span> <span class="issue_num"
                                                                                      id="false_positive">0</span></a>
                             </li>
-                            <li><a href="javascript:resolutionChecked(3);"><input type="checkbox" name="resolutionCheck"
-                                                                                  value="WONTFIX"
-                                                                                  onclick="resolutionChecked('3')">
+                            <li><a href="javascript:resolutionChecked(3);">
+                                <input type="checkbox" name="resolutionCheck" value="WONTFIX">
                                 <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a>
                             </li>
-                            <li class="last"><a href="javascript:resolutionChecked(4);"><input type="checkbox"
-                                                                                               name="resolutionCheck"
-                                                                                               value="REMOVED"
-                                                                                               onclick="resolutionChecked('4')">
+                            <li class="last"><a href="javascript:resolutionChecked(4);">
+                                <input type="checkbox" name="resolutionCheck" value="REMOVED">
                                 <span class="block">제거됨 (Removed)</span> <span class="issue_num"
                                                                                id="removed">0</span></a></li>
                         </div>
@@ -862,12 +856,22 @@
 
     var resolutionChecked = function (chk) {
         if (chk == "0") {
-            for (var i = 1; i <= 4; i++) {
-                $("input[name=resolutionCheck]").eq(i).prop("checked", false);
+            //unresolve일  경우 나머지는 모두 해제 unreslove만 선택되게 해야함
+            for (var i = 0; i <= 4; i++) {
+                $("input[name=resolutionCheck]").eq(i).prop('checked', false);
             }
-
+            $("input[name=resolutionCheck]").eq(0).prop('checked', true);
         } else {
-            $("input[name=resolutionCheck]").eq(0).prop("checked", false);
+            //unresolve일  제외한 나머지가 선택될경우 unrelove는 해제됨
+            $("input[name=resolutionCheck]").eq(0).prop('checked', false);
+            if ( $("input[name=resolutionCheck]").eq(chk).is(":checked") == false) {
+
+                $("input[name=resolutionCheck]").eq(chk).prop('checked', true);
+
+            } else if ($("input[name=resolutionCheck]").eq(chk).is(":checked") == true) {
+
+                $("input[name=resolutionCheck]").eq(chk).prop('checked', false);
+            }
         }
         getList();
     }

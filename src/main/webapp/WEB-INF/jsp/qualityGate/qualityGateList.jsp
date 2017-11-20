@@ -681,7 +681,7 @@
             serviceInstancesId: $("#serviceInstancesId").val()
         }
 
-        procCallAjax("/projects/projectsList.do", param, callbackGetProjectList);
+        procCallAjax("/qualityGate/projectsList.do", param, callbackGetProjectList);
     }
 
 
@@ -709,7 +709,7 @@
                         projectList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' checked ></td>";
                     }
                     projectList += "<input type='hidden' id='projectKey_" + data[i].id + "'  value='" + data[i].projectKey + "' >";
-                    projectList += "<td class='alignL'>" + data[i].projectName + "</td>";
+                    projectList += "<td class='alignL'>" + data[i].projectViewName + "</td>";
                     projectList += "</tr>";
 
                     ///////////////////
@@ -718,7 +718,7 @@
                     if (data[i].qualityGateId == gateId) {
                         projectLinkedList += "<tr>";
                         projectLinkedList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' checked ></td>";
-                        projectLinkedList += "<td class='alignL'>" + data[i].projectName + "</td>";
+                        projectLinkedList += "<td class='alignL'>" + data[i].projectViewName + "</td>";
                         projectLinkedList += "</tr>";
                     }
 
@@ -729,7 +729,7 @@
                     if (data[i].qualityGateId != gateId) {
                         projectFailureList += "<tr>";
                         projectFailureList += "<td><input type='checkbox' name='projectConnection" + data[i].id + "' onclick='projectConnection(" + data[i].id + ",this)' value='" + data[i].projectId + "' ></td>";
-                        projectFailureList += "<td class='alignL' >" + data[i].projectName + "</td>";
+                        projectFailureList += "<td class='alignL' >" + data[i].projectViewName + "</td>";
                         projectFailureList += "</tr>";
                     }
 

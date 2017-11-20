@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
+import paasta.delivery.pipeline.ui.project.Project;
 
 import java.util.List;
 
@@ -146,4 +147,31 @@ public class QualityGateService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityGateDefaultSetting", HttpMethod.POST, qualityGate, QualityGate.class);
     }
 
+
+    /**
+     *  QualityGate 삭제 execute
+     *
+     * @param qualityGate
+     * @return
+     */
+
+
+    /**
+     * project 리스트
+     *
+     * @param
+     * @return Project
+     */
+    public List getProjectList(Project project) {
+        String param = "";
+        if (project != null) {
+            param += "?";
+            param += "serviceInstancesId=" + project.getServiceInstancesId() + "&";
+            param += "projectId=" + project.getProjectId() + "&";
+            param += "projectKey=" + project.getProjectKey() + "&";
+            param += "projectName=" + project.getProjectName();
+        }
+        List result = restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/projectList" + param, HttpMethod.GET, null, List.class);
+        return result;
+    }
 }

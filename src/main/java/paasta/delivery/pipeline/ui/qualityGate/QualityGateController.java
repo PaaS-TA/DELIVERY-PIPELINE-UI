@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.qualityGate;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +10,8 @@ import paasta.delivery.pipeline.ui.project.ProjectService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created by hrjin on 2017-06-29.
@@ -20,6 +23,7 @@ public class QualityGateController {
     private final QualityGateService qualityGateService;
     private final ProjectService projectService;
     private final CommonService commonService;
+    private final Logger LOGGER = getLogger(getClass());
 
     @Autowired
     public QualityGateController(QualityGateService qualityGateService, ProjectService projectService, CommonService commonService) {
@@ -247,5 +251,18 @@ public class QualityGateController {
     @RequestMapping(value = BASE_URL + "/qualityGateDefaultSetting.do", method = RequestMethod.POST)
     public QualityGate qualityGateDefaultSetting(@RequestBody QualityGate qualityGate) {
         return qualityGateService.qualityGateDefaultSetting(qualityGate);
+    }
+
+
+
+    /**
+     * project 리스트
+     *
+     * @param
+     * @return project
+     */
+    @RequestMapping(value = BASE_URL + "/projectsList.do", method = RequestMethod.POST)
+    public List getProjectList(@RequestBody Project project) {
+        return qualityGateService.getProjectList(project);
     }
 }
