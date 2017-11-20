@@ -1,5 +1,7 @@
 package paasta.delivery.pipeline.ui.qualityProfile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -7,103 +9,121 @@ import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 
 import java.util.List;
-import java.util.Map;
+
 
 /**
- * Created by kim on 2017-07-31.
+ * The type Quality profile service.
  */
 @Service
 public class QualityProfileService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QualityProfileService.class);
     private static final String REQ_URL_Inspection = "/qualityProfile";
 
-    private static final String REQ_URL_Common = "/qualityProfile";
-
-    private final RestTemplateService restTemplateService;
-
     @Autowired
-    public QualityProfileService(RestTemplateService restTemplateService) {
-        this.restTemplateService = restTemplateService;
-    }
+    private RestTemplateService restTemplateService;
 
     /**
-     *  QualityPrifile 리스트
+     * QualityPrifile 리스트
      *
-     * @param
-     * @return List
+     * @param serviceInstancesId the service instances id
+     * @return List list
      */
     public List getQualityProfileList(String serviceInstancesId){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileList?serviceInstancesId="+serviceInstancesId, HttpMethod.GET, null, List.class);
+
+        // 프로파일 목록 조회
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileList?serviceInstancesId="+serviceInstancesId;
+        LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileList - profile]=== reqUrl : {}", reqUrl);
+        List profiles = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, List.class);
+
+        return profiles;
     }
 
     /**
-     *  QualityPrifile 복제
+     * Get quality profile languages list.
      *
-     * @param
-     * @return List
+     * @return the list
      */
-    public QualityProfile qualityProfileCopy(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileCopy", HttpMethod.POST, qualityProfile, QualityProfile.class);
-    }
+    public List getQualityProfileLanguages(){
 
-    /**
-     *  QualityPrifile 삭제
-     *
-     * @param
-     * @return
-     */
-    public QualityProfile deleteQualityProfile(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileDelete", HttpMethod.POST, qualityProfile, QualityProfile.class);
-    }
+        // 개발 언어 조회
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileLanguages";
 
-    /**
-     *  QualityPrifile 수정
-     *
-     * @param
-     * @return List
-     */
-    public QualityProfile updateQualityProfile(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileUpdae", HttpMethod.POST, qualityProfile, QualityProfile.class);
-    }
+        LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileLanguages]=== reqUrl : {}", reqUrl);
+        List languages = restTemplateService.send(Constants.TARGET_INSPECTION_API,reqUrl, HttpMethod.GET, null, List.class);
 
-    /**
-     *  QualityPrifile 언어 리스트
-     *
-     * @param
-     * @return List
-     */
-    public QualityProfile qualityProfileLangList(){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileLangList", HttpMethod.GET, null, QualityProfile.class);
-    }
+        //result.put("languages",languages.stream().filter(e -> ((String)((Map)e).get("key")).toUpperCase().equals("JAVA")).collect(toList()) );
 
-    /**
-     *  QualityPrifile 생성
-     *
-     * @param
-     * @return List
-     */
-    public QualityProfile qualityProfileCreate(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileCreate", HttpMethod.POST, qualityProfile, QualityProfile.class);
-    }
+        return languages;
 
-    /**
-     *  QualityProfile default setting
-     *
-     * @param
-     * @return
-     */
-    public QualityProfile defaultQualityProfile(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/qualityProfileDefault", HttpMethod.POST,qualityProfile,QualityProfile.class);
     }
 
 
     /**
-     *  QualityProfile codingRules
+     * Quality profile create quality profile.
      *
-     * @param qualityProfile
-     * @return list
+     * @param qualityProfile the quality profile
+     * @return the quality profile
      */
-    public List getCodingRulesList(QualityProfile qualityProfile){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API,REQ_URL_Inspection+"/codingRulesList",HttpMethod.POST,qualityProfile,List.class);
+    public QualityProfile qualityProfileCreate(QualityProfile qualityProfile) {
+
+        // 품질 프로파일 생성
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileCreate";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: qualityProfileCreate]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API,reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+
+        return result;
+
     }
+
+    /**
+     * Gets projects.
+     *
+     * @param key      the key
+     * @param selected the selected
+     * @return the projects
+     */
+    public QualityProfile getProjects(String key, String selected) {
+
+        String reqUrl = REQ_URL_Inspection + "/projects?key="+key + "&selected="+selected;
+
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, QualityProfile.class);
+    }
+
+    //TODO ---------------------------
+
+
+//    /**
+//     * QualityPrifile 복제
+//     *
+//     * @param qualityProfile the quality profile
+//     * @return List quality profile
+//     */
+//    public QualityProfile qualityProfileCopy(QualityProfile qualityProfile){
+//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileCopy", HttpMethod.POST, qualityProfile, QualityProfile.class);
+//    }
+//
+//    /**
+//     * QualityPrifile 삭제
+//     *
+//     * @param qualityProfile the quality profile
+//     * @return quality profile
+//     */
+//    public QualityProfile deleteQualityProfile(QualityProfile qualityProfile){
+//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileDelete", HttpMethod.POST, qualityProfile, QualityProfile.class);
+//    }
+//
+//    /**
+//     * QualityPrifile 수정
+//     *
+//     * @param qualityProfile the quality profile
+//     * @return List quality profile
+//     */
+//    public QualityProfile updateQualityProfile(QualityProfile qualityProfile){
+//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileUpdae", HttpMethod.POST, qualityProfile, QualityProfile.class);
+//    }
+//
+
+
 
 }

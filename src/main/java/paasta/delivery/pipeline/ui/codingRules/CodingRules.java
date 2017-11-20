@@ -2,242 +2,331 @@ package paasta.delivery.pipeline.ui.codingRules;
 
 import java.util.List;
 
+/**
+ * The type Coding rules.
+ */
 public class CodingRules {
-    private Long id;
+
+    // --- common :: s
     private String key;
-    private String severities;
-    private String languages;
-    private String ps;
-    private String p;
+    // --- common :: e
 
-    //룰 총 개수
-    private String total;
-
-
-    //프로파일 id
+    // --- search :: QualityProfile Detail Rule Info :: s
     private String qprofile;
-    //프로파일 검색 상태(프로파일 true 여야만 룰 리스트 검색 가능)
-    private String activation;
+    private int ps;
+    private int p = 1;
+    private String f;
+    private Object facets;
+    private boolean activation = true;
+    private int total;
+    // --- search :: QualityProfile Detail Rule Info :: e
 
-    private String serviceInstancesId;
-    //룰 검색 키워드
-    private String q;
-    //룰 리스트 sort
-    private String s;
-    //룰 리스트
-    private List rules;
-    //이슈 체크리스트
-    private String issues;
-    //검색 키워드
-    private String keyword;
+    // --- create :: s
+    private String custom_key;
+    private String markdown_description;
+    private String name;
+    // --- create :: e
 
-    //룰 상세 프로파일 연결 확인
+    // --- repositories :: s
+    private String language;
+    // --- repositories :: e
+
+    // --- etc :: s
     private String actives;
+    private String resultStatus;
+    private String resultMessage;
+    // --- etc :: e
 
-    //룰과 프로파일 연결
-    private String rule_key;
-    private String profile_key;
-    private String severity;
-
-    //룰에대한 프로파일 이슈 변경
-    private Boolean reset;
-    //프로파일 이슈개수 목록
-    private String facets;
-
-    public Long getId() {
-        return id;
+    /**
+     * Gets total.
+     *
+     * @return the total
+     */
+    public int getTotal() {
+        return total;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    /**
+     * Sets total.
+     *
+     * @param total the total
+     */
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public String getKey() {
-        return key;
-    }
 
+    /**
+     * Sets key.
+     *
+     * @param key the key
+     */
+// --[getter/setter]-----------------------------------
     public void setKey(String key) {
         this.key = key;
     }
 
-    public String getSeverities() {
-        return severities;
+    /**
+     * Gets key.
+     *
+     * @return the key
+     */
+    public String getKey() {
+        return key;
     }
 
-    public void setSeverities(String severities) {
-        this.severities = severities;
-    }
-
-    public String getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(String languages) {
-        this.languages = languages;
-    }
-
-    public String getP() {
-        return p;
-    }
-
-    public void setP(String p) {
-        this.p = p;
-    }
-
-    public String getPs() {
-        return ps;
-    }
-
-    public void setPs(String ps) {
-        this.ps = ps;
-    }
-
-    public String getServiceInstancesId() {
-        return serviceInstancesId;
-    }
-
-    public void setServiceInstancesId(String serviceInstancesId) {
-        this.serviceInstancesId = serviceInstancesId;
-    }
-
+    /**
+     * Gets qprofile.
+     *
+     * @return the qprofile
+     */
     public String getQprofile() {
         return qprofile;
     }
 
+    /**
+     * Sets qprofile.
+     *
+     * @param qprofile the qprofile
+     */
     public void setQprofile(String qprofile) {
         this.qprofile = qprofile;
     }
 
-    public String getActivation() {
+    /**
+     * Sets ps.
+     *
+     * @param ps the ps
+     */
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    /**
+     * Gets facets.
+     *
+     * @return the facets
+     */
+    public Object getFacets() {
+        return facets;
+    }
+
+    /**
+     * Sets facets.
+     *
+     * @param facets the facets
+     */
+    public void setFacets(Object facets) {
+        this.facets = facets;
+    }
+
+    /**
+     * Is activation boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isActivation() {
         return activation;
     }
 
-    public void setActivation(String activation) {
+    /**
+     * Sets activation.
+     *
+     * @param activation the activation
+     */
+    public void setActivation(boolean activation) {
         this.activation = activation;
     }
 
-    public String getQ() {
-        return q;
+    /**
+     * Gets ps.
+     *
+     * @return the ps
+     */
+    public int getPs() {
+        return ps;
     }
 
-    public void setQ(String q) {
-        this.q = q;
+    /**
+     * Gets f.
+     *
+     * @return the f
+     */
+    public String getF() {
+        return f;
     }
 
-    public String getS() {
-        return s;
+    /**
+     * Sets f.
+     *
+     * @param f the f
+     */
+    public void setF(String f) {
+        this.f = f;
     }
 
-    public void setS(String s) {
-        this.s = s;
+    /**
+     * Gets p.
+     *
+     * @return the p
+     */
+    public int getP() {
+        return p;
     }
 
-    public List getRules() {
-        return rules;
+    /**
+     * Gets result status.
+     *
+     * @return the result status
+     */
+    public String getResultStatus() {
+        return resultStatus;
     }
 
-    public void setRules(List rules) {
-        this.rules = rules;
+    /**
+     * Sets result status.
+     *
+     * @param resultStatus the result status
+     */
+    public void setResultStatus(String resultStatus) {
+        this.resultStatus = resultStatus;
     }
 
-    public String getTotal() {
-        return total;
+    /**
+     * Gets result message.
+     *
+     * @return the result message
+     */
+    public String getResultMessage() {
+        return resultMessage;
     }
 
-    public void setTotal(String total) {
-        this.total = total;
+    /**
+     * Sets result message.
+     *
+     * @param resultMessage the result message
+     */
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
     }
 
-    public String getIssues() {
-        return issues;
+    /**
+     * Gets custom key.
+     *
+     * @return the custom key
+     */
+    public String getCustom_key() {
+        return custom_key;
     }
 
-    public void setIssues(String issues) {
-        this.issues = issues;
+    /**
+     * Sets custom key.
+     *
+     * @param custom_key the custom key
+     */
+    public void setCustom_key(String custom_key) {
+        this.custom_key = custom_key;
     }
 
-    public String getKeyword() {
-        return keyword;
+    /**
+     * Gets markdown description.
+     *
+     * @return the markdown description
+     */
+    public String getMarkdown_description() {
+        return markdown_description;
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
+    /**
+     * Sets markdown description.
+     *
+     * @param markdown_description the markdown description
+     */
+    public void setMarkdown_description(String markdown_description) {
+        this.markdown_description = markdown_description;
     }
 
-    public String getRule_key() {
-        return rule_key;
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setRule_key(String rule_key) {
-        this.rule_key = rule_key;
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getProfile_key() {
-        return profile_key;
+    /**
+     * Gets language.
+     *
+     * @return the language
+     */
+    public String getLanguage() {
+        return language;
     }
 
-    public void setProfile_key(String profile_key) {
-        this.profile_key = profile_key;
+    /**
+     * Sets language.
+     *
+     * @param language the language
+     */
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getSeverity() {
-        return severity;
+    /**
+     * Sets p.
+     *
+     * @param p the p
+     */
+    public void setP(int p) {
+        this.p = p;
     }
 
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
+    /**
+     * Gets actives.
+     *
+     * @return the actives
+     */
     public String getActives() {
         return actives;
     }
 
+    /**
+     * Sets actives.
+     *
+     * @param actives the actives
+     */
     public void setActives(String actives) {
         this.actives = actives;
-    }
-
-    public String getFacets() {
-        return facets;
-    }
-
-    public void setFacets(String facets) {
-        this.facets = facets;
     }
 
     @Override
     public String toString() {
         return "CodingRules{" +
-                "id=" + id +
-                ", key='" + key + '\'' +
-                ", severities='" + severities + '\'' +
-                ", languages='" + languages + '\'' +
-                ", ps='" + ps + '\'' +
-                ", p='" + p + '\'' +
-                ", total='" + total + '\'' +
+                "key='" + key + '\'' +
                 ", qprofile='" + qprofile + '\'' +
-                ", activation='" + activation + '\'' +
-                ", serviceInstancesId='" + serviceInstancesId + '\'' +
-                ", q='" + q + '\'' +
-                ", s='" + s + '\'' +
-                ", rules=" + rules +
-                ", issues='" + issues + '\'' +
-                ", keyword='" + keyword + '\'' +
+                ", ps=" + ps +
+                ", p=" + p +
+                ", f='" + f + '\'' +
+                ", facets=" + facets +
+                ", activation=" + activation +
+                ", total=" + total +
+                ", custom_key='" + custom_key + '\'' +
+                ", markdown_description='" + markdown_description + '\'' +
+                ", name='" + name + '\'' +
+                ", language='" + language + '\'' +
                 ", actives='" + actives + '\'' +
-                ", rule_key='" + rule_key + '\'' +
-                ", profile_key='" + profile_key + '\'' +
-                ", severity='" + severity + '\'' +
-                ", reset=" + reset +
-                ", facets='" + facets + '\'' +
+                ", resultStatus='" + resultStatus + '\'' +
+                ", resultMessage='" + resultMessage + '\'' +
                 '}';
     }
-
-    public Boolean getReset() {
-        return reset;
-    }
-
-    public void setReset(Boolean reset) {
-        this.reset = reset;
-    }
-
-
 }

@@ -332,3 +332,19 @@ var procValidateUrl = function (reqUrl) {
     var regex = /^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?/;
     return regex.test(reqUrl);
 };
+
+// VALIDATE QualityProfileName or QualityGateName(input value : a-z, A-Z, '_', '-')
+var procValidateQualityKeyName = function (reqName) {
+    var regex = /^[0-9a-zA-Z_\-]*$/;
+    return regex.test(reqName);
+};
+
+// VALIDATE QualityProfileNameLength (max 100)
+var procValidateQualityKeyNameLength = function (reqName) {
+
+    if (reqName.length > 100) {
+        return true;
+    }
+    return false;
+};
+

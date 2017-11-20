@@ -1,21 +1,35 @@
 <%--
   Created by IntelliJ IDEA.
-  User: kim
-  Date: 2017-08-10
-  Time: 오후 2:21
+  User: lena
+  Date: 2017-11-16
+  Time: 오후 18:30
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="paasta.delivery.pipeline.ui.common.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:authorize access="isAuthenticated()">
+    <sec:authentication property="details.role" var="role"/>
+    <sec:authentication property="details.userid" var="userid"/>
+</sec:authorize>
+<!-- location :s -->
 <div class="location">
     <div class="location_inner">
         <ul>
             <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
             <li>품질 프로파일</li>
         </ul>
+
+        <c:if test="${role == 'ROLE_ADMIN'}">
+            <div class="fr">
+                <button type="button" class="button btn_default" title="생성" id="btnPopupProfileCreate">생성</button>
+            </div>
+        </c:if>
     </div>
 </div>
+<!-- location :e -->
+
 <!-- container :s -->
 <div id="container">
     <!-- content :s -->
@@ -25,16 +39,14 @@
             <!-- left :s -->
             <div class="lnbWrap">
                 <div class="lnb">
-                    <ul id="profileList">
-
-                    </ul>
+                    <ul id="qualityProfileList"></ul>
                 </div>
             </div>
             <!--//left :e -->
-            <div clss="contentWrap" id="contentProfileExp"style="display: block">
-               <h5 style="line-height:2.3em;">&nbsp;&nbsp;품질 프로파일은 분석하는 동안 적용 할 규칙 모음입니다. <br>&nbsp;&nbsp;각 언어별로 기본 프로파일이 있습니다. 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다.</h5>
-            </div>
             <!-- contentWrap :s -->
+            <div clss="contentWrap" id="contentProfileExp"style="display: block">
+                <h5 style="line-height:2.3em;">&nbsp;&nbsp;품질 프로파일은 분석하는 동안 적용 할 규칙 모음입니다. <br>&nbsp;&nbsp;각 언어별로 기본 프로파일이 있습니다. 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다.</h5>
+            </div>
             <div class="contentWrap" id="contentProfile" style="display: none">
                 <div class="content_in">
                     <!-- sub 타이틀 영역 :s -->
@@ -42,8 +54,7 @@
                         <h3 class="proj_tit" id="profileName"><span class="program">Java</span></h3>
                     </div>
                     <div class="fr mb10">
-                       <button type="button" class="button btn_default" id="profileCopy">복제</button>
-                        <button type="button" class="button btn_default" id="profileCreate">생성</button>
+                        <button type="button" class="button btn_default" id="profileCopy">복제</button>
                         <button type="button" class="button btn_default" id="profileUpdate">수정</button>
                         <button type="button" class="button btn_default" id="deleteProfileBtn">삭제</button>
                     </div>
@@ -72,77 +83,81 @@
                     <!--//코딩규칙 :e -->
                     <!-- 연결된 프로젝트 :s -->
                     <h3 class="sub_title">연결된 프로젝트</h3>
-                    <!--내용없을 시<p class="ml18">기본 품질 프로파일에는 특정 프로젝트가 연결되지 않습니다.</p>-->
+                    <div id="relatedProjectAreaDefault" style="display: none;">
+                        <p class="ml18">기본 품질 프로파일에는 특정 프로젝트가 연결되지 않습니다.</p>
+                    </div>
                     <!-- sub_tab :s -->
-                    <div class="sub_tab">
-                        <ul>
-                            <li class="fst active"><a href="#;" onClick="sub_tab(0);">연결됨 <span class="pl10"></span></a></li>
-                            <li class=""><a href="#;" onClick="sub_tab(1);">미연결 <span class="pl10"></span></a></li>
-                            <li class=""><a href="#;" onClick="sub_tab(2);">전체 <span class="pl10"></span></a></li>
-                        </ul>
-                    </div>
-                    <!--//sub_tab :e -->
-                    <!-- sub탭 콘텐츠01 :s -->
-                    <div class="sub_tab_cont00">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
-                            <!-- 리스트 테이블 -->
-                            <table summary="연결된 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>연결된 프로젝트 리스트</caption>
-                                <colgroup>
-                                    <col style="width:3%">
-                                    <col style="width: *" />
-                                </colgroup>
-                                <thead>
-                                </thead>
-                                <tbody id="projectLinked">
-
-                                </tbody>
-                            </table>
-                            <!--//리스트 테이블-->
+                    <div id="relatedProjectArea" style="display: block;">
+                        <div class="sub_tab">
+                            <ul>
+                                <li class="fst active"><a href="#;" onClick="sub_tab(0);">연결됨 <span class="pl10"></span></a></li>
+                                <li class=""><a href="#;" onClick="sub_tab(1);">미연결 <span class="pl10"></span></a></li>
+                                <li class=""><a href="#;" onClick="sub_tab(2);">전체 <span class="pl10"></span></a></li>
+                            </ul>
                         </div>
-                    </div>
-                    <!--//sub탭 콘텐츠01 :e -->
-                    <!-- sub탭 콘텐츠02 :s -->
-                    <div class="sub_tab_cont01 mTs" style="display:none;">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
-                            <!-- 리스트 테이블 -->
-                            <table summary="미연결 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>미연결 프로젝트 리스트</caption>
-                                <colgroup>
-                                    <col style="width:3%">
-                                    <col style="width: *" />
-                                </colgroup>
-                                <thead>
-                                </thead>
-                                <tbody id="projectFailure">
+                        <!--//sub_tab :e -->
+                        <!-- sub탭 콘텐츠01 :s -->
+                        <div class="sub_tab_cont00">
+                            <div class="tab_content tbl_scroll" style="height:310px;">
+                                <!-- 리스트 테이블 -->
+                                <table summary="연결된 프로젝트 리스트 테이블입니다." class="BasicTable">
+                                    <caption>연결된 프로젝트 리스트</caption>
+                                    <colgroup>
+                                        <col style="width:3%">
+                                        <col style="width: *" />
+                                    </colgroup>
+                                    <thead>
+                                    </thead>
+                                    <tbody id="projectLinked">
 
-                                </tbody>
-                            </table>
-                            <!--//리스트 테이블-->
+                                    </tbody>
+                                </table>
+                                <!--//리스트 테이블-->
+                            </div>
                         </div>
-                    </div>
-                    <!--//sub탭 콘텐츠02 :e -->
-                    <!-- sub탭 콘텐츠03 :s -->
-                    <div class="sub_tab_cont02 mTs" style="display:none;">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
-                            <!-- 리스트 테이블 -->
-                            <table summary="전체 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>전체 프로젝트 리스트</caption>
-                                <colgroup>
-                                    <col style="width:3%">
-                                    <col style="width: *" />
-                                </colgroup>
-                                <thead>
-                                </thead>
-                                <tbody id="allProject">
+                        <!--//sub탭 콘텐츠01 :e -->
+                        <!-- sub탭 콘텐츠02 :s -->
+                        <div class="sub_tab_cont01 mTs" style="display:none;">
+                            <div class="tab_content tbl_scroll" style="height:310px;">
+                                <!-- 리스트 테이블 -->
+                                <table summary="미연결 프로젝트 리스트 테이블입니다." class="BasicTable">
+                                    <caption>미연결 프로젝트 리스트</caption>
+                                    <colgroup>
+                                        <col style="width:3%">
+                                        <col style="width: *" />
+                                    </colgroup>
+                                    <thead>
+                                    </thead>
+                                    <tbody id="projectFailure">
 
-                                </tbody>
-                            </table>
-                            <!--//리스트 테이블-->
+                                    </tbody>
+                                </table>
+                                <!--//리스트 테이블-->
+                            </div>
                         </div>
+                        <!--//sub탭 콘텐츠02 :e -->
+                        <!-- sub탭 콘텐츠03 :s -->
+                        <div class="sub_tab_cont02 mTs" style="display:none;">
+                            <div class="tab_content tbl_scroll" style="height:310px;">
+                                <!-- 리스트 테이블 -->
+                                <table summary="전체 프로젝트 리스트 테이블입니다." class="BasicTable">
+                                    <caption>전체 프로젝트 리스트</caption>
+                                    <colgroup>
+                                        <col style="width:3%">
+                                        <col style="width: *" />
+                                    </colgroup>
+                                    <thead>
+                                    </thead>
+                                    <tbody id="allProject">
+
+                                    </tbody>
+                                </table>
+                                <!--//리스트 테이블-->
+                            </div>
+                        </div>
+                        <!--//sub탭 콘텐츠03 :e -->
+                        <!--//연결된 프로젝트 :e -->
                     </div>
-                    <!--//sub탭 콘텐츠03 :e -->
-                    <!--//연결된 프로젝트 :e -->
                 </div>
             </div>
             <!--//contentWrap :e -->
@@ -154,73 +169,59 @@
 <!--//container :e -->
 
 
-<%----%>
-<div class="modal fade" id="modalProfile" tabindex="-1" role="dialog">
+<%--POPUP CF URL :: BEGIN--%>
+<div class="modal fade" id="modalQualityProfileList" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="width: 600px;">
-        <!-- 콘텐츠 -->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close profileClose" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <span class="modal-title">품질 프로파일 복제</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span>
+                </button>
+                <h1 id="popupQualityProfileConfirmTitle" class="modal-title"> 품질 프로파일 </h1>
             </div>
             <div class="modal-body">
-                <!-- form -->
                 <div class="modal_contBox">
-                    <!-- 기본 영역(품질 프로파일) -->
-                    <div class="modalform_info">
-                        <!--타이틀 영역-->
-                        <div class="form_left">
-                            <p class="title">품질 프로파일</p>
+                    <%--CREATE :: BEGIN--%>
+                    <div id="popupCreateArea" style="display: none;">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">품질 프로파일</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <input type="text" class="input-large" id="popupProfileNameCreate" name="popupProfileName"
+                                           title="popupProfileName" value="" maxlength="100"
+                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form_right">
-                            <div class="formBox">
-                                <input id="copyProfileText" name="copyProfileText" type="text" placeholder="품질 프로파일명을 입력하세요(필수)">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">개발언어</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p>
+                                        <select class="input-large" id="popupProfileLanguageCreate"></select>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modalform_info">
-                        <div class="form_left">
-                            <p class="title">개발언어</p>
-                        </div>
-                        <div class="form_right" id="langText">
-                            <div class="formBox">
-                                <span id="profileLang"></span>
-                            </div>
-                        </div>
-                        <div class="form_right">
-                            <div class="formBox" id="langSelect">
-                                <p><select class="input-medium" id="langSelectList">
-
-                                </select></p>
-                            </div>
-                        </div>
-
-                    </div>
+                    <%--CREATE :: END--%>
                 </div>
-                <!--//form -->
             </div>
             <div class="modal-footer">
-
-                <div class="fr" id="frCopyBtn">
-                    <button type="button" class="button btn_pop" id="copyProfileBtn">복제</button> <button type="button" class="button btn_pop profileClose">취소</button>
+                <div id="popupCreateButtonArea" style="display: none;">
+                    <div class="fr">
+                        <button type="button" class="button btn_pop" id="btnProfileCreate"> 생성</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                    </div>
                 </div>
-
-                <div class="fr" id="frCreateBtn">
-                    <button type="button" class="button btn_pop" id="createProfileBtn">생성</button> <button type="button" class="button btn_pop profileClose">취소</button>
-                </div>
-
-                <div class="fr" id="frUdtBtn">
-                    <button type="button" class="button btn_pop" id="updateProfileeBtn">수정</button> <button type="button" class="button btn_pop profileClose">취소</button>
-                </div>
-
             </div>
         </div>
     </div>
-    <!--//콘텐츠 :e -->
 </div>
-
-
-
+<%--POPUP CF URL :: END--%>
 
 
 <input type="hidden" name="profileKey" id="profileKey"/>
@@ -229,6 +230,7 @@
 <input type="hidden" name="language" id="language">
 <input type="hidden" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
 <input type="hidden" id="defaultYn">
+
 <script type="text/javascript">
 
     var doubleSubmitFlag = false;
@@ -243,500 +245,415 @@
         }
     }
 
+    // Popup Types
+    var gPopupTypeCreate = "Create";
+    var gPopupTypeUpdate = "Update";
+    var gPopupTypeCopy = "Copy";
 
     $(document.body).ready(function () {
-        getList();
+        // Left :: 개발 언어별 품질 프로파일 List 조회
+        console.log("::::: start :::::");
+        getQualityProfileList();
+        console.log("::::: end :::::");
     });
 
 
+    // Set PopUp Area
+    var procSetPopupArea = function (type) {
 
+        var procTypeArray = [gPopupTypeCreate, gPopupTypeUpdate, gPopupTypeCopy];
 
+        $.each(procTypeArray, function (index, procType) {
 
-
-    $(function(){
-        $("#profileCopy").click(function(){
-            btnChang("copy");
-
-        });
-
-        $(".profileClose").click(function(){
-            procClosePopup();
-
-        });
-
-        $("#copyProfileBtn").click(function(){
-            procPopupConfirm('품질프로파일 복제', '복제 하시겠습니까?', 'saveCopyProfile();');
-        });
-
-        $("#profileUpdate").click(function(){
-            btnChang("update");
-        });
-
-        $("#deleteProfileBtn").click(function(){
-            procPopupConfirm('품질프로파일 삭제', '삭제 하시겠습니까?', 'deleteProfile();');
-
-        });
-
-        $("#updateProfileeBtn").click(function(){
-            if($("#defaultVn").val() == "Y"){
-                procPopupAlert("기본으로 제공되는 품질 프로파일은 삭제, 수정 할 수 없습니다.");
-                return false;
-            } else if($("#copyProfileText").val() == ""){
-                procPopupAlert("품질 프로파일 명을 입력하세요.");
-                $("#copyProfileText").val("");
-            }else{
-                procPopupConfirm('품질프로파일 수정', '수정 하시겠습니까?', 'updateProfile();');
-            }
-        });
-
-        $("#profileCreate").click(function(){
-            btnChang("create");
-            languageList();
-
-        });
-
-        $("#createProfileBtn").click(function(){
-            if($("#copyProfileText").val() == ""){
-                procPopupAlert("품질 프로파일 명을 입력하세요.");
-                $("#copyProfileText").val("");
-            }else{
-                procPopupConfirm('품질프로파일 생성', '생성 하시겠습니까?', 'createProfile();');
+            if (procType == type) {
+                $('#popup' + procType + 'Area').fadeIn("slow");
+                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
+            } else {
+                $('#popup' + procType + 'Area').hide();
+                $('#popup' + procType + 'ButtonArea').hide();
             }
 
-        })
+        });
+    };
 
-        $("#profileDefault").click(function(){
-            procPopupConfirm('품질프로파일 기본설정', $("#profileName").text()+'을 기본으로 설정 하시겠습니까?', 'defaultProfile();','설정');
-        })
+    // 품질 프로파일 생성 Popup
+    $("#btnPopupProfileCreate").on("click", function () {
 
+        var objModalList = $('#modalQualityProfileList');
+        // 개발언어 리스트 조회
+        getQualityProfileLanguages();
 
+        // Popup 설정
+        procSetPopupArea(gPopupTypeCreate);
 
-    })
+        objModalList.modal('toggle');
+    });
 
-    var defaultProfile = function(){
-        var param = {
-            id:$("#profileId").val(),
-            profileKey: $("#profileKey").val(),
-            serviceInstancesId:$("#serviceInstancesId").val()
-        };
-        procCallAjax("/qualityProfile/qualityProfileDefaultSetting.do", param, qualityProfileDefaultSetting);
-    }
+    // 품질 프로파일 생성
+    $("#btnProfileCreate").on("click", function () {
 
-    var qualityProfileDefaultSetting = function(data){
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        // 입력값  유효성 체크
+        procValidatePopup(gPopupTypeCreate);
 
-//        procPopupAlert(  $("#profileName").text()+'를 기본으로 설정 하였습니다.');
-        getList();
-        profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val(),$("#defaultYn").val() );
+    });
 
+    // validate popup
+    var procValidatePopup = function(type) {
 
+        var popupProfileName = $('#popupProfileName'+ type).val();
+        var popupProfileLanguage = $('#popupProfileLanguage' + type).val();
 
-    }
+//        console.log("popupProfileName:::" + popupProfileName);
+//        console.log("popupProfileLanguage:::" + popupProfileLanguage);
 
+        $('#modalQualityProfileList').modal('hide');
 
-
-    function createProfile(){
-
-
-        var param = {
-            language:$("#langSelectList").val(),
-            name : $("#copyProfileText").val(),
-            serviceInstancesId:$("#serviceInstancesId").val(),
-            profileDefaultYn:"N"
-
-        };
-
-        procCallAjax("/qualityProfile/qualityProfileCreate.do", param, qualityProfileCreate);
-
-    }
-
-    var qualityProfileCreate = function(data){
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        getList();
-        getCodingRules(data.language, data.name);
-        profileActive(data.key, data.name,data.id ,data.languageName ,data.language, data.profileDefaultYn);
-        getProjectList();
-        $("#copyProfileText").val("");
-        procPopupAlert('생성 되었습니다.');
-    }
-
-
-    function languageList(){
-        procCallAjax("/qualityProfile/qualityProfileLangList.do", null, qualityProfileLangList);
-    }
-
-    var qualityProfileLangList = function(data){
-
-        var list = "";
-        if(data.languages.length != 0){
-            for(var i=0;i<data.languages.length;i++){
-                list += "<option value='"+data.languages[i].key+"'>"+ data.languages[i].name +"</option>";
-            }
-
-        }
-
-        $("#langSelectList").html(list);
-
-    }
-
-    function deleteProfile(){
-        if($("#defaultVn").val() == "Y"){
-            procPopupAlert('기본으로 제공하는 품질 프로파일은 삭제,수정 할 수 없습니다.');
+        // 품질 프로파일 명 유효성 체크
+        if (procIsNullString(popupProfileName)) {
+            procPopupAlert("품질 프로파일 명을 입력하십시오.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
-        var param = {
-            id:$("#profileId").val(),
-            profileKey:$("#profileKey").val(),
-            serviceInstancesId:$("#serviceInstancesId").val(),
-            profileDefaultYn:"N"
-
-        }
-        procCallAjax("/qualityProfile/qualityProfileDelete.do", param, callbackGetQualityProfileDelete);
-    }
-
-    var callbackGetQualityProfileDelete = function(data){
-
-        $("#contentProfileExp").css("display", "block");
-        $("#contentProfile").css("display", "none");
-        procPopupAlert('품질프로파일을 삭제 하였습니다.');
-        $("#copyProfileText").val("");
-        getList();
-
-
-    }
-
-
-
-
-    function updateProfile(){
-        var param = {
-            id:$("#profileId").val(),
-            name:$("#copyProfileText").val(),
-            key:$("#profileKey").val(),
-            profileDefaultYn:"N"
-
-        };
-        procCallAjax("/qualityProfile/qualityProfileUpdate.do", param, callbackGetQualityProfileUpdate);
-    }
-
-    var callbackGetQualityProfileUpdate = function(data){
-
-        getList();
-        profileActive(data.key, data.name,data.id , data.languageName ,data.language, data.profileDefaultYn);
-        getProjectList();
-        $("#copyProfileText").val("");
-//        procClosePopup();
-        procPopupAlert('수정 되었습니다.');
-
-    }
-
-
-    function btnChang(name){
-        if(name == "copy"){
-            $("#frCopyBtn").css("display", "block");
-            $("#frCreateBtn").css("display", "none");
-            $("#frUdtBtn").css("display", "none");
-            $("#langText").css("display", "block");
-            $("#langSelect").css("display", "none");
-            $("#profileLang").text($("#langName").val());
-            $(".modal-title").text("품질 프로파일 복제");
-        }else if(name == "update"){
-            $("#frCopyBtn").css("display", "none");
-            $("#frCreateBtn").css("display", "none");
-            $("#frUdtBtn").css("display", "block");
-            $("#profileLang").text($("#langName").val());
-            $("#copyProfileText").val($("#profileName").text());
-            $("#langText").css("display", "block");
-            $("#langSelect").css("display", "none");
-            $(".modal-title").text("품질 프로파일 수정");
-        }else if(name == "create"){
-            $("#frCopyBtn").css("display", "none");
-            $("#frCreateBtn").css("display", "block");
-            $("#frUdtBtn").css("display", "none");
-            $("#langText").css("display", "none");
-            $("#langSelect").css("display", "block");
-            $(".modal-title").text("품질 프로파일 생성");
-            $("#copyProfileText").val("");
+        if (!procValidateQualityKeyName(popupProfileName)) {
+            procPopupAlert("품질 프로파일 명을 확인하십시오.[영문, 숫자, '-' ,'_' 사용가능]", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            return false;
         }
 
-        $("#modalProfile").modal('toggle');
-    }
+        var newProfileName = G_SERVICE_INSTANCE_ID + "^" + popupProfileName;
+        var inputLength = 100 - G_SERVICE_INSTANCE_ID.length -1;
+        console.log ("new profileName :::: "+ newProfileName);
 
+        if (procValidateQualityKeyNameLength(newProfileName)) {
+            procPopupAlert("품질 프로파일 명은 최대 " + inputLength+ "자까지 입력 가능합니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            return false;
+        }
 
-    function saveCopyProfile(){
-        if(doubleSubmitCheck()) return;
-        var param = {
-            fromKey: $("#profileKey").val(),
-            toName:  $("#copyProfileText").val(),
-            languageName: $("#langName").val(),
-            language:$("#language").val(),
-            serviceInstancesId:$("#serviceInstancesId").val(),
-            profileDefaultYn:"N"
+        // 개발언어 유효성 체크
+        if (popupProfileLanguage.toUpperCase() != "JAVA") {
+            procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            $('#popupProfileLanguage' + type).val("java");
+            return false;
+        }
 
-        };
-        procCallAjax("/qualityProfile/qualityProfileCopy.do", param, callbackGetQualityProfileCopy);
+        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
+        var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
+        var procFunction = type + "QualityProfile();";
+        var reqButtonText = $('#btnProfile'+type).text();
 
-    }
+//        console.log("reqTitle ::: "+ reqTitle);
+//        console.log("reqMessage ::: "+ reqMessage);
+//        console.log("procFunction ::: "+ procFunction);
+//        console.log("reqButtonText ::: "+ reqButtonText);
 
-    var callbackGetQualityProfileCopy = function(data){
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
-
-        getList();
-        profileActive(data.key, data.name, data.id, data.languageName ,data.language,data.profileDefaultYn);
-        getProjectList();
-        $("#copyProfileText").val("");
-        procPopupAlert('복제 되었습니다.');
-
-    }
-
-
-    // GET LIST
-    var getList = function() {
-        procCallAjax("/qualityProfile/qualityProfileList.do", null, callbackGetList);
     };
 
-    var callbackGetList = function(data){
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+    // SET POPUP FOCUS
+    var procSetPopupFocus = function(type, reqObject) {
+        var objModalList = $('#modalQualityProfileList');
+
+        procSetPopupArea(type);
+        objModalList.modal('show');
+
+        objModalList.on('shown.bs.modal', function () {
+
+            $('#' + reqObject).focus();
+        });
+    };
 
 
 
-        var list = "";
-        var langName = new Array();
-        var langResult = [];
+//    $("li[id^=profile_]").on("click", function () {
+//    $("#profile_java_1").on("click", function () {
+//        console.log("success");
+//        console.log("profile-list-item");
+//        console.log("profile-list-item :: key ::: "+$(this).data().key);
+//        console.log("profile-list-item :: language :: "+$(this).data().language);
+//
+//    });
 
 
-        for(var i=0 ; i< data.length; i++){
-            langName.push(data[i].languageName);
-        }
 
-        $.each(langName , function(index, element){
-            if($.inArray(element, langResult) == -1){
-                langResult.push(element);
-                list += "<h4>"+element+"</h4>";
-                for(var i=0 ; i< data.length; i++){
-                    if(element == data[i].languageName){
-                        if(data[i].profileDefaultYn == "Y" ){
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
-                        } else if(data[i].profileDefaultYn == "N"){
-                            list += "<li><a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span><span class='issue_num'></span></a></li>";
-                        }
+    // ------ function
+    // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: s
+    var getQualityProfileList = function () {
+        var reqUrl = "/qualityProfile/qualityProfileList.do";
 
-                    }
-
-                }
-            }
-        })
-
-        $("#profileList").html(list);
-
+        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
 
     }
+    // [Collback] Left :: 개발 언어별 품질 프로파일 List 조회
+    var callbackGetQualityProfileList = function (data) {
 
-
-    function profileActive(key , name, id, langName, language, defaultYn){
-//        history.pushState(location.pathname);
-        procCallSpinner(SPINNER_START);
-        if(defaultYn == "Y") {
-            $("#deleteProfileBtn").hide();
-            $("#profileUpdate").hide();
-        }else{
-            $("#deleteProfileBtn").show();
-            $("#profileUpdate").show();
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
         }
+
+        var dataLanguages = data.languages;
+        var dataProfiles = data.profiles;
+
+        var htmlstr = "";
+        var profileName;
+
+        $.each(dataLanguages, function (index, language) {
+//            console.log("KEY:::" + language.key);
+//            console.log("VALUE:::" + language.name);
+
+            if (language.key.toUpperCase() == "JAVA") {
+                htmlstr += "<h4>" + language.name + "</h4>";
+
+                $.each(dataProfiles, function (index, profile) {
+
+//                    console.log("PROFILE :: LANGUAGE :: " + profile.language);
+
+                    if (language.key == profile.language) {
+
+//                        console.log("before :: profile.name :: " + profile.name);
+                        //TODO replace
+//
+//                        console.log(newstr);  // Twas the night before Christmas...
+
+//                        console.log("PROFILE :: LANGUAGE :: " + profile.language);
+                        htmlstr += "<li><a id='profileItem_"+profile.key
+                            +"' data-default='"+profile.isDefault
+                            +"' data-name='"+profile.name
+                            +"' data-language='"+profile.language
+                            +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
+//                        htmlstr += "<a href=\"javascript:profileDetail()\">";
+
+                        //TODO
+                        // data-key , data-language
+//                    <a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+                        htmlstr += "<span class='block ico_bul'>" + profile.name + "</span>";
+                        htmlstr += "<span class='issue_num'>";
+                        if (profile.projectCount != null) {
+                            htmlstr += profile.projectCount;
+                        }
+                        if (profile.isDefault) {
+                            htmlstr += "<span class='word_sort'>기본</span>";
+                        }
+                        htmlstr += "</span></a></li>";
+                    }
+                });
+            }
+        });
+
+        $("#qualityProfileList").html(htmlstr);
+    }
+    // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: e
+
+    // 품질 프로파일 생성 > 개발 언어 조회 ::::: s
+    var getQualityProfileLanguages = function () {
+
+        procCallAjax("/qualityProfile/qualityProfileLanguageList.do", null, callbackGetQualityProfileLanguages);
+    };
+
+    // [Collback] 품질 프로파일 생성 > 개발 언어 조회
+    var callbackGetQualityProfileLanguages = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        var selectList;
+
+        $.each(data, function (index, language) {
+            selectList += "<option value='" + language.key + "'";
+
+            if (language.key.toUpperCase() == "JAVA") {
+                selectList += " selected";
+            }
+            selectList += ">";
+            selectList += language.name + "</option>";
+        });
+
+        $("#popupProfileLanguageCreate").html(selectList);
+        $("#popupProfileNameCreate").html("");
+
+
+    };
+    // 품질 프로파일 생성 > 개발 언어 조회 ::::: e
+
+    // 품질 프로파일 생성 ::::: S
+    var CreateQualityProfile = function () {
+        var newProfileName = G_SERVICE_INSTANCE_ID + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
+
+        console.log("=== CreateQualityProfile :: name :: "+ newProfileName);
+        var reqParam = {
+            serviceInstanceId: G_SERVICE_INSTANCE_ID,
+            name: newProfileName,
+            language: $('#popupProfileLanguage' + gPopupTypeCreate).val()
+        };
+
+        procCallAjax("/qualityProfile/qualityProfileCreate.do", reqParam, callbackCreateQualityProfile);
+    };
+
+    // [Collback] 품질 프로파일 생성
+    var callbackCreateQualityProfile = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        getQualityProfileList();
+        $('#modalQualityProfileList').modal('hide');
+        procPopupAlert('생성 되었습니다.');
+
+
+    };
+    // 품질 프로파일 생성 ::::: e
+
+    // 품질 프로파일 상세 ::::: s
+
+    var profileDetail = function (profileKey) {
+
+        // profile Info
+        var isDefault = $('#profileItem_'+profileKey).data().default;
+        var name = $('#profileItem_'+profileKey).data().name;
+        var language = $('#profileItem_'+profileKey).data().language;
+
+//        procCallSpinner(SPINNER_START);
 
         $("#contentProfileExp").css("display","none");
         $("#contentProfile").css("display","block");
         $("#profileName").text(name);
-        $("#langName").val(langName);
-        $("#profileId").val(id);
-        $("#profileKey").val(key);
-        $("#language").val(language);
-        $("#defaultYn").val(defaultYn);
+        $("#profileName").append("<span class='program'>"+language+"</span>");
+//        $("#langName").val(langName);
+//        $("#profileId").val(id);
+//        $("#profileKey").val(key);
+//        $("#language").val(language);
+//        $("#defaultYn").val(defaultYn);
         doubleSubmitFlag = false;
-        //프로젝트 리스트
-        getProjectList();
 
-        //코딩 규칙 리스트
-        getCodingRules(language, name);
+        console.log("GET getCodingRules ::::: s");
+        // 코딩 규칙 정보 취득
+        getCodingRules(profileKey, language);
 
-        procCallSpinner(SPINNER_STOP);
+        if (isDefault) {
+            $("#relatedProjectArea").css("display","none");
+            $("#relatedProjectAreaDefault").css("display","block");
+        } else {
+            // 프로젝트 정보 취득
+            $("#relatedProjectArea").css("display","block");
+            $("#relatedProjectAreaDefault").css("display","none");
+            $("#allProject").html("");
+            $("#projectLinked").html("");
+            $("#projectFailure").html("");
+            sub_tab(0);
+            getReleatedProjects(profileKey);
+        }
+
+//        procCallSpinner(SPINNER_STOP);
+
+    };
+
+    function getCodingRules(profileKey, language){
+
+        var url = "/codingRules/codingRules.do?qprofile="+profileKey+"&languages="+language+"&facets=active_severities";
+
+        procCallAjax(url, null, callbackGetCodingRules);
     }
 
-    function getCodingRules(language, name){
-        var param =  {
-            name:name,
-            language:language
+    // [Collback] 코딩 규칙
+    var callbackGetCodingRules = function (data) {
 
-        };
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
 
-        procCallAjax("/qualityProfile/codingRulesList.do", param, callbackGetQualityProfileList);
-    }
+        $("#crTotal").text(data.total);
 
+        var facets = data.facets;
+        var values;
+        $.each(facets, function (index, facet) {
+            if ("active_severities" == facet.property) {
+                values = facet.values;
+            }
+        });
 
-    var callbackGetQualityProfileList = function(data){
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+        $.each(values, function (index, value) {
 
-        var list = data[0].rules;
-
-        var blocker = 0;
-        var critical = 0;
-        var major = 0;
-        var minor = 0;
-        var info = 0;
-        var total = 0;
-
-        if(list != null ){
-            for(var i=0;i<list.length;i++){
-
-                if(list[i].severity == "BLOCKER" ){
-                    blocker += 1;
-                }else if(list[i].severity == "CRITICAL"){
-                    critical += 1;
-                }else if(list[i].severity == "MAJOR"){
-                    major += 1;
-                }else if(list[i].severity == "MINOR"){
-                    minor += 1;
-                }else if(list[i].severity == "INFO"){
-                    info += 1;
-                }
-
+            if (value.val == "MAJOR") {
+                $("#majorNum").text(value.count);
             }
 
-        }
-        total = blocker + critical + major+minor + info;
-        $("#crTotal").text(total);
-        $("#blockerNum").text(blocker);
-        $("#criticalNum").text(critical);
-        $("#majorNum").text(major);
-        $("#minorNum").text(minor);
-        $("#infoNum").text(info);
-    }
-
-    function getProjectList(){
-        var param = {
-            serviceInstancesId:$("#serviceInstancesId").val()
-        }
-        procCallAjax("/qualityProfile/projectsList.do", param, callbackGetProjectList);
-    }
-
-    var callbackGetProjectList = function(data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        //전체 프로첵트 리스트
-        var projectList = "";
-
-        //연결된 프로젝트 리스트
-        var projectLinkedList = "";
-
-        //미연결된 프로젝트리스트
-        var projectFailureList = "";
-
-        var profileId = $("#profileId").val();
-
-        if(data.length != 0){
-            for(var i=0; i<data.length; i++){
-
-                if($("#defaultYn").val() != "Y"){
-                    projectList += "<tr>";
-                    if(data[i].qualityProfileId == profileId){
-                        projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' checked ></td>";
-                    }else{
-
-                        projectList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='"+ data[i].id + "' ></td>";
-                    }
-
-                    projectList += "<td class='alignL'>"+ data[i].projectName +"</td>";
-                    projectList += "</tr>";
-
-                    ///////////////////
-
-
-                    if(data[i].qualityProfileId == profileId) {
-                        projectLinkedList += "<tr>";
-                        projectLinkedList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' checked > </td>";
-                        projectLinkedList += "<td class='alignL'>"+ data[i].projectName +"</td>";
-                        projectLinkedList += "</tr>";
-                    }
-
-
-                    //////////////////////////////////////
-
-
-                    if(data[i].qualityProfileId != profileId){
-                        projectFailureList += "<tr>";
-                        projectFailureList += "<td><input type='checkbox' name='projectConnection"+data[i].id+"' onclick=\"projectConnection(\'"+data[i].id+"','"+data[i].sonarKey+"',this)\" value='" + data[i].id + "' > </td>";
-                        projectFailureList += "<td class='alignL' >"+ data[i].projectName +"</td>";
-                        projectFailureList += "</tr>";
-                    }
-                }else{
-                    projectList = "<tr><td colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
-                    projectLinkedList = "<tr><td  colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
-                    projectFailureList = "<tr><td  colspan='2'>기본 품질 프로파일에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
-                }
-
-
-
-
-
+            if (value.val == "MINOR") {
+                $("#minorNum").text(value.count);
             }
 
+            if (value.val == "CRITICAL") {
+                $("#criticalNum").text(value.count);
+            }
 
+            if (value.val == "INFO") {
+                $("#infoNum").text(value.count);
+            }
+
+            if (value.val == "BLOCKER") {
+                $("#blockerNum").text(value.count);
+            }
+
+        });
+
+
+    };
+
+    function getReleatedProjects(profileKey) {
+
+        procCallAjax("/qualityProfile/projects.do?key="+profileKey+"&selected=all", null, callbackGetProjects);
+
+    }
+    // [Collback] 연결된 프로젝트
+    var callbackGetProjects = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
         }
 
+        var results = data.results;
+        console.log("results >>::: "+results);
+        var releatedProjects;
+        var unReleatedProjects;
+        var allProjects;
 
-        $("#allProject").html(projectList);
-        $("#projectLinked").html(projectLinkedList);
-        $("#projectFailure").html(projectFailureList);
+        $.each(results, function (index, result) {
 
-    }
+            if(result.selected) {
+                releatedProjects += "<tr>";
+                releatedProjects += "<td><input type='checkbox' id='CheckboxSelected_"+result.uuid+"' value='"+result.uuid+"' checked></td>";
+                releatedProjects += "<td class='alignL'>"+result.name+"</td>";
+                releatedProjects += "</tr>";
+            }
 
-    //프로젝트 연결
-    function projectConnection(id, key,chk){
-        var profileId = $("#profileId").val();
-        var profileKey = $("#profileKey").val();
-        var projectKey = key;
-        var projectId = id;
+            if(!result.selected) {
+                unReleatedProjects += "<tr>";
+                unReleatedProjects += "<td><input type='checkbox' id='CheckboxUnSelected_"+result.uuid+"' value='"+result.uuid+"'></td>";
+                unReleatedProjects += "<td class='alignL'>"+result.name+"</td>";
+                unReleatedProjects += "</tr>";
+            }
 
-        var param = {};
+            allProjects += "<tr>";
+            allProjects += "<td><input type='checkbox' id='Checkbox_"+result.uuid+"' value='"+result.uuid+"' ";
+            if(result.selected) {
+                allProjects += "checked"
+            }
+            allProjects += "></td>";
+            allProjects += "<td class='alignL'>"+result.name+"</td>";
+            allProjects += "</tr>";
+        });
 
-        if(chk.checked == true){
-            param = {
-                qualityProfileId: profileId,
-                profileKey:profileKey,
-                projectKey:key,
-                sonarKey: key,
-                id: id,
-                linked: "true"
-            };
-        }if(chk.checked == false){
-            param = {
-                qualityProfileId: profileId,
-                profileKey:profileKey,
-                projectKey:key,
-                sonarKey: key,
-                id: id,
-                linked: "false"
-            };
-        }
-
-        procCallAjax("/qualityProfile/qualityProfileProjectLinked.do", param, callbackQualityProfileProjectLinked);
-    }
-
-
-    var callbackQualityProfileProjectLinked = function(data){
-        getProjectList();
-//         profileActive($("#profileKey").val() ,$("#profileName").text(), $("#profileId").val(),$("#langName").val(),$("#language").val(),$("#defaultYn").val() );
-    }
+        $("#allProject").html(allProjects);
+        $("#projectLinked").html(releatedProjects);
+        $("#projectFailure").html(unReleatedProjects);
 
 
 
-    //rules page 이동
-    var rulesPageMove = function(){
-        //profile_key
-        var profileKey = $("#profileKey").val()
-//
-//        procMovePage("/codingRules/"+profileKey+"/dashboard");
-    }
+
+
+
+    };
+    // 품질 프로파일 상세 ::::: e
 
 
 </script>
