@@ -27,54 +27,54 @@ public class QualityIssuesService {
 
 
     /**
-     *  QualityIssues 리스트
+     * QualityIssues 리스트
      *
      * @param
      * @return QualityIssues
      */
-    public QualityIssues qualityIssuesList(QualityIssues qualityIssues){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityIssuesList", HttpMethod.POST, qualityIssues, QualityIssues.class);
+    public QualityIssues qualityIssuesList(QualityIssues qualityIssues) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityIssuesList", HttpMethod.POST, qualityIssues, QualityIssues.class);
     }
 
     /**
-     *  QualityIssues 조건리스트
+     * QualityIssues 조건리스트
      *
      * @param
      * @return QualityIssues
      */
-    public List<QualityIssues> getIssuesConditionList(QualityIssues qualityIssues){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/issuesConditionList", HttpMethod.POST, qualityIssues, List.class);
+    public List<QualityIssues> getIssuesConditionList(QualityIssues qualityIssues) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/issuesConditionList", HttpMethod.POST, qualityIssues, List.class);
     }
 
     /**
-     *  QualityIssues 상세
+     * QualityIssues 상세
      *
      * @param
      * @return QualityIssues
      */
-    public List getQualityIssuesDetail(QualityIssues qualityIssues){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/qualityIssuesDetail?fileKey="+qualityIssues.getFileKey()+"&fileUuid="+qualityIssues.getFileUuid(), HttpMethod.GET, null, List.class);
+    public List getQualityIssuesDetail(QualityIssues qualityIssues) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/qualityIssuesDetail?fileKey=" + qualityIssues.getFileKey() + "&fileUuid=" + qualityIssues.getFileUuid() + "&serviceInstancesId=" + qualityIssues.getServiceInstancesId(), HttpMethod.GET, null, List.class);
     }
 
 
     /**
-     *  QualityIssues 이슈 설정
+     * QualityIssues 이슈 설정
      *
      * @param qualityIssues
      * @return QualityIssues
      */
-    public Object setSeverity(QualityIssues qualityIssues){
-      return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/setSeverity", HttpMethod.POST, qualityIssues, Object.class);
+    public Object setSeverity(QualityIssues qualityIssues) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/setSeverity", HttpMethod.POST, qualityIssues, Object.class);
     }
 
     /**
-     *  QualityIssues 이슈 활성 설정
+     * QualityIssues 이슈 활성 설정
      *
      * @param qualityIssues
      * @return QualityIssues
      */
-    public QualityIssues setTransition(QualityIssues qualityIssues){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/setTransition", HttpMethod.POST, qualityIssues, QualityIssues.class);
+    public QualityIssues setTransition(QualityIssues qualityIssues) {
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/setTransition", HttpMethod.POST, qualityIssues, QualityIssues.class);
     }
 
 }

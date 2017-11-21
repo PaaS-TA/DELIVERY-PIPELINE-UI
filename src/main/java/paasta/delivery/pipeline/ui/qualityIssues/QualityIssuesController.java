@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.qualityIssues;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,8 @@ import paasta.delivery.pipeline.ui.project.ProjectService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Created by kim on 2017-08-10.
@@ -25,6 +28,7 @@ public class QualityIssuesController {
     private final ProjectService projectService;
     private final CodingRulesService codingRulesService;
 
+    private final Logger LOGGER = getLogger(getClass());
     @Autowired
     public QualityIssuesController(QualityIssuesService qualityIssuesService, CommonService commonService
             ,ProjectService projectService,CodingRulesService codingRulesService){
