@@ -21,8 +21,8 @@
 <!-- header :s -->
 <div id="header">
     <div class="head_inner">
-        <h1><a title="PaaS-TA 배포파이프라인" href="javascript:void(0);" onclick="procMovePage('/');"><img
-                alt="PaaS-TA 배포파이프라인" src="<c:url value='/resources/images/logo.png'/>"><span>배포파이프라인</span></a></h1>
+        <h1><a title="PaaS-TA 배포파이프라인" href="javascript:void(0);" onclick="procMovePage('/');">
+            <img alt="PaaS-TA 배포파이프라인" src="<c:url value='/resources/images/logo.png'/>" style="width: 42px; height: 42px;"><span>배포파이프라인</span></a></h1>
         <ul class="RP_title">
             <li><a href="#"><span class="RP_num" id="topMenuPipelineListCount">0</span></a></li>
             <li role="presentation" class="dropdown">
