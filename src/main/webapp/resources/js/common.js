@@ -356,7 +356,10 @@ var procSplitStringBySeparator = function (reqString, reqSeparator) {
     // CHECK SEPARATOR
     if (undefined === reqSeparator || 'undefined' === reqSeparator || null === reqSeparator || reqSeparator.length < 1) reqSeparator = G_SEPARATOR_STRING;
 
-    // CHECK TYPE
+    // CHECK SEPARATOR TYPE
+    if (typeof reqSeparator !== 'string') return reqString;
+
+    // CHECK STRING TYPE
     if (typeof reqString !== 'string') return reqString;
 
     // CHECK CONTAINS
