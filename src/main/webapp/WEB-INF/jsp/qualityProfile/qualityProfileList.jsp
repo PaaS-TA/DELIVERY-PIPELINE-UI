@@ -44,8 +44,12 @@
             </div>
             <!--//left :e -->
             <!-- contentWrap :s -->
-            <div clss="contentWrap" id="contentProfileExp"style="display: block">
-                <h5 style="line-height:2.3em;">&nbsp;&nbsp;품질 프로파일은 분석하는 동안 적용 할 규칙 모음입니다. <br>&nbsp;&nbsp;각 언어별로 기본 프로파일이 있습니다. 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다.</h5>
+            <div class="contentWrap" id="contentProfileExp" style="display: block">
+                <div style="padding: 20px; line-height: 2.2em;">
+                    <p> 품질 프로파일은 분석하는 동안 적용할 규칙 모음입니다. </p>
+                    <p> 언어별로 기본 프로파일이 있습니다. </p>
+                    <p> 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다. </p>
+                </div>
             </div>
             <div class="contentWrap" id="contentProfile" style="display: none">
                 <div class="content_in">
