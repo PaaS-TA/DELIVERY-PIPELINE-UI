@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import paasta.delivery.pipeline.ui.common.CommonService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
  * The type Quality profile controller.
  */
 @RestController
-@RequestMapping(value = "/dashboard/{serviceInstancesId}")
+@RequestMapping(value = "/dashboard/{serviceInstanceId}")
 public class QualityProfileController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QualityProfileController.class);
@@ -37,28 +38,29 @@ public class QualityProfileController {
      * @return the model and view
      */
     @GetMapping(value = BASE_URL +"/dashboard")
-    public ModelAndView getQualityProfileListPage(HttpServletRequest httpServletRequest){
+    public ModelAndView getQualityProfileListPage(HttpServletRequest httpServletRequest, @PathVariable String serviceInstanceId){
 
         ModelAndView mv = new ModelAndView();
+        mv.addObject("serviceInstanceId", serviceInstanceId);
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/qualityProfileList", mv);
     }
 
     /**
      * QualityProfile 리스트
      *
-     * @param serviceInstancesId the service instances id
-     * @return map
+     * @param serviceInstanceId the service instances id
+     * @return map map
      */
     @GetMapping(value = BASE_URL + "/qualityProfileList.do")
     @ResponseBody
-    public Map getQualityProfileList(@PathVariable String serviceInstancesId){
+    public Map getQualityProfileList(@PathVariable String serviceInstanceId){
 
         Map result = new HashMap<>();
 
         // 개발 언어 조회
         List languages = qualityProfileService.getQualityProfileLanguages();
         // 프로파일 조회
-        List profiles = qualityProfileService.getQualityProfileList(serviceInstancesId);
+        List profiles = qualityProfileService.getQualityProfileList(serviceInstanceId);
 
         result.put("languages", languages);
         result.put("profiles", profiles);
@@ -113,9 +115,9 @@ public class QualityProfileController {
      */
     @PostMapping(value = BASE_URL + "/qualityProfileCreate.do")
     @ResponseBody
-    public QualityProfile qualityProfileCreate(@RequestBody QualityProfile qualityProfile){
+    public QualityProfile createQualityProfile(@RequestBody QualityProfile qualityProfile){
 
-        QualityProfile result = qualityProfileService.qualityProfileCreate(qualityProfile);
+        QualityProfile result = qualityProfileService.createQualityProfile(qualityProfile);
 
         LOGGER.info("===[UI - INSPECTION :: qualityProfileCreate]=== result : {}", result.toString());
 
@@ -123,71 +125,62 @@ public class QualityProfileController {
 
     }
 
+    /**
+     * Copy quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    @PostMapping(value = BASE_URL + "/qualityProfileCopy.do")
+    @ResponseBody
+    public QualityProfile copyQualityProfile(@RequestBody QualityProfile qualityProfile){
+
+        QualityProfile result = qualityProfileService.copyQualityProfile(qualityProfile);
+
+        LOGGER.info("===[UI - INSPECTION :: qualityProfileCopy]=== result : {}", result.toString());
+
+        return result;
+
+    }
+
+    /**
+     * Update quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    @PostMapping(value = BASE_URL + "/qualityProfileUpdate.do")
+    @ResponseBody
+    public QualityProfile updateQualityProfile(@RequestBody QualityProfile qualityProfile){
+
+        QualityProfile result = qualityProfileService.updateQualityProfile(qualityProfile);
+
+        LOGGER.info("===[UI - INSPECTION :: updateQualityProfile]=== result : {}", result.toString());
+
+        return result;
+
+    }
+
+    /**
+     * Delete quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    @PostMapping(value = BASE_URL + "/qualityProfileDelete.do")
+    @ResponseBody
+    public QualityProfile deleteQualityProfile(@RequestBody QualityProfile qualityProfile){
+
+        QualityProfile result = qualityProfileService.deleteQualityProfile(qualityProfile);
+
+        return result;
+
+    }
+
+
     //TODO---------------------------------------
-//    //시연후 수정
-//    @RequestMapping(value= BASE_URL + "/projectsList.do" , method = RequestMethod.POST)
-//    @ResponseBody
-//    public List<Project> getProjectList(@RequestBody Project project){
-//        return projectService.getProjectList(project);
-//    }
-//
-//    /**
-//     *  QualityProfile 프로젝트 연결
-//     *
-//     * @return
-//     */
-//    @RequestMapping(value = BASE_URL + "/qualityProfileProjectLinked.do" , method = RequestMethod.POST)
-//    public Project qualityProfileProjectLiked(@RequestBody Project project){
-//        return projectService.qualityProfileProjectLinked(project);
-//    }
-//
-//
-//    /**
-//     *  QualityProfile 복제
-//     *
-//     * @param
-//     * @return
-//     */
-//    @RequestMapping(value = BASE_URL+"/qualityProfileCopy.do", method = RequestMethod.POST)
-//    @ResponseBody
-//    public QualityProfile qualityProfileCopy(@RequestBody QualityProfile qualityProfile){
-//        return qualityProfileService.qualityProfileCopy(qualityProfile);
-//    }
-//
-//    /**
-//     *  QualityProfile 삭제
-//     *
-//     * @param
-//     * @return
-//     */
-//    @RequestMapping(value = BASE_URL+"/qualityProfileDelete.do", method = RequestMethod.POST)
-//    @ResponseBody
-//    public QualityProfile deleteQualityProfile(@RequestBody QualityProfile qualityProfile){
-//        return qualityProfileService.deleteQualityProfile(qualityProfile);
-//    }
-//
-//    /**
-//     *  QualityProfile 수정
-//     *
-//     * @param
-//     * @return
-//     */
-//    @RequestMapping(value = BASE_URL+"/qualityProfileUpdate.do", method = RequestMethod.POST)
-//    @ResponseBody
-//    public QualityProfile updateQualityProfile(@RequestBody QualityProfile qualityProfile){
-//        return qualityProfileService.updateQualityProfile(qualityProfile);
-//    }
-//
-//    /**
-//     *  QualityProfile default setting
-//     *
-//     * @param
-//     * @return
-//     */
-//    @RequestMapping(value = BASE_URL+"/qualityProfileDefaultSetting.do", method = RequestMethod.POST)
-//    public QualityProfile defaultQualityProfile(@RequestBody QualityProfile qualityProfile){
-//        return qualityProfileService.defaultQualityProfile(qualityProfile);
-//    }
+    // 프로젝트 연결 / 해제
+
 
 
 }

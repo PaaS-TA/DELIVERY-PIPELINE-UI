@@ -17,6 +17,16 @@ public class QualityProfile {
     private String isInherited;
     // --- Create ::e
 
+    // --- Copy :: s
+    private String fromKey;
+    private String toName;
+    // --- Copy :: e
+
+    // --- Delete :: s
+    private String profileKey;
+    private String profileName;
+    // --- Delete :: e
+
     // --- Rule :: s
     private String languages;
     // --- Rule :: e
@@ -247,7 +257,58 @@ public class QualityProfile {
         this.resultMessage = resultMessage;
     }
 
-    // --- getter/setter :: e
+    /**
+     * Gets from key.
+     *
+     * @return the from key
+     */
+    public String getFromKey() {
+        return fromKey;
+    }
+
+    /**
+     * Sets from key.
+     *
+     * @param fromKey the from key
+     */
+    public void setFromKey(String fromKey) {
+        this.fromKey = fromKey;
+    }
+
+    /**
+     * Gets to name.
+     *
+     * @return the to name
+     */
+    public String getToName() {
+        return toName;
+    }
+
+    /**
+     * Sets to name.
+     *
+     * @param toName the to name
+     */
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
+
+    public String getProfileKey() {
+        return profileKey;
+    }
+
+    public void setProfileKey(String profileKey) {
+        this.profileKey = profileKey;
+    }
+
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
+// --- getter/setter :: e
 
     @Override
     public String toString() {
@@ -258,6 +319,10 @@ public class QualityProfile {
                 ", languageName='" + languageName + '\'' +
                 ", isDefault='" + isDefault + '\'' +
                 ", isInherited='" + isInherited + '\'' +
+                ", fromKey='" + fromKey + '\'' +
+                ", toName='" + toName + '\'' +
+                ", profileKey='" + profileKey + '\'' +
+                ", profileName='" + profileName + '\'' +
                 ", languages='" + languages + '\'' +
                 ", selected='" + selected + '\'' +
                 ", results=" + results +

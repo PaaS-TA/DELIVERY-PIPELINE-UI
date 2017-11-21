@@ -26,13 +26,13 @@ public class QualityProfileService {
     /**
      * QualityPrifile 리스트
      *
-     * @param serviceInstancesId the service instances id
+     * @param serviceInstanceId the service instance id
      * @return List list
      */
-    public List getQualityProfileList(String serviceInstancesId){
+    public List getQualityProfileList(String serviceInstanceId){
 
         // 프로파일 목록 조회
-        String reqUrl = REQ_URL_Inspection + "/qualityProfileList?serviceInstancesId="+serviceInstancesId;
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileList?serviceInstanceId="+serviceInstanceId;
         LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileList - profile]=== reqUrl : {}", reqUrl);
         List profiles = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, List.class);
 
@@ -65,13 +65,13 @@ public class QualityProfileService {
      * @param qualityProfile the quality profile
      * @return the quality profile
      */
-    public QualityProfile qualityProfileCreate(QualityProfile qualityProfile) {
+    public QualityProfile createQualityProfile(QualityProfile qualityProfile) {
 
         // 품질 프로파일 생성
         String reqUrl = REQ_URL_Inspection + "/qualityProfileCreate";
         LOGGER.info("===[UI :: QUALITYPROFILE :: qualityProfileCreate]=== reqUrl : {}", reqUrl);
         QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API,reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
-
+        result.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
         return result;
 
     }
@@ -86,8 +86,56 @@ public class QualityProfileService {
     public QualityProfile getProjects(String key, String selected) {
 
         String reqUrl = REQ_URL_Inspection + "/projects?key="+key + "&selected="+selected;
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, QualityProfile.class);
+        result.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
+        return result;
+    }
 
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, QualityProfile.class);
+    /**
+     * Copy quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    public QualityProfile copyQualityProfile(QualityProfile qualityProfile) {
+        // 품질 프로파일 복제
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileCopy";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: qualityProfileCopy]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+        result.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
+        return result;
+    }
+
+    /**
+     * Update quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    public QualityProfile updateQualityProfile(QualityProfile qualityProfile) {
+
+        // 품질 프로파일 수정
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileUpdate";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: updateQualityProfile]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+
+        return result;
+    }
+
+    /**
+     * Delete quality profile quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    public QualityProfile deleteQualityProfile(QualityProfile qualityProfile) {
+        // 품질 프로파일 삭제
+        String reqUrl = REQ_URL_Inspection + "/qualityProfileDelete";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: deleteQualityProfile]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+
+        //TODO :: 프로젝트 정보 (DB)에서 삭제 처리
+        return result;
     }
 
     //TODO ---------------------------

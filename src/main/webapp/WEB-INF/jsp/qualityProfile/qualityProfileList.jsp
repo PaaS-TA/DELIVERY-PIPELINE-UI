@@ -54,10 +54,13 @@
                         <h3 class="proj_tit" id="profileName"><span class="program">Java</span></h3>
                     </div>
                     <div class="fr mb10">
-                        <button type="button" class="button btn_default" id="profileCopy">복제</button>
-                        <button type="button" class="button btn_default" id="profileUpdate">수정</button>
-                        <button type="button" class="button btn_default" id="deleteProfileBtn">삭제</button>
+                        <c:if test="${role == 'ROLE_ADMIN'}">
+                        <button type="button" class="button btn_default" id="btnPopupProfileCopy">복제</button>
+                        <button type="button" class="button btn_default" id="btnPopupProfileUpdate">수정</button>
+                        <button type="button" class="button btn_default" id="btnPopupProfileDelete">삭제</button>
+                        </c:if>
                     </div>
+
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 코딩규칙 :s -->
                     <h3 class="sub_title">코딩규칙 <a href="javascript:void(0);" onclick="rulesPageMove()"><span id="crTotal"></span></a></h3>
@@ -128,7 +131,7 @@
                                     </colgroup>
                                     <thead>
                                     </thead>
-                                    <tbody id="projectFailure">
+                                    <tbody id="projectUnLinked">
 
                                     </tbody>
                                 </table>
@@ -208,6 +211,58 @@
                         </div>
                     </div>
                     <%--CREATE :: END--%>
+                    <%--COPY   :: BEGIN--%>
+                    <div id="popupCopyArea" style="display: none;">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">품질 프로파일</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <input type="text" class="input-large" id="popupProfileNameCopy" name="popupProfileName"
+                                           title="popupProfileName" value="" maxlength="100"
+                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">개발언어</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p id="popupProfileLanguageCopy"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%--COPY   :: END--%>
+                    <%--UPDATE :: BEGIN--%>
+                    <div id="popupUpdateArea" style="display: none;">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">품질 프로파일</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <input type="text" class="input-large" id="popupProfileNameUpdate" name="popupProfileName"
+                                           title="popupProfileName" value="" maxlength="100"
+                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">개발언어</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p id="popupProfileLanguageUpdate"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%--UPDATE :: END--%>
                 </div>
             </div>
             <div class="modal-footer">
@@ -217,19 +272,32 @@
                         <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
                     </div>
                 </div>
+                <div id="popupCopyButtonArea" style="display: none;">
+                    <div class="fr">
+                        <button type="button" class="button btn_pop" id="btnProfileCopy"> 복제</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                    </div>
+                </div>
+                <div id="popupUpdateButtonArea" style="display: none;">
+                    <div class="fr">
+                        <button type="button" class="button btn_pop" id="btnProfileUpdate"> 수정</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <%--POPUP CF URL :: END--%>
 
-
-<input type="hidden" name="profileKey" id="profileKey"/>
-<input type="hidden" name="profileId" id="profileId"/>
-<input type="hidden" name="langName" id="langName">
-<input type="hidden" name="language" id="language">
-<input type="hidden" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-<input type="hidden" id="defaultYn">
+<%-- Hidden Value :: BEGIN --%>
+<input type="hidden" name="h_defaultProfileKey" id="h_defaultProfileKey"/>
+<input type="hidden" name="h_profileKey" id="h_profileKey"/>
+<input type="hidden" name="h_profileName" id="h_profileName"/>
+<input type="hidden" name="h_language" id="h_language">
+<input type="hidden" id="h_serviceInstanceId" name="h_serviceInstanceId" value="<c:out value='${serviceInstanceId}' default='' />">
+<input type="hidden" name="h_isDefault" id="h_isDefault"/>
+<%-- Hidden Value :: END --%>
 
 <script type="text/javascript">
 
@@ -252,9 +320,7 @@
 
     $(document.body).ready(function () {
         // Left :: 개발 언어별 품질 프로파일 List 조회
-        console.log("::::: start :::::");
         getQualityProfileList();
-        console.log("::::: end :::::");
     });
 
 
@@ -265,9 +331,15 @@
 
         $.each(procTypeArray, function (index, procType) {
 
+            $('#popupProfileName'+type).val("");
+
             if (procType == type) {
                 $('#popup' + procType + 'Area').fadeIn("slow");
                 $('#popup' + procType + 'ButtonArea').fadeIn("slow");
+
+                if (procType != gPopupTypeCreate) {
+                    $('#popupProfileLanguage'+type).text($('#h_language').val());
+                }
             } else {
                 $('#popup' + procType + 'Area').hide();
                 $('#popup' + procType + 'ButtonArea').hide();
@@ -280,6 +352,7 @@
     $("#btnPopupProfileCreate").on("click", function () {
 
         var objModalList = $('#modalQualityProfileList');
+
         // 개발언어 리스트 조회
         getQualityProfileLanguages();
 
@@ -303,9 +376,6 @@
         var popupProfileName = $('#popupProfileName'+ type).val();
         var popupProfileLanguage = $('#popupProfileLanguage' + type).val();
 
-//        console.log("popupProfileName:::" + popupProfileName);
-//        console.log("popupProfileLanguage:::" + popupProfileLanguage);
-
         $('#modalQualityProfileList').modal('hide');
 
         // 품질 프로파일 명 유효성 체크
@@ -319,8 +389,8 @@
             return false;
         }
 
-        var newProfileName = G_SERVICE_INSTANCE_ID + "^" + popupProfileName;
-        var inputLength = 100 - G_SERVICE_INSTANCE_ID.length -1;
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + popupProfileName;
+        var inputLength = 100 - $("#h_serviceInstanceId").val().length -1;
         console.log ("new profileName :::: "+ newProfileName);
 
         if (procValidateQualityKeyNameLength(newProfileName)) {
@@ -328,12 +398,15 @@
             return false;
         }
 
-        // 개발언어 유효성 체크
-        if (popupProfileLanguage.toUpperCase() != "JAVA") {
-            procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
-            $('#popupProfileLanguage' + type).val("java");
-            return false;
+        if (type == gPopupTypeCreate ) {
+            // 개발언어 유효성 체크
+            if (popupProfileLanguage.toUpperCase() != "JAVA") {
+                procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+                $('#popupProfileLanguage' + type).val("java");
+                return false;
+            }
         }
+
 
         var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
         var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
@@ -362,19 +435,58 @@
         });
     };
 
+    // 품질 프로파일 복제
+    $("#btnPopupProfileCopy").on("click", function () {
+
+        var objModalList = $('#modalQualityProfileList');
+
+        // Popup 설정
+        procSetPopupArea(gPopupTypeCopy);
+
+        objModalList.modal('toggle');
+    });
 
 
-//    $("li[id^=profile_]").on("click", function () {
-//    $("#profile_java_1").on("click", function () {
-//        console.log("success");
-//        console.log("profile-list-item");
-//        console.log("profile-list-item :: key ::: "+$(this).data().key);
-//        console.log("profile-list-item :: language :: "+$(this).data().language);
-//
-//    });
+    // 품질 프로파일 복제
+    $("#btnProfileCopy").on("click", function () {
 
+        // 입력값  유효성 체크
+        procValidatePopup(gPopupTypeCopy);
 
+    });
 
+    // 품질 프로파일 수정
+    $("#btnPopupProfileUpdate").on("click", function () {
+
+        var objModalList = $('#modalQualityProfileList');
+
+        // Popup 설정
+        procSetPopupArea(gPopupTypeUpdate);
+
+        objModalList.modal('toggle');
+    });
+
+    // 품질 프로파일 수정
+    $("#btnProfileUpdate").on("click", function () {
+
+        // 입력값  유효성 체크
+        procValidatePopup(gPopupTypeUpdate);
+
+    });
+
+    // 품질 프로파일 삭제
+    $("#btnPopupProfileDelete").on("click", function () {
+
+        var btnText = $("#btnPopupProfileDelete").text();
+
+        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+btnText;
+        var reqMessage = btnText + " 하시겠습니까?";
+        var procFunction = "DeleteQualityProfile();";
+        var reqButtonText = btnText;
+
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+    });
     // ------ function
     // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: s
     var getQualityProfileList = function () {
@@ -382,7 +494,7 @@
 
         procCallAjax(reqUrl, null, callbackGetQualityProfileList);
 
-    }
+    };
     // [Collback] Left :: 개발 언어별 품질 프로파일 List 조회
     var callbackGetQualityProfileList = function (data) {
 
@@ -397,34 +509,25 @@
         var profileName;
 
         $.each(dataLanguages, function (index, language) {
-//            console.log("KEY:::" + language.key);
-//            console.log("VALUE:::" + language.name);
+
 
             if (language.key.toUpperCase() == "JAVA") {
                 htmlstr += "<h4>" + language.name + "</h4>";
 
                 $.each(dataProfiles, function (index, profile) {
 
-//                    console.log("PROFILE :: LANGUAGE :: " + profile.language);
-
                     if (language.key == profile.language) {
 
 //                        console.log("before :: profile.name :: " + profile.name);
                         //TODO replace
-//
-//                        console.log(newstr);  // Twas the night before Christmas...
 
 //                        console.log("PROFILE :: LANGUAGE :: " + profile.language);
                         htmlstr += "<li><a id='profileItem_"+profile.key
-                            +"' data-default='"+profile.isDefault
+                            +"' data-isdefault='"+profile.isDefault
                             +"' data-name='"+profile.name
                             +"' data-language='"+profile.language
                             +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
-//                        htmlstr += "<a href=\"javascript:profileDetail()\">";
 
-                        //TODO
-                        // data-key , data-language
-//                    <a href=\"javascript:profileActive(\'"+data[i].key+"', '"+data[i].name+"','"+data[i].id+"','"+data[i].languageName+"','"+data[i].language+"','"+data[i].profileDefaultYn+"')\"><span class='block ico_bul'>"+data[i].name+"</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
                         htmlstr += "<span class='block ico_bul'>" + profile.name + "</span>";
                         htmlstr += "<span class='issue_num'>";
                         if (profile.projectCount != null) {
@@ -432,6 +535,8 @@
                         }
                         if (profile.isDefault) {
                             htmlstr += "<span class='word_sort'>기본</span>";
+
+                            $("#h_defaultProfileKey").val(profile.key);
                         }
                         htmlstr += "</span></a></li>";
                     }
@@ -440,6 +545,7 @@
         });
 
         $("#qualityProfileList").html(htmlstr);
+
     }
     // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: e
 
@@ -469,7 +575,6 @@
         });
 
         $("#popupProfileLanguageCreate").html(selectList);
-        $("#popupProfileNameCreate").html("");
 
 
     };
@@ -477,11 +582,11 @@
 
     // 품질 프로파일 생성 ::::: S
     var CreateQualityProfile = function () {
-        var newProfileName = G_SERVICE_INSTANCE_ID + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
 
         console.log("=== CreateQualityProfile :: name :: "+ newProfileName);
         var reqParam = {
-            serviceInstanceId: G_SERVICE_INSTANCE_ID,
+            serviceInstanceId: $("#h_serviceInstanceId").val(),
             name: newProfileName,
             language: $('#popupProfileLanguage' + gPopupTypeCreate).val()
         };
@@ -506,40 +611,45 @@
 
     // 품질 프로파일 상세 ::::: s
 
-    var profileDetail = function (profileKey) {
+    var profileDetail = function (profileKey, profileDefault, profileName, profileLanguage) {
+//        procCallSpinner(SPINNER_START);
 
         // profile Info
-        var isDefault = $('#profileItem_'+profileKey).data().default;
-        var name = $('#profileItem_'+profileKey).data().name;
-        var language = $('#profileItem_'+profileKey).data().language;
+        var isDefault = profileDefault == null ? $('#profileItem_'+profileKey).data().isdefault : profileDefault;
+        var name = profileName == null ? $('#profileItem_'+profileKey).data().name : profileName;
+        var language = profileLanguage == null ? $('#profileItem_'+profileKey).data().language : profileLanguage;
 
-//        procCallSpinner(SPINNER_START);
+        console.log("=== profileDetail :: key :: "+ profileKey + " ::: profileDefault ::: "+ isDefault + " ::: language ::: "+ language);
 
         $("#contentProfileExp").css("display","none");
         $("#contentProfile").css("display","block");
         $("#profileName").text(name);
         $("#profileName").append("<span class='program'>"+language+"</span>");
-//        $("#langName").val(langName);
-//        $("#profileId").val(id);
-//        $("#profileKey").val(key);
-//        $("#language").val(language);
-//        $("#defaultYn").val(defaultYn);
+        $("#h_profileName").val(name);
+        $("#h_isDefault").val(isDefault);
+        $("#h_language").val(language);
+        $("#h_profileKey").val(profileKey);
+
         doubleSubmitFlag = false;
 
         console.log("GET getCodingRules ::::: s");
         // 코딩 규칙 정보 취득
         getCodingRules(profileKey, language);
 
-        if (isDefault) {
+        if (isDefault.toString() == "true") {
             $("#relatedProjectArea").css("display","none");
             $("#relatedProjectAreaDefault").css("display","block");
+            $("#btnPopupProfileDelete").hide();
+
         } else {
             // 프로젝트 정보 취득
             $("#relatedProjectArea").css("display","block");
             $("#relatedProjectAreaDefault").css("display","none");
+            $("#btnPopupProfileDelete").show();
             $("#allProject").html("");
             $("#projectLinked").html("");
-            $("#projectFailure").html("");
+            $("#projectUnLinked").html("");
+
             sub_tab(0);
             getReleatedProjects(profileKey);
         }
@@ -645,15 +755,117 @@
 
         $("#allProject").html(allProjects);
         $("#projectLinked").html(releatedProjects);
-        $("#projectFailure").html(unReleatedProjects);
-
-
-
-
-
+        $("#projectUnLinked").html(unReleatedProjects);
 
     };
     // 품질 프로파일 상세 ::::: e
 
+    // 품질 프로파일 복제 ::::: s
+
+    var CopyQualityProfile = function () {
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCopy).val();
+
+        console.log("=== CopyQualityProfile :: name :: "+ newProfileName);
+        console.log("=== CopyQualityProfile :: fromKey :: "+ $("#h_profileKey").val());
+        console.log("=== CopyQualityProfile :: language :: "+ $('#h_language').val());
+        var reqParam = {
+            serviceInstanceId: $("#h_serviceInstanceId").val(),
+            toName: newProfileName,
+            fromKey: $("#h_profileKey").val(),
+            language: $('#h_language').val()
+        };
+        procCallSpinner(SPINNER_START);
+
+        procCallAjax("/qualityProfile/qualityProfileCopy.do", reqParam, callbackCopyQualityProfile);
+
+    };
+
+    // [Collback] 품질 프로파일 복제
+    var callbackCopyQualityProfile = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        var profileKey = data.key;
+        console.log(" copy after ::::::: profile default :::: "+ data.isDefault + ":::: name :::  "+ data.name);
+
+        $("#h_profileKey").val(profileKey);
+
+        // 프로파일 목록 조회
+        getQualityProfileList();
+        $('#modalQualityProfileList').modal('hide');
+        procPopupAlert('복제 되었습니다.');
+        profileDetail(profileKey, data.isDefault, data.name, data.language);
+
+        procCallSpinner(SPINNER_STOP);
+
+    };
+
+    // 품질 프로파일 수정 ::::: s
+    var UpdateQualityProfile = function () {
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeUpdate).val();
+
+        console.log("=== UpdateQualityProfile :: name :: "+ newProfileName);
+        console.log("=== UpdateQualityProfile :: key :: "+ $("#h_profileKey").val());
+        console.log("=== UpdateQualityProfile :: isdefault :: "+ $("#h_isDefault").val());
+        console.log("=== DeleteQualityProfile :: language :: "+ $("#h_language").val());
+        var reqParam = {
+            serviceInstanceId: $("#h_serviceInstanceId").val(),
+            key: $("#h_profileKey").val(),
+            name: newProfileName,
+            language : $("#h_language").val(),
+            isDefault : $("#h_isDefault").val()
+        };
+
+        procCallAjax("/qualityProfile/qualityProfileUpdate.do", reqParam, callbackUpdateQualityProfile);
+    };
+
+    // [Collback] 품질 프로파일 수정
+    var callbackUpdateQualityProfile = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        var profileKey = data.key;
+        console.log(" Update after ::::::: profile Key :::: "+ profileKey);
+
+        // 프로파일 목록 조회
+        getQualityProfileList();
+        profileDetail(profileKey,data.isDefault, data.name, data.language);
+        $('#modalQualityProfileList').modal('hide');
+        procPopupAlert('수정 되었습니다.');
+    };
+
+    // 품질 프로파일 삭제 ::::: s
+    var DeleteQualityProfile = function () {
+
+        console.log("=== DeleteQualityProfile :: key :: "+ $("#h_profileKey").val());
+        console.log("=== DeleteQualityProfile :: language :: "+ $("#h_language").val());
+        console.log("=== DeleteQualityProfile :: name :: "+ $("#h_profileName").val());
+
+        //TODO :: name replace 할 경우, 수정 필요
+        var reqParam = {
+            profileKey: $("#h_profileKey").val()
+        };
+
+        procCallAjax("/qualityProfile/qualityProfileDelete.do", reqParam, callbackDeleteQualityProfile);
+    };
+
+    // [Collback] 품질 프로파일 삭제
+    var callbackDeleteQualityProfile = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        // 프로파일 목록 조회
+        getQualityProfileList();
+        procPopupAlert('삭제 되었습니다.');
+        $("#contentProfileExp").css("display","block");
+        $("#contentProfile").css("display","none");
+
+    };
 
 </script>
