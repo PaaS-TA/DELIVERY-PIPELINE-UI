@@ -55,9 +55,11 @@
             </div>
             <!--//left :e -->
             <div class="contentWrap" id="contentGateExp" style="display: block;">
-                <h5 style="line-height:2em;">&nbsp;품질 게이트는 프로젝트 측정에 설정된 간단한 부울 임계 값의 모음입니다. <br>&nbsp;프로젝트는 품질 게이트를
-                    전체적으로 통과시키기 위해 각 임계 값을 통과해야합니다.<br>&nbsp;다른 게이트에 명시적으로 할당되지 않은 모든 프로젝트에 적용되는 기본 품질 게이트를 설정할 수 있습니다.
-                </h5>
+                <div style="padding: 20px; line-height: 2.2em;">
+                    <p> 품질 게이트는 프로젝트 측정에 설정된 간단한 부울 임곗값의 모음입니다. </p>
+                    <p> 프로젝트는 품질 게이트를 전체적으로 통과시키기 위해 각 임곗값을 통과해야 합니다. </p>
+                    <p> 다른 게이트에 명시적으로 할당되지 않은 모든 프로젝트에 적용되는 기본 품질 게이트를 설정할 수 있습니다. </p>
+                </div>
             </div>
             <!-- contentWrap :s -->
             <div class="contentWrap" id="contentGate" style="display:none;">
