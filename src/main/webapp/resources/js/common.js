@@ -333,18 +333,43 @@ var procValidateUrl = function (reqUrl) {
     return regex.test(reqUrl);
 };
 
+
 // VALIDATE QualityProfileName or QualityGateName(input value : a-z, A-Z, '_', '-')
 var procValidateQualityKeyName = function (reqName) {
     var regex = /^[0-9a-zA-Z_\-]*$/;
     return regex.test(reqName);
 };
 
+
 // VALIDATE QualityProfileNameLength (max 100)
 var procValidateQualityKeyNameLength = function (reqName) {
-
-    if (reqName.length > 100) {
-        return true;
-    }
-    return false;
+    return reqName.length > 100;
 };
 
+
+// GLOBAL VARIABLE SEPARATOR STRING
+var G_SEPARATOR_STRING = 'Default^';
+
+
+// SPLIT STRING BY SEPARATOR
+var procSplitStringBySeparator = function (reqString, reqSeparator) {
+    // CHECK SEPARATOR
+    if (undefined === reqSeparator || 'undefined' === reqSeparator || null === reqSeparator || reqSeparator.length < 1) reqSeparator = G_SEPARATOR_STRING;
+
+    // CHECK TYPE
+    if (typeof reqString !== 'string') return reqString;
+
+    // CHECK CONTAINS
+    if (reqString.indexOf(reqSeparator) < 0) return reqString;
+
+    // CHECK CONTAINS FROM FIRST CHARACTER
+    var separatorLength = reqSeparator.length;
+    if ((reqString.substring(0, separatorLength)).indexOf(reqSeparator) < 0) return reqString;
+
+    // CHECK RESULT
+    var resultArray = reqString.split(reqSeparator);
+    if (resultArray[1].length < 1) return reqString;
+
+    // RETURN
+    return reqString.substring(separatorLength, reqString.length);
+};
