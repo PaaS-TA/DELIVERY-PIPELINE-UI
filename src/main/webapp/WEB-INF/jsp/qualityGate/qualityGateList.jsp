@@ -18,6 +18,8 @@
         position: absolute;
         right: 10px;
     }
+    .button.tbl_in_btn_lg_red, .btnTag.tbl_in_btn_lg_red {font-weight:normal!important;color:#fff;background: #f84822;border:1px solid #f84c14;height:32px;line-height:12px;padding:2px 12px 2px 12px;}/*tbl 기본버튼 */
+    .button.tbl_in_btn_lg_red:hover, .btnTag.tbl_in_btn_lg_red:hover {color:#fff;background:#373c45;border:1px solid #373c45;}
 </style>
 
 <div class="location">
@@ -617,7 +619,7 @@
                 }
                 list += "</select>";
                 list += "</td>";
-                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='삭제' >삭제</button></td>";
+                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>수정</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='삭제' >삭제</button></td>";
                 list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='" + id + "' >";
                 list += "</tr>";
 
@@ -651,6 +653,11 @@
 
     }
 
+    //저장 버튼 활성화
+    function textChange(index) {
+        $("#saveBtn_" + index).attr("disabled", false);
+
+    }
 
     // GET LIST
     var getList = function () {
@@ -811,7 +818,7 @@
             list += "</select>";
             list += "<input type='hidden' id='conditions_" + (trIndex + 1) + "' value='' >";
             list += "</td>";
-            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='삭제'>삭제</button></td>";
+            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='삭제'>삭제</button></td>";
             list += "</tr>";
         }
 
@@ -825,13 +832,6 @@
         $(obj).keyup(function () {
             $(this).val($(this).val().replace(/[^0-9]/g, ""));
         });
-    }
-
-
-    //저장 버튼 활성화
-    function textChange(index) {
-        $("#saveBtn_" + index).attr("disabled", false);
-
     }
 
 
@@ -855,7 +855,7 @@
                 warning: $("#gateCondition tr").eq(index - 1).find("input[name=warn]").val(),
                 op: $("#conditionSelect_" + index).val()
             }
-            procCallAjax("/qualityGate/qualityGateCondUpdate.do", param, "");
+            procCallAjax("/qualityGate/qualityGateCondUpdate.do", param, callbackSetCondId);
 
         } else if (condId == "") {
             param = {
@@ -869,8 +869,7 @@
             procCallAjax("/qualityGate/qualityGateCondSave.do", param, callbackSetCondId);
         }
 
-        $("#saveBtn_" + index).attr('disabled', 'disabled');
-
+        $("#saveBtn_" + index).attr("disabled","disabled");
     }
 
     function saveConditionValidation(metric) {
@@ -890,8 +889,10 @@
     }
 
     var callbackSetCondId = function (data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) return false;
+
+        if (RESULT_STATUS_FAIL == data.resultStatus) {return false;}
         $("#conditions_" + data.index).val(data.id);
+        $("#saveBtn_" + index).text("수정");
     }
 
     //삭제, 취소 버튼 이벤트
@@ -944,7 +945,7 @@
                 for (var i = 0; i < data[0].metrics.length; i++) {
                     if (data[0].metrics[i].hidden == false && data[0].metrics[i].direction != 0) {
                         if (data[1].domains[j] == data[0].metrics[i].domain) {
-                            if (data[0].metrics[i].hidden == false) {
+                            if (data[0].metrics[i].hidden == false && (data[0].metrics[i].type == "INT" ||  data[0].metrics[i].type == "FLOAT" ||  data[0].metrics[i].type == "PERCENT")) {
                                 list += "<option value='" + data[0].metrics[i].key + "'>&nbsp&nbsp&nbsp" + data[0].metrics[i].name + "</option>";
                             }
                         }
