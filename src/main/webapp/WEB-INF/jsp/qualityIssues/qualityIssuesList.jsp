@@ -315,6 +315,7 @@
             serviceInstancesId: $("#serviceInstancesId").val()
 
         }
+
         if(status == 'init'){
             procCallAjax("/qualityIssues/qualityIssuesList.do", param, callbackGetListInit);
         }else{
@@ -860,35 +861,6 @@
         getList("init");
     });
 
-
-    function testView(num, message) {
-        var list = "";
-        var list2 = "";
-        list += "<div>";
-        list += "<table summary='' class='quality_list'>";
-        list += " <caption>품질이슈 리스트</caption>";
-        list += " <colgroup>";
-        list += " <col style='width:*'>";
-        list += " <col style='width:12%'>";
-        list += " </colgroup>";
-        list += " <tbody>";
-        list += " <tr class='bgArea'>";
-        list += " <td>";
-        list += " <div class='rule_tit'>" + message + "</div>";
-        list += " </td>";
-        list += " <td>";
-        list += " <div class='rule_tit'><img src='/resources/images/ico_blocker.png'></div>";
-        list += " </td>";
-        list += " </tbody>";
-        list += " </tr>";
-        list += " </table>";
-        list += "</div>";
-
-
-        $("#sourceView_" + num).append(list);
-
-
-    }
 
 
 </script>
