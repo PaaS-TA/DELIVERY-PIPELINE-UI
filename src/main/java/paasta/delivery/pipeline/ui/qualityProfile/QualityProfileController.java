@@ -5,10 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import paasta.delivery.pipeline.ui.codingRules.CodingRules;
+import paasta.delivery.pipeline.ui.codingRules.CodingRulesService;
 import paasta.delivery.pipeline.ui.common.CommonService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,12 +30,16 @@ public class QualityProfileController {
     private QualityProfileService  qualityProfileService;
 
     @Autowired
+    private CodingRulesService codingRulesService;
+
+    @Autowired
     private CommonService commonService;
 
     /**
      * Get quality profile list page model and view.
      *
      * @param httpServletRequest the http servlet request
+     * @param serviceInstanceId  the service instance id
      * @return the model and view
      */
     @GetMapping(value = BASE_URL +"/dashboard")
@@ -56,11 +61,13 @@ public class QualityProfileController {
     public Map getQualityProfileList(@PathVariable String serviceInstanceId){
 
         Map result = new HashMap<>();
+        QualityProfile param = new QualityProfile();
 
         // 개발 언어 조회
         List languages = qualityProfileService.getQualityProfileLanguages();
         // 프로파일 조회
-        List profiles = qualityProfileService.getQualityProfileList(serviceInstanceId);
+        param.setServiceInstanceId(serviceInstanceId);
+        List profiles = qualityProfileService.getQualityProfileList(param);
 
         result.put("languages", languages);
         result.put("profiles", profiles);
@@ -85,6 +92,26 @@ public class QualityProfileController {
         LOGGER.info("===[UI - INSPECTION :: getQualityProfileLanguageList]=== result : {}", languages.toString());
 
         return languages;
+
+    }
+
+    /**
+     * Get coding rules coding rules.
+     *
+     * @param codingRules the coding rules
+     * @return the coding rules
+     */
+    @GetMapping(value = BASE_URL + "/codingRules.do")
+    @ResponseBody
+    public CodingRules getCodingRules(@ModelAttribute CodingRules codingRules){
+
+        // 기본 설정 값
+        codingRules.setFacets("active_severities");
+        codingRules.setActivation("true");
+
+        CodingRules result = codingRulesService.getCodingRules(codingRules);
+
+        return result;
 
     }
 
@@ -178,9 +205,19 @@ public class QualityProfileController {
     }
 
 
+
+
     //TODO---------------------------------------
     // 프로젝트 연결 / 해제
-
-
+    // API :: paasta.delivery.pipeline.inspection.api.project
+    //## REQUEST PARAMETERS
+    //- (Required) id
+    //- (Required or Null) qualityProfileKey
+    //- (Required or Null) qualityGateId
+    //- (Required) linkOperationType
+    //- (Optional, for UNLINK) defaultQualityProfileKey
+    //- (Optional, for UNLINK) defaultQualityGateId
+    //## RETURN OBJECT
+    //- Project Model
 
 }

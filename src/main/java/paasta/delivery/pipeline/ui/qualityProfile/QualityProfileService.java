@@ -26,13 +26,13 @@ public class QualityProfileService {
     /**
      * QualityPrifile 리스트
      *
-     * @param serviceInstanceId the service instance id
+     * @param qualityProfile the quality profile
      * @return List list
      */
-    public List getQualityProfileList(String serviceInstanceId){
+    public List getQualityProfileList(QualityProfile qualityProfile){
 
         // 프로파일 목록 조회
-        String reqUrl = REQ_URL_Inspection + "/qualityProfileList?serviceInstanceId="+serviceInstanceId;
+        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection+"/qualityProfileList",qualityProfile);
         LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileList - profile]=== reqUrl : {}", reqUrl);
         List profiles = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, List.class);
 
@@ -84,6 +84,9 @@ public class QualityProfileService {
      * @return the projects
      */
     public QualityProfile getProjects(String key, String selected) {
+
+        //TODO :: DB + API 유효성 검증된 List 조회 메소드 호출로 변경 필요
+        // >>> 사용 -- projectService.getProjects(project);
 
         String reqUrl = REQ_URL_Inspection + "/projects?key="+key + "&selected="+selected;
         QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, QualityProfile.class);
@@ -138,39 +141,38 @@ public class QualityProfileService {
         return result;
     }
 
+
+    /**
+     * Activate rule quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    public QualityProfile activateRule(QualityProfile qualityProfile) {
+        // 프로파일에 Coding Rule 추가
+        String reqUrl = REQ_URL_Inspection + "/activateRule";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: activateRule]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+        return result;
+    }
+
+    /**
+     * Deactivate rule quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    public QualityProfile deactivateRule(QualityProfile qualityProfile) {
+        // 프로파일에 Coding Rule 제거
+        String reqUrl = REQ_URL_Inspection + "/deactivateRule";
+        LOGGER.info("===[UI :: QUALITYPROFILE :: deactivateRule]=== reqUrl : {}", reqUrl);
+        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
+        return result;
+    }
+
     //TODO ---------------------------
+    // 프로젝트 연결 / 해제
 
-
-//    /**
-//     * QualityPrifile 복제
-//     *
-//     * @param qualityProfile the quality profile
-//     * @return List quality profile
-//     */
-//    public QualityProfile qualityProfileCopy(QualityProfile qualityProfile){
-//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileCopy", HttpMethod.POST, qualityProfile, QualityProfile.class);
-//    }
-//
-//    /**
-//     * QualityPrifile 삭제
-//     *
-//     * @param qualityProfile the quality profile
-//     * @return quality profile
-//     */
-//    public QualityProfile deleteQualityProfile(QualityProfile qualityProfile){
-//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileDelete", HttpMethod.POST, qualityProfile, QualityProfile.class);
-//    }
-//
-//    /**
-//     * QualityPrifile 수정
-//     *
-//     * @param qualityProfile the quality profile
-//     * @return List quality profile
-//     */
-//    public QualityProfile updateQualityProfile(QualityProfile qualityProfile){
-//        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection +"/qualityProfileUpdae", HttpMethod.POST, qualityProfile, QualityProfile.class);
-//    }
-//
 
 
 

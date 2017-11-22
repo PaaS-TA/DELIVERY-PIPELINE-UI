@@ -176,7 +176,7 @@
 <!--//container :e -->
 
 
-<%--POPUP CF URL :: BEGIN--%>
+<%--POPUP QUALITYPROFILE :: BEGIN--%>
 <div class="modal fade" id="modalQualityProfileList" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="width: 600px;">
         <div class="modal-content">
@@ -292,7 +292,7 @@
         </div>
     </div>
 </div>
-<%--POPUP CF URL :: END--%>
+<%--POPUP QUALITYPROFILE :: END--%>
 
 <%-- Hidden Value :: BEGIN --%>
 <input type="hidden" name="h_defaultProfileKey" id="h_defaultProfileKey"/>
@@ -532,6 +532,7 @@
                             +"' data-language='"+profile.language
                             +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
 
+                        //htmlstr += "<span class='block ico_bul'>" + procSplitStringBySeparator(profile.name, "^") + "</span>";
                         htmlstr += "<span class='block ico_bul'>" + profile.name + "</span>";
                         htmlstr += "<span class='issue_num'>";
                         if (profile.projectCount != null) {
@@ -664,7 +665,7 @@
 
     function getCodingRules(profileKey, language){
 
-        var url = "/codingRules/codingRules.do?qprofile="+profileKey+"&languages="+language+"&facets=active_severities";
+        var url = "/qualityProfile/codingRules.do?qprofile="+profileKey+"&languages="+language;
 
         procCallAjax(url, null, callbackGetCodingRules);
     }

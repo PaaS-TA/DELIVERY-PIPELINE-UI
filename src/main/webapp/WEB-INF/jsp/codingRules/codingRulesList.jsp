@@ -1,17 +1,15 @@
 <%--
   Created by IntelliJ IDEA.
-  User: kim
-  Date: 2017-07-28
-  Time: 오전 10:00
+  User: lena
+  Date: 2017-11-21
+  Time: 오후 18:00
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
-
-
-
+<!-- location :s -->
 <div class="location">
     <div class="location_inner">
         <ul>
@@ -20,9 +18,13 @@
         </ul>
     </div>
 </div>
-
+<!-- location :e -->
 
 <div id="container">
+    <!-- content :s -->
+    <div class="">
+        <!-- full_sub_content :s -->
+        <div class="">
             <!-- left :s -->
             <div class="lnbWrap">
                 <div class="lnb">
@@ -30,31 +32,76 @@
                     <div class="pl12 mt10">
                         <form id="" method="post" action="">
                             <div class="lnb_search">
-                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; searchList(''); }"/>
+                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; getCodingRules(''); }"/>
                                 <%--<input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />--%>
-
-                                <a class="btn_search" href="javascript:searchList();" title="검색"></a>
+                                <a class="btn_search" href="javascript:getCodingRules();" title="검색"></a>
                             </div>
                         </form>
                     </div>
                     <!--//검색 :e -->
                     <ul class="mt10">
                         <h4>개발언어 (Language)</h4>
-                        <div id="searchLang">
-
-                        </div>
+                        <c:forEach items="${languages}" var="language" varStatus="status">
+                            <c:if test="${fn:containsIgnoreCase(language.val, 'JAVA')}">
+                            <li <c:if test="${status.last}">class="last"</c:if>>
+                                    <%--<input type="checkbox" name="${language.val}" id="chk_languages_${language.val}" value="${language.val}">--%>
+                                <span class="block" style="padding-left:20px;">${fn:substring(language.val, 0, 1).toUpperCase()}${fn:substring(language.val, 1, fn:length(language.val))}</span>
+                                <span class="issue_num" id="language_${language.val}_num" style="padding-left:220px;">${language.count}</span>
+                            </li>
+                            </c:if>
+                        </c:forEach>
+                        <%--<div id="searchLang"></div>--%>
                         <h4>이슈 수준 (Severity)</h4>
                         <div id="searchIssue">
-                            <li><a href="javascript:chkOn(0,'issue');" ><input type="checkbox"  name="issue" onclick="searchList()" value="BLOCKER"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span class="issue_num"></span></a></li>
-                            <li><a href="javascript:chkOn(1,'issue');" ><input type="checkbox"  name="issue" onclick="searchList()" value="CRITICAL"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span class="issue_num"></span></a></li>
-                            <li><a href="javascript:chkOn(2,'issue');" ><input type="checkbox"  name="issue" onclick="searchList()" value="MAJOR"> <span class="block"><i class="ico_major"></i>보통 (Major)</span> <span class="issue_num"></span></a></li>
-                            <li><a href="javascript:chkOn(3,'issue');" ><input type="checkbox"  name="issue" onclick="searchList()" value="MINOR"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span class="issue_num"></span></a></li>
-                            <li class="last"><a href="javascript:chkOn(4,'issue');" ><input type="checkbox" name="issue" onclick="searchList()" value="INFO"> <span class="block"><i class="ico_info"></i>정보 (Info)</span> <span class="issue_num"></span></a></li>
+                            <li>
+                                <a href="#none">
+                                    <input type="checkbox" id="chk_severity_blocker" name="issue" value="BLOCKER">
+                                    <label for="chk_severity_blocker"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span id="severityBlockerNum" class="issue_num">${severities.BLOCKER}</span></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#none">
+                                    <input type="checkbox" id="chk_severity_critical" name="issue" value="CRITICAL">
+                                    <label for="chk_severity_critical"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span id="severityCriticalNum" class="issue_num">${severities.CRITICAL}</span></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#none">
+                                    <input type="checkbox" id="chk_severity_major" name="issue" value="MAJOR">
+                                    <label for="chk_severity_major"><span class="block"><i class="ico_major"></i>보통 (Major)</span> <span id="severityMajorNum" class="issue_num">${severities.MAJOR}</span></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#none">
+                                    <input type="checkbox" id="chk_severity_minor" name="issue" value="MINOR">
+                                    <label for="chk_severity_minor"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span id="severityMinorNum" class="issue_num">${severities.MINOR}</span></label>
+                                </a>
+                            </li>
+                            <li class="last">
+                                <a href="#none">
+                                    <input type="checkbox" id="chk_severity_info" name="issue" value="INFO">
+                                    <label for="chk_severity_info"><span class="block"><i class="ico_info"></i>정보 (Info)</span> <span id="severityInfoNum" class="issue_num">${severities.INFO}</span></label>
+                                </a>
+                            </li>
                         </div>
                         <h4>품질 프로파일 (Quality Profile)</h4>
-                        <div id="searchProfile">
-
-                        </div>
+                        <li>
+                            <a id="qualityProfile_all" data-profileKey="" href="#none">
+                                <%--<input type="checkbox" data-profileKey="all" name="qualityProfile_all" id="qualityProfile_all" value="${qualityProfile.name}">--%>
+                                <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer"><span class="block" style="width:220px;">${qualityProfile.name}</span></label>--%>
+                                <span class="block" style="width:220px;">All Quality Profile</span>
+                            </a>
+                        </li>
+                        <c:forEach items="${qualityProfiles}" var="qualityProfile" varStatus="status">
+                            <li>
+                                <a id="qualityProfile_${qualityProfile.key}" data-profileKey=${qualityProfile.key} href="#none">
+                                    <%--<input type="checkbox" data-profileKey=${qualityProfile.key} name="${qualityProfile.key}" id="chk_profile_${qualityProfile.key}" value="${qualityProfile.name}">--%>
+                                    <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer">--%>
+                                        <span class="block" style="width:220px;">${qualityProfile.name}</span>
+                                    <%--</label>--%>
+                                </a>
+                            </li>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>
@@ -71,9 +118,17 @@
                                 <col style="width:5%">
                                 <col style="width:8%">
                                 <col style="width:11%">
-
                             </colgroup>
-                            <tbody id="tbodyData">
+                            <thead></thead>
+                            <tbody id="codingRulesData">
+                            <c:forEach items="${rules}" var="rule" varStatus="status">
+                            <tr>
+                                <td class="rule_tit">${rule.name}</td>
+                                <td class="alignC"><i class="ico_${fn:toLowerCase(rule.severity)}"></i></td>
+                                <td class="alignC">${rule.langName}</td>
+                                <td class="alignC"><button type="button" data-ruleKey="${rule.key}" id="btn_activate_${rule.key}" class="button quality_btn">프로파일에 추가</button></td>
+                            </tr>
+                            </c:forEach>
                             </tbody>
                         </table>
                         <!--//리스트 테이블-->
@@ -83,707 +138,514 @@
                     <div id="crDetail" style="display:none;">
 
                     </div>
-
-
                 </div>
             </div>
             <!--//contentWrap :e -->
+        </div>
+        <!-- full_sub_content :e -->
+    </div>
+    <!-- full_sub_content :s -->
 </div>
 <!--//container :e -->
 
-
+<%--POPUP CODINGRULES :: BEGIN--%>
 <div class="modal fade" id="modalCodingRules" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="width: 600px;">
-        <!-- 콘텐츠 -->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" id="popCloseBtn"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <span class="modal-title">선택 항목 품질 프로파일에 추가</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span>
+                </button>
+                <h1 id="popupCodingRulesConfirmTitle" class="modal-title"> 프로파일에 추가 </h1>
             </div>
             <div class="modal-body">
-                <!-- form -->
                 <div class="modal_contBox">
-                    <!-- 기본 영역(품질 프로파일) -->
-                    <div class="modalform_info">
-                        <!--타이틀 영역-->
-                        <div class="form_left">
-                            <p class="title">품질 프로파일</p><input type="hidden" id="qprofileUpdateKey" name="">
-                        </div>
-                        <!--//타이틀 영역-->
-                        <!-- form 영역-->
-                        <div class="form_right" id="qprofileCreate">
-                            <div class="formBox">
-                                <p><select class="input-large" id="qprofileSelect">
-                                </select></p>
+                    <%--RULE ADD :: BEGIN--%>
+                    <div id="popupAddArea" style="display: none;">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">품질 프로파일</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p>
+                                        <select class="input-large" id="popupProfileAdd"></select>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-
-                        <!--//form 영역-->
-                    </div>
-                    <!--//기본 영역(품질 프로파일) -->
-                    <!-- 기본 영역(이슈 수준 변경) -->
-                    <div class="modalform_info">
-                        <!--타이틀 영역-->
-                        <div class="form_left">
-                            <p class="title">이슈 수준 변경</p>
-                        </div>
-                        <!--//타이틀 영역-->
-                        <!-- form 영역-->
-                        <div class="form_right">
-                            <div class="formBox">
-                                <p><select class="input-medium" id="issuesSelect">
-                                    <option value="BLOCKER"><i class="ico_blocker"></i>심각</option>
-                                    <option value="CRITICAL"><i class="ico_critical"></i>높음</option>
-                                    <option value="MAJOR"><i class="ico_major"></i>보통</option>
-                                    <option value="MINOR"><i class="ico_minor"></i>낮음</option>
-                                    <option value="INFO"><i class="ico_info"></i>정보</option>
-                                </select></p>
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">이슈 수준</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p>
+                                        <select class="input-large" id="popupSeverityAdd">
+                                            <option value="BLOCKER"><i class="ico_blocker"></i>심각</option>
+                                            <option value="CRITICAL"><i class="ico_critical"></i>높음</option>
+                                            <option value="MAJOR"><i class="ico_major"></i>보통</option>
+                                            <option value="MINOR"><i class="ico_minor"></i>낮음</option>
+                                            <option value="INFO"><i class="ico_info"></i>정보</option>
+                                        </select>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <!--//form 영역-->
                     </div>
-                    <!--//기본 영역(이슈 수준 변경) -->
+                    <%--RULE ADD :: END--%>
+                    <%--RULE UPDATE :: BEGIN--%>
+                    <div id="popupUpdateArea" style="display: none;">
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">품질 프로파일</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p id="popupProfileUpdate"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modalform_info">
+                            <div class="form_left">
+                                <p class="title">이슈 수준</p>
+                            </div>
+                            <div class="form_right">
+                                <div class="formBox">
+                                    <p>
+                                        <select class="input-large" id="popupSeverityUpdate">
+                                            <option value="BLOCKER"><i class="ico_blocker"></i>심각</option>
+                                            <option value="CRITICAL"><i class="ico_critical"></i>높음</option>
+                                            <option value="MAJOR"><i class="ico_major"></i>보통</option>
+                                            <option value="MINOR"><i class="ico_minor"></i>낮음</option>
+                                            <option value="INFO"><i class="ico_info"></i>정보</option>
+                                        </select>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%--RULE ADD :: END--%>
                 </div>
-                <!--//form -->
             </div>
             <div class="modal-footer">
-                <!--추가-->
-                <div class="fr" style="display: block" id="footerAddBtn">
-                    <button type="button" class="button btn_pop" id="qprofilePopAdd">추가</button>
-                    <button type="button" class="button btn_pop popClose">취소</button>
+                <div id="popupAddButtonArea" style="display: none;">
+                    <div class="fr">
+                        <button type="button" class="button btn_pop" id="btnRuleAdd"> 추가</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                    </div>
+                </div>
+                <div id="popupUpdateButtonArea" style="display: none;">
+                    <div class="fr">
+                        <button type="button" class="button btn_pop" id="btnRuleUpdate"> 수정</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <!--//콘텐츠 :e -->
     </div>
 </div>
-<!--//Modal popup :e -->
+<%--POPUP CODINGRULES :: END--%>
 
-<input type="hidden" id="serviceInstancesId" name="serviceInstancesId" value="<c:out value='${serviceInstancesId}' default='' />">
-<!-- 페이징 할 갯수-->
-<input type="hidden" id="crPaging" name="crPaging" value="50"/>
-<!-- 페이징 토탈-->
-<input type="hidden" id="totalPage" name="totalPage"/>
-<!-- 코딩룰 sort -->
-<input type="hidden" name="s" id="codingRuleSort" value="name"/>
-<input type="hidden" name="codingRulesKey" id="codingRulesKey">
+<input type="hidden" id="serviceInstanceId" name="serviceInstanceId" value="<c:out value='${serviceInstanceId}' default='' />">
 
-<form name="codingForm" id="codingForm" method="post">
-    <input type="hidden" id="key" value="<c:out value='${codingRules.key}' default='' />">
-    <input type="hidden" id="languages" value="<c:out value='${codingRules.languages}' default='' />">
-    <input type="hidden" id="issues" value="<c:out value='${codingRules.issues}' default='' />">
-    <input type="hidden" id="qprofile" value="<c:out value='${codingRules.qprofile}' default='' />">
-    <input type="hidden" id="keyword" value="<c:out value='${codingRules.keyword}' default='' />">
-</form>
-    <input type="hidden" id="profileKey" value="<c:out value='${profileKey}' default='' />">
+<%--CodingRule Total Count--%>
+<input type="hidden" name="totalCount" id="totalCount" value="${codingRules.total}">
+<%--페이지 No--%>
+<input type="hidden" name="pageNo" id="pageNo" value="${codingRules.condition.p}">
+<%--페이지당 표시할 CodingRule Count--%>
+<input type="hidden" name="countPerPage" id="countPerPage" value="${codingRules.condition.ps}">
+<%--Sort 항목--%>
+<input type="hidden" name="sortKey" id="sortKey" value="${codingRules.condition.s}">
+<%--Sort 타입--%>
+<input type="hidden" name="sortAsc" id="sortAsc" value="${codingRules.condition.asc}">
+<%--Sort 타입--%>
+
+<input type="hidden" name="conditionKeyWord" id="conditionKeyWord">
+<input type="hidden" name="conditionLanguages" id="conditionLanguages" value="${codingRules.condition.languages}">
+<input type="hidden" name="conditionSeverrity" id="conditionSeverrity">
+<input type="hidden" name="conditionProfileKey" id="conditionProfileKey">
+<input type="hidden" name="selectedRuleKey" id="selectedRuleKey">
 
 <script type="text/javascript">
-    //loding bar
-    $(window).scroll(function(){
-        if($("#crDetail").css("display") == "none"){
-            if($(window).scrollTop() >= $(document).height() - $(window).height()){
-                var pageSize = $("#crPaging").val();
-                var pageTotal = $("#totalPage").val();
-                if(pageSize < pageTotal ) {
-                    var loadingImg = "<tr id='lodingTable' ><td colspan='3' class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
-                    $("#tbodyData > :last").html(loadingImg);
-
-
-                    if (pageSize != "") {
-                        pageSize = parseInt(pageSize) + 50;
-                        $("#crPaging").val(pageSize);
-                    } else {
-                        pageSize = 0;
-                        pageSize = parseInt(pageSize) + 50;
-                        $("#crPaging").val(pageSize);
-                    }
-                    searchList();
-                }else{
-                    $("#lodingTable").hide();
-                }
-            }
-        }
-    });
-
-/*    $(window).bind("popstate", function(event) {
-
-        var data = event.originalEvent.state;
-
-
-        if (data) {
-
-            var splitter = $("#layout-vertical").data("kendoSplitter");
-
-            splitter.ajaxRequest("#article-pane", data);
-
-        }
-
-        else {
-
-            // 히스토리에 정보가 없을경우 메인화면으로 보내준다.
-
-            var url = "/메인화면";
-
-            $(location).attr('href', url);
-
-        }
-
-    })*/
-
-
-
-
-
+    // Popup Types
+    var gPopupTypeAdd = "Add";
+    var gPopupTypeUpdate = "Update";
 
     $(document.body).ready(function () {
-        procCallSpinner(SPINNER_START);
-        var gPage = 0;
-        var gCheckMore = false;
-
-
-        //언어 조회
-        getLanguage();
-
-        //프로파일 조회
-        getQualityProfile();
-
-        //리스트 조회
-        searchList();
-        var issues = $("#issues").val()
-        $("#searchIssue").find("input[name=issue]").each(function(i){
-            if(issues != "" && issues == $(this).val() ) {
-                $(this).attr("checked","checked");
-            }
-        });
-    });
-
-    $(function(){
-        //팝업 닫기 버튼
-        $("#popCloseBtn , .popClose").click(function(){
-            procClosePopup();
-        });
-
-        $("#qprofilePopAdd").click(function(){
-            procPopupConfirm('프로파일에 추가', '추가 하시겠습니까?', 'qprofileAdd();');
-        });
+        // Left :: 개발언어, 이슈수준 목록 조회
+        //getCodingRulesCondition();
+        // Left :: 품질 프로파일 목록 조회
+        //getQualityProfileList();
+        // Right :: Coding Rules 조회
+        //getCodingRules();
     });
 
 
+    // 품질 프로파일 선택
+    $("a[id^='qualityProfile_']").on("click", function () {
 
-    //이슈, 개발언어 a 태그 체크박스 활성화
-    function chkOn(chkNum, chkName) {
+        var profileKey = $(this).data().profilekey;
+//        console.log(" ::: profileKey ::: "+ profileKey);
+        $("#conditionProfileKey").val(profileKey);
 
-
-        if ($("input[name=" + chkName + "]").eq(chkNum).is(":checked") == false) {
-
-            $("input[name=" + chkName + "]").eq(chkNum).prop('checked', true);
-
-        } else if ($("input[name=" + chkName + "]").eq(chkNum).is(":checked") == true) {
-
-            $("input[name=" + chkName + "]").eq(chkNum).prop('checked', false);
-        }
+        getCodingRules();
 
 
-        searchList();
-    }
+    });
+    // 이슈 수준 선택
+    $("input[id^='chk_severity_']").on("click", function () {
+        var chk_select = $(this).val();
+        console.log(" ::: checkbox select ::: "+ chk_select);
+        getCodingRules();
+    });
 
+    // 프로파일에 추가 선택
+    $(document).on("click", ".quality_btn" , function() {
 
+        var id = $(this).attr("id");
+        var activateRule = $(this).data().rulekey;
 
+        $("#selectedRuleKey").val(activateRule);
 
-    //프로파일 하나만 체크박스 하나만 선택하게 함수
-    function qpCheck(name,chk){
+        console.log(" ::: activate rule ::: " + activateRule + ">>>"+ id + ":::"+ $(this).text());
 
+        if (id.toString().match("btn_deactivate_")) {
+            console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
 
-        if(name == 'aTag'){
-            if ($("input[name=profile]").eq(chk).is(":checked") == false) {
+            var btnText = "제거";
+            var reqTitle = $(this).text();
+            var reqMessage = btnText + " 하시겠습니까?";
+            var procFunction = "DeleteProfileRule();";
+            var reqButtonText = btnText;
 
-                $("#searchProfile").find("input[name=profile]").each(function (i) {
+            procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
-                    $(this).prop('checked', false);
-                })
-
-                $("input[name=profile]").eq(chk).prop('checked', true);
-            } else {
-
-                $("#searchProfile").find("input[name=profile]").each(function (i) {
-
-                    $(this).prop('checked', false);
-                })
-            }
         } else {
+            var objModalList = $('#modalCodingRules');
+            // 품질 프로파일 목록 조회
+            getQualityProfileList();
 
-            if ($("input[name=profile]").eq(chk).is(":checked") == true) {
+            // Popup 설정
+            procSetPopupArea(gPopupTypeAdd);
 
-                $("#searchProfile").find("input[name=profile]").each(function (i) {
-
-                    $(this).prop('checked', false);
-                })
-
-                $("input[name=profile]").eq(chk).prop('checked', true);
-            } else {
-
-                $("#searchProfile").find("input[name=profile]").each(function (i) {
-
-                    $(this).prop('checked', false);
-                })
-            }
+            objModalList.modal('toggle');
         }
 
-
-        searchList();
-
-    }
-
-
-//////////////////////////////////////////////////////////////////////////////////
-    //엔터 검색
-/*
-    function CheckEnter(){
-        var keycode = event.keyCode;
-        if(keycode == 13){
-            searchList();
-        }else{
-            return false;
-        }
-    }
-
-    $("#search_keyword").keydown(function(){
-        if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
-            searchList();
-        }
     });
-*/
 
-    /////////////////////////////////////////////////////////////
-
-    //sonar 언어 목록 체크박스 조회
-    function getLanguage(){
-        procCallAjax("/codingRules/codingRulesCondition.do", null, callbackCodingRulesCondition);
-    }
-
-    //comm 프로파일 체크박스 조회
-    function getQualityProfile(){
-//        procCallAjax("/codingRules/qualityProfileList.do?serviceInstancesId="+$("#serviceInstancesId").val(),null,callbackCodingRulesProfile);
-
-        procCallAjax("/codingRules/qualityProfileList.do",null,callbackCodingRulesProfile);
-    }
+    // 프로파일에 추가 POPUP :: 추가 선택
+    $("#btnRuleAdd").on("click", function () {
 
 
-    //코딩룰 리스트
-    function searchList(){
+        // select box 선택이므로 유효성 체크 Pass
+        $('#modalCodingRules').modal('hide');
+
+        // 확인 POPUP
+        var reqTitle = $('#popupCodingRulesConfirmTitle').text();
+        var reqMessage = $('#btnRuleAdd').text() + " 하시겠습니까?";
+        var procFunction = "AddProfileRule();";
+        var reqButtonText = $('#btnRuleAdd').text();
+
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+    });
+
+    // Set PopUp Area
+    var procSetPopupArea = function (type) {
+
+        var procTypeArray = [gPopupTypeAdd, gPopupTypeUpdate];
+
+        $.each(procTypeArray, function (index, procType) {
+
+            if (procType == type) {
+                $('#popup' + procType + 'Area').fadeIn("slow");
+                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
+            } else {
+                $('#popup' + procType + 'Area').hide();
+                $('#popup' + procType + 'ButtonArea').hide();
+            }
+        });
+    };
+    //////////////////////////////////////////////////////////////////////
+    // Coding Rules 조회
+    var getCodingRules = function () {
+
+        procCallSpinner(SPINNER_START);
         $("#ruleList").css("display","block");
         $("#crDetail").css("display","none");
-        $("#crDetail").children().remove();
+        //$("#crDetail").children().remove();
 
+        // 검색 키워드
+        var keyWord = $("#search_keyword").val();
+        $("#conditionKeyWord").val(keyWord);
 
-        //룰 검색 키워드
-        var ruleKeyword = $("#search_keyword").val();
-
-        //이슈 value
-        var searchIssue = "";
-
-        //언어 value
-        var searchLanguage = "";
-
-        //프로파일 value
-        var searchProfile = "";
-
-        //프로파일 체크박스 온 체크(프로파일 파라메터 값이 2개여야만 활성화)
-        var profileOn = null;
-
-        var listUrl = "/codingRules/codingRulesList.do";
-
-        //이슈 체크박스 클릭시 param 셋팅
-        $("#searchIssue").find("input[name=issue]").each(function(i){
-            if($(this).is(":checked") == true){
-                searchIssue += $(this).val()+",";
+        // 이슈 수준 체크 박스 리스트
+        var chkSeverities = "";
+        $(":checkbox[name='issue']:checked").each(function(i,e){
+            if(chkSeverities == ""){
+                chkSeverities = e.value;
+            }else{
+                chkSeverities += ","+e.value;
             }
-        })
-
-        //개발언어 체크박스 클릭시 param 셋팅
-        $("#searchLang").find("input[name=langName]").each(function(i){
-            if($(this).is(":checked") == true){
-                searchLanguage += $(this).val()+",";
-            }
-        })
-
-        //품질 프로파일(true)
-        //품질프로파일 체크박스 클릭시 param 셋팅
-        $("#searchProfile").find("input[name=profile]").each(function(i){
-
-            if($(this).is(":checked") == true) {
-                searchProfile = $(this).val();
-                profileOn = "true";
-            }
-
-        })
+        });
+        console.log("condition ::: chkSeverities ::: "+chkSeverities);
+        // 품질 프로파일
+        console.log("condition ::: profile ::: "+$("#conditionProfileKey").val());
 
 
-        var issueData = searchIssue.slice(0,-1);
-        var languageData = searchLanguage.slice(0,-1);
+        // 페이지 번호
+        var params = {
+            q : $("#conditionKeyWord").val(),
+            p : $("#pageNo").val(),
+            ps : $("#countPerPage").val(),
+            s : $("#sortKey").val(),
+            asc : $("#sortAsc").val(),
+            qprofile : $("#conditionProfileKey").val(),
+            languages : $("#conditionLanguages").val(),
+            severities : chkSeverities
+        }
 
+        var paramstr = $.param(params);
+        if ($("#conditionProfileKey").val()!= "") {
+            paramstr += "&activation=true";
+        }
+        console.log("condition ::: paramstr ::: "+paramstr);
 
-        //post data 셋팅
-        var param = {
-            ps: $("#crPaging").val(),
-            q: ruleKeyword,
-            severities: issueData,
-            languages: languageData,
-            serviceInstancesId : $("#serviceInstancesId").val(),
-            qprofile : searchProfile,
-            activation : profileOn,
-            s:$("#codingRuleSort").val()
-        };
+        var reqUrl = "/codingRules/codingRules.do?";
 
+        procCallAjax(reqUrl + paramstr, null, callbackGetCodingRules);
 
-
-        procCallAjax(listUrl,param,callbackCodingRulesList);
-
-    }
-
-
-    //rules deteil
-    function crDetail(key){
-
-        var searchLanguage = "";
-
-        //이슈 value
-        var searchIssue = "";
-
-        //프로파일 value
-        var searchProfile = "";
-
-        $("#searchLang").find("input[name=langName]").each(function(i){
-            if($(this).is(":checked") == true){
-                searchLanguage += $(this).val()+",";
-            }
-        })
-
-        //이슈 체크박스 클릭시 param 셋팅
-        $("#searchIssue").find("input[name=issue]").each(function(i){
-            if($(this).is(":checked") == true){
-                searchIssue += $(this).val()+",";
-            }
-        })
-
-        $("#searchProfile").find("input[name=profile]").each(function(i){
-
-            if($(this).is(":checked") == true) {
-                searchProfile = $(this).val();
-            }
-
-        })
-
-        var issueData = searchIssue.slice(0,-1);
-        var languageData = searchLanguage.slice(0,-1);
-
-
-
-        var param= key+"&keyword"+$("#search_keyword").val() +"&languages=" +languageData+"&issues="+issueData+"&qprofile="+searchProfile
-
-/*        $("#key").val(key);
-        $("#langage").val(languageData);
-        $("#keyword").val($("#search_keyword").val());
-        $("#issues").val(issueData);
-        $("#qprofile").val(searchProfile);
-
-        var currentUrl = location.pathname;
-        var splitString = "/";
-        var splits = currentUrl.split(splitString);
-
-        $("#codingForm").attr("action", splitString + splits[1] + splitString + splits[2]+"/codingRules/codingRulesDetail");
-        $("#codingForm").submit();*/
-
-
-
-
-        procMovePage("/codingRules/codingRulesDetail?key="+param);
-
-
-
-    }
-
-
-
-    /* callback list 목록 */
-
-    //sonar 언어리스트 callBack
-    var callbackCodingRulesCondition = function(data) {
-
-        var list = "";
-
-        if (RESULT_STATUS_FAIL === data.RESULT) {
+    };
+    // [Collback] Coding Rules 조회
+    var callbackGetCodingRules = function (data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
             return false;
         }
 
-        var listName = data.languages;
-        var languageCheck = $("#languages").val()
-        var checkNum = "";
-        if (listName.length != 0) {
-            for (var i = 0; i < listName.length; i++) {
-                if(languageCheck ==   listName[i].key){
-                    list += "<li><a href=\"javascript:chkOn("+ i +",'langName');\"><input type=\"checkbox\" name=\"langName\" value=\"" + listName[i].key + "\" onclick=\"searchList()\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
-                    checkNum = i;
-                }else{
-                    list += "<li><a href=\"javascript:chkOn("+ i +",'langName');\"><input type=\"checkbox\" name=\"langName\" value=\"" + listName[i].key + "\" onclick=\"searchList()\"> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
-                }
+        console.log("SUCCESS");
 
+        var languages = data.languages;
+
+        $.each(languages, function (index, language) {
+            $("#language_"+language.val+"_num").text(language.count);
+        });
+
+        $("#severityMajorNum").text(data.severities.MAJOR);
+        $("#severityMinorNum").text(data.severities.MINOR);
+        $("#severityCriticalNum").text(data.severities.CRITICAL);
+        $("#severityInfoNum").text(data.severities.INFO);
+        $("#severityBlockerNum").text(data.severities.BLOCKER);
+
+        // 기본 값 설정
+        $("#totalCount").val(data.codingRules.total);
+        $("#pageNo").val(data.codingRules.p);
+        $("#countPerPage").val(data.codingRules.ps);
+        $("#sortKey").val(data.codingRules.condition.s);
+        $("#sortAsc").val(data.codingRules.condition.asc);
+        $("#conditionKeyWord").val(data.codingRules.condition.q);
+        $("#conditionLanguages").val(data.codingRules.condition.languages);
+        $("#conditionProfileKey").val(data.codingRules.condition.qprofile);
+        $("#selectedRuleKey").val("");
+
+        // 이슈수준, 프로파일 키 설정
+
+        // Coding Rules list
+        var codingRulesData = "";
+        $.each(data.rules, function (index, rule) {
+            codingRulesData += "<tr>";
+            codingRulesData += "<td class='rule_tit'>"+rule.name+"</td>";
+            codingRulesData += "<td class='alignC'><i class='ico_"+rule.severity.toString().toLowerCase()+"'></i></td>";
+            codingRulesData += "<td class='alignC'>"+rule.langName+"</td>";
+            codingRulesData += "<td class='alignC'><button type='button' data-ruleKey='"+rule.key+"'";
+            if ($("#conditionProfileKey").val() != "") {
+                codingRulesData += " id='btn_deactivate_"+rule.key+"' class='button quality_btn'>프로파일에 제거";
+            } else {
+                codingRulesData += " id='btn_activate_"+rule.key+"' class='button quality_btn'>프로파일에 추가";
             }
-        }
+            codingRulesData += "</td>";
+            codingRulesData += "</tr>";
+        });
 
-        $("#searchLang").html(list);
-        if(languageCheck != ""){
-            chkOn(checkNum , 'langName');
-        }
-    }
-
-
-    //프로파일 리스트 callBack
-    var callbackCodingRulesProfile = function (data) {
+        $("#codingRulesData").html("");
+        $("#codingRulesData").html(codingRulesData);
         procCallSpinner(SPINNER_STOP);
 
-        if (RESULT_STATUS_FAIL === data.RESULT) { return false;}
-        var list = "";
+    };
 
-        var listName = data;
-        var profileCheck = $("#profileKey").val();
+    // 프로파일에 추가 POPUP :: 품질 프로파일 목록 조회
+    var getQualityProfileList = function () {
+        var reqUrl = "/codingRules/qualityProfileList.do";
 
-        if(listName.length != 0){
-            for(var i=0;i<listName.length;i++){
-                if(listName[i].profileDefaultYn == "Y") {
-                    if (profileCheck != "" && listName[i].key == profileCheck) {
-                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
-                    } else {
-                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span><span class=\"issue_num\"><span class='word_sort'>기본</span></span></a></li>";
-                    }
-                }else{
-                    if (profileCheck != "" && listName[i].key == profileCheck) {
-                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\" checked> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
-                    } else {
-                        list += "<li><a href=\"javascript:qpCheck('aTag'," + i + ");\"><input type=\"checkbox\" name=\"profile\" value=\"" + listName[i].key + "\" onclick=\"qpCheck('chkBox'," + i + ")\"> <span class=\"block\">" + listName[i].name + "</span> <span class=\"issue_num\"></span></a></li>";
-                    }
-                }
-            }
+        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
+    };
 
-        }
-
-
-        $("#searchProfile").html(list);
-
-
-    }
-
-
-
-
-
-    //코딩룰 리스트 callBack
-    var callbackCodingRulesList = function(data){
-        var list = "";
-
-        if (RESULT_STATUS_FAIL === data.RESULT) {
-            list += "<tr>";
-            list += "<td colspan='3' class='alignC'> 검색한 내용이 없습니다. </td>";
-            list += "</tr>";
+    // [Collback] Left :: 품질 프로파일 목록 조회
+    var callbackGetQualityProfileList = function (data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
             return false;
         }
+        var selectProfile = "";
 
-        var profilechecked = "";
-        $("#searchProfile").find("input[name=profile]").each(function(i){
-            if($(this).is(":checked") == true) {
-                profilechecked += $(this).val();
-            }
-        })
+        $.each(data, function (index, profile) {
 
-        var listName = data.rules;
+            selectProfile += "<option value='" + profile.key + "'>";
+            selectProfile += profile.name + "</option>";
 
+        });
+        $("#popupProfileAdd").html(selectProfile);
 
+    };
 
-        if(listName.length != 0){
-            $("#crPagin").val(data.ps);
-            $("#totalPage").val(data.total);
+    // RULE 프로파일에 추가
+    var AddProfileRule = function () {
+        var popupProfileKey = $('#popupProfileAdd').val();
+        var popupSeverity = $('#popupSeverityAdd').val();
+        var ruleKey = $("#selectedRuleKey").val();
 
-            for(var i =0;i<listName.length;i++){
-                list += "<tr>";
-                list += "<td class='rule_tit'><a onclick='crDetail(\""+listName[i].key+"\");' href='javascript:void(0);' >"+ listName[i].name+ "</a></td>";
+        console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
+        console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        console.log("=== Activate_rule :: severity :: "+ popupSeverity);
 
-                if(listName[i].severity == "BLOCKER"){
-                    list += "<td class='alignC'><i class='ico_blocker'></i></td>";
-                } else if(listName[i].severity == "CRITICAL"){
-                    list += "<td class='alignC'><i class='ico_critical'></i></td>";
-                } else if(listName[i].severity == "MAJOR"){
-                    list += "<td class='alignC'><i class='ico_major'></i></td>";
-                } else if(listName[i].severity == "MINOR"){
-                    list += "<td class='alignC'><i class='ico_minor'></i></td>";
-                } else if(listName[i].severity == "INFO"){
-                    list += "<td class='alignC'><i class='ico_info'></i></td>";
-                }
+        var reqParam = {
+            serviceInstanceId : $("#serviceInstanceId").val(),
+            rule_key : ruleKey,
+            profile_key : popupProfileKey,
+            severity : popupSeverity
+        };
 
+        procCallAjax("/codingRules/activateRule.do", reqParam, callbackAddProfileRule);
+    };
 
-                list += "<td class='alignC'>"+listName[i].langName+"</td>";
+    // [Collback] RULE 프로파일에 추가
+    var callbackAddProfileRule = function (data) {
 
-                //나중에 수정해야함
-                if(profilechecked != "java-egov-qualityprofile-79840"){
-                    if(profilechecked != "") {
-                        list += "<td class='alignC'><button type='button' class='button quality_btn profileDelete' name ='profileDelete' onclick='qprofileDelete(\""+listName[i].key+"\")'>프로파일에서 제거</button></td>";
-                    }else {
-                        list += "<td class='alignC'><button type='button' class='button quality_btn profileAdd' name ='profileAdd'  onclick='addProfileBtn(\""+listName[i].key+"\")'>프로파일에 추가</button></td>";
-                    }
-                }else{
-                    list += "<td class='alignC'><button type='button' class='button quality_btn profileDelete' name ='profileDelete' disabled onclick='qprofileDelete(\""+listName[i].key+"\")'>프로파일에서 제거</button></td>";
-                }
-
-
-
-                list += "</tr>";
-
-
-            }
-
-        }else{
-            list += "<tr>";
-            list += "<td colspan='3' class='alignC'> 검색한 내용이 없습니다. </td>";
-            list += "</tr>";
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
         }
-
-        $("#lodingTable").hide();
-        $("#tbodyData").html(list);
-
-    }
-
-
-    var callbackCodingRulesDetail = function(data){
-        var list = data.rule;
-        $("#ruleList").css("display","none");
-        $("#crDetail").css("display","block");
-        $("#crDetail").append("<div class='fr mb10'><button type='button' class='button btn_default' onclick='searchList()' >목록</button></div>");
-        $("#crDetail").append( '<table summary="품질이슈 리스트 테이블입니다." class="quality_list">'
-               +' <caption>품질이슈 리스트</caption><colgroup> <col style="width: *" /> <col style="width:12%"> </colgroup> <tbody>'
-               + '<tr> <td>'
-               +'<div class="rule_tit">'+ list.name +'</div>'
-               +'<ul class="sel_menu">'
-               +'<li>'+ list.langName +'</li>'
-                +'</ul>'
-                +'</td>'
-                +' <td></td>'
-                +'</tr>'
-                +'<tr class="codeArea">'
-                +'<td colspan="2">'
-                +list.htmlDesc+
-                +'</td>'
-                +'</tr>'
-                + '</tbody>'
-                + '</table>');
-
-               if( list.severity == 'BLOCKER'){
-                   $(".sel_menu").append( '<li><span class="ico_blocker"></span></li>');
-               }else if(list.severity == 'CRITICAL'){
-                   $(".sel_menu").append( '<li><span class="ico_critical"></span></li>');
-               }else if(list.severity == 'MAJOR'){
-                   $(".sel_menu").append( '<li><span class="ico_major"></span></li>')
-               }else if(list.severity == 'MINOR'){
-                   $(".sel_menu").append('<li><span class="ico_minor"></span></li>');
-               }else if(list.severity == 'INFO'){
-                   $(".sel_menu").append('<li><span class="ico_info"></span></li>');
-               }
-
-
-//        var renewURL = location.pathname;;
-//
-//        renewURL = renewURL.replace("/codingRules/dashboard","");
-//
-//        renewURL += '/codingRules/codingRulesDetail';
-//        history.pushState(null, null, renewURL);
-
-
-    }
-
-
-
-//나중에 상세 추가
-
-    //프로파일 팝업 셀렉트박스 리스트
-    function addProfileBtn(key){
-        procCallAjax("/codingRules/qualityProfileList.do",null,callbackCodingRulesProfilePopup);
-        $("#modalCodingRules").modal('toggle');
-        $("#codingRulesKey").val(key);
-    }
-
-    var callbackCodingRulesProfilePopup = function(data){
-
-//        var profileHidden =$(".profile_name").length;
-//        var profileArray = new Array();
-        var list = "";
-//        profileHidden - 1
-//        for(var i=0;i<profileHidden;i++){
-//            profileArray[i] = $("#qprofileId"+i).val();
-//        }
-
-        for(var j=0;j<data.length;j++){
-//            if(data[j].key != profileArray[j]){
-                list += "<option value='"+data[j].key+"'>"+data[j].name+"</option>";
-//            }
-        }
-
-        $("#qprofileSelect").html(list);
-    }
-
-
-    //프로파일 추가
-    function qprofileAdd(){
-        //reset 추가해야함
-        if( $("#qprofileSelect").val() != "java-egov-qualityprofile-79840"){
-
-            var param = {
-                rule_key : $("#codingRulesKey").val(),
-                profile_key : $("#qprofileSelect").val(),
-                severity : $("#issuesSelect").val(),
-                reset: "true"
-            };
-
-            //api/qualityprofiles/activate_rule
-            procCallAjax("/codingRules/codingRulesProfileAdd.do", param, callbackcodingRulesProfileAdd);
-        }else{
-            procPopupAlert('기본 품질 프로파일은 추가, 수정할 수 없습니다.', 'searchList();');
-        }
-
-
-    }
-
-    var callbackcodingRulesProfileAdd = function(data){
-        $("#laypop").hide();
-        //리스트 재 조회
-        procPopupAlert('추가 되었습니다.', 'searchList();');
-
-        $("#codingRulesKey").val("");
+        $('#modalCodingRules').modal('hide');
+        procPopupAlert('추가 되었습니다.');
     };
 
 
-    //프로파일 제거
-    function qprofileDelete(key){
-        procPopupConfirm('프로파일 삭제', '삭제 하시겠습니까?', 'qprofileDel(\'' + key + '\');');
-    }
+    // RULE 프로파일에 제거
+    var DeleteProfileRule = function () {
+        var profileKey = $('#conditionProfileKey').val();
+        var ruleKey = $("#selectedRuleKey").val();
 
-    var qprofileDel = function(key){
-        var searchProfile = "";
-        $("#searchProfile").find("input[name=profile]").each(function(i){
+        console.log("=== Activate_rule :: profile_key :: "+ profileKey);
+        console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
 
-            if($(this).is(":checked") == true) {
-                searchProfile = $(this).val();
-            }
-
-        });
-
-        var param = {
-            rule_key : key,
-            profile_key : searchProfile
+        var reqParam = {
+            serviceInstanceId : $("#serviceInstanceId").val(),
+            rule_key : ruleKey,
+            profile_key : profileKey
         };
 
-        procCallAjax("/codingRules/codingRulesProfileDelete.do", param, callbackcodingRulesProfileDelete);
-    }
+        procCallAjax("/codingRules/deactivateRule.do", reqParam, callbackDeleteProfileRule);
+    };
 
-    var callbackcodingRulesProfileDelete = function(data){
-        procPopupAlert('삭제 되었습니다.', 'searchList();');
-    }
+    // [Collback] RULE 프로파일에 제거
+    var callbackDeleteProfileRule = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        // 해당 프로파일 Rule 페이지 리로딩
+//        var profileKey = data.profileKey;
+//        var profileKey = $(this).data().profilekey;
+//        console.log(" ::: profileKey ::: "+ profileKey);
+//        $("#conditionProfileKey").val(profileKey);
+        procPopupAlert('제거 되었습니다.');
+        getCodingRules();
+
+    };
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//
+//    //loding bar
+//    $(window).scroll(function(){
+//        if($("#crDetail").css("display") == "none"){
+//            if($(window).scrollTop() >= $(document).height() - $(window).height()){
+//                var pageSize = $("#crPaging").val();
+//                var pageTotal = $("#totalPage").val();
+//                if(pageSize < pageTotal ) {
+//                    var loadingImg = "<tr id='lodingTable' ><td colspan='3' class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
+//                    $("#tbodyData > :last").html(loadingImg);
+//
+//
+//                    if (pageSize != "") {
+//                        pageSize = parseInt(pageSize) + 50;
+//                        $("#crPaging").val(pageSize);
+//                    } else {
+//                        pageSize = 0;
+//                        pageSize = parseInt(pageSize) + 50;
+//                        $("#crPaging").val(pageSize);
+//                    }
+//                    getCodingRules();
+//                }else{
+//                    $("#lodingTable").hide();
+//                }
+//            }
+//        }
+//    });
+    //    // Left :: 개발언어, 이슈수준 목록 조회
+    //    var getCodingRulesCondition = function () {
+    //        var reqUrl = "/codingRules/codingRulesCondition.do";
+    //
+    //        procCallAjax(reqUrl, null, callbackGetCodingRulesCondition);
+    //    };
+    //    // [Collback] Left :: 개발언어, 이슈수준 목록 조회
+    //    var callbackGetCodingRulesCondition = function (data) {
+    //
+    //        if (RESULT_STATUS_FAIL === data.resultStatus) {
+    //            return false;
+    //        }
+    //
+    //        var languages = data.languages;
+    //        var severities = data.severities;
+    //        var searchLang = "";
+    //
+    //        $.each(languages, function (index, language) {
+    //
+    //            if (language.val.toUpperCase() == "JAVA") {
+    //                console.log(" language ::::: "+ language.val);
+    //                searchLang += "<li><a href='#'>";
+    //                searchLang += "<input type='checkbox' id='Checkbox1' value='option1'>";
+    //                searchLang += "<span class='block'>" + language.val.charAt(0).toUpperCase() + language.val.slice(1) + "</span>";
+    //                searchLang += "<span class='issue_num'>" + language.count + "</span>";
+    //                searchLang += "</a></li>";
+    //            }
+    //        });
+    //
+    //        $("#searchLang").html(searchLang);
+    //
+    //        $.each(severities, function (index, severitiy) {
+    //
+    //            if (severitiy.val == "MAJOR") {
+    //                $("#severityMajorNum").text(severitiy.count);
+    //            }
+    //
+    //            if (severitiy.val == "MINOR") {
+    //                $("#severityMinorNum").text(severitiy.count);
+    //            }
+    //
+    //            if (severitiy.val == "CRITICAL") {
+    //                $("#severityCriticalNum").text(severitiy.count);
+    //            }
+    //
+    //            if (severitiy.val == "INFO") {
+    //                $("#severityInfoNum").text(severitiy.count);
+    //            }
+    //
+    //            if (severitiy.val == "BLOCKER") {
+    //                $("#severityBlockerNum").text(severitiy.count);
+    //            }
+    //        });
+    //
+    //    };
+
 
 </script>

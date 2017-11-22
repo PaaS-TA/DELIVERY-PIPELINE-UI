@@ -7,7 +7,6 @@ import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
 import paasta.delivery.pipeline.ui.qualityProfile.QualityProfile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -23,29 +22,24 @@ public class CodingRulesService {
     @Autowired
     private RestTemplateService restTemplateService;
 
+
     /**
-     * Gets coding rule list.
+     * Gets coding rules.
      *
-     * @param qprofile  the qprofile
-     * @param languages the languages
-     * @param facets    the facets
-     * @return the coding rule list
+     * @param codingRules the coding rules
+     * @return the coding rules
      */
-    public CodingRules getCodingRuleList(String qprofile, String languages, String facets) {
-        String reqUrl = REQ_URL_Inspection + "?qprofile="+qprofile+"&languages="+languages+"&facets="+facets;
+    public CodingRules getCodingRules(CodingRules codingRules) {
+
+        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection, codingRules);
+
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, CodingRules.class);
     }
 
+
+
     //TODO -------------------------------------------
-    /**
-     * CodingRules 검색 조건
-     *
-     * @param
-     * @return List map
-     */
-    public Map getCodingRulesCondition(){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/condition", HttpMethod.GET, null, Map.class);
-    }
+
 
     /**
      * CodingRules 프로파일명 검색
@@ -69,33 +63,15 @@ public class CodingRulesService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/codingRulesDeteil?key="+codingRules.getKey()+"&actives="+codingRules.getActives(), HttpMethod.GET, codingRules, Map.class);
     }
 
+    //TODO --- 문선임 쓰고 있음
     /**
-     * CodingRules 프로파일 추가
+     *  CodingRules 검색 조건
      *
-     * @param codingRules the coding rules
-     * @return CodingRules coding rules
+     * @param
+     * @return List
      */
-    public CodingRules createCodingRulesProfile(CodingRules codingRules){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/codingRulesProfileAdd", HttpMethod.POST, codingRules, CodingRules.class);
+    public Map getCodingRulesCondition(){
+        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/condition", HttpMethod.GET, null, Map.class);
     }
 
-    /**
-     * CodingRules 프로파일 추가
-     *
-     * @param codingRules the coding rules
-     * @return CodingRules coding rules
-     */
-    public CodingRules deleteCodingRulesProfile(CodingRules codingRules){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/codingRulesProfileDelete", HttpMethod.POST, codingRules, CodingRules.class);
-    }
-
-    /**
-     * CodingRules 프로파일 변경
-     *
-     * @param codingRules the coding rules
-     * @return coding rules
-     */
-    public CodingRules updateCodingRulesProfile(CodingRules codingRules){
-        return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection+"/codingRulesProfileUpdate", HttpMethod.POST, codingRules, CodingRules.class);
-    }
 }

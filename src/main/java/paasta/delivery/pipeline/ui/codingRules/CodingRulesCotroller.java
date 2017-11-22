@@ -6,17 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import paasta.delivery.pipeline.ui.common.CommonService;
+import paasta.delivery.pipeline.ui.qualityProfile.QualityProfile;
 import paasta.delivery.pipeline.ui.qualityProfile.QualityProfileService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The type Coding rules cotroller.
  */
 @RestController
-@RequestMapping(value="/dashboard/{serviceInstancesId}")
+@RequestMapping(value="/dashboard/{serviceInstanceId}")
 public class CodingRulesCotroller {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodingRulesCotroller.class);
@@ -30,40 +33,159 @@ public class CodingRulesCotroller {
     @Autowired
     private QualityProfileService qualityProfileService;
 
-
     /**
-     * Gets coding rules list.
-     *
-     * @param qprofile  the qprofile
-     * @param languages the languages
-     * @param facets    the facets
-     * @return the coding rules list
-     */
-    @GetMapping(value = {BASE_URL+"/codingRules.do"})
-    @ResponseBody
-    public CodingRules getCodingRulesList(@RequestParam(value = "qprofile", required = true) String qprofile,
-                                          @RequestParam(value = "languages", required = false) String languages,
-                                          @RequestParam(value = "facets", required = true) String facets) {
-        return codingRulesService.getCodingRuleList(qprofile, languages, facets);
-    }
-
-
-    //TODO -------------------------------------------
-
-    /**
-     * CodingRules 리스트 페이지
+     * Get coding rules list page model and view.
      *
      * @param httpServletRequest the http servlet request
-     * @param codingRules        the coding rules
-     * @return List model and view
+     * @param serviceInstanceId  the service instance id
+     * @return the model and view
      */
-    @RequestMapping(value = BASE_URL+"/dashboard", method = RequestMethod.GET)
-    public ModelAndView getCodingRulesListPage(HttpServletRequest httpServletRequest, @ModelAttribute CodingRules codingRules){
+    @GetMapping(value = BASE_URL + "/dashboard")
+    public ModelAndView getCodingRulesListPage(HttpServletRequest httpServletRequest, @PathVariable String serviceInstanceId){
         ModelAndView mv = new ModelAndView();
-        mv.addObject("codingRules", codingRules);
-        //공통 serviceInstancesId 셋팅하기
+
+        // ------- Coding Rules Default Search condition
+        CodingRules codingRules = new CodingRules();
+        // 1-based page number
+        codingRules.setP(1);
+        // Page size. Must be greater than 0 and less than 500
+        codingRules.setPs(15);
+        // Comma-separated list of the facets to be computed. No facet is computed by default.
+        codingRules.setFacets("languages,severities");
+        // Comma-separated list of the fields to be returned in response.
+        codingRules.setF("name,lang,langName,sysTags,tags,status,severity");
+        // Sort field : name, updatedAt, createdAt, key
+        codingRules.setS("name");
+        // Ascending sort : true(default), false, yes, no
+        codingRules.setAsc("true");
+        // Comma-separated list of languages :: 현재 java 만 지원하므로 java 설정
+        codingRules.setLanguages("java");
+
+        CodingRules data = codingRulesService.getCodingRules(codingRules);
+
+        ((List)data.getFacets()).forEach(e -> {
+            if ("languages".equals((String)((Map)e).get("property"))) {
+                // 개발 언어 목록 + Count
+                mv.addObject("languages", ((Map)e).get("values"));
+            }
+            if ("severities".equals((String)((Map)e).get("property"))) {
+                // 이슈 수준 + Count
+                mv.addObject("severities", ((List)((Map)e).get("values")).stream()
+                        .collect(Collectors.toMap(s -> (((Map)s).get("val")), s -> ((Map)s).get("count"))));
+            }
+        });
+        data.setCondition(codingRules);
+        // 전체 Coding Rules
+        mv.addObject("rules", data.getRules());
+        mv.addObject("codingRules", data);
+
+        // 품질 프로파일 목록
+        QualityProfile param = new QualityProfile();
+        param.setServiceInstanceId(serviceInstanceId);
+        // 현재 java 만 지원
+        param.setLanguage("java");
+
+        mv.addObject("qualityProfiles", qualityProfileService.getQualityProfileList(param));
+
+        //공통 serviceInstanceId 셋팅하기
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/codingRulesList", mv);
     }
+
+
+    /**
+     * Gets coding rules.
+     *
+     * @param codingRules the coding rules
+     * @return the coding rules
+     */
+    @GetMapping(value=BASE_URL + "/codingRules.do")
+    @ResponseBody
+    public Map getCodingRules(@ModelAttribute CodingRules codingRules) {
+
+        // 기본 parameter 설정
+        codingRules.setF("name,lang,langName,severity,severity");
+        codingRules.setFacets("languages,severities");
+
+        Map result = new HashMap();
+
+        CodingRules data = codingRulesService.getCodingRules(codingRules);
+
+        ((List)data.getFacets()).forEach(e -> {
+            if ("languages".equals((String)((Map)e).get("property"))) {
+                // 개발 언어 목록 + Count
+                result.put("languages", ((Map)e).get("values"));
+            }
+            if ("severities".equals((String)((Map)e).get("property"))) {
+                // 이슈 수준 + Count
+                result.put("severities", ((List)((Map)e).get("values")).stream()
+                        .collect(Collectors.toMap(s -> (((Map)s).get("val")), s -> ((Map)s).get("count"))));
+            }
+        });
+
+        data.setCondition(codingRules);
+        // 전체 Coding Rules
+        result.put("rules", data.getRules());
+        result.put("codingRules", data);
+
+        // 품질 프로파일 목록
+        return result;
+
+    }
+
+    /**
+     * Activate rule quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    @PostMapping(value=BASE_URL + "/activateRule.do")
+    @ResponseBody
+    public QualityProfile activateRule (@RequestBody QualityProfile qualityProfile) {
+
+        return qualityProfileService.activateRule(qualityProfile);
+
+    }
+
+    /**
+     * Deactivate rule quality profile.
+     *
+     * @param qualityProfile the quality profile
+     * @return the quality profile
+     */
+    @PostMapping(value=BASE_URL + "/deactivateRule.do")
+    @ResponseBody
+    public QualityProfile deactivateRule (@RequestBody QualityProfile qualityProfile) {
+
+        return qualityProfileService.deactivateRule(qualityProfile);
+
+    }
+
+    /**
+     * Get quality profile list list.
+     *
+     * @param serviceInstanceId the service instance id
+     * @return the list
+     */
+    @GetMapping(value = BASE_URL + "/qualityProfileList.do")
+    @ResponseBody
+    public List getQualityProfileList(@PathVariable String serviceInstanceId){
+
+        // 프로파일 조회
+        QualityProfile param = new QualityProfile();
+        param.setServiceInstanceId(serviceInstanceId);
+        // 현재 java 만 지원
+        param.setLanguage("java");
+
+        List result = qualityProfileService.getQualityProfileList(param);
+
+        return result;
+
+    }
+
+
+        //TODO -------------------------------------------
+
+
 
     /**
      * CodingRules detail 페이지
@@ -82,31 +204,6 @@ public class CodingRulesCotroller {
 
 
     /**
-     * CodingRules 검색 조건
-     *
-     * @param
-     * @return List map
-     */
-    @RequestMapping(value={BASE_URL+"/codingRulesCondition.do"}, method = RequestMethod.GET)
-        public  Map getCodingRulesCondition(){
-        return codingRulesService.getCodingRulesCondition();
-    }
-
-
-    /**
-     *  CodingRules 프로파일명 검색
-     *
-     * @param
-     * @return Map
-     */
-    @RequestMapping(value = BASE_URL+"/qualityProfileList.do", method = RequestMethod.GET)
-    @ResponseBody
-    public List getQualityProfileList(@PathVariable String serviceInstancesId){
-        return qualityProfileService.getQualityProfileList(serviceInstancesId);
-    }
-
-
-    /**
      * CodingRules 상세 페이지
      *
      * @param codingRues the coding rues
@@ -118,44 +215,6 @@ public class CodingRulesCotroller {
        
         Map<String,Object> list = codingRulesService.getCodingRulesDeteil(codingRues);
         return list;
-    }
-
-    /**
-     * CodingRules 프로파일 추가
-     *
-     * @param codingRules the coding rules
-     * @return coding rules
-     */
-    @RequestMapping(value = BASE_URL+"/codingRulesProfileAdd.do", method = RequestMethod.POST)
-    @ResponseBody
-    public CodingRules createCodingRulesProfile(@RequestBody CodingRules codingRules){
-        return codingRulesService.createCodingRulesProfile(codingRules);
-    }
-
-
-    /**
-     * CodingRules 프로파일 제거
-     *
-     * @param codingRules the coding rules
-     * @return coding rules
-     */
-    @RequestMapping(value = BASE_URL+"/codingRulesProfileDelete.do", method = RequestMethod.POST)
-    @ResponseBody
-    public CodingRules deleteCodingRulesProfile(@RequestBody CodingRules codingRules){
-        return codingRulesService.deleteCodingRulesProfile(codingRules);
-    }
-
-
-    /**
-     * CodingRules 프로파일 변경
-     *
-     * @param codingRules the coding rules
-     * @return coding rules
-     */
-    @RequestMapping(value = BASE_URL+"/codingRulesProfileUpdate.do" ,method = RequestMethod.POST)
-    @ResponseBody
-    public CodingRules updateCodingRulesProfile(@RequestBody CodingRules codingRules){
-        return codingRulesService.updateCodingRulesProfile(codingRules);
     }
 
 

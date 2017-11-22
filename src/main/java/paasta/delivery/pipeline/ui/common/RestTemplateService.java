@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 import paasta.delivery.pipeline.ui.exception.CustomException;
 import paasta.delivery.pipeline.ui.job.Job;
 
@@ -310,6 +312,29 @@ public class RestTemplateService {
 
         this.base64Authorization = authorization;
         this.baseUrl = apiUrl;
+    }
+
+    /**
+     * Make query param string.
+     *
+     * @param reqUrl the req url
+     * @param obj    the obj
+     * @return the string
+     */
+    public String makeQueryParam(String reqUrl, Object obj) {
+        ObjectMapper om = new ObjectMapper();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(reqUrl);
+        Map<String, Object> codingRulesMap = om.convertValue(obj, Map.class);
+
+        for(String key : codingRulesMap.keySet()) {
+
+            if (codingRulesMap.get(key) != null) {
+                builder.queryParam( key, codingRulesMap.get(key) );
+            }
+        }
+        return builder.build().encode().toUriString();
+
     }
 
 }
