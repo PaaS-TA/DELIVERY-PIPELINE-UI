@@ -29,9 +29,10 @@ public class QualityIssuesController {
     private final CodingRulesService codingRulesService;
 
     private final Logger LOGGER = getLogger(getClass());
+
     @Autowired
     public QualityIssuesController(QualityIssuesService qualityIssuesService, CommonService commonService
-            ,ProjectService projectService,CodingRulesService codingRulesService){
+            , ProjectService projectService, CodingRulesService codingRulesService) {
         this.qualityIssuesService = qualityIssuesService;
         this.commonService = commonService;
         this.projectService = projectService;
@@ -40,95 +41,93 @@ public class QualityIssuesController {
 
 
     /**
-     *  qualityIssues 페이지 이동
+     * qualityIssues 페이지 이동
      *
      * @param
      * @return
      */
     @RequestMapping(value = BASE_URL + "/dashboard", method = RequestMethod.GET)
-    public ModelAndView qualityIssuesPage(HttpServletRequest httpServletRequest ){
+    public ModelAndView qualityIssuesPage(HttpServletRequest httpServletRequest) {
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/qualityIssuesList", new ModelAndView());
     }
 
 
     /**
-     *  qualityIssues 리스트
+     * qualityIssues 리스트
      *
      * @param
      * @return
      */
     @RequestMapping(value = BASE_URL + "/qualityIssuesList.do", method = RequestMethod.POST)
-    public QualityIssues qualityIssuesList(@RequestBody QualityIssues qualityIssues){
+    public QualityIssues qualityIssuesList(@RequestBody QualityIssues qualityIssues) {
         return qualityIssuesService.qualityIssuesList(qualityIssues);
     }
 
     /**
-     *  qualityIssues project 리스트
+     * qualityIssues project 리스트
      *
      * @param
      * @return
      */
     @RequestMapping(value = BASE_URL + "/issuesConditionList.do", method = RequestMethod.POST)
-    public List<QualityIssues> getIssuesConditionList(@RequestBody QualityIssues qualityIssues ){
+    public List<QualityIssues> getIssuesConditionList(@RequestBody QualityIssues qualityIssues) {
         return qualityIssuesService.getIssuesConditionList(qualityIssues);
     }
 
     /**
-     *  qualityIssues project 리스트
+     * qualityIssues project 리스트
      *
      * @param project
      * @return List
      */
-    @RequestMapping(value = BASE_URL+"/projectList.do", method = RequestMethod.POST)
-    public List getProjectList(@RequestBody Project project){
+    @RequestMapping(value = BASE_URL + "/projectList.do", method = RequestMethod.POST)
+    public List getProjectList(@RequestBody Project project) {
         return projectService.getProjectList(project);
     }
 
 
-
     /**
-     *  qualityIssues language 리스트
+     * qualityIssues language 리스트
      *
      * @param
      * @return
      */
-    @RequestMapping(value = BASE_URL +"/getLanguageList.do", method = RequestMethod.GET)
-    public Map getLangguageList(){
-        return codingRulesService.getCodingRulesCondition();
+    @RequestMapping(value = BASE_URL + "/getLanguageList.do", method = RequestMethod.GET)
+    public List getLangguageList() {
+        return qualityIssuesService.getLanguge();
     }
 
     /**
-     *  qualityIssues language 리스트
+     * qualityIssues language 리스트
      *
      * @param
      * @return
      */
-    @RequestMapping(value = BASE_URL+"/qualityIssuesDetail.do", method = RequestMethod.GET)
-    public List getQualityIssuesDetail(QualityIssues qualityIssues){
+    @RequestMapping(value = BASE_URL + "/qualityIssuesDetail.do", method = RequestMethod.GET)
+    public List getQualityIssuesDetail(QualityIssues qualityIssues) {
         return qualityIssuesService.getQualityIssuesDetail(qualityIssues);
     }
 
 
-
     /**
-     *  qualityIssues issues 설정
+     * qualityIssues issues 설정
      *
      * @param
      * @return
      */
-    @RequestMapping(value = BASE_URL+"/setSeverity.do", method = RequestMethod.POST)
-    public Object setSeverity(@RequestBody QualityIssues qualityIssues){
+    @RequestMapping(value = BASE_URL + "/setSeverity.do", method = RequestMethod.POST)
+    public Object setSeverity(@RequestBody QualityIssues qualityIssues) {
         return qualityIssuesService.setSeverity(qualityIssues);
     }
 
     /**
-     *  qualityIssues issues 활성 설정
+     * qualityIssues issues 활성 설정
      *
      * @param
      * @return
      */
-    @RequestMapping(value = BASE_URL+"/setTransition.do", method = RequestMethod.POST)
-    public QualityIssues setTransition(@RequestBody QualityIssues qualityIssues){
+    @RequestMapping(value = BASE_URL + "/setTransition.do", method = RequestMethod.POST)
+    public QualityIssues setTransition(@RequestBody QualityIssues qualityIssues) {
         return qualityIssuesService.setTransition(qualityIssues);
     }
 
