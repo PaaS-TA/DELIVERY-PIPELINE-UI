@@ -332,14 +332,13 @@
 
         if (data != undefined && data.length != 0) {
 
-            //data 정렬
-            data.components.sort(function (a, b) {
-                return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-            });
-
-
             $("#issuesTotal").val(data.total);
             if (data.components != null && data.components.length > 0) {
+                //data 정렬
+                data.components.sort(function (a, b) {
+                    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+                });
+
                 for (var j = 0; j < data.components.length; j++) {
                     if (data.components[j].qualifier == "FIL") {
                         listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
