@@ -10,10 +10,15 @@
 
 
 <style>
-    .sub_tab_cont00, .sub_tab_cont01 .sub_tab_cont02 {
-        height: 50px;
+    .sub_tab_cont00 {
+        height: 200px;
     }
-
+    .sub_tab_cont01 {
+        height: 200px;
+    }
+    .sub_tab_cont02 {
+        height: 200px;
+    }
     .right {
         position: absolute;
         right: 10px;
@@ -128,8 +133,8 @@
                     </div>
                     <!--//sub_tab :e -->
                     <!-- sub탭 콘텐츠01 :s -->
-                    <div class="sub_tab_cont00">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
+                    <div class="sub_tab_cont00 mts">
+                        <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
                             <table summary="연결된 프로젝트 리스트 테이블입니다." class="BasicTable">
                                 <caption>연결된 프로젝트 리스트</caption>
@@ -149,7 +154,7 @@
                     <!--//sub탭 콘텐츠01 :e -->
                     <!-- sub탭 콘텐츠02 :s -->
                     <div class="sub_tab_cont01 mTs" style="display:none;">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
+                        <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
                             <table summary="미연결 프로젝트 리스트 테이블입니다." class="BasicTable">
                                 <caption>미연결 프로젝트 리스트</caption>
@@ -180,7 +185,7 @@
                     <!--//sub탭 콘텐츠02 :e -->
                     <!-- sub탭 콘텐츠03 :s -->
                     <div class="sub_tab_cont02 mTs" style="display:none;">
-                        <div class="tab_content tbl_scroll" style="height:310px;">
+                        <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
                             <table summary="전체 프로젝트 리스트 테이블입니다." class="BasicTable">
                                 <caption>전체 프로젝트 리스트</caption>
