@@ -364,7 +364,7 @@
 
 
                 listHead += "<tbody  class='tbodyDatas'>";
-                listHead += "<tr><td class='alignC'>검색한 데이터가 없습니다.</td></tr>";
+                listHead += "<tr><td class='alignC'>검색된 데이터가 없습니다.</td></tr>";
                 listHead += "</tbody>";
                 listHead += "</table>";
 
@@ -543,16 +543,17 @@
         procCallAjax("/qualityIssues/getLanguageList.do", null, callbackGetIssueLanguageList);
     }
 
-    var callbackGetIssueLanguageList = function (data) {
+    var callbackGetIssueLanguageList = function (data) {        ;
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
         var list = "";
-        if (data.languages.length > 0) {
-            for (var i = 0; i < data.languages.length; i++) {
+        if (data.length > 0) {
+            for (var i = 0; i < data.length; i++) {
+
                 //언어 추가시 a태그에 이벤트 추가하여 선택되도록 변경해야함
-                if(data.languages[i].name == "Java"){
-                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\"><input type='checkbox' id='' name='chklanguage' value='" + data.languages[i].key + "' disabled='disabled' checked='checked'> <span class='block'>" + data.languages[i].name + "</span> <span class='issue_num'></span></a></li>";
+                if(data[i].name == "Java"){
+                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\"><input type='checkbox' id='' name='chklanguage' value='" + data[i].key + "' disabled='disabled' checked='checked'> <span class='block'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
                 }else{
-                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\><input type='checkbox' id='' name='' value='" + data.languages[i].key + "' disabled='disabled'> <span class='block'>" + data.languages[i].name + "(추후지원)</span> <span class='issue_num'></span></a></li>";
+                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\><input type='checkbox' id='' name='' value='" + data[i].key + "' disabled='disabled'> <span class='block'>" + data[i].name + "(추후지원)</span> <span class='issue_num'></span></a></li>";
                 }
             }
         }

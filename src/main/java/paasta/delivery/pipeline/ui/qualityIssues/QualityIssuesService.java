@@ -5,6 +5,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
+import paasta.delivery.pipeline.ui.qualityProfile.QualityProfileService;
 
 import java.util.List;
 
@@ -20,9 +21,12 @@ public class QualityIssuesService {
 
     private final RestTemplateService restTemplateService;
 
+    private final QualityProfileService qualityProfileService;
+
     @Autowired
-    public QualityIssuesService(RestTemplateService restTemplateService) {
+    public QualityIssuesService(RestTemplateService restTemplateService,QualityProfileService qualityProfileService) {
         this.restTemplateService = restTemplateService;
+        this.qualityProfileService = qualityProfileService;
     }
 
 
@@ -77,4 +81,15 @@ public class QualityIssuesService {
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, REQ_URL_Inspection + "/setTransition", HttpMethod.POST, qualityIssues, QualityIssues.class);
     }
 
+
+
+    /**
+     * QualityIssues 검색조건 언어설정
+     *
+     * @param
+     * @return QualityIssues
+     */
+    public List getLanguge() {
+        return qualityProfileService.getQualityProfileLanguages();
+    }
 }
