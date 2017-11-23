@@ -376,6 +376,7 @@
             return false;
         }
 
+        // CHECK UPDATED REPOSITORY BRANCH
         if (repositoryBranch === "") {
             repositoryBranch = doc.getElementById('originalRepositoryBranch').value
         }
@@ -396,7 +397,7 @@
             jobTrigger: $(':input:radio[name=buildJobTrigger]:checked').val(),
             groupOrder: doc.getElementById('groupOrder').value,
             jobOrder: doc.getElementById('jobOrder').value,
-            repositoryType: doc.getElementById('repositoryType').value,
+            repositoryType: repositoryType,
             repositoryUrl: doc.getElementById('repositoryUrl').value,
             repositoryAccountId: doc.getElementById('repositoryAccountId').value,
             repositoryAccountPassword: doc.getElementById('repositoryAccountPassword').value,
@@ -437,10 +438,18 @@
 
     // BIND
     $("#btnUpdate").on("click", function() {
-        if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === document.getElementById('repositoryType').value) {
+        var doc = document;
+
+        // CHECK REPOSITORY URL
+        if (doc.getElementById('repositoryUrl').value.indexOf(" ") > -1) {
+            procPopupAlert("레파지토리 경로를 확인하십시오.", "$('#repositoryUrl').focus();");
+            return false;
+        }
+
+        if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === doc.getElementById('repositoryType').value) {
             getScmSvnInfo();
         } else {
-            getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value, "job", "update");
+            getGrantedAuthorities(doc.getElementById('pipelineIdControlAuthority').value, "job", "update");
             /*for(var i = 0; i < grAry.length; i++){
                 if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                     if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){

@@ -257,6 +257,7 @@
             originalInspectionProfileKey = $('#originalInspectionProfileKey').val(),
             inspectionProfileKey = '',
             selectedCss = '',
+            profileName = '',
             listNumber = 0,
             htmlString = [];
 
@@ -266,7 +267,11 @@
             inspectionProfileKey = data[i].key;
             selectedCss = (originalInspectionProfileKey === inspectionProfileKey)? ' selected' : '';
             listNumber++;
-            htmlString.push('<option value="' + inspectionProfileKey + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+
+            profileName = data[i].name;
+            profileName = profileName.toString().indexOf("^") > 0 ? profileName.toString().split("^")[1] : profileName;
+
+            htmlString.push('<option value="' + data[i].key + '"' + selectedCss + '>' + listNumber + '. ' + profileName + '</option>');
         }
 
         $('#inspectionProfileKey').html(htmlString);

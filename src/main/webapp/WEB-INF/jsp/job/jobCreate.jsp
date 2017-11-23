@@ -89,6 +89,7 @@
 
         var listLength = data.length,
             selectedCss = '',
+            profileName = '',
             listNumber = 0,
             htmlString = [];
 
@@ -97,7 +98,11 @@
         for (var i = 0; i < listLength; i++) {
             selectedCss = (listNumber === 0)? ' selected' : '';
             listNumber++;
-            htmlString.push('<option value="' + data[i].key + '"' + selectedCss + '>' + listNumber + '. ' + data[i].name + '</option>');
+
+            profileName = data[i].name;
+            profileName = profileName.toString().indexOf("^") > 0 ? profileName.toString().split("^")[1] : profileName;
+
+            htmlString.push('<option value="' + data[i].key + '"' + selectedCss + '>' + listNumber + '. ' + profileName + '</option>');
         }
 
         $('#inspectionProfileKey').html(htmlString);
@@ -673,11 +678,18 @@
 
     // BIND
     $(".btnCreate").on("click", function() {
-        var classArray = $(this).attr('class').split(" "),
+        var doc = document,
+            classArray = $(this).attr('class').split(" "),
             reqJobType = classArray[classArray.length - 1];
 
         if ("<%= Constants.JOB_TYPE_BUILD %>" === reqJobType) {
-            if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === document.getElementById('repositoryType').value) {
+            // CHECK REPOSITORY URL
+            if (doc.getElementById('repositoryUrl').value.indexOf(" ") > -1) {
+                procPopupAlert("레파지토리 경로를 확인하십시오.", "$('#repositoryUrl').focus();");
+                return false;
+            }
+
+            if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === doc.getElementById('repositoryType').value) {
                 getScmSvnInfo();
             } else {
                 createBuildJob();
