@@ -32,9 +32,9 @@
                     <div class="pl12 mt10">
                         <form id="" method="post" action="">
                             <div class="lnb_search">
-                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; getCodingRules(''); }"/>
+                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />
                                 <%--<input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />--%>
-                                <a class="btn_search" href="javascript:getCodingRules();" title="검색"></a>
+                                <a class="btn_search" href="#none" title="검색"></a>
                             </div>
                         </form>
                     </div>
@@ -85,19 +85,21 @@
                             </li>
                         </div>
                         <h4>품질 프로파일 (Quality Profile)</h4>
-                        <li>
+                        <li id="listProfileCondition_">
                             <a id="qualityProfile_all" data-profileKey="" href="#none">
                                 <%--<input type="checkbox" data-profileKey="all" name="qualityProfile_all" id="qualityProfile_all" value="${qualityProfile.name}">--%>
                                 <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer"><span class="block" style="width:220px;">${qualityProfile.name}</span></label>--%>
-                                <span class="block" style="width:220px;">All Quality Profile</span>
+                                <span class="block" style="width:220px;">전체 보기</span>
                             </a>
                         </li>
                         <c:forEach items="${qualityProfiles}" var="qualityProfile" varStatus="status">
-                            <li>
+                            <li id="listProfileCondition_${qualityProfile.key}">
                                 <a id="qualityProfile_${qualityProfile.key}" data-profileKey=${qualityProfile.key} href="#none">
                                     <%--<input type="checkbox" data-profileKey=${qualityProfile.key} name="${qualityProfile.key}" id="chk_profile_${qualityProfile.key}" value="${qualityProfile.name}">--%>
                                     <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer">--%>
-                                        <span class="block" style="width:220px;">${qualityProfile.name}</span>
+                                        <span class="block" style="width:220px;">
+                                            ${fn:indexOf(qualityProfile.name, "^") > 0 ? fn:split(qualityProfile.name,"^")[1] : qualityProfile.name}
+                                        </span>
                                     <%--</label>--%>
                                 </a>
                             </li>
@@ -285,9 +287,12 @@
     $("a[id^='qualityProfile_']").on("click", function () {
 
         var profileKey = $(this).data().profilekey;
-//        console.log(" ::: profileKey ::: "+ profileKey);
         $("#conditionProfileKey").val(profileKey);
 
+        // remove class
+        $("ul.mt10").find("li").removeClass("custom-profile-selected");
+        // 선택 프로파일 add class
+        $("#listProfileCondition_"+profileKey).addClass("custom-profile-selected");
         getCodingRules();
 
 
@@ -295,7 +300,7 @@
     // 이슈 수준 선택
     $("input[id^='chk_severity_']").on("click", function () {
         var chk_select = $(this).val();
-        console.log(" ::: checkbox select ::: "+ chk_select);
+        // console.log(" ::: checkbox select ::: "+ chk_select);
         getCodingRules();
     });
 
@@ -307,10 +312,10 @@
 
         $("#selectedRuleKey").val(activateRule);
 
-        console.log(" ::: activate rule ::: " + activateRule + ">>>"+ id + ":::"+ $(this).text());
+        // console.log(" ::: activate rule ::: " + activateRule + ">>>"+ id + ":::"+ $(this).text());
 
         if (id.toString().match("btn_deactivate_")) {
-            console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
+            // console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
 
             var btnText = "제거";
             var reqTitle = $(this).text();
@@ -366,6 +371,20 @@
             }
         });
     };
+
+    // 검색
+    $("#search_keyword").keydown(function(evt) {
+        if (evt.keyCode == 13) {
+            getCodingRules();
+            return false;
+        }
+
+
+    });
+    $(".btn_search").on("click", function () {
+        getCodingRules();
+
+    });
     //////////////////////////////////////////////////////////////////////
     // Coding Rules 조회
     var getCodingRules = function () {
@@ -388,9 +407,9 @@
                 chkSeverities += ","+e.value;
             }
         });
-        console.log("condition ::: chkSeverities ::: "+chkSeverities);
+        // console.log("condition ::: chkSeverities ::: "+chkSeverities);
         // 품질 프로파일
-        console.log("condition ::: profile ::: "+$("#conditionProfileKey").val());
+        // console.log("condition ::: profile ::: "+$("#conditionProfileKey").val());
 
 
         // 페이지 번호
@@ -409,7 +428,8 @@
         if ($("#conditionProfileKey").val()!= "") {
             paramstr += "&activation=true";
         }
-        console.log("condition ::: paramstr ::: "+paramstr);
+
+        // console.log("condition ::: paramstr ::: "+paramstr);
 
         var reqUrl = "/codingRules/codingRules.do?";
 
@@ -422,7 +442,7 @@
             return false;
         }
 
-        console.log("SUCCESS");
+        // console.log("SUCCESS");
 
         var languages = data.languages;
 
@@ -451,21 +471,27 @@
 
         // Coding Rules list
         var codingRulesData = "";
-        $.each(data.rules, function (index, rule) {
-            codingRulesData += "<tr>";
-            codingRulesData += "<td class='rule_tit'>"+rule.name+"</td>";
-            codingRulesData += "<td class='alignC'><i class='ico_"+rule.severity.toString().toLowerCase()+"'></i></td>";
-            codingRulesData += "<td class='alignC'>"+rule.langName+"</td>";
-            codingRulesData += "<td class='alignC'><button type='button' data-ruleKey='"+rule.key+"'";
-            if ($("#conditionProfileKey").val() != "") {
-                codingRulesData += " id='btn_deactivate_"+rule.key+"' class='button quality_btn'>프로파일에 제거";
-            } else {
-                codingRulesData += " id='btn_activate_"+rule.key+"' class='button quality_btn'>프로파일에 추가";
-            }
-            codingRulesData += "</td>";
-            codingRulesData += "</tr>";
-        });
 
+        if (data.rules.length > 0) {
+
+            $.each(data.rules, function (index, rule) {
+                codingRulesData += "<tr>";
+                codingRulesData += "<td class='rule_tit'>"+rule.name+"</td>";
+                codingRulesData += "<td class='alignC'><i class='ico_"+rule.severity.toString().toLowerCase()+"'></i></td>";
+                codingRulesData += "<td class='alignC'>"+rule.langName+"</td>";
+                codingRulesData += "<td class='alignC'><button type='button' data-ruleKey='"+rule.key+"'";
+                if ($("#conditionProfileKey").val() != "") {
+                    codingRulesData += " id='btn_deactivate_"+rule.key+"' class='button quality_btn'>프로파일에 제거";
+                } else {
+                    codingRulesData += " id='btn_activate_"+rule.key+"' class='button quality_btn'>프로파일에 추가";
+                }
+                codingRulesData += "</td>";
+                codingRulesData += "</tr>";
+            });
+
+        } else {
+            codingRulesData += "<tr><td class='rule_tit'> 프로파일에 속한 코딩 규칙이 없습니다.</td></tr>";
+        }
         $("#codingRulesData").html("");
         $("#codingRulesData").html(codingRulesData);
         procCallSpinner(SPINNER_STOP);
@@ -485,11 +511,13 @@
             return false;
         }
         var selectProfile = "";
+        var profileName;
 
         $.each(data, function (index, profile) {
+            profileName = profile.name.toString().indexOf("^") > 0 ? profile.name.toString().split("^")[1] : profile.name
 
             selectProfile += "<option value='" + profile.key + "'>";
-            selectProfile += profile.name + "</option>";
+            selectProfile += profileName + "</option>";
 
         });
         $("#popupProfileAdd").html(selectProfile);
@@ -502,9 +530,9 @@
         var popupSeverity = $('#popupSeverityAdd').val();
         var ruleKey = $("#selectedRuleKey").val();
 
-        console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
-        console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
-        console.log("=== Activate_rule :: severity :: "+ popupSeverity);
+        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
+        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
 
         var reqParam = {
             serviceInstanceId : $("#serviceInstanceId").val(),
@@ -532,8 +560,8 @@
         var profileKey = $('#conditionProfileKey').val();
         var ruleKey = $("#selectedRuleKey").val();
 
-        console.log("=== Activate_rule :: profile_key :: "+ profileKey);
-        console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        // console.log("=== Activate_rule :: profile_key :: "+ profileKey);
+        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
 
         var reqParam = {
             serviceInstanceId : $("#serviceInstanceId").val(),
@@ -552,100 +580,9 @@
         }
 
         // 해당 프로파일 Rule 페이지 리로딩
-//        var profileKey = data.profileKey;
-//        var profileKey = $(this).data().profilekey;
-//        console.log(" ::: profileKey ::: "+ profileKey);
-//        $("#conditionProfileKey").val(profileKey);
         procPopupAlert('제거 되었습니다.');
         getCodingRules();
 
     };
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//
-//    //loding bar
-//    $(window).scroll(function(){
-//        if($("#crDetail").css("display") == "none"){
-//            if($(window).scrollTop() >= $(document).height() - $(window).height()){
-//                var pageSize = $("#crPaging").val();
-//                var pageTotal = $("#totalPage").val();
-//                if(pageSize < pageTotal ) {
-//                    var loadingImg = "<tr id='lodingTable' ><td colspan='3' class='alignC'><img src = '/resources/images/img_loading.gif'></td></tr>";
-//                    $("#tbodyData > :last").html(loadingImg);
-//
-//
-//                    if (pageSize != "") {
-//                        pageSize = parseInt(pageSize) + 50;
-//                        $("#crPaging").val(pageSize);
-//                    } else {
-//                        pageSize = 0;
-//                        pageSize = parseInt(pageSize) + 50;
-//                        $("#crPaging").val(pageSize);
-//                    }
-//                    getCodingRules();
-//                }else{
-//                    $("#lodingTable").hide();
-//                }
-//            }
-//        }
-//    });
-    //    // Left :: 개발언어, 이슈수준 목록 조회
-    //    var getCodingRulesCondition = function () {
-    //        var reqUrl = "/codingRules/codingRulesCondition.do";
-    //
-    //        procCallAjax(reqUrl, null, callbackGetCodingRulesCondition);
-    //    };
-    //    // [Collback] Left :: 개발언어, 이슈수준 목록 조회
-    //    var callbackGetCodingRulesCondition = function (data) {
-    //
-    //        if (RESULT_STATUS_FAIL === data.resultStatus) {
-    //            return false;
-    //        }
-    //
-    //        var languages = data.languages;
-    //        var severities = data.severities;
-    //        var searchLang = "";
-    //
-    //        $.each(languages, function (index, language) {
-    //
-    //            if (language.val.toUpperCase() == "JAVA") {
-    //                console.log(" language ::::: "+ language.val);
-    //                searchLang += "<li><a href='#'>";
-    //                searchLang += "<input type='checkbox' id='Checkbox1' value='option1'>";
-    //                searchLang += "<span class='block'>" + language.val.charAt(0).toUpperCase() + language.val.slice(1) + "</span>";
-    //                searchLang += "<span class='issue_num'>" + language.count + "</span>";
-    //                searchLang += "</a></li>";
-    //            }
-    //        });
-    //
-    //        $("#searchLang").html(searchLang);
-    //
-    //        $.each(severities, function (index, severitiy) {
-    //
-    //            if (severitiy.val == "MAJOR") {
-    //                $("#severityMajorNum").text(severitiy.count);
-    //            }
-    //
-    //            if (severitiy.val == "MINOR") {
-    //                $("#severityMinorNum").text(severitiy.count);
-    //            }
-    //
-    //            if (severitiy.val == "CRITICAL") {
-    //                $("#severityCriticalNum").text(severitiy.count);
-    //            }
-    //
-    //            if (severitiy.val == "INFO") {
-    //                $("#severityInfoNum").text(severitiy.count);
-    //            }
-    //
-    //            if (severitiy.val == "BLOCKER") {
-    //                $("#severityBlockerNum").text(severitiy.count);
-    //            }
-    //        });
-    //
-    //    };
-
 
 </script>

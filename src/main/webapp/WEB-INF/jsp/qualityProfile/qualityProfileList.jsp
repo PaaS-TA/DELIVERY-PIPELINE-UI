@@ -395,7 +395,6 @@
 
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + popupProfileName;
         var inputLength = 100 - $("#h_serviceInstanceId").val().length -1;
-        console.log ("new profileName :::: "+ newProfileName);
 
         if (procValidateQualityKeyNameLength(newProfileName)) {
             procPopupAlert("품질 프로파일 명은 최대 " + inputLength+ "자까지 입력 가능합니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
@@ -411,16 +410,10 @@
             }
         }
 
-
         var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
         var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
         var procFunction = type + "QualityProfile();";
         var reqButtonText = $('#btnProfile'+type).text();
-
-//        console.log("reqTitle ::: "+ reqTitle);
-//        console.log("reqMessage ::: "+ reqMessage);
-//        console.log("procFunction ::: "+ procFunction);
-//        console.log("reqButtonText ::: "+ reqButtonText);
 
         procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
@@ -509,47 +502,70 @@
         var dataLanguages = data.languages;
         var dataProfiles = data.profiles;
 
+        var profileHtml = "";
+        var htmlDefault = "";
         var htmlstr = "";
-        var profileName;
+
+        var profileName = "";
 
         $.each(dataLanguages, function (index, language) {
 
 
             if (language.key.toUpperCase() == "JAVA") {
-                htmlstr += "<h4>" + language.name + "</h4>";
+                profileHtml += "<h4>" + language.name + "</h4>";
+
 
                 $.each(dataProfiles, function (index, profile) {
 
+                    profileName = profile.name.toString().indexOf("^") > 0 ? profile.name.toString().split("^")[1] : profile.name;
+
                     if (language.key == profile.language) {
-
-//                        console.log("before :: profile.name :: " + profile.name);
-                        //TODO replace
-
-//                        console.log("PROFILE :: LANGUAGE :: " + profile.language);
-                        htmlstr += "<li><a id='profileItem_"+profile.key
-                            +"' data-isdefault='"+profile.isDefault
-                            +"' data-name='"+profile.name
-                            +"' data-language='"+profile.language
-                            +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
-
-                        //htmlstr += "<span class='block ico_bul'>" + procSplitStringBySeparator(profile.name, "^") + "</span>";
-                        htmlstr += "<span class='block ico_bul'>" + profile.name + "</span>";
-                        htmlstr += "<span class='issue_num'>";
-                        if (profile.projectCount != null) {
-                            htmlstr += profile.projectCount;
-                        }
                         if (profile.isDefault) {
-                            htmlstr += "<span class='word_sort'>기본</span>";
 
+                            htmlDefault += "<li><a id='profileItem_"+profile.key
+                                +"' data-isdefault='"+profile.isDefault
+                                +"' data-name='"+profile.name
+                                +"' data-language='"+profile.language
+                                +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
+
+                            //htmlstr += "<span class='block ico_bul'>" + procSplitStringBySeparator(profile.name, "^") + "</span>";
+
+                            htmlDefault += "<span class='block ico_bul'>" + profileName + "</span>";
+                            htmlDefault += "<span class='issue_num'>";
+                            if (profile.projectCount != null) {
+                                htmlDefault += profile.projectCount;
+                            }
+                            htmlDefault += "<span class='word_sort'>기본</span>";
                             $("#h_defaultProfileKey").val(profile.key);
+                            htmlDefault += "</span></a></li>";
+                        } else {
+
+                            htmlstr += "<li><a id='profileItem_"+profile.key
+                                +"' data-isdefault='"+profile.isDefault
+                                +"' data-name='"+profile.name
+                                +"' data-language='"+profile.language
+                                +"' href=\"javascript:profileDetail('"+profile.key+"')\">";
+
+                            //htmlstr += "<span class='block ico_bul'>" + procSplitStringBySeparator(profile.name, "^") + "</span>";
+                            htmlstr += "<span class='block ico_bul'>" + profileName + "</span>";
+                            htmlstr += "<span class='issue_num'>";
+                            if (profile.projectCount != null) {
+                                htmlstr += profile.projectCount;
+                            }
+                            if (profile.isDefault) {
+                                htmlstr += "<span class='word_sort'>기본</span>";
+
+                                $("#h_defaultProfileKey").val(profile.key);
+                            }
+                            htmlstr += "</span></a></li>";
                         }
-                        htmlstr += "</span></a></li>";
+
                     }
                 });
             }
         });
-
-        $("#qualityProfileList").html(htmlstr);
+        profileHtml += htmlDefault + htmlstr;
+        $("#qualityProfileList").html(profileHtml);
 
     }
     // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: e
@@ -589,7 +605,6 @@
     var CreateQualityProfile = function () {
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
 
-        console.log("=== CreateQualityProfile :: name :: "+ newProfileName);
         var reqParam = {
             serviceInstanceId: $("#h_serviceInstanceId").val(),
             name: newProfileName,
@@ -621,10 +636,11 @@
 
         // profile Info
         var isDefault = profileDefault == null ? $('#profileItem_'+profileKey).data().isdefault : profileDefault;
-        var name = profileName == null ? $('#profileItem_'+profileKey).data().name : profileName;
+        var namedata = profileName == null ? $('#profileItem_'+profileKey).data().name : profileName;
         var language = profileLanguage == null ? $('#profileItem_'+profileKey).data().language : profileLanguage;
 
-        console.log("=== profileDetail :: key :: "+ profileKey + " ::: profileDefault ::: "+ isDefault + " ::: language ::: "+ language);
+        //console.log("=== profileDetail :: key :: "+ profileKey + " ::: profileDefault ::: "+ isDefault + " ::: language ::: "+ language);
+        var name = namedata.toString().indexOf("^") > 0 ? namedata.toString().split("^")[1] : namedata;
 
         $("#contentProfileExp").css("display","none");
         $("#contentProfile").css("display","block");
@@ -637,7 +653,7 @@
 
         doubleSubmitFlag = false;
 
-        console.log("GET getCodingRules ::::: s");
+        //console.log("GET getCodingRules ::::: s");
         // 코딩 규칙 정보 취득
         getCodingRules(profileKey, language);
 
@@ -727,7 +743,6 @@
         }
 
         var results = data.results;
-        console.log("results >>::: "+results);
         var releatedProjects;
         var unReleatedProjects;
         var allProjects;
@@ -770,9 +785,6 @@
     var CopyQualityProfile = function () {
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCopy).val();
 
-        console.log("=== CopyQualityProfile :: name :: "+ newProfileName);
-        console.log("=== CopyQualityProfile :: fromKey :: "+ $("#h_profileKey").val());
-        console.log("=== CopyQualityProfile :: language :: "+ $('#h_language').val());
         var reqParam = {
             serviceInstanceId: $("#h_serviceInstanceId").val(),
             toName: newProfileName,
@@ -793,7 +805,6 @@
         }
 
         var profileKey = data.key;
-        console.log(" copy after ::::::: profile default :::: "+ data.isDefault + ":::: name :::  "+ data.name);
 
         $("#h_profileKey").val(profileKey);
 
@@ -811,10 +822,6 @@
     var UpdateQualityProfile = function () {
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeUpdate).val();
 
-        console.log("=== UpdateQualityProfile :: name :: "+ newProfileName);
-        console.log("=== UpdateQualityProfile :: key :: "+ $("#h_profileKey").val());
-        console.log("=== UpdateQualityProfile :: isdefault :: "+ $("#h_isDefault").val());
-        console.log("=== DeleteQualityProfile :: language :: "+ $("#h_language").val());
         var reqParam = {
             serviceInstanceId: $("#h_serviceInstanceId").val(),
             key: $("#h_profileKey").val(),
@@ -834,7 +841,6 @@
         }
 
         var profileKey = data.key;
-        console.log(" Update after ::::::: profile Key :::: "+ profileKey);
 
         // 프로파일 목록 조회
         getQualityProfileList();
@@ -846,11 +852,6 @@
     // 품질 프로파일 삭제 ::::: s
     var DeleteQualityProfile = function () {
 
-        console.log("=== DeleteQualityProfile :: key :: "+ $("#h_profileKey").val());
-        console.log("=== DeleteQualityProfile :: language :: "+ $("#h_language").val());
-        console.log("=== DeleteQualityProfile :: name :: "+ $("#h_profileName").val());
-
-        //TODO :: name replace 할 경우, 수정 필요
         var reqParam = {
             profileKey: $("#h_profileKey").val()
         };
