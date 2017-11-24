@@ -29,7 +29,6 @@
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
-            <form action="#" method="post">
                 <!-- form (contBox) -->
                 <div class="contBox">
                     <!-- 기본 영역 -->
@@ -77,7 +76,6 @@
                     <!--//버튼 영역-->
                 </div>
                 <!--//form (contBox) -->
-            </form>
         </div>
         <!--//sub content :e -->
     </div>
