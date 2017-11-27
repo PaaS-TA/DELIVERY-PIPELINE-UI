@@ -1,6 +1,7 @@
 package paasta.delivery.pipeline.ui.codingRules;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type Coding rules.
@@ -19,7 +20,7 @@ public class CodingRules {
     private String markdown_description;
     private String name;
     private String language;
-    private String actives;
+    private Object actives;
     private String resultStatus;
     private String resultMessage;
     private String languages;
@@ -29,6 +30,12 @@ public class CodingRules {
     private List rules;
     private CodingRules condition;
     private String q;
+    private Map rule;
+    private String serviceInstanceId;
+    // custom
+    private List activatedQProfiles;
+
+    // --[getter/setter]-----------------------------------
 
     /**
      * Gets total.
@@ -54,7 +61,6 @@ public class CodingRules {
      *
      * @param key the key
      */
-// --[getter/setter]-----------------------------------
     public void setKey(String key) {
         this.key = key;
     }
@@ -285,15 +291,6 @@ public class CodingRules {
     }
 
     /**
-     * Gets actives.
-     *
-     * @return the actives
-     */
-    public String getActives() {
-        return actives;
-    }
-
-    /**
      * Gets s.
      *
      * @return the s
@@ -311,14 +308,6 @@ public class CodingRules {
         this.s = s;
     }
 
-    /**
-     * Sets actives.
-     *
-     * @param actives the actives
-     */
-    public void setActives(String actives) {
-        this.actives = actives;
-    }
 
     /**
      * Gets languages.
@@ -428,6 +417,78 @@ public class CodingRules {
         this.severities = severities;
     }
 
+    /**
+     * Gets rule.
+     *
+     * @return the rule
+     */
+    public Map getRule() {
+        return rule;
+    }
+
+    /**
+     * Sets rule.
+     *
+     * @param rule the rule
+     */
+    public void setRule(Map rule) {
+        this.rule = rule;
+    }
+
+    /**
+     * Gets actives.
+     *
+     * @return the actives
+     */
+    public Object getActives() {
+        return actives;
+    }
+
+    /**
+     * Sets actives.
+     *
+     * @param actives the actives
+     */
+    public void setActives(Object actives) {
+        this.actives = actives;
+    }
+
+    /**
+     * Gets service instance id.
+     *
+     * @return the service instance id
+     */
+    public String getServiceInstanceId() {
+        return serviceInstanceId;
+    }
+
+    /**
+     * Sets service instance id.
+     *
+     * @param serviceInstanceId the service instance id
+     */
+    public void setServiceInstanceId(String serviceInstanceId) {
+        this.serviceInstanceId = serviceInstanceId;
+    }
+
+    /**
+     * Gets activated q profiles.
+     *
+     * @return the activated q profiles
+     */
+    public List getActivatedQProfiles() {
+        return activatedQProfiles;
+    }
+
+    /**
+     * Sets activated q profiles.
+     *
+     * @param activatedQProfiles the activated q profiles
+     */
+    public void setActivatedQProfiles(List activatedQProfiles) {
+        this.activatedQProfiles = activatedQProfiles;
+    }
+
     @Override
     public String toString() {
         return "CodingRules{" +
@@ -443,7 +504,7 @@ public class CodingRules {
                 ", markdown_description='" + markdown_description + '\'' +
                 ", name='" + name + '\'' +
                 ", language='" + language + '\'' +
-                ", actives='" + actives + '\'' +
+                ", actives=" + actives +
                 ", resultStatus='" + resultStatus + '\'' +
                 ", resultMessage='" + resultMessage + '\'' +
                 ", languages='" + languages + '\'' +
@@ -453,6 +514,9 @@ public class CodingRules {
                 ", rules=" + rules +
                 ", condition=" + condition +
                 ", q='" + q + '\'' +
+                ", rule=" + rule +
+                ", serviceInstanceId='" + serviceInstanceId + '\'' +
+                ", activatedQProfiles=" + activatedQProfiles +
                 '}';
     }
 }

@@ -49,7 +49,7 @@ public class CodingRulesCotroller {
         // 1-based page number
         codingRules.setP(1);
         // Page size. Must be greater than 0 and less than 500
-        codingRules.setPs(15);
+        codingRules.setPs(11);
         // Comma-separated list of the facets to be computed. No facet is computed by default.
         codingRules.setFacets("languages,severities");
         // Comma-separated list of the fields to be returned in response.
@@ -182,40 +182,19 @@ public class CodingRulesCotroller {
 
     }
 
-
-        //TODO -------------------------------------------
-
-
-
     /**
-     * CodingRules detail 페이지
+     * Gets coding rule detail.
      *
-     * @param httpServletRequest the http servlet request
-     * @param codingRules        the coding rules
-     * @return List model and view
+     * @param codingRules       the coding rules
+     * @param serviceInstanceId the service instance id
+     * @return the coding rule detail
      */
-    @RequestMapping(value = BASE_URL+"/codingRulesDetail", method = RequestMethod.GET)
-    public ModelAndView getCodingRulesDetaliPage(HttpServletRequest httpServletRequest,@ModelAttribute CodingRules codingRules){
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("codingRules", codingRules);
-        return commonService.setPathVariables(httpServletRequest, BASE_URL + "/codingRulesDetail", mv);
-
-    }
-
-
-    /**
-     * CodingRules 상세 페이지
-     *
-     * @param codingRues the coding rues
-     * @return List map
-     */
-    @RequestMapping(value = {BASE_URL+"/codingRulesDeteil.do"}, method = RequestMethod.GET)
+    @GetMapping(value = BASE_URL + "/codingRuleDetail.do")
     @ResponseBody
-    public Map getCodingRulesDeteil(@ModelAttribute CodingRules codingRues){
-       
-        Map<String,Object> list = codingRulesService.getCodingRulesDeteil(codingRues);
-        return list;
-    }
+    public CodingRules getCodingRuleDetail(@ModelAttribute CodingRules codingRules, @PathVariable String serviceInstanceId) {
 
+        // Coding Rule 상세 조회
+        return codingRulesService.getCodingRuleDetail(codingRules);
+    }
 
 }

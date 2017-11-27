@@ -675,8 +675,6 @@
             getReleatedProjects(profileKey);
         }
 
-//        procCallSpinner(SPINNER_STOP);
-
     };
 
     function getCodingRules(profileKey, language){
@@ -801,6 +799,7 @@
     var callbackCopyQualityProfile = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
             return false;
         }
 

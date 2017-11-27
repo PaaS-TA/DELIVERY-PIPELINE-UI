@@ -196,4 +196,31 @@ pre {
     color: #fda811;
 }
 
-.custom-profile-selected{background-color: #efefef;}
+.custom-profile-selected {background-color: #efefef;}
+.rule_desc {padding:10px 20px;line-height: 1.5;}
+.rule_desc h2 {font-size:14px; font-weight:bold;}
+.rule_desc h3,.rule_desc h4,.rule_desc h5,.rule_desc h6,.rule_desc h3,.rule_desc h4,.rule_desc h5,.rule_desc h6{font-size:13px;font-weight:500}
+.rule_desc code,.rule_desc pre {font-family:Consolas,Liberation Mono,Menlo,Courier,monospace;font-size:12px}
+.rule_desc code{padding:.2em .45em;margin:0;background-color:rgba(0,0,0,.04);border-radius:3px;white-space:nowrap}
+.rule_desc pre>code{padding:0;background-color:transparent;white-space:pre}
+.rule_desc blockquote{border-left: 3px solid #e6e6e6;padding-left:15px;padding-right:15px;font-size: 12px}
+.rule_desc ul{padding-left:40px;line-height:10px;list-style-type: disc;}
+.rule_desc ul>li{line-height:18px;list-style-type: disc;white-space: normal;}
+.rule_desc a {
+    border-bottom: 1px solid #cae3f2;
+    color: #236a97;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+.rule_desc ol{padding-left:40px;list-style:decimal}
+.rule_desc table{min-width:50%;border-collapse:collapse;border:1px solid #e6e6e6}
+.rule_desc th{background-color:#f3f3f3;font-weight:500;text-align:center}
+.rule_desc pre {
+    padding: 10px;
+    border-top:1px solid #dedfe3;
+    border-bottom:1px solid #dedfe3;
+    line-height: 18px;
+    overflow: auto;
+}
