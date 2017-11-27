@@ -135,10 +135,13 @@
                 lastJobStatus = data[i].lastJobStatus,
                 previousJobStatus = '<%= Constants.RESULT_STATUS_SUCCESS %>',
                 nextJobId = 0,
-                backgroungString = '',
+                backgroundString = '',
                 nextGroupOrder;
 
             // SET LAST GROUP ORDER
+            gLastGroupOrder = groupOrder;
+
+            // CHECK LAST GROUP ORDER
             if (i < listLength - 1) {
                 nextGroupOrder = data[i + 1].groupOrder;
                 gLastGroupOrder = (gLastGroupOrder < nextGroupOrder) ? nextGroupOrder : gLastGroupOrder;
@@ -150,7 +153,7 @@
 
             if ((groupOrder !== gLastGroupOrder) || (i === listLength - 1)) {
                 groupWrapperEndCss = '</ol>';
-                backgroungString = ' style="background: none;"';
+                backgroundString = ' style="background: none;"';
             }
 
             // CHECK PREVIOUS JOB STATUS
@@ -164,7 +167,7 @@
             }
 
             htmlString.push(groupWrapperStartCss);
-            htmlString.push('<li id="jobWrap_' + jobId + '"' + backgroungString + '>');
+            htmlString.push('<li id="jobWrap_' + jobId + '"' + backgroundString + '>');
             htmlString.push(setJobDetailHtmlString(data[i]));
             htmlString.push('</li>');
             htmlString.push('<input type="hidden" id="jobIsBuilding_' + jobId + '" value="" />');
