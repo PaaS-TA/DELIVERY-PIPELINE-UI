@@ -129,7 +129,7 @@
                             <tbody id="codingRulesData">
                             <c:forEach items="${rules}" var="rule" varStatus="status">
                             <tr>
-                                <td class="rule_tit" data-key="${rule.key}">${rule.name}</td>
+                                <td class="rule_tit" data-key="${rule.key}"><a href="#none">${rule.name}</a></td>
                                 <td class="alignC"></td>
                                 <td class="alignC">${rule.langName}</td>
                                 <c:if test="${role == 'ROLE_ADMIN'}">
@@ -478,7 +478,11 @@
     $(document).on("click", ".rule_tit" , function() {
 
         //console.log("Detail ::: " + $(this).data().key);
-        getCodingRuleDetail($(this).data().key);
+        var pageType = $("#conditionPageType").val();
+        if (pageType != gPageTypeDetail) {
+            getCodingRuleDetail($(this).data().key);
+        }
+
     });
 
     // Rule 상세 페이지 :: 연결된 품질 프로파일 추가 / 변경 / 삭제
@@ -632,7 +636,7 @@
 
             $.each(data.rules, function (index, rule) {
                 codingRulesData += "<tr>";
-                codingRulesData += "<td class='rule_tit' data-key='"+rule.key+"'>"+rule.name+"</td>";
+                codingRulesData += "<td class='rule_tit' data-key='"+rule.key+"'><a href='#none'>"+rule.name+"</a></td>";
                 codingRulesData += "<td class='alignC'></td>";
                 codingRulesData += "<td class='alignC'>"+rule.langName+"</td>";
 
@@ -883,17 +887,27 @@
                 profilesHtml += "<li>";
                 profilesHtml += "<span class='profile_name'>"+ profileName +"</span>";
                 profilesHtml += "<span class='r_box'>";
-                profilesHtml += "<span class='ico_issue'><i class='ico_"+profile.severity.toString().toLowerCase()+"'></i>";
 
-                $.map(gSeverityArr, function (severity, index) {
-                    if (severity.key == profile.severity) {
-                        profilesHtml += severity.value;
-                    }
-                });
-                profilesHtml += "</span>";
                 if (role == "ROLE_ADMIN" && profile.isDefault === false) {
+                    profilesHtml += "<span class='ico_issue'><i class='ico_"+profile.severity.toString().toLowerCase()+"'></i>";
+
+                    $.map(gSeverityArr, function (severity, index) {
+                        if (severity.key == profile.severity) {
+                            profilesHtml += severity.value;
+                        }
+                    });
+                    profilesHtml += "</span>";
                     profilesHtml += "<button type='button' data-type='Update' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>변경</button>";
                     profilesHtml += "<button type='button' data-type='Delete' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>제거</button>";
+                } else {
+                    profilesHtml += "<span class='ico_issue' style='width:230px;'><i class='ico_"+profile.severity.toString().toLowerCase()+"'></i>";
+
+                    $.map(gSeverityArr, function (severity, index) {
+                        if (severity.key == profile.severity) {
+                            profilesHtml += severity.value;
+                        }
+                    });
+                    profilesHtml += "</span>";
                 }
                 profilesHtml += "</span>";
                 profilesHtml += "</li>";
