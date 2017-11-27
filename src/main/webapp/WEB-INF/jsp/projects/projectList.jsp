@@ -106,8 +106,8 @@
                         </thead>
                         <tbody id="coverageBody">
                         <tr class="total">
-                            <td class="alignL">커버리지 (%)</td>
-                            <td></td>
+                            <td class="alignL" style="color: #666;">커버리지 (%)</td>
+                            <td style="color: #666;"></td>
                             <td class="increase"></td>
                         </tr>
                         <tr>
@@ -252,23 +252,30 @@
 
         key = data.key;
 
-        lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
+//        lines = "<a href='javascript:void(0)' onclick=\"movePage(\'lineCode')\"><h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span></a>";
+        lines = "<h3 id='lineToCode'></h3><span style='text-decoration: underline;'>Line of Code</span>";
 
 
         if (data.measures.coverage != null || data.measures.coverage != undefined) {
-            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>" + data.measures.coverage + "</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div>";
+//            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3>" + data.measures.coverage + "</h3><span style='text-decoration: underline;'>Coverage</span></a></div></div>";
+            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><h3>" + data.measures.coverage + "</h3><span style='text-decoration: underline;'>Coverage</span></div></div>";
         } else {
-            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3></h3></a></div></div>";
+//            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><a href='javascript:void(0)' onclick=\"movePage(\'coverageList')\"><h3></h3></a></div></div>";
+            coverage = "<div style='display: inline;'><div id='coverageChat' style='display: inline-block;'></div><div style='display: inline-block;'><h3></h3></div></div>";
         }
 
         if (data.measures.issues != null || data.measures.issues != undefined) {
-            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>" + data.measures.issues + "</h3><span style='text-decoration: underline;'>Issues</span></a>";
+//            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3>" + data.measures.issues + "</h3><span style='text-decoration: underline;'>Issues</span></a>";
+            issues = "<h3>" + data.measures.issues + "</h3><span style='text-decoration: underline;'>Issues</span>";
         } else {
-            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3></h3><span style='text-decoration: underline;'>Issues</span></a>";
+//            issues = "<a  href='javascript:void(0)' onclick=\"movePage(\'issues')\"><h3></h3><span style='text-decoration: underline;'>Issues</span></a>";
+            issues = "<h3></h3><span style='text-decoration: underline;'>Issues</span>";
         }
-        tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>" + data.measures.tests + "</h3><span style='text-decoration: underline;'>Tests</span></a>";
+//        tests = "<a href='javascript:void(0)'  onclick=\"movePage(\'unitCode')\"><h3>" + data.measures.tests + "</h3><span style='text-decoration: underline;'>Tests</span></a>";
+        tests = "<h3>" + data.measures.tests + "</h3><span style='text-decoration: underline;'>Tests</span>";
 
-        debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>" + data.measures.debt + "</h3><span style='text-decoration: underline;'>Debt</span></a>";
+//        debt = "<a href='javascript:void(0)' onclick=\"movePage(\'debt')\"><h3>" + data.measures.debt + "</h3><span style='text-decoration: underline;'>Debt</span></a>";
+        debt = "<h3>" + data.measures.debt + "</h3><span style='text-decoration: underline;'>Debt</span>";
 
 
         $("#issueDay").html(debt);
@@ -402,13 +409,21 @@
             $("#lineToCode").text(lineToCode);
 
             //커버리지 단위
-            $("#coverageBody tr").eq(0).children().eq(1).html("<a href='javascript:void(0)' onclick=\"movePage(\'coverage')\">" + coverage + "</a>");
-            $("#coverageBody tr").eq(1).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'lineCoverage')\">" + line_coverage + "</a>");
-            $("#coverageBody tr").eq(2).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'uncoveredLines')\">" + uncovered_lines + "</a>");
-            $("#coverageBody tr").eq(3).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'linesToCover')\">" + lines_to_cover + "</a>");
-            $("#coverageBody tr").eq(4).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'branchCoverage')\">" + branch_coverage + "</a>");
-            $("#coverageBody tr").eq(5).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'uncoveredConditions')\">" + uncovered_conditions + "</a>");
-            $("#coverageBody tr").eq(6).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'conditionsToCover')\">" + conditions_to_cover + "</a>");
+//            $("#coverageBody tr").eq(0).children().eq(1).html("<a href='javascript:void(0)' onclick=\"movePage(\'coverage')\">" + coverage + "</a>");
+//            $("#coverageBody tr").eq(1).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'lineCoverage')\">" + line_coverage + "</a>");
+//            $("#coverageBody tr").eq(2).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'uncoveredLines')\">" + uncovered_lines + "</a>");
+//            $("#coverageBody tr").eq(3).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'linesToCover')\">" + lines_to_cover + "</a>");
+//            $("#coverageBody tr").eq(4).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'branchCoverage')\">" + branch_coverage + "</a>");
+//            $("#coverageBody tr").eq(5).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'uncoveredConditions')\">" + uncovered_conditions + "</a>");
+//            $("#coverageBody tr").eq(6).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'conditionsToCover')\">" + conditions_to_cover + "</a>");
+            $("#coverageBody tr").eq(0).children().eq(1).html(coverage);
+            $("#coverageBody tr").eq(1).children().eq(1).html(line_coverage);
+            $("#coverageBody tr").eq(2).children().eq(1).html(uncovered_lines);
+            $("#coverageBody tr").eq(3).children().eq(1).html(lines_to_cover);
+            $("#coverageBody tr").eq(4).children().eq(1).html(branch_coverage);
+            $("#coverageBody tr").eq(5).children().eq(1).html(uncovered_conditions);
+            $("#coverageBody tr").eq(6).children().eq(1).html(conditions_to_cover);
+
             $("#coverageBody tr").eq(7).children().eq(1).html();
 
 
@@ -419,15 +434,23 @@
             $("#coverageBody tr").eq(4).children().eq(2).text(branch_coverage_num);
             $("#coverageBody tr").eq(5).children().eq(2).text(uncovered_conditions_num);
             $("#coverageBody tr").eq(6).children().eq(2).text(conditions_to_cover_num);
-            $("#coverageBody tr").eq(7).children().eq(2).html("<a href=javascript:void(0)' onclick=\"movePage(\'newLineCoverage')\">" + new_line_coverage_num + "</a>");
+//            $("#coverageBody tr").eq(7).children().eq(2).html("<a href=javascript:void(0)' onclick=\"movePage(\'newLineCoverage')\">" + new_line_coverage_num + "</a>");
+            $("#coverageBody tr").eq(7).children().eq(2).html(new_line_coverage_num);
 
 
-            $("#testsBody tr").eq(0).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'unitCode')\">" + tests + "</a>");
-            $("#testsBody tr").eq(1).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testExecutionTime')\">" + test_execution_time + "</a>");
-            $("#testsBody tr").eq(2).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testErrors')\">" + test_errors + "</a>");
-            $("#testsBody tr").eq(3).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testFailures')\">" + test_failures + "</a>");
-            $("#testsBody tr").eq(4).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'skippedTests')\">" + skipped_tests + "</a>");
-            $("#testsBody tr").eq(5).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testSuccessDensity')\">" + test_success_density + "</a>");
+//            $("#testsBody tr").eq(0).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'unitCode')\">" + tests + "</a>");
+//            $("#testsBody tr").eq(1).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testExecutionTime')\">" + test_execution_time + "</a>");
+//            $("#testsBody tr").eq(2).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testErrors')\">" + test_errors + "</a>");
+//            $("#testsBody tr").eq(3).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testFailures')\">" + test_failures + "</a>");
+//            $("#testsBody tr").eq(4).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'skippedTests')\">" + skipped_tests + "</a>");
+//            $("#testsBody tr").eq(5).children().eq(1).html("<a href=javascript:void(0)' onclick=\"movePage(\'testSuccessDensity')\">" + test_success_density + "</a>");
+
+            $("#testsBody tr").eq(0).children().eq(1).html(tests);
+            $("#testsBody tr").eq(1).children().eq(1).html(test_execution_time);
+            $("#testsBody tr").eq(2).children().eq(1).html(test_errors);
+            $("#testsBody tr").eq(3).children().eq(1).html(test_failures);
+            $("#testsBody tr").eq(4).children().eq(1).html(skipped_tests);
+            $("#testsBody tr").eq(5).children().eq(1).html(test_success_density);
 
             $("#testsBody tr").eq(0).children().eq(2).text(tests_num);
             $("#testsBody tr").eq(1).children().eq(2).text(test_execution_time_num);
