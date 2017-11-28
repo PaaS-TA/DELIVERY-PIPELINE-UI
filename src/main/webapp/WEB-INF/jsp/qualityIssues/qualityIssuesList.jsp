@@ -615,7 +615,7 @@
                 if (data[j].sources != null) {
                     for (var i = 0; i < data[j].sources.length; i++) {
                         source_num += "<p id='lineNum_" + data[j].sources[i][0] + "'>" + data[j].sources[i][0] + "</p>";
-                        var source = data[j].sources[i][1].replace(/\t/gi,"&nbsp;&nbsp;&nbsp;&nbsp;");
+                        var source = data[j].sources[i][1].replace(/\t/gi,"&emsp;&emsp;");
                         if (data[j].sources[i][1] == "") {
                             list += "<p id='sourceView_" + (i + 1) + "'><br></p>";
                         } else {
