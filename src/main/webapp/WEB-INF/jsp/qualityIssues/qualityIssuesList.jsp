@@ -147,66 +147,8 @@
                         </div>
                     </div>
                     <div class="sourcebox">
-                        <div class="source_num">
-
-                        </div>
-                        <div class="source_code">
-                            <!-- 리스트 테이블 1단 -->
-                            <%--                              <table summary="품질이슈 리스트 테이블입니다." class="quality_list">
-                                                           <caption>품질이슈 리스트</caption>
-                                                           <colgroup>
-                                                               <col style="width: *" />
-                                                               <col style="width:10%">
-                                                           </colgroup>
-                                                           <tbody id="tbodyDetail">
-                                                        <tr class="bgArea">
-                                                               <td>
-                                                                   <div class="rule_tit">규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.<br />규칙 명이 들어갑니다. 길 경우 두 줄까지 허용합니다.</div>
-                                                                   <ul class="sel_menu">
-                                                                       <li>
-                                                                           <div class="selectbox select1" style="width:95px;">
-                                                                               <div>
-                                                                                   <strong><img src="/resources/images/ico_blocker.png"> 심각</strong><span class="bul"></span>
-                                                                               </div>
-                                                                               <ul class="select-list">
-                                                                                   <li><span class="ico_blocker"></span>심각</li>
-                                                                                   <li><span class="ico_critical"></span>높음</li>
-                                                                                   <li><span class="ico_major"></span>보통</li>
-                                                                                   <li><span class="ico_minor"></span>낮음</li>
-                                                                                   <li><span class="ico_info"></span>정보</li>
-                                                                               </ul>
-                                                                           </div>
-                                                                       </li>
-                                                                       <li>
-                                                                           <div class="selectbox select2" style="width:90px;">
-                                                                               <div>
-                                                                                   <strong>활성</strong><span class="bul"></span>
-                                                                               </div>
-                                                                               <ul class="select-list">
-                                                                                   <li>활성</li>
-                                                                                   <li>확인됨</li>
-                                                                                   <li>수정됨</li>
-                                                                                   <li>보류</li>
-                                                                                   <li>무시</li>
-                                                                                   <li>재활성</li>
-                                                                               </ul>
-                                                                           </div>
-                                                                       </li>
-                                                                       <li class="loca_txt">위치 : 12345라인</li>
-                                                                   </ul>
-                                                               </td>
-                                                               <td><button type="submit" class="button quality_btn">규칙상세</button></td>
-                                                           </tr>
-                                                           <tr class="codeArea">
-                                                               <td colspan="2">
-                                                                   <p>내용내용 들어갈곳입니다.<br>내용내용 들어갈곳입니다.<br>내용내용 들어갈곳입니다.</p>
-                                                               </td>
-                                                           </tr>
-                                                           </tbody>
-                                                       </table>--%>
-
-
-                        </div>
+                        <div class="source_num"></div>
+                        <div class="source_code"></div>
                     </div>
                 </div>
 
@@ -671,7 +613,16 @@
 
 
             }
-
+            if (undefined == fileLineNum || null == fileLineNum || 'null' == fileLineNum || '' == fileLineNum)
+                fileLineNum = "0"
+            if (undefined == filePath || null == filePath || 'null' == filePath || '' == filePath)
+                filePath = "";
+            if (undefined == lines || null == lines || 'null' == lines || '' == lines)
+                lines = "0";
+            if (undefined == issue || null == issue || 'null' == issue || '' == issue)
+                issue = "0";
+            if (undefined == coverage || null == coverage || 'null' == coverage || '' == coverage)
+                coverage = "0";
 
 
 
@@ -714,15 +665,15 @@
                     for (var i = 0; i < issuesArray.length; i++) {
                         severityArray = issuesArray[i].split("=");
                         if (severityArray[1] == "BLOCKER") {
-                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                            $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_blocker.png'>");
                         } else if (severityArray[1] == "CRITICAL") {
-                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                            $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_critical.png'>");
                         } else if (severityArray[1] == "MAJOR") {
-                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                            $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_major.png'>");
                         } else if (severityArray[1] == "MINOR") {
-                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                            $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_minor.png'>");
                         } else if (severityArray[1] == "INFO") {
-                            $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                            $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_info.png'>");
                         }
 
                     }
@@ -731,15 +682,15 @@
                     severityArray = issues.split("=");
 
                     if (severityArray[1] == "BLOCKER") {
-                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
+                        $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_blocker.png'>");
                     } else if (severityArray[1] == "CRITICAL") {
-                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_critical.png'>");
+                        $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_critical.png'>");
                     } else if (severityArray[1] == "MAJOR") {
-                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_major.png'>");
+                        $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_major.png'>");
                     } else if (severityArray[1] == "MINOR") {
-                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_minor.png'>");
+                        $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_minor.png'>");
                     } else if (severityArray[1] == "INFO") {
-                        $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
+                        $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_info.png'>");
                     }
                     //소스 이슈 펼치기 할때 사용
 //                    testView(severityArray[0], message , severityArray[1]);
@@ -750,19 +701,19 @@
             //소스 전체 이슈
             if (allIssues != "") {
                 if (allIssues == "BLOCKER") {
-                    $("#lineNum_1").before("<img src='/resources/images/ico_blocker.png'>");
+                    $("#lineNum_1").before("&nbsp;<img src='/resources/images/ico_blocker.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 } else if (allIssues == "CRITICAL") {
-                    $("#lineNum_1").before("<img src='/resources/images/ico_critical.png'>");
+                    $("#lineNum_1").before("&nbsp;<img src='/resources/images/ico_critical.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 } else if (allIssues == "MAJOR") {
-                    $("#lineNum_1").before("<img src='/resources/images/ico_major.png'>");
+                    $("#lineNum_1").before("&nbsp;<img src='/resources/images/ico_major.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 } else if (allIssues == "MINOR") {
-                    $("#lineNum_1").before("<img src='/resources/images/ico_minor.png'>");
+                    $("#lineNum_1").before("&nbsp;<img src='/resources/images/ico_minor.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 } else if (allIssues == "INFO") {
-                    $("#lineNum_1").before("<img src='/resources/images/ico_info.png'>");
+                    $("#lineNum_1").before("&nbsp;<img src='/resources/images/ico_info.png'>");
                     $("#sourceView_1").before("<p><br></p>");
                 }
             }

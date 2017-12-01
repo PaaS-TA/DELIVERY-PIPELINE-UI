@@ -447,7 +447,7 @@
         if (sourceView == "issues" || sourceView == "debt") {
             procMovePage("/qualityIssues/dashboard");
         } else {
-            procMovePage("/projects/" + projectKey + "/coverage/" + sourceView);
+            procMovePage("/projects/" + projectKey + "/coverage/" + sourceView +"/<c:out value='${id}' default='' />");
         }
     }
 

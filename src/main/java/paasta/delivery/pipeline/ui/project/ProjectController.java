@@ -50,8 +50,6 @@ public class ProjectController {
 //        mv.setViewName(BASE_URL + "/projectList");
 //        return commonService.setPathVariables(httpServletRequest, BASE_URL + "/projectList", mv);
 //    }
-
-
     @RequestMapping(value = BASE_URL + "/{id:.+}/dashboard", method = RequestMethod.GET)
     public ModelAndView getProjectPage(HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView();
@@ -66,11 +64,12 @@ public class ProjectController {
      * @param
      * @return project
      */
-    @RequestMapping(value = BASE_URL + "/{projectKey}/" + COVERAGE_URL + "/{sourceView}", method = RequestMethod.GET)
-    public ModelAndView getLineOfCodePage(HttpServletRequest httpServletRequest, @PathVariable String projectKey, @PathVariable String sourceView) {
+    @RequestMapping(value = BASE_URL + "/{projectKey}/" + COVERAGE_URL + "/{sourceView}/{id}", method = RequestMethod.GET)
+    public ModelAndView getLineOfCodePage(HttpServletRequest httpServletRequest, @PathVariable String projectKey, @PathVariable String sourceView, @PathVariable String id) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("projectKey", projectKey);
         mv.addObject("sourceCode", sourceView);
+        mv.addObject("id", id);
         mv.setViewName(BASE_URL + COVERAGE_URL + "/testsSource");
         return commonService.setPathVariables(httpServletRequest, BASE_URL + "/testsSource", mv);
     }
