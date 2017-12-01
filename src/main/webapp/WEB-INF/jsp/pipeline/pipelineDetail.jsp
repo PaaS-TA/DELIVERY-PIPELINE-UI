@@ -430,6 +430,7 @@
                 displayAppUrl,
                 appName = data.appName,
                 blueGreenPostfix = '',
+                buildJobName = data.buildJobName,
                 isBlueDeployed = false,
                 revertGreenDeployJobWrapStyle = 'style="display: none;"',
                 revertGreenDeployConfirmMessage = '운영 GREEN 배포 JOB 되돌리기';
@@ -437,6 +438,7 @@
             confirmMessage = '개발 배포 JOB';
             hiddenAppUrl = appUrl;
             tempAppUrlArray = appUrl.split(appName);
+            buildJobName = ('null' === buildJobName) ? 'No staged build job' : buildJobName;
 
             if ("<%=Constants.DeployType.PRD %>" === deployType) {
                 deployTypeOriginalString = 'Green Deploy';
@@ -552,7 +554,7 @@
             htmlString.push('<dt>마지막 배포(Recent Deploy)</dt>');
             htmlString.push('<dd><a href="' + hiddenAppUrl + '" target="_blank" title="' + hiddenAppUrl + '" id="appUrlOriginalText_' + jobId + '" style="display: none;">' + hiddenAppUrl + '</a>');
             htmlString.push('<a href="' + displayAppUrl + '" target="_blank" title="' + displayAppUrl + '" id="appUrlDisplayText_' + jobId + '">' + displayAppUrl + '</a></dd>');
-            htmlString.push('<dd>' + data.buildJobName + '<span class="data">' + lastModifiedString + '</span></dd>');
+            htmlString.push('<dd>' + buildJobName + '<span class="data">' + lastModifiedString + '</span></dd>');
             htmlString.push('</dl>');
             htmlString.push('<dl class="plan_area02">');
             htmlString.push('<dt>작업(Job)</dt>');
