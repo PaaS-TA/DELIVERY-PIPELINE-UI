@@ -224,3 +224,22 @@ pre {
     line-height: 18px;
     overflow: auto;
 }
+
+.btn-sm {
+    padding: 2px 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 2px;
+    color: #666666;
+    background: #dedfe3;
+}
+
+.btn-sm:hover {
+    color: #eeeeee;
+    background: #333333;
+}
+
+.btn-sm:focus {
+    outline: none !important;
+    box-shadow: none;
+}

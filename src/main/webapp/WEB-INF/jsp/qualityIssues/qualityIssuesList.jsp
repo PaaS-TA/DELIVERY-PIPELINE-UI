@@ -319,7 +319,8 @@
                 for (var i = 0; i < data.issues.length; i++) {
                     list += "<tr>";
                     list += "<td>";
-                    list += "<div class='rule_tit'>" + data.issues[i].message + "</div>";
+                    list += "<div class='rule_tit'>" + data.issues[i].message + "<button type='button' class='btn btn-secondary btn-sm' style='margin: 0 0 0 10px;' onclick=\"setViewCodingRuleDetail(\'" + i + "','" + data.issues[i].rule + "')\">코딩 규칙</button></div>";
+                    list += "<div class='rule_tit view-off' id='ruleMessageArea_" + i + "' style='padding: 0 20px; color: #999999; display: none;'></div>";
                     list += "<ul class='sel_menu'>";
                     list += "<li>";
                     list += "<input type='hidden' id='issueKey_" + i + "' value='" + data.issues[i].key + "'>";
@@ -349,7 +350,7 @@
                     }
                     list += " </ul>";
                     list += "</td>";
-                    list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">규칙상세</button></td>";
+                    list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">상세</button></td>";
                     list += "</tr>";
 
 
@@ -361,6 +362,61 @@
         procCallSpinner(SPINNER_STOP);
 
     }
+
+
+    // FOR SET CODING RULE NAME
+    gCodingRuleAreaIndex = 0;
+
+
+    // SET VIEW CODING RULE DETAIL
+    var setViewCodingRuleDetail = function (reqIndex, reqCodingRuleKey) {
+        console.log("## 1 :: " + $(this));
+        console.log("## 2 :: " + $(this).blur());
+        var ruleMessageArea = $('#ruleMessageArea_' + reqIndex),
+            viewOnString = "view-on",
+            viewOffString = "view-off";
+
+        gCodingRuleAreaIndex = reqIndex;
+
+        if (ruleMessageArea.hasClass(viewOffString)) {
+            ruleMessageArea.removeClass(viewOffString).addClass(viewOnString);
+            gCodingRuleAreaIndex = reqIndex;
+            getCodingRuleDetail(reqCodingRuleKey);
+        } else {
+            gCodingRuleAreaIndex = 0;
+            ruleMessageArea.removeClass(viewOnString).addClass(viewOffString);
+            ruleMessageArea.fadeOut("slow");
+        }
+    };
+
+
+    // GET CODING RULE DETAIL
+    var getCodingRuleDetail = function (reqCodingRuleKey) {
+        if ("" === reqCodingRuleKey || undefined === reqCodingRuleKey) return false;
+
+        procCallSpinner(SPINNER_START);
+        var reqUrl = "/codingRules/codingRuleDetail.do?key=" + reqCodingRuleKey + "&actives=true";
+        procCallAjax(reqUrl, null, callbackGetCodingRuleDetail);
+    };
+
+
+    // CALLBACK GET CODING RULE DETAIL
+    var callbackGetCodingRuleDetail = function (data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            procCallSpinner(SPINNER_STOP);
+            return false;
+        }
+
+        if (0 === gCodingRuleAreaIndex) return false;
+
+        var ruleMessageArea = $('#ruleMessageArea_' + gCodingRuleAreaIndex);
+
+        ruleMessageArea.html(data.rule.name);
+        ruleMessageArea.fadeIn("slow");
+
+        procCallSpinner(SPINNER_STOP);
+    };
+
 
     var callbackGetListInit = function (data) {
 
