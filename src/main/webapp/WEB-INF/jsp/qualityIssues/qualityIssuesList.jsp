@@ -147,8 +147,8 @@
                         </div>
                     </div>
                     <div class="sourcebox">
-                        <div class="source_num"></div>
-                        <div class="source_code"></div>
+                        <div class="source_num" id="source_num"></div>
+                        <div class="source_code" id="source_code"></div>
                     </div>
                 </div>
 
@@ -631,8 +631,8 @@
             $("#fileLineNum").text(lines);
             $("#fileIssueNum").text(issue);
             $("#fileCoverageNum").text(coverage);
-            $(".source_code").html(list);
-            $(".source_num").html(source_num);
+            $("#source_code").html(list);
+            $("#source_num").html(source_num);
 
 
             if (lineData != "") {
@@ -642,8 +642,10 @@
                         coverageArray = msrArray[i].split("=");
                         if (coverageArray[1] == "1") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
                         } else if (coverageArray[1] == "0") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
                         }
 
                     }
@@ -651,8 +653,10 @@
                     coverageArray = lineData.split("=");
                     if (coverageArray[1] == "1") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
                     } else if (coverageArray[1] == "0") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
                     }
                 }
             }
@@ -680,7 +684,6 @@
                 } else {
 
                     severityArray = issues.split("=");
-
                     if (severityArray[1] == "BLOCKER") {
                         $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_blocker.png'>");
                     } else if (severityArray[1] == "CRITICAL") {
@@ -692,8 +695,6 @@
                     } else if (severityArray[1] == "INFO") {
                         $("#lineNum_" + severityArray[0]).append("&nbsp;<img src='/resources/images/ico_info.png'>");
                     }
-                    //소스 이슈 펼치기 할때 사용
-//                    testView(severityArray[0], message , severityArray[1]);
                 }
             }
 

@@ -8,9 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
-    .contentWrap{
-        margin-left:0px;
-        //width:100%;
+    .contentWrap {
+        margin-left: 0px;
     }
 </style>
 
@@ -35,13 +34,13 @@
                 <!-- 좌 테이블 :s -->
                 <div class="col_2_l">
                     <div class="table_scroll"><!--스크롤영역-->
-                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline" >
+                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline">
                             <caption>
                                 프로젝트 리스트
                             </caption>
                             <colgroup>
-                                <col style="width: *" />
-                                <col style="width: 20%" />
+                                <col style="width: *"/>
+                                <col style="width: 20%"/>
                             </colgroup>
                             <tbody id="sourceFilePathTbody">
 
@@ -53,13 +52,13 @@
                 <!-- 우 테이블 :s -->
                 <div class="col_2_r">
                     <div class="table_scroll"><!--스크롤영역-->
-                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline" >
+                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline">
                             <caption>
                                 프로젝트 리스트
                             </caption>
                             <colgroup>
-                                <col style="width: *" />
-                                <col style="width: 20%" />
+                                <col style="width: *"/>
+                                <col style="width: 20%"/>
                             </colgroup>
                             <tbody id="sourceFileNameTbody">
 
@@ -98,17 +97,18 @@
             <p id="filePath">src/main/java/org/openpaas/servicebroker/mysql/config/Application.java</p>
             <div class="btn_wrap">
                 <ul class="issue_data">
-                    <li><span><em id="fileLineNum">0</em><br>라인</span></li>
-                    <li><span><em id="fileIssueNum">0</em><br>이슈</span></li>
-                    <li><span><em id="fileCoverageNum">100%</em><br>커버리지</span></li>
+                    <li class="issue"><span><em id="fileLineNum">0</em><br>라인</span></li>
+                    <li class="issue"><span><em id="fileIssueNum">0</em><br>이슈</span></li>
+                    <li class="issue"><span><em id="fileCoverageNum">0%</em><br>커버리지</span></li>
+                    <li class="test"><span><em id="testNum">0%</em><br>단위테스트</span></li>
                 </ul>
+
+
             </div>
         </div>
         <div class="sourcebox">
-            <div class="source_num">
-
-            </div>
-            <div class="source_code"></div>
+            <div class="source_num" id="source_num"></div>
+            <div class="source_code" id="source_code"></div>
         </div>
     </div>
 
@@ -140,7 +140,6 @@
         } else if ($("#sourceCode").val() == "lineCode") {
             metrics = "ncloc";
             $("#title").text("Line of code");
-
         } else if ($("#sourceCode").val() == "coverage") {
             metrics = "uncovered_lines";
             $("#title").text("Coverage");
@@ -213,16 +212,9 @@
                     } else if (data[i].qualifier == "DIR" && data[i].msr[0].frmt_val != 0) {
 
                         list += "<tr>";
-                        list += "<td><a href='javascript:void(0);' onclick=\"getFiles(\'" + data[i].key + "','" + data[i].uuid + "','"+data[i].lname+"')\">" + data[i].lname + "</a></td>";
+                        list += "<td><a href='javascript:void(0);' onclick=\"getFiles(\'" + data[i].key + "','" + data[i].uuid + "','" + data[i].lname + "')\">" + data[i].lname + "</a></td>";
                         list += "<td class='td_number'>" + data[i].msr[0].frmt_val + "</td>";
                         list += "</tr>";
-
-                    } else if (data[i].qualifier == "FIL" && data[i].msr[0].frmt_val != 0) {
-
-                        list2 += "<tr id='file_" + data[i].uuid + "' style='display: block;'>";
-                        list2 += "<td><a href='javascript:void(0);' onclick=\"getSource(\'" + data[i].key + "','" + data[i].uuid + "','"+ data[i].name +"')\">" + data[i].name + "</a></td>";
-                        list2 += "<td class='td_number'>" + data[i].msr[0].frmt_val + "</td>";
-                        list2 += "</tr>";
 
                     }
                 } else {
@@ -258,14 +250,16 @@
 
 
     }
+    var testUnit = 0;
+    var getSource = function (key, uuid, data) {
+        testUnit = data;
 
-    var getSource = function (key, uuid, sourcefile) {
         var src = key.split(":");
         $("#fileName").text($("#projectName").val());
         $("#filePath").text("/" + src[1]);
         $("#issuesTable").css("display", "none");
         $("#issuesDetail").css("display", "block");
-        procCallAjax("/qualityIssues/qualityIssuesDetail.do?fileKey=" + key + "&fileUuid=" + uuid + "&serviceInstancesId=" + $("#serviceInstancesId").val(), null, callbackGetIssuesDetail);
+        procCallAjax("/qualityIssues/qualityIssuesDetail.do?fileKey=" + key + "&fileUuid=" + uuid, null, callbackGetIssuesDetail);
     }
 
     var callbackGetIssuesDetail = function (data) {
@@ -284,13 +278,15 @@
 
 
         //이슈 표시
-        var issues = "0";
+        var issues = "";
         var allIssues = "";
         var issuesArray = new Array();
         var severityArray = new Array();
         var list = "";
 
         if (data.length > 0) {
+
+            console.log(data);
             for (var j = 0; j < data.length; j++) {
 
 
@@ -323,10 +319,7 @@
                         } else if (data[j].msr[k].key == "coverage_line_hits_data") {
                             lineData = data[j].msr[k].data;
                         }
-
-
                     }
-
                 }
                 var message = "";
                 //이슈 영역
@@ -347,9 +340,6 @@
             }
 
 
-
-
-
             if (undefined == lines || null == lines || 'null' == lines || '' == lines)
                 lines = "0";
             if (undefined == issue || null == issue || 'null' == issue || '' == issue)
@@ -358,33 +348,45 @@
                 coverage = "0";
 
 
-
             $("#fileLineNum").text(lines);
             $("#fileIssueNum").text(issue);
             $("#fileCoverageNum").text(coverage);
-            $(".source_code").html(list);
-            $(".source_num").html(source_num);
+            $("#source_code").html(list);
+            $("#source_num").html(source_num);
+
+            if ($("#sourceCode").val() == "unitCode") {
+                $("#testNum").text(testUnit);
+                $(".issue").hide();
+                $(".test").show();
+            } else {
+                $(".issue").show();
+                $(".test").hide();
+            }
 
 
             if (lineData != "") {
-
                 if (lineData.indexOf(";") != -1) {
                     msrArray = lineData.split(";");
                     for (var i = 0; i < msrArray.length; i++) {
                         coverageArray = msrArray[i].split("=");
                         if (coverageArray[1] == "1") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
                         } else if (coverageArray[1] == "0") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
                         }
 
                     }
                 } else {
+
                     coverageArray = lineData.split("=");
                     if (coverageArray[1] == "1") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
                     } else if (coverageArray[1] == "0") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
                     }
                 }
             }
@@ -410,9 +412,7 @@
 
                     }
                 } else {
-
                     severityArray = issues.split("=");
-
                     if (severityArray[1] == "BLOCKER") {
                         $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_blocker.png'>");
                     } else if (severityArray[1] == "CRITICAL") {
@@ -424,8 +424,7 @@
                     } else if (severityArray[1] == "INFO") {
                         $("#lineNum_" + severityArray[0]).append("<img src='/resources/images/ico_info.png'>");
                     }
-                    //소스 이슈 펼치기 할때 사용
-//                    testView(severityArray[0], message , severityArray[1]);
+
                 }
             }
 
@@ -454,83 +453,9 @@
         }
         procCallSpinner(SPINNER_STOP);
     }
-
-    var getAuthor = function (data) {
-        var author = "";
-        for (var j = 0; j < data.length; j++) {
-            $(".source_num").children("p").each(function (i) {
-                if (data[j][0] == $(this).text()) {
-                    if (data[j][1].length >= 10) {
-                        $(this).text($(this).text() + "  " + data[j][1].substr(0, 10) + "...");
-                        $(this).attr("data-toggle", "tooltip");
-                        $(this).attr("data-original-title", "Default tooltip");
-                        $(this).attr("title", data[j][1] + data[j][2]);
-                    } else {
-                        $(this).text($(this).text() + "  " + data[j][1]);
-                    }
-
-
-                }
-            });
-        }
-    }
-
-    //단위테스트 표시
-    var getMsr = function (data) {
-        var coverage = "";
-        var msrArray = new Array();
-        var coverageArray = new Array();
-
-        var msrArray_2 = new Array();
-        var coverageArray_2 = new Array();
-
-
-        if (data[0].msr[0].data.indexOf(";") != -1) {
-
-            msrArray = data[0].msr[0].data.split(";");
-            for (var i = 0; i < msrArray.length; i++) {
-                coverageArray = msrArray[i].split("=");
-                if (coverageArray[1] == "1") {
-                    $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
-                    $("#lineNum_" + coverageArray[0]).attr("title", "테스트 완료");
-                } else if (coverageArray[1] == "0") {
-                    $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
-                    $("#lineNum_" + coverageArray[0]).attr("title", "테스트 미수행");
-                }
-            }
-        } else {
-            coverageArray = data[0].msr[0].data.split("=");
-            ;
-            if (coverageArray[1] == "1") {
-                $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
-                $("#lineNum_" + coverageArray[0]).attr("title", "테스트 완료");
-            } else if (coverageArray[1] == "0") {
-                $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
-                $("#lineNum_" + coverageArray[0]).attr("title", "테스트 미수행");
-            }
-        }
-
-
-        if (data[0].msr[1] != null) {
-            if (data[0].msr[1].data.indexOf(";") != -1) {
-                msrArray_2 = data[0].msr[1].data.split(";");
-
-                for (var i = 0; i < msrArray_2.length; i++) {
-                    coverageArray_2 = msrArray_2[i].split("=");
-                    $("#lineNum_" + coverageArray_2[0]).attr("class", "line_bar_blue");
-                }
-            } else {
-                coverageArray_2 = data[0].msr[1].data.split("=");
-                $("#lineNum_" + coverageArray_2[0]).attr("class", "line_bar_blue");
-            }
-        }
-
-
-    }
-
-
     //파일 감추기
     var getFiles = function (key, uuid, packageName) {
+
         $("#package").val(packageName);
         $("#issuesTable").css("display", "block");
         $("#issuesDetail").css("display", "none");
@@ -586,9 +511,8 @@
 
         if (uuid != "") {
             procCallAjax("/projects/testsSource.do?projectKey=" + key + "&metrics=" + metrics, null, callbackFileList);
-
         } else {
-            procCallAjax("/projects/testsSource.do?projectKey=" + $("#projectKey").val() + "&metrics=" + metrics, null, callbacktestsSource);
+            procCallAjax("/projects/testsSource.do?projectKey=" + $("#projectKey").val() + "&metrics=" + metrics, null, callbackFileList);
         }
 
 
@@ -601,7 +525,7 @@
 
 
     // CALLBACK
-    var callbackGetProjectDetail = function(data) {
+    var callbackGetProjectDetail = function (data) {
         var doc = document;
         $('#projectName').val(data.projectViewName);
     };
@@ -611,15 +535,15 @@
         var list = "";
         if (data.length > 0) {
             for (var i = 0; i < data.length; i++) {
-                if (data[i].qualifier == "FIL") {
+                if (data[i].scope == "FIL") {
                     if (data[i].msr[0].frmt_val != 0) {
                         list += "<tr id='file_" + data[i].uuid + "' style='display: block;'>";
-                        list += "<td><a href='javascript:void(0);' onclick=\"getSource(\'" + data[i].key + "','" + data[i].uuid + "','" + data[i].name + "')\">" + data[i].name + "</a></td>";
+                        list += "<td><a href='javascript:void(0);' onclick=\"getSource(\'" + data[i].key + "','" + data[i].uuid + "','" + data[i].msr[0].frmt_val + "')\">" + data[i].name + "</a></td>";
                         list += "<td class='td_number'>" + data[i].msr[0].frmt_val + "</td>";
                         list += "</tr>";
                     }
-
                 }
+
             }
         } else {
             list += "<tr>";
