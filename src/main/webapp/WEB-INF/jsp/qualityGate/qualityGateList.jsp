@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="paasta.delivery.pipeline.ui.common.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -80,7 +81,7 @@
                         <button type="button" class="button btn_default" id="copyPopBtn">복제</button>
 
                         <button type="button" id="updatePopBtn" class="button btn_default">수정</button>
-                        '
+
                         <button type="button" class="button btn_default" id="deleteGateBtn">삭제</button>
                     </div>
                     <!--//sub 타이틀 영역 :e -->
@@ -318,9 +319,9 @@
 
         //게이트 복제 버튼
         $("#copyGateBtn").on("click", function () {
+            $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.");
-                $("#copyGateText").val("");
+                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
             } else {
                 procPopupConfirm('품질게이트 복제', '복제 하시겠습니까?', 'saveCopyGate();');
             }
@@ -334,9 +335,9 @@
 
         //게이트 생성 버튼
         $("#createGateBtn").on("click", function () {
+            $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.");
-                $("#copyGateText").val("");
+                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
 
             } else {
                 procPopupConfirm('품질게이트 생성', '생성 하시겠습니까?', 'createGate()', '', '');
@@ -352,9 +353,9 @@
 
         //게이트 수정 버튼
         $("#updateGateBtn").on("click", function () {
+            $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.");
-                $("#copyGateText").val("");
+                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
             } else {
                 procPopupConfirm('품질게이트 수정', '수정 하시겠습니까?', 'updateGate();');
             }
@@ -397,11 +398,13 @@
             $("#frCopyBtn").show();
             $("#frCreateBtn").hide();
             $("#frUdtBtn").hide();
+            $("#copyGateText").val('');
             $(".modal-title").text("품질 게이트 복제");
         } else if (name == "생성") {
             $("#frCopyBtn").hide();
             $("#frCreateBtn").show();
             $("#frUdtBtn").hide();
+            $("#copyGateText").val('');
             $(".modal-title").text("품질 게이트 생성");
         } else if (name == "수정") {
             $("#frCopyBtn").hide();
@@ -411,7 +414,7 @@
             $(".modal-title").text("품질 게이트 수정");
         }
 
-        $("#modalGate").modal('toggle');
+        $("#modalGate").modal('show');
     }
 
     //게이트 복제하기
