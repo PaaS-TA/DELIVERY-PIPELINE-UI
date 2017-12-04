@@ -125,8 +125,7 @@
 
     $(function () {
         $("#coverageBtn").click(function () {
-            var projectKey = $("#projectKey").val();
-            procMovePage("/projects/" + projectKey + "/dashboard");
+            procMovePage("/projects/<c:out value='${id}' default='' />/dashboard");
         })
     })
 
