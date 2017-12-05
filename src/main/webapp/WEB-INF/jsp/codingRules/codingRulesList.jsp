@@ -36,7 +36,7 @@
                     <div class="pl12 mt10">
                         <form id="" method="post" action="">
                             <div class="lnb_search">
-                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />
+                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" value="${codingRules.condition.q}"/>
                                 <%--<input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />--%>
                                 <a class="btn_search" href="#none" title="검색"></a>
                             </div>
@@ -59,37 +59,37 @@
                         <div id="searchIssue">
                             <li>
                                 <a href="#none">
-                                    <input type="checkbox" id="chk_severity_blocker" name="issue" value="BLOCKER">
+                                    <input type="checkbox" id="chk_severity_blocker" name="issue" value="BLOCKER" <c:if test="${codingRules.condition.severities eq 'BLOCKER'}">checked</c:if>>
                                     <label for="chk_severity_blocker"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span id="severityBlockerNum" class="issue_num">${severities.BLOCKER}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
-                                    <input type="checkbox" id="chk_severity_critical" name="issue" value="CRITICAL">
+                                    <input type="checkbox" id="chk_severity_critical" name="issue" value="CRITICAL" <c:if test="${codingRules.condition.severities eq 'CRITICAL'}">checked</c:if>>
                                     <label for="chk_severity_critical"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span id="severityCriticalNum" class="issue_num">${severities.CRITICAL}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
-                                    <input type="checkbox" id="chk_severity_major" name="issue" value="MAJOR">
+                                    <input type="checkbox" id="chk_severity_major" name="issue" value="MAJOR" <c:if test="${codingRules.condition.severities eq 'MAJOR'}">checked</c:if>>
                                     <label for="chk_severity_major"><span class="block"><i class="ico_major"></i>보통 (Major)</span> <span id="severityMajorNum" class="issue_num">${severities.MAJOR}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
-                                    <input type="checkbox" id="chk_severity_minor" name="issue" value="MINOR">
+                                    <input type="checkbox" id="chk_severity_minor" name="issue" value="MINOR" <c:if test="${codingRules.condition.severities eq 'MINOR'}">checked</c:if>>
                                     <label for="chk_severity_minor"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span id="severityMinorNum" class="issue_num">${severities.MINOR}</span></label>
                                 </a>
                             </li>
                             <li class="last">
                                 <a href="#none">
-                                    <input type="checkbox" id="chk_severity_info" name="issue" value="INFO">
+                                    <input type="checkbox" id="chk_severity_info" name="issue" value="INFO" <c:if test="${codingRules.condition.severities eq 'INFO'}">checked</c:if>>
                                     <label for="chk_severity_info"><span class="block"><i class="ico_info"></i>정보 (Info)</span> <span id="severityInfoNum" class="issue_num">${severities.INFO}</span></label>
                                 </a>
                             </li>
                         </div>
                         <h4>품질 프로파일 (Quality Profile)</h4>
-                        <li id="listProfileCondition_">
+                        <li id="listProfileCondition_" <c:if test="${empty codingRules.condition.qprofile}">class="custom-profile-selected"</c:if>>
                             <a id="qualityProfile_all" data-profileKey="" data-isdefault="false" href="#none">
                                 <%--<input type="checkbox" data-profileKey="all" name="qualityProfile_all" id="qualityProfile_all" value="${qualityProfile.name}">--%>
                                 <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer"><span class="block" style="width:220px;">${qualityProfile.name}</span></label>--%>
@@ -97,7 +97,7 @@
                             </a>
                         </li>
                         <c:forEach items="${qualityProfiles}" var="qualityProfile" varStatus="status">
-                            <li id="listProfileCondition_${qualityProfile.key}">
+                            <li id="listProfileCondition_${qualityProfile.key}" <c:if test="${codingRules.condition.qprofile eq qualityProfile.key}">class="custom-profile-selected"</c:if>>
                                 <a id="qualityProfile_${qualityProfile.key}" data-profileKey="${qualityProfile.key}" data-isdefault="${qualityProfile.isDefault}" href="#none">
                                     <%--<input type="checkbox" data-profileKey=${qualityProfile.key} name="${qualityProfile.key}" id="chk_profile_${qualityProfile.key}" value="${qualityProfile.name}">--%>
                                     <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer">--%>
@@ -127,15 +127,18 @@
                             </colgroup>
                             <thead></thead>
                             <tbody id="codingRulesData">
+                            <c:if test="${empty rules}">
+                                <tr><td class='rule_tit'> 프로파일에 속한 코딩 규칙이 없습니다.</td></tr>
+                            </c:if>
                             <c:forEach items="${rules}" var="rule" varStatus="status">
-                            <tr>
-                                <td class="rule_tit" data-key="${rule.key}"><a href="#none">${rule.name}</a></td>
-                                <td class="alignC"></td>
-                                <td class="alignC">${rule.langName}</td>
-                                <c:if test="${role == 'ROLE_ADMIN'}">
-                                <td class="alignC"><button type="button" data-ruleKey="${rule.key}" id="btn_activate_${rule.key}" class="button quality_btn">프로파일에 추가</button></td>
-                                </c:if>
-                            </tr>
+                                <tr>
+                                    <td class="rule_tit" data-key="${rule.key}"><a href="#none">${rule.name}</a></td>
+                                    <td class="alignC"></td>
+                                    <td class="alignC">${rule.langName}</td>
+                                    <c:if test="${role == 'ROLE_ADMIN'}">
+                                    <td class="alignC"><button type="button" data-ruleKey="${rule.key}" id="btn_activate_${rule.key}" class="button quality_btn">프로파일에 추가</button></td>
+                                    </c:if>
+                                </tr>
                             </c:forEach>
                             </tbody>
                         </table>
@@ -311,12 +314,11 @@
 <input type="hidden" name="sortKey" id="sortKey" value="${codingRules.condition.s}">
 <%--Sort 타입--%>
 <input type="hidden" name="sortAsc" id="sortAsc" value="${codingRules.condition.asc}">
-<%--Sort 타입--%>
 
 <input type="hidden" name="conditionKeyWord" id="conditionKeyWord">
 <input type="hidden" name="conditionLanguages" id="conditionLanguages" value="${codingRules.condition.languages}">
 <input type="hidden" name="conditionSeverrity" id="conditionSeverrity">
-<input type="hidden" name="conditionProfileKey" id="conditionProfileKey">
+<input type="hidden" name="conditionProfileKey" id="conditionProfileKey" value="${codingRules.condition.qprofile}">
 <input type="hidden" name="conditionProfileIsDefault" id="conditionProfileIsDefault">
 <input type="hidden" name="conditionPageType" id="conditionPageType">
 <input type="hidden" name="selectedRuleKey" id="selectedRuleKey">
@@ -562,8 +564,6 @@
         // 품질 프로파일
         // console.log("condition ::: profile ::: "+$("#conditionProfileKey").val());
 
-
-        // 페이지 번호
         var params = {
             q : $("#conditionKeyWord").val(),
             p : $("#pageNo").val(),
@@ -573,7 +573,7 @@
             qprofile : $("#conditionProfileKey").val(),
             languages : $("#conditionLanguages").val(),
             severities : chkSeverities
-        }
+        };
 
         var paramstr = $.param(params);
         if ($("#conditionProfileKey").val()!= "") {
@@ -620,7 +620,7 @@
         $("#selectedRuleKey").val("");
 
         var isDefaultProfile = $("#conditionProfileIsDefault").val();
-        console.log(">>>> result ::::: "+ isDefaultProfile);
+        //console.log(">>>> result ::::: "+ isDefaultProfile);
 
         // 권한제어
         var role = '${role}';
@@ -748,9 +748,9 @@
         var ruleKey = $("#selectedRuleKey").val();
         var pageType = $("#conditionPageType").val();
 
-        console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
-        console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
-        console.log("=== Activate_rule :: severity :: "+ popupSeverity);
+        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
+        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
 
         var reqParam = {
             serviceInstanceId : $("#serviceInstanceId").val(),
@@ -773,7 +773,7 @@
         $('#modalCodingRules').modal('hide');
         procPopupAlert('수정 되었습니다.');
         var ruleKey = $("#selectedRuleKey").val();
-        console.log("###### :: "+ ruleKey);
+        // console.log("###### :: "+ ruleKey);
         // 상세페이지
         getCodingRuleDetail(ruleKey);
 

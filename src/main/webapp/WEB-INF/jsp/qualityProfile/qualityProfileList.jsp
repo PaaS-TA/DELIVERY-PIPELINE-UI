@@ -67,7 +67,7 @@
 
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 코딩규칙 :s -->
-                    <h3 class="sub_title">코딩규칙 <a href="javascript:void(0);" onclick="rulesPageMove()"><span id="crTotal"></span></a></h3>
+                    <h3 class="sub_title">코딩규칙 <a href="#none"><span class="code_rulenumber" id="crTotal"></span></a></h3>
                     <table summary="코딩규칙 테이블입니다." class="quality_list">
                         <caption>코딩규칙</caption>
                         <colgroup>
@@ -77,11 +77,11 @@
                         <tr>
                             <td>
                                 <ul class="rule_list">
-                                    <li><span class="issue_name"><i class="ico_blocker"></i>심각 (Blocker)</span> <a href="javascript:void(0);" onclick="rulesPageMove()"><span class="code_rulenumber" id="blockerNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_critical"></i>높음 (Critical)</span> <a href="javascript:void(0);" onclick="rulesPageMove()"><span class="code_rulenumber" id="criticalNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_major"></i>보통 (Major)</span> <a href="javascript:void(0);" onclick="rulesPageMove()"><span class="code_rulenumber" id="majorNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_minor"></i>낮음 (Minor)</span> <a href="javascript:void(0);" onclick="rulesPageMove()"><span class="code_rulenumber" id="minorNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_info"></i>정보 (Info)</span> <a href="javascript:void(0);" onclick="rulesPageMove()"><span class="code_rulenumber" id="infoNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_blocker"></i>심각 (Blocker)</span> <a href="#none"><span class="code_rulenumber" id="blockerNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_critical"></i>높음 (Critical)</span> <a href="#none"><span class="code_rulenumber" id="criticalNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_major"></i>보통 (Major)</span> <a href="#none"><span class="code_rulenumber" id="majorNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_minor"></i>낮음 (Minor)</span> <a href="#none"><span class="code_rulenumber" id="minorNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_info"></i>정보 (Info)</span> <a href="#none"><span class="code_rulenumber" id="infoNum"></span></a></li>
                                 </ul>
                             </td>
                         </tr>
@@ -303,19 +303,16 @@
 <input type="hidden" name="h_isDefault" id="h_isDefault"/>
 <%-- Hidden Value :: END --%>
 
+<%-- Form Value :: BEGIN --%>
+<form id="frm" name="frm" action="" method="post">
+    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+    <input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
+    <input type="hidden" id="qprofile" name="qprofile" value=""/>
+    <input type="hidden" id="severities" name="severities" value=""/>
+</form>
+<%-- Form Value :: END --%>
+
 <script type="text/javascript">
-
-    var doubleSubmitFlag = false;
-    //더블클릭 방지
-    function doubleSubmitCheck(){
-
-        if(doubleSubmitFlag){
-            return doubleSubmitFlag;
-        }else{
-            doubleSubmitFlag = true;
-            return false;
-        }
-    }
 
     // Popup Types
     var gPopupTypeCreate = "Create";
@@ -365,6 +362,24 @@
 
         objModalList.modal('toggle');
     });
+
+    // 코딩 규칙 클릭시 코딩 규칙 페이지로 이동
+    $(".code_rulenumber").on("click", function () {
+
+        // 프로파일 키
+        var qprofile = $("#h_profileKey").val();
+        var severity = $(this).data().severity;
+
+        // console.log("qprofile ::: "+ qprofile);
+        // console.log("severity ::: "+ severity);
+
+        $("#frm").attr("action", procGetDashboardUrl()+"/codingRules/dashboard");
+        $("#qprofile").val(qprofile);
+        $("#severities").val(severity);
+        $("#frm").submit();
+
+    });
+
 
     // 품질 프로파일 생성
     $("#btnProfileCreate").on("click", function () {
@@ -484,7 +499,39 @@
         procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
     });
-    // ------ function
+
+    $(document).on("click", '[name="linkProject"]' , function() {
+
+        var defaultProfileKey = $("#h_defaultProfileKey").val();
+        var profileKey = $("#h_profileKey").val();
+
+        var projectId = $(this).data().id;
+        var projectKey = $(this).attr("value");
+        var isCheck = $(this).is(":checked");
+
+        var params = {
+            id : projectId,
+            projectId : projectId,
+            projectKey : projectKey,
+            qualityProfileKey : profileKey,
+            linked : isCheck,
+            defaultQualityProfileKey : defaultProfileKey
+        };
+
+        var reqUrl = "/qualityProfile/linkedProject.do";
+
+        // console.log("Link Profile ::: defaultProfileKey ::: " + defaultProfileKey);
+        // console.log("Link Profile ::: ProfileKey ::: " + profileKey);
+        // console.log("Link Profile ::: Project ID ::: " + projectId);
+        // console.log("Link Profile ::: Project Key ::: " + projectKey);
+        // console.log("Link Profile ::: is Link ::: " + isCheck);
+
+        procCallAjax(reqUrl, params, callbackLinkedProject);
+
+    });
+
+
+    // ----------------------------------------------------------- function
     // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: s
     var getQualityProfileList = function () {
         var reqUrl = "/qualityProfile/qualityProfileList.do";
@@ -651,9 +698,7 @@
         $("#h_language").val(language);
         $("#h_profileKey").val(profileKey);
 
-        doubleSubmitFlag = false;
-
-        //console.log("GET getCodingRules ::::: s");
+        // console.log("GET getCodingRules ::::: s");
         // 코딩 규칙 정보 취득
         getCodingRules(profileKey, language);
 
@@ -671,8 +716,7 @@
             $("#projectLinked").html("");
             $("#projectUnLinked").html("");
 
-            sub_tab(0);
-            getReleatedProjects(profileKey);
+            getProjects();
         }
 
     };
@@ -691,12 +735,15 @@
             return false;
         }
 
+        var qprofile = $("#h_profileKey").val();
+
         $("#crTotal").text(data.total);
+        $("#crTotal").data("severity", "");
 
         var facets = data.facets;
         var values;
         $.each(facets, function (index, facet) {
-            if ("active_severities" == facet.property) {
+            if ("severities" == facet.property) {
                 values = facet.values;
             }
         });
@@ -705,22 +752,28 @@
 
             if (value.val == "MAJOR") {
                 $("#majorNum").text(value.count);
+                $("#majorNum").data("severity", "MAJOR");
             }
 
             if (value.val == "MINOR") {
                 $("#minorNum").text(value.count);
+                $("#minorNum").data("severity", "MINOR");
             }
 
             if (value.val == "CRITICAL") {
                 $("#criticalNum").text(value.count);
+                $("#criticalNum").data("severity", "CRITICAL");
             }
 
             if (value.val == "INFO") {
                 $("#infoNum").text(value.count);
+                $("#infoNum").data("severity", "INFO");
+                // .log($("#infoNum").data());
             }
 
             if (value.val == "BLOCKER") {
                 $("#blockerNum").text(value.count);
+                $("#blockerNum").data("severity", "BLOCKER");
             }
 
         });
@@ -728,9 +781,11 @@
 
     };
 
-    function getReleatedProjects(profileKey) {
 
-        procCallAjax("/qualityProfile/projects.do?key="+profileKey+"&selected=all", null, callbackGetProjects);
+    // 연결된 프로젝트 조회 (서비스인스턴스별)
+    function getProjects() {
+
+        procCallAjax("/qualityProfile/projects.do", null, callbackGetProjects);
 
     }
     // [Collback] 연결된 프로젝트
@@ -740,42 +795,59 @@
             return false;
         }
 
-        var results = data.results;
-        var releatedProjects;
-        var unReleatedProjects;
+        sub_tab(0);
+
+        $("#allProject").html("");
+        $("#projectLinked").html("");
+        $("#projectUnLinked").html("");
+
+//        var results = data.results;
+        var profileKey = $("#h_profileKey").val();
+        var linkedProjects;
+        var unLinkedProjects;
         var allProjects;
 
-        $.each(results, function (index, result) {
+        $.each(data, function (index, project) {
 
-            if(result.selected) {
-                releatedProjects += "<tr>";
-                releatedProjects += "<td><input type='checkbox' id='CheckboxSelected_"+result.uuid+"' value='"+result.uuid+"' checked></td>";
-                releatedProjects += "<td class='alignL'>"+result.name+"</td>";
-                releatedProjects += "</tr>";
-            }
-
-            if(!result.selected) {
-                unReleatedProjects += "<tr>";
-                unReleatedProjects += "<td><input type='checkbox' id='CheckboxUnSelected_"+result.uuid+"' value='"+result.uuid+"'></td>";
-                unReleatedProjects += "<td class='alignL'>"+result.name+"</td>";
-                unReleatedProjects += "</tr>";
+//            if(result.selected) {
+            if (project.qualityProfileKey == profileKey) {
+                linkedProjects += "<tr>";
+                linkedProjects += "<td><input type='checkbox' name='linkProject' data-id='"+project.id+"' id='chk_projectLinked_"+project.id+"' value='"+project.projectKey+"' checked></td>";
+                linkedProjects += "<td class='alignL'>"+project.projectViewName+"</td>";
+                linkedProjects += "</tr>";
+            } else {
+                unLinkedProjects += "<tr>";
+                unLinkedProjects += "<td><input type='checkbox' name='linkProject' data-id='"+project.id+"' id='chk_projectUnLinked_"+project.id+"' value='"+project.projectKey+"'></td>";
+                unLinkedProjects += "<td class='alignL'>"+project.projectViewName+"</td>";
+                unLinkedProjects += "</tr>";
             }
 
             allProjects += "<tr>";
-            allProjects += "<td><input type='checkbox' id='Checkbox_"+result.uuid+"' value='"+result.uuid+"' ";
-            if(result.selected) {
+            allProjects += "<td><input type='checkbox' name='linkProject' data-id='"+project.id+"' id='chk_projectLinkAll_"+project.id+"' value='"+project.projectKey+"' ";
+            if(project.qualityProfileKey == profileKey) {
                 allProjects += "checked"
             }
             allProjects += "></td>";
-            allProjects += "<td class='alignL'>"+result.name+"</td>";
+            allProjects += "<td class='alignL'>"+project.projectViewName+"</td>";
             allProjects += "</tr>";
         });
 
         $("#allProject").html(allProjects);
-        $("#projectLinked").html(releatedProjects);
-        $("#projectUnLinked").html(unReleatedProjects);
+        $("#projectLinked").html(linkedProjects);
+        $("#projectUnLinked").html(unLinkedProjects);
 
     };
+
+    var callbackLinkedProject = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        getProjects();
+
+    };
+
     // 품질 프로파일 상세 ::::: e
 
     // 품질 프로파일 복제 ::::: s

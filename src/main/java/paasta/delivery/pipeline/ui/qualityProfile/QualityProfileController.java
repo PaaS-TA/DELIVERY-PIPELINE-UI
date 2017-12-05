@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import paasta.delivery.pipeline.ui.codingRules.CodingRules;
 import paasta.delivery.pipeline.ui.codingRules.CodingRulesService;
 import paasta.delivery.pipeline.ui.common.CommonService;
+import paasta.delivery.pipeline.ui.project.Project;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -106,31 +107,13 @@ public class QualityProfileController {
     public CodingRules getCodingRules(@ModelAttribute CodingRules codingRules){
 
         // 기본 설정 값
-        codingRules.setFacets("active_severities");
+        codingRules.setFacets("languages,severities");
         codingRules.setActivation("true");
+        codingRules.setQ("");
 
         CodingRules result = codingRulesService.getCodingRules(codingRules);
 
         return result;
-
-    }
-
-    /**
-     * Gets projects.
-     *
-     * @param key      the key
-     * @param selected the selected
-     * @return the projects
-     */
-    @GetMapping(value = BASE_URL + "/projects.do")
-    @ResponseBody
-    public QualityProfile getProjects(@RequestParam(value = "key", required = true) String key,
-                                      @RequestParam(value = "selected", required = false) String selected){
-
-        LOGGER.info("===[UI - INSPECTION :: getProjects]=== key : {}, selected {}", key, selected);
-
-        return qualityProfileService.getProjects(key, selected);
-
 
     }
 
@@ -205,19 +188,44 @@ public class QualityProfileController {
     }
 
 
+    /**
+     * Gets projects.
+     *
+     * @param serviceInstanceId the service instance id
+     * @return the projects
+     */
+    @GetMapping(value = BASE_URL + "/projects.do")
+    @ResponseBody
+    public List getProjects(@PathVariable String serviceInstanceId) {
 
+        LOGGER.info("===[UI - INSPECTION :: getProjects]=== serviceInstanceId : {}", serviceInstanceId);
 
-    //TODO---------------------------------------
-    // 프로젝트 연결 / 해제
-    // API :: paasta.delivery.pipeline.inspection.api.project
-    //## REQUEST PARAMETERS
-    //- (Required) id
-    //- (Required or Null) qualityProfileKey
-    //- (Required or Null) qualityGateId
-    //- (Required) linkOperationType
-    //- (Optional, for UNLINK) defaultQualityProfileKey
-    //- (Optional, for UNLINK) defaultQualityGateId
-    //## RETURN OBJECT
-    //- Project Model
+        Project project = new Project();
+        project.setServiceInstancesId(serviceInstanceId);
+        return qualityProfileService.getProjects(project);
+    }
+
+    /**
+     * Project Link / UnLink
+     *
+     * RequestParam(value = "id", required = true)
+     * RequestParam(value = "qualityProfileKey OR NULL", required = true)
+     * RequestParam(value = "qualityGateId OR NULL", required = true)
+     * RequestParam(value = "linkOperationType", required = true)
+     * RequestParam(value = "defaultQualityProfileKey", required = false)
+     * RequestParam(value = "defaultQualityGateId", required = false)
+     *
+     * @param project the project
+     * @return the project
+     */
+    @PostMapping(value = BASE_URL + "/linkedProject.do")
+    @ResponseBody
+    public Project linkedProject(@RequestBody Project project) {
+
+        LOGGER.info("===[UI - INSPECTION :: linkedProject]=== ");
+        Project result = qualityProfileService.linkedProject(project);
+
+        return result;
+    }
 
 }

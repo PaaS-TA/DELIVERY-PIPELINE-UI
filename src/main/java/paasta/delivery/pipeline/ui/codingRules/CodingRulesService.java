@@ -38,7 +38,7 @@ public class CodingRulesService {
      */
     public CodingRules getCodingRules(CodingRules codingRules) {
 
-        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection, codingRules);
+        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection, codingRules, "q");
 
         return restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, CodingRules.class);
     }
@@ -50,7 +50,7 @@ public class CodingRulesService {
      * @return the coding rule detail
      */
     public CodingRules getCodingRuleDetail(CodingRules codingRules) {
-        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection + "/codingRuleDetail", codingRules);
+        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection + "/codingRuleDetail", codingRules, "q");
         CodingRules data = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, CodingRules.class);
 
         // 연결된 품질 프로파일 리스트 조회 : 해당 서비스 인스턴스 + 품질 프로파일명 조회
@@ -78,7 +78,6 @@ public class CodingRulesService {
 
         data.setActivatedQProfiles(qualityProfiles);
 
-        LOGGER.info("RESULT :::::::::::::::::::::::::::::::::::::::::::"+qualityProfiles.size());
         return data;
     }
 

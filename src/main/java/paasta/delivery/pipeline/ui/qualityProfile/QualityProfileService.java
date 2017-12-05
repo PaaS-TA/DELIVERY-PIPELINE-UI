@@ -7,6 +7,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import paasta.delivery.pipeline.ui.common.Constants;
 import paasta.delivery.pipeline.ui.common.RestTemplateService;
+import paasta.delivery.pipeline.ui.project.Project;
+import paasta.delivery.pipeline.ui.project.ProjectService;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class QualityProfileService {
 
     @Autowired
     private RestTemplateService restTemplateService;
+    @Autowired
+    private ProjectService projectService;
 
     /**
      * QualityPrifile 리스트
@@ -32,7 +36,7 @@ public class QualityProfileService {
     public List getQualityProfileList(QualityProfile qualityProfile){
 
         // 프로파일 목록 조회
-        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection+"/qualityProfileList",qualityProfile);
+        String reqUrl = restTemplateService.makeQueryParam(REQ_URL_Inspection+"/qualityProfileList",qualityProfile, null);
         LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileList - profile]=== reqUrl : {}", reqUrl);
         List profiles = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, List.class);
 
@@ -51,8 +55,6 @@ public class QualityProfileService {
 
         LOGGER.info("===[UI :: QUALITYPROFILE :: getQualityProfileLanguages]=== reqUrl : {}", reqUrl);
         List languages = restTemplateService.send(Constants.TARGET_INSPECTION_API,reqUrl, HttpMethod.GET, null, List.class);
-
-        //result.put("languages",languages.stream().filter(e -> ((String)((Map)e).get("key")).toUpperCase().equals("JAVA")).collect(toList()) );
 
         return languages;
 
@@ -79,19 +81,15 @@ public class QualityProfileService {
     /**
      * Gets projects.
      *
-     * @param key      the key
-     * @param selected the selected
+     * @param project the project
      * @return the projects
      */
-    public QualityProfile getProjects(String key, String selected) {
+    public List getProjects(Project project) {
 
-        //TODO :: DB + API 유효성 검증된 List 조회 메소드 호출로 변경 필요
-        // >>> 사용 -- projectService.getProjects(project);
+        // DB + API 유효성 검증된 List 조회
+        List data = projectService.getProjectList(project);
 
-        String reqUrl = REQ_URL_Inspection + "/projects?key="+key + "&selected="+selected;
-        QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.GET, null, QualityProfile.class);
-        result.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
-        return result;
+        return data;
     }
 
     /**
@@ -137,7 +135,7 @@ public class QualityProfileService {
         LOGGER.info("===[UI :: QUALITYPROFILE :: deleteQualityProfile]=== reqUrl : {}", reqUrl);
         QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
 
-        //TODO :: 프로젝트 정보 (DB)에서 삭제 처리
+        // TODO :: 프로젝트 정보 (DB)에서 삭제 처리
         return result;
     }
 
@@ -170,10 +168,18 @@ public class QualityProfileService {
         return result;
     }
 
-    //TODO ---------------------------
-    // 프로젝트 연결 / 해제
 
+    /**
+     * Project Link / UnLink
+     *
+     * @param project the project
+     * @return the project
+     */
+    public Project linkedProject(Project project) {
 
+        Project data = projectService.setUpdateProject(project);
 
+        return data;
 
+    }
 }
