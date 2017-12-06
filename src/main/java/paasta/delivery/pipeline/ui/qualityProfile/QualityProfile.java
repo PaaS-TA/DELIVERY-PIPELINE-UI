@@ -27,8 +27,10 @@ public class QualityProfile {
     private String serviceInstanceId;
     private String resultStatus;
     private String resultMessage;
+    private List linkedProjects;
 
     // --- getter/setter :: s
+
     /**
      * Gets name.
      *
@@ -372,6 +374,24 @@ public class QualityProfile {
         this.severity = severity;
     }
 
+    /**
+     * Gets linked projects.
+     *
+     * @return the linked projects
+     */
+    public List getLinkedProjects() {
+        return linkedProjects;
+    }
+
+    /**
+     * Sets linked projects.
+     *
+     * @param linkedProjects the linked projects
+     */
+    public void setLinkedProjects(List linkedProjects) {
+        this.linkedProjects = linkedProjects;
+    }
+
     // --- getter/setter :: e
 
     @Override
@@ -396,6 +416,7 @@ public class QualityProfile {
                 ", serviceInstanceId='" + serviceInstanceId + '\'' +
                 ", resultStatus='" + resultStatus + '\'' +
                 ", resultMessage='" + resultMessage + '\'' +
+                ", linkedProjects=" + linkedProjects +
                 '}';
     }
 }

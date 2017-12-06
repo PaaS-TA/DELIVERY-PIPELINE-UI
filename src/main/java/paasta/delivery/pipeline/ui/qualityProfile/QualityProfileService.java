@@ -135,10 +135,8 @@ public class QualityProfileService {
         LOGGER.info("===[UI :: QUALITYPROFILE :: deleteQualityProfile]=== reqUrl : {}", reqUrl);
         QualityProfile result = restTemplateService.send(Constants.TARGET_INSPECTION_API, reqUrl, HttpMethod.POST, qualityProfile, QualityProfile.class);
 
-        // TODO :: 프로젝트 정보 (DB)에서 삭제 처리
         return result;
     }
-
 
     /**
      * Activate rule quality profile.
