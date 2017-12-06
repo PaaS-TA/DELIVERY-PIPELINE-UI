@@ -243,3 +243,78 @@ pre {
     outline: none !important;
     box-shadow: none;
 }
+
+.source_view_wrapper {
+    width: 100%;
+    background-color: #eceef2;
+    border: #dddddd solid 1px;
+}
+
+.source_view_left_wrapper {
+    float: left;
+    padding: 0 0 0 10px;
+    min-width: 190px;
+    line-height: 20px;
+    min-height: 4px;
+}
+
+.source_view_number {
+    float: left;
+    width: 40px;
+}
+
+.source_view_author {
+    float: left;
+    width: 104px;
+    max-width: 104px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.source_view_coverage_line {
+    float: left;
+    width: 6px;
+    min-width: 6px;
+    background-color: transparent;
+}
+
+.coverage_line_covered {
+    background-color: #85bb43;
+}
+
+.coverage_line_uncovered {
+    background-color: #d4333f;
+}
+
+.source_view_issue {
+    float: left;
+    width: 40px;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.source_view_right_wrapper {
+    padding: 0 0 0 10px;
+    overflow: hidden;
+    background-color: #ffffff;
+    line-height: 20px;
+    min-height: 4px;
+}
+
+.rule_description_area_wrapper {
+
+    padding: 10px 0 10px 20px;
+    min-height: 20px;
+    border: #eea236 1px solid;
+    border-radius: 4px;
+    background-color: #ffffff;
+}
+
+.source_view_issue_rule_name_area {
+    width: 100%;
+    margin: 10px 0 10px -20px;
+    padding: 10px 10px 10px 20px;
+    background-color: #666666;
+    color: #ffffff;
+}
