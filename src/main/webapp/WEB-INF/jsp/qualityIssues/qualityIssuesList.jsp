@@ -364,14 +364,12 @@
     }
 
 
-    // FOR SET CODING RULE NAME
-    gCodingRuleAreaIndex = 0;
+1    // FOR SETTING CODING RULE NAME
+    var gCodingRuleAreaIndex = 0;
 
 
     // SET VIEW CODING RULE DETAIL
     var setViewCodingRuleDetail = function (reqIndex, reqCodingRuleKey) {
-        console.log("## 1 :: " + $(this));
-        console.log("## 2 :: " + $(this).blur());
         var ruleMessageArea = $('#ruleMessageArea_' + reqIndex),
             viewOnString = "view-on",
             viewOffString = "view-off";
