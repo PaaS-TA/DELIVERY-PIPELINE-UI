@@ -301,20 +301,20 @@
 </div>
 <%--POPUP CODINGRULES :: END--%>
 
+<%-- Hidden Value :: BEGIN --%>
 <input type="hidden" id="serviceInstanceId" name="serviceInstanceId" value="<c:out value='${serviceInstanceId}' default='' />">
-
-<%--CodingRule Total Count--%>
+<%-- CodingRule Total Count --%>
 <input type="hidden" name="totalCount" id="totalCount" value="${codingRules.total}">
-<%--페이지 No--%>
+<%-- 페이지 No --%>
 <input type="hidden" name="pageNo" id="pageNo" value="${codingRules.condition.p}">
-<%--페이지당 표시할 CodingRule Count--%>
+<%-- 페이지당 표시할 CodingRule Count --%>
 <input type="hidden" name="countPerPage" id="countPerPage" value="${codingRules.condition.ps}">
 <input type="hidden" name="countPerPageDefault" id="countPerPageDefault" value="11">
-<%--Sort 항목--%>
+<%-- Sort 항목 --%>
 <input type="hidden" name="sortKey" id="sortKey" value="${codingRules.condition.s}">
-<%--Sort 타입--%>
+<%-- Sort 타입 --%>
 <input type="hidden" name="sortAsc" id="sortAsc" value="${codingRules.condition.asc}">
-
+<%-- 검색조건 --%>
 <input type="hidden" name="conditionKeyWord" id="conditionKeyWord">
 <input type="hidden" name="conditionLanguages" id="conditionLanguages" value="${codingRules.condition.languages}">
 <input type="hidden" name="conditionSeverrity" id="conditionSeverrity">
@@ -322,14 +322,21 @@
 <input type="hidden" name="conditionProfileIsDefault" id="conditionProfileIsDefault">
 <input type="hidden" name="conditionPageType" id="conditionPageType">
 <input type="hidden" name="selectedRuleKey" id="selectedRuleKey">
+<%-- Hidden Value :: END --%>
 
 <script type="text/javascript">
-    // Popup Types
+
+    $(document.body).ready(function () {
+    });
+
+    // ::::: Popup Types
     var gPopupTypeAdd = "Add";
     var gPopupTypeUpdate = "Update";
     var gPopupTypeDelete = "Delete";
+    // ::::: Page Types
     var gPageTypeList = "List";
     var gPageTypeDetail = "Detail";
+    // ::::: Severity Types
     var gSeverityArr = [
         {"key":"BLOCKER", "value": "심각 (Blocker)"},
         {"key":"CRITICAL", "value": "높음 (Critical)"},
@@ -338,12 +345,7 @@
         {"key":"INFO", "value": "정보 (Info)"}
     ];
 
-    $(document.body).ready(function () {
-
-    });
-
-
-    // 품질 프로파일 선택
+    // ::::: 품질 프로파일 선택 이벤트 : BEGIN
     $("a[id^='qualityProfile_']").on("click", function () {
 
         var profileKey = $(this).data().profilekey;
@@ -360,185 +362,32 @@
         getCodingRules();
 
     });
-    // 이슈 수준 선택
+    // ::::: 품질 프로파일 선택 이벤트 : END
+    // ::::: 이슈 수준 선택 이벤트 : BEGIN
     $("input[id^='chk_severity_']").on("click", function () {
         var chk_select = $(this).val();
         // console.log(" ::: checkbox select ::: "+ chk_select);
         $("#countPerPage").val($("#countPerPageDefault").val());
         getCodingRules();
     });
-
-    // 프로파일에 추가 선택
-    $(document).on("click", ".quality_btn" , function() {
-
-        var id = $(this).attr("id");
-        var activateRule = $(this).data().rulekey;
-
-        $("#selectedRuleKey").val(activateRule);
-
-        // console.log(" ::: activate rule ::: " + activateRule + ">>>"+ id + ":::"+ $(this).text());
-
-        if (id.toString().match("btn_deactivate_")) {
-            // console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
-
-            var btnText = "제거";
-            var reqTitle = $(this).text();
-            var reqMessage = btnText + " 하시겠습니까?";
-            var procFunction = "DeleteProfileRule();";
-            var reqButtonText = btnText;
-
-            procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-        } else {
-            var objModalList = $('#modalCodingRules');
-            // 품질 프로파일 목록 조회
-            getQualityProfileList();
-
-            // Popup 설정
-            procSetPopupArea(gPopupTypeAdd);
-
-            objModalList.modal('toggle');
-        }
-
-    });
-
-    // 프로파일에 추가 POPUP :: 추가 선택
-    $("#btnRuleAdd").on("click", function () {
-
-        // select box 선택이므로 유효성 체크 Pass
-        $('#modalCodingRules').modal('hide');
-
-        // 확인 POPUP
-        var reqTitle = $('#popupCodingRulesConfirmTitle').text();
-        var reqMessage = $('#btnRuleAdd').text() + " 하시겠습니까?";
-        var procFunction = "AddProfileRule();";
-        var reqButtonText = $('#btnRuleAdd').text();
-
-        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-    });
-
-    // 연결된 품질 프로파일 수정 POPUP :: 수정 선택
-    $("#btnRuleUpdate").on("click", function () {
-
-        // select box 선택이므로 유효성 체크 Pass
-        $('#modalCodingRules').modal('hide');
-
-        // 확인 POPUP
-        var reqTitle = "이슈 수준 조정";
-        var reqMessage = $('#btnRuleUpdate').text() + " 하시겠습니까?";
-        var procFunction = "UpdateProfileRule();";
-        var reqButtonText = $('#btnRuleUpdate').text();
-
-        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-    });
-
-    // Set PopUp Area
-    var procSetPopupArea = function (type) {
-
-        var procTypeArray = [gPopupTypeAdd, gPopupTypeUpdate];
-
-        $.each(procTypeArray, function (index, procType) {
-
-            if (procType == type) {
-                $('#popup' + procType + 'Area').fadeIn("slow");
-                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
-            } else {
-                $('#popup' + procType + 'Area').hide();
-                $('#popup' + procType + 'ButtonArea').hide();
-            }
-        });
-    };
-
-    // 검색어 Enter 제어
+    // ::::: 이슈 수준 선택 이벤트 : END
+    // ::::: 검색 이벤트 : BEGIN
+    //// 검색어 입력 후 Enter
     $("#search_keyword").keydown(function(evt) {
         if (evt.keyCode == 13) {
             $("#countPerPage").val($("#countPerPageDefault").val());
             getCodingRules();
             return false;
         }
-
     });
-
-    // 검색 버튼 제어
+    //// 검색 버튼
     $(".btn_search").on("click", function () {
         $("#countPerPage").val($("#countPerPageDefault").val());
         getCodingRules();
 
     });
-
-    // 더보기 버튼 제어
-    $("#btnMore").on("click", function () {
-
-        $("#countPerPage").val($("#totalCount").val());
-        getCodingRules();
-
-    });
-
-    // Rule 상세 페이지
-    $(document).on("click", ".rule_tit" , function() {
-
-        //console.log("Detail ::: " + $(this).data().key);
-        var pageType = $("#conditionPageType").val();
-        if (pageType != gPageTypeDetail) {
-            getCodingRuleDetail($(this).data().key);
-        }
-
-    });
-
-    // Rule 상세 페이지 :: 연결된 품질 프로파일 추가 / 변경 / 삭제
-    $(document).on("click", ".tbl_in_btn_sm" , function() {
-
-        var btn_type = $(this).data().type;
-        var qprofile = $(this).data().profile;
-        var qprofilenm = $(this).data().name;
-        $('#conditionProfileKey').val(qprofile);
-
-        //console.log("Detail btn Type::: " + btn_type);
-        //console.log("Detail btn Type::: " + qprofile);
-        //console.log("Detail btn Type::: " + qprofilenm);
-
-        if (gPopupTypeDelete == btn_type) {
-
-            var btnText = "제거";
-            var reqTitle = $(this).text();
-            var reqMessage = btnText + " 하시겠습니까?";
-            var procFunction = "DeleteProfileRule();";
-            var reqButtonText = btnText;
-
-            procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-        } else if (gPopupTypeAdd == btn_type) {
-
-            var objModalList = $('#modalCodingRules');
-            // 품질 프로파일 목록 조회
-            getQualityProfileList();
-
-            // Popup 설정
-            procSetPopupArea(gPopupTypeAdd);
-
-            objModalList.modal('toggle');
-
-        }
-        if (gPopupTypeUpdate == btn_type) {
-            //console.log("Detail btn Update ::: " + btn_type);
-
-            var objModalList = $('#modalCodingRules');
-
-            // Popup 설정
-            procSetPopupArea(gPopupTypeUpdate);
-            $('#popupProfileUpdate').text(qprofilenm);
-            $('#popupProfileUpdate').data("key",qprofile);
-
-            objModalList.modal('toggle');
-        }
-
-    });
-
-
-    //////////////////////////////////////////////////////////////////////
-    // Coding Rules 조회
+    // ::::: 검색 이벤트 : END
+    // ::::: 코딩 규칙 조회 : BEGIN
     var getCodingRules = function () {
 
         procCallSpinner(SPINNER_START);
@@ -587,7 +436,7 @@
         procCallAjax(reqUrl + paramstr, null, callbackGetCodingRules);
 
     };
-    // [Collback] Coding Rules 조회
+    //// [COLLBACK] Coding Rules 조회
     var callbackGetCodingRules = function (data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
             procCallSpinner(SPINNER_STOP);
@@ -660,180 +509,80 @@
         procCallSpinner(SPINNER_STOP);
 
     };
+    // ::::: 코딩 규칙 조회 : END
 
-    // 프로파일에 추가 POPUP :: 품질 프로파일 목록 조회
-    var getQualityProfileList = function () {
-        var reqUrl = "/codingRules/qualityProfileList.do";
+    // ::::: 프로파일에 추가 / 제거 선택 이벤트 : BEGIN
+    //// Page :: 프로파일에 추가 / 제거
+    $(document).on("click", ".quality_btn" , function() {
 
-        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
-    };
+        var id = $(this).attr("id");
+        var activateRule = $(this).data().rulekey;
 
-    // [Collback] Left :: 품질 프로파일 목록 조회
-    var callbackGetQualityProfileList = function (data) {
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-        var selectProfile = "";
-        var profileName;
+        $("#selectedRuleKey").val(activateRule);
 
-        $.each(data, function (index, profile) {
+        // console.log(" ::: activate rule ::: " + activateRule + ">>>"+ id + ":::"+ $(this).text());
 
-            if (!profile.isDefault) {
-                profileName = profile.name.toString().indexOf("^") > 0 ? profile.name.toString().split("^")[1] : profile.name;
+        if (id.toString().match("btn_deactivate_")) {
+            // console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
 
-                selectProfile += "<option value='" + profile.key + "'>";
-                selectProfile += profileName + "</option>";
-            }
+            var btnText = "제거";
+            var reqTitle = $(this).text();
+            var reqMessage = btnText + " 하시겠습니까?";
+            var procFunction = "DeleteProfileRule();";
+            var reqButtonText = btnText;
 
-        });
-        $("#popupProfileAdd").html(selectProfile);
-
-    };
-
-    // RULE 프로파일에 추가
-    var AddProfileRule = function () {
-        var popupProfileKey = $('#popupProfileAdd').val();
-        var popupSeverity = $('#popupSeverityAdd').val();
-        var ruleKey = $("#selectedRuleKey").val();
-        var pageType = $("#conditionPageType").val();
-
-        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
-        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
-        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
-
-        var reqParam = {
-            serviceInstanceId : $("#serviceInstanceId").val(),
-            rule_key : ruleKey,
-            profile_key : popupProfileKey,
-            severity : popupSeverity
-        };
-
-        if (pageType == gPageTypeDetail) {
-            procCallAjax("/codingRules/activateRule.do", reqParam, callbackAddProfileRuleDetail);
+            procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
         } else {
-            procCallAjax("/codingRules/activateRule.do", reqParam, callbackAddProfileRule);
+            var objModalList = $('#modalCodingRules');
+            // 품질 프로파일 목록 조회
+            getQualityProfileList();
+
+            // Popup 설정
+            procSetPopupArea(gPopupTypeAdd);
+
+            objModalList.modal('toggle');
         }
 
-    };
+    });
+    //// Popup :: 프로파일에 추가
+    $("#btnRuleAdd").on("click", function () {
 
-    // [Collback] RULE 프로파일에 추가
-    var callbackAddProfileRule = function (data) {
-
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
+        // select box 선택이므로 유효성 체크 Pass
         $('#modalCodingRules').modal('hide');
-        procPopupAlert('추가 되었습니다.');
-    };
 
-    // [Collback] RULE 프로파일에 추가 :: Detail
-    var callbackAddProfileRuleDetail = function (data) {
+        // 확인 POPUP
+        var reqTitle = $('#popupCodingRulesConfirmTitle').text();
+        var reqMessage = $('#btnRuleAdd').text() + " 하시겠습니까?";
+        var procFunction = "AddProfileRule();";
+        var reqButtonText = $('#btnRuleAdd').text();
 
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-        $('#modalCodingRules').modal('hide');
-        procPopupAlert('추가 되었습니다.');
-        var ruleKey = $("#selectedRuleKey").val();
-        // 상세페이지
-        getCodingRuleDetail(ruleKey);
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
 
-    };
+    });
+    // ::::: 프로파일에 추가 / 제거 선택 이벤트 : END
 
-    // RULE - 이슈수준 조정 (수정)
-    var UpdateProfileRule = function () {
-        var popupProfileKey = $('#popupProfileUpdate').data().key;
-        var popupSeverity = $('#popupSeverityUpdate').val();
-        var ruleKey = $("#selectedRuleKey").val();
-        var pageType = $("#conditionPageType").val();
+    // ::::: 더보기 이벤트 : BEGIN
+    $("#btnMore").on("click", function () {
 
-        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
-        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
-        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
-
-        var reqParam = {
-            serviceInstanceId : $("#serviceInstanceId").val(),
-            rule_key : ruleKey,
-            profile_key : popupProfileKey,
-            severity : popupSeverity
-        };
-
-        procCallAjax("/codingRules/activateRule.do", reqParam, callbackUpdateProfileRule);
-
-
-    };
-
-    // [Collback] RULE 프로파일에 추가
-    var callbackUpdateProfileRule = function (data) {
-
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-        $('#modalCodingRules').modal('hide');
-        procPopupAlert('수정 되었습니다.');
-        var ruleKey = $("#selectedRuleKey").val();
-        // console.log("###### :: "+ ruleKey);
-        // 상세페이지
-        getCodingRuleDetail(ruleKey);
-
-    };
-    // RULE 프로파일에 제거
-    var DeleteProfileRule = function () {
-        var profileKey = $('#conditionProfileKey').val();
-        var ruleKey = $("#selectedRuleKey").val();
-        var pageType = $("#conditionPageType").val();
-
-        //console.log(">>>>>> : "+ profileKey);
-        //console.log(">>>>>> : "+ ruleKey);
-        //console.log(">>>>>> : "+ pageType);
-
-        var reqParam = {
-            serviceInstanceId : $("#serviceInstanceId").val(),
-            rule_key : ruleKey,
-            profile_key : profileKey
-        };
-
-        if (pageType == gPageTypeDetail) {
-            procCallAjax("/codingRules/deactivateRule.do", reqParam, callbackDeleteProfileRuleDetail);
-
-        } else {
-            procCallAjax("/codingRules/deactivateRule.do", reqParam, callbackDeleteProfileRule);
-        }
-
-    };
-
-    // [Collback] RULE 프로파일에 제거
-    var callbackDeleteProfileRule = function (data) {
-
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-
-        // 해당 프로파일 Rule 페이지 리로딩
-        procPopupAlert('제거 되었습니다.');
-        $("#countPerPage").val($("#countPerPageDefault").val());
+        $("#countPerPage").val($("#totalCount").val());
         getCodingRules();
 
-    };
+    });
+    // ::::: 더보기 이벤트 : END
 
-    // [Collback] RULE 프로파일에 제거 :: Detail
-    var callbackDeleteProfileRuleDetail = function (data) {
+    // ::::: 코딩 규칙 상세 이벤트 : BEGIN
+    //// 코딩규칙 클릭
+    $(document).on("click", ".rule_tit" , function() {
 
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
+        //console.log("Detail ::: " + $(this).data().key);
+        var pageType = $("#conditionPageType").val();
+        if (pageType != gPageTypeDetail) {
+            getCodingRuleDetail($(this).data().key);
         }
 
-        // 해당 프로파일 Rule 페이지 리로딩
-        procPopupAlert('제거 되었습니다.');
-        var ruleKey = $("#selectedRuleKey").val();
-        //console.log("###### :: "+ ruleKey);
-        // 상세페이지
-        getCodingRuleDetail(ruleKey);
-
-    };
-
-    // Coding Rules 상세 조회
+    });
+    //// 코딩규칙 상세 정보
     var getCodingRuleDetail = function (ruleKey) {
 
         procCallSpinner(SPINNER_START);
@@ -849,7 +598,7 @@
         procCallAjax(reqUrl, null, callbackGetCodingRuleDetail);
 
     };
-    // [Collback] Coding Rules 상세
+    //// [COLLBACK] 코딩규칙 상세 정보
     var callbackGetCodingRuleDetail = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -919,5 +668,265 @@
         procCallSpinner(SPINNER_STOP);
 
     };
+    // ::::: 코딩 규칙 상세 이벤트 : END
 
+    // ::::: [코딩 규칙 상세] 연결된 품질 프로파일 추가 / 변경 / 제거 : BEGIN
+    //// 연결된 품질 프로파일 추가 / 변경 / 제거 이벤트
+    $(document).on("click", ".tbl_in_btn_sm" , function() {
+
+        var btn_type = $(this).data().type;
+        var qprofile = $(this).data().profile;
+        var qprofilenm = $(this).data().name;
+        $('#conditionProfileKey').val(qprofile);
+
+        //console.log("Detail btn Type::: " + btn_type);
+        //console.log("Detail btn Type::: " + qprofile);
+        //console.log("Detail btn Type::: " + qprofilenm);
+
+        if (gPopupTypeDelete == btn_type) {
+
+            var btnText = "제거";
+            var reqTitle = $(this).text();
+            var reqMessage = btnText + " 하시겠습니까?";
+            var procFunction = "DeleteProfileRule();";
+            var reqButtonText = btnText;
+
+            procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+        } else if (gPopupTypeAdd == btn_type) {
+
+            var objModalList = $('#modalCodingRules');
+            // 품질 프로파일 목록 조회
+            getQualityProfileList();
+
+            // Popup 설정
+            procSetPopupArea(gPopupTypeAdd);
+
+            objModalList.modal('toggle');
+
+        }
+        if (gPopupTypeUpdate == btn_type) {
+            //console.log("Detail btn Update ::: " + btn_type);
+
+            var objModalList = $('#modalCodingRules');
+
+            // Popup 설정
+            procSetPopupArea(gPopupTypeUpdate);
+            $('#popupProfileUpdate').text(qprofilenm);
+            $('#popupProfileUpdate').data("key",qprofile);
+
+            objModalList.modal('toggle');
+        }
+
+    });
+    //// Popup :: 연결된 품질 프로파일 변경
+    $("#btnRuleUpdate").on("click", function () {
+
+        // select box 선택이므로 유효성 체크 Pass
+        $('#modalCodingRules').modal('hide');
+
+        // 확인 POPUP
+        var reqTitle = "이슈 수준 조정";
+        var reqMessage = $('#btnRuleUpdate').text() + " 하시겠습니까?";
+        var procFunction = "UpdateProfileRule();";
+        var reqButtonText = $('#btnRuleUpdate').text();
+
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+    });
+    //// 연결된 품질 프로파일 변경 :: 이슈 수준 변경
+    var UpdateProfileRule = function () {
+        var popupProfileKey = $('#popupProfileUpdate').data().key;
+        var popupSeverity = $('#popupSeverityUpdate').val();
+        var ruleKey = $("#selectedRuleKey").val();
+        var pageType = $("#conditionPageType").val();
+
+        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
+        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
+
+        var reqParam = {
+            serviceInstanceId : $("#serviceInstanceId").val(),
+            rule_key : ruleKey,
+            profile_key : popupProfileKey,
+            severity : popupSeverity
+        };
+
+        procCallAjax("/codingRules/activateRule.do", reqParam, callbackUpdateProfileRule);
+    };
+    //// [COLLBACK] 연결된 품질 프로파일 변경 :: 이슈 수준 변경
+    var callbackUpdateProfileRule = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+        $('#modalCodingRules').modal('hide');
+        procPopupAlert('수정 되었습니다.');
+        var ruleKey = $("#selectedRuleKey").val();
+        // console.log("###### :: "+ ruleKey);
+        // 상세페이지
+        getCodingRuleDetail(ruleKey);
+
+    };
+    // ::::: [코딩 규칙 상세] 연결된 품질 프로파일 추가 / 변경 / 제거 : END
+
+    // ::::: List Page / Detail Page Common : BEGIN
+
+    //// 코딩 규칙 프로파일에 추가 : BEGIN
+    ////// 코딩 규칙 리스트 / 코딩규칙 상세 :: 코딩규칙 프로파일에 추가
+    var AddProfileRule = function () {
+        var popupProfileKey = $('#popupProfileAdd').val();
+        var popupSeverity = $('#popupSeverityAdd').val();
+        var ruleKey = $("#selectedRuleKey").val();
+        var pageType = $("#conditionPageType").val();
+
+        // console.log("=== Activate_rule :: profile_key :: "+ popupProfileKey);
+        // console.log("=== Activate_rule :: rule_key :: "+ ruleKey);
+        // console.log("=== Activate_rule :: severity :: "+ popupSeverity);
+
+        var reqParam = {
+            serviceInstanceId : $("#serviceInstanceId").val(),
+            rule_key : ruleKey,
+            profile_key : popupProfileKey,
+            severity : popupSeverity
+        };
+
+        if (pageType == gPageTypeDetail) {
+            procCallAjax("/codingRules/activateRule.do", reqParam, callbackAddProfileRuleDetail);
+
+        } else {
+            procCallAjax("/codingRules/activateRule.do", reqParam, callbackAddProfileRule);
+        }
+
+    };
+    ////// [COLLBACK] 코딩 규칙 리스트 : 코딩규칙 프로파일에 추가
+    var callbackAddProfileRule = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+        $('#modalCodingRules').modal('hide');
+        procPopupAlert('추가 되었습니다.');
+    };
+    ////// [COLLBACK] 코딩 규칙 상세 : 코딩규칙 프로파일에 추가
+    var callbackAddProfileRuleDetail = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+        $('#modalCodingRules').modal('hide');
+        procPopupAlert('추가 되었습니다.');
+        var ruleKey = $("#selectedRuleKey").val();
+        // 상세페이지
+        getCodingRuleDetail(ruleKey);
+
+    };
+    //// 코딩 규칙 프로파일에 추가 : END
+
+    //// 코딩 규칙 프로파일에 제거 : BEGIN
+    ////// 코딩 규칙 리스트 / 코딩규칙 상세 :: 코딩규칙 프로파일에 제거
+    var DeleteProfileRule = function () {
+        var profileKey = $('#conditionProfileKey').val();
+        var ruleKey = $("#selectedRuleKey").val();
+        var pageType = $("#conditionPageType").val();
+
+        //console.log(">>>>>> : "+ profileKey);
+        //console.log(">>>>>> : "+ ruleKey);
+        //console.log(">>>>>> : "+ pageType);
+
+        var reqParam = {
+            serviceInstanceId : $("#serviceInstanceId").val(),
+            rule_key : ruleKey,
+            profile_key : profileKey
+        };
+
+        if (pageType == gPageTypeDetail) {
+            procCallAjax("/codingRules/deactivateRule.do", reqParam, callbackDeleteProfileRuleDetail);
+
+        } else {
+            procCallAjax("/codingRules/deactivateRule.do", reqParam, callbackDeleteProfileRule);
+        }
+
+    };
+    ////// [COLLBACK] 코딩 규칙 리스트 : 코딩규칙 프로파일에 제거
+    var callbackDeleteProfileRule = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        // 해당 프로파일 Rule 페이지 리로딩
+        procPopupAlert('제거 되었습니다.');
+        $("#countPerPage").val($("#countPerPageDefault").val());
+        getCodingRules();
+
+    };
+    ////// [COLLBACK] 코딩 규칙 상세 : 코딩규칙 프로파일에 제거
+    var callbackDeleteProfileRuleDetail = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        // 해당 프로파일 Rule 페이지 리로딩
+        procPopupAlert('제거 되었습니다.');
+        var ruleKey = $("#selectedRuleKey").val();
+        //console.log("###### :: "+ ruleKey);
+        // 상세페이지
+        getCodingRuleDetail(ruleKey);
+
+    };
+    //// 코딩 규칙 프로파일에 제거 : END
+
+    // ::::: List Page / Detail Page Common : END
+
+    // ::::: [ POPUP ] : BEGIN
+
+    //// Popup : 품질 프로파일 목록 조회 : BEGIN
+    var getQualityProfileList = function () {
+        var reqUrl = "/codingRules/qualityProfileList.do";
+
+        procCallAjax(reqUrl, null, callbackGetQualityProfileList);
+    };
+    //// [COLLBACK] Popup : 품질 프로파일 목록 조회
+    var callbackGetQualityProfileList = function (data) {
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+        var selectProfile = "";
+        var profileName;
+
+        $.each(data, function (index, profile) {
+
+            if (!profile.isDefault) {
+                profileName = profile.name.toString().indexOf("^") > 0 ? profile.name.toString().split("^")[1] : profile.name;
+
+                selectProfile += "<option value='" + profile.key + "'>";
+                selectProfile += profileName + "</option>";
+            }
+
+        });
+        $("#popupProfileAdd").html(selectProfile);
+
+    };
+    //// Popup : 품질 프로파일 목록 조회 : END
+    //// Popup : Set PopUp Area : BEGIN
+    var procSetPopupArea = function (type) {
+
+        var procTypeArray = [gPopupTypeAdd, gPopupTypeUpdate];
+
+        $.each(procTypeArray, function (index, procType) {
+
+            if (procType == type) {
+                $('#popup' + procType + 'Area').fadeIn("slow");
+                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
+            } else {
+                $('#popup' + procType + 'Area').hide();
+                $('#popup' + procType + 'ButtonArea').hide();
+            }
+        });
+    };
+    //// Popup : Set PopUp Area : END
+
+    // ::::: [ POPUP ] : END
 </script>

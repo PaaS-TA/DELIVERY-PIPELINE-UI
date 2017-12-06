@@ -1,5 +1,6 @@
 package paasta.delivery.pipeline.ui.qualityProfile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,12 +182,17 @@ public class QualityProfileController {
     @ResponseBody
     public QualityProfile deleteQualityProfile(@RequestBody QualityProfile qualityProfile){
 
+        // 연결된 프로젝트 해제
+        ObjectMapper om = new ObjectMapper();
+        qualityProfile.getLinkedProjects().forEach(e -> {
+            qualityProfileService.linkedProject(om.convertValue(e, Project.class));
+        });
+
+        // 품질 프로파일 삭제
         QualityProfile result = qualityProfileService.deleteQualityProfile(qualityProfile);
 
         return result;
-
     }
-
 
     /**
      * Gets projects.
@@ -207,7 +213,7 @@ public class QualityProfileController {
 
     /**
      * Project Link / UnLink
-     *
+     * <p>
      * RequestParam(value = "id", required = true)
      * RequestParam(value = "qualityProfileKey OR NULL", required = true)
      * RequestParam(value = "qualityGateId OR NULL", required = true)

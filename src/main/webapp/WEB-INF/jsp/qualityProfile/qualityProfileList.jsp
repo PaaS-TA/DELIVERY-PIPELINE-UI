@@ -175,7 +175,6 @@
 </div>
 <!--//container :e -->
 
-
 <%--POPUP QUALITYPROFILE :: BEGIN--%>
 <div class="modal fade" id="modalQualityProfileList" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="width: 600px;">
@@ -314,232 +313,24 @@
 
 <script type="text/javascript">
 
-    // Popup Types
+    // ::::: Popup Types
     var gPopupTypeCreate = "Create";
     var gPopupTypeUpdate = "Update";
     var gPopupTypeCopy = "Copy";
 
     $(document.body).ready(function () {
-        // Left :: 개발 언어별 품질 프로파일 List 조회
+        // --- 개발 언어별 품질 프로파일 List 조회
         getQualityProfileList();
     });
 
-
-    // Set PopUp Area
-    var procSetPopupArea = function (type) {
-
-        var procTypeArray = [gPopupTypeCreate, gPopupTypeUpdate, gPopupTypeCopy];
-
-        $.each(procTypeArray, function (index, procType) {
-
-            $('#popupProfileName'+type).val("");
-
-            if (procType == type) {
-                $('#popup' + procType + 'Area').fadeIn("slow");
-                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
-
-                if (procType != gPopupTypeCreate) {
-                    $('#popupProfileLanguage'+type).text($('#h_language').val());
-                }
-            } else {
-                $('#popup' + procType + 'Area').hide();
-                $('#popup' + procType + 'ButtonArea').hide();
-            }
-
-        });
-    };
-
-    // 품질 프로파일 생성 Popup
-    $("#btnPopupProfileCreate").on("click", function () {
-
-        var objModalList = $('#modalQualityProfileList');
-
-        // 개발언어 리스트 조회
-        getQualityProfileLanguages();
-
-        // Popup 설정
-        procSetPopupArea(gPopupTypeCreate);
-
-        objModalList.modal('toggle');
-    });
-
-    // 코딩 규칙 클릭시 코딩 규칙 페이지로 이동
-    $(".code_rulenumber").on("click", function () {
-
-        // 프로파일 키
-        var qprofile = $("#h_profileKey").val();
-        var severity = $(this).data().severity;
-
-        // console.log("qprofile ::: "+ qprofile);
-        // console.log("severity ::: "+ severity);
-
-        $("#frm").attr("action", procGetDashboardUrl()+"/codingRules/dashboard");
-        $("#qprofile").val(qprofile);
-        $("#severities").val(severity);
-        $("#frm").submit();
-
-    });
-
-
-    // 품질 프로파일 생성
-    $("#btnProfileCreate").on("click", function () {
-
-        // 입력값  유효성 체크
-        procValidatePopup(gPopupTypeCreate);
-
-    });
-
-    // validate popup
-    var procValidatePopup = function(type) {
-
-        var popupProfileName = $('#popupProfileName'+ type).val();
-        var popupProfileLanguage = $('#popupProfileLanguage' + type).val();
-
-        $('#modalQualityProfileList').modal('hide');
-
-        // 품질 프로파일 명 유효성 체크
-        if (procIsNullString(popupProfileName)) {
-            procPopupAlert("품질 프로파일 명을 입력하십시오.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
-            return false;
-        }
-
-        if (!procValidateQualityKeyName(popupProfileName)) {
-            procPopupAlert("품질 프로파일 명을 확인하십시오.[영문, 숫자, '-' ,'_' 사용가능]", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
-            return false;
-        }
-
-        var newProfileName = $("#h_serviceInstanceId").val() + "^" + popupProfileName;
-        var inputLength = 100 - $("#h_serviceInstanceId").val().length -1;
-
-        if (procValidateQualityKeyNameLength(newProfileName)) {
-            procPopupAlert("품질 프로파일 명은 최대 " + inputLength+ "자까지 입력 가능합니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
-            return false;
-        }
-
-        if (type == gPopupTypeCreate ) {
-            // 개발언어 유효성 체크
-            if (popupProfileLanguage.toUpperCase() != "JAVA") {
-                procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
-                $('#popupProfileLanguage' + type).val("java");
-                return false;
-            }
-        }
-
-        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
-        var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
-        var procFunction = type + "QualityProfile();";
-        var reqButtonText = $('#btnProfile'+type).text();
-
-        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-    };
-
-    // SET POPUP FOCUS
-    var procSetPopupFocus = function(type, reqObject) {
-        var objModalList = $('#modalQualityProfileList');
-
-        procSetPopupArea(type);
-        objModalList.modal('show');
-
-        objModalList.on('shown.bs.modal', function () {
-
-            $('#' + reqObject).focus();
-        });
-    };
-
-    // 품질 프로파일 복제
-    $("#btnPopupProfileCopy").on("click", function () {
-
-        var objModalList = $('#modalQualityProfileList');
-
-        // Popup 설정
-        procSetPopupArea(gPopupTypeCopy);
-
-        objModalList.modal('toggle');
-    });
-
-
-    // 품질 프로파일 복제
-    $("#btnProfileCopy").on("click", function () {
-
-        // 입력값  유효성 체크
-        procValidatePopup(gPopupTypeCopy);
-
-    });
-
-    // 품질 프로파일 수정
-    $("#btnPopupProfileUpdate").on("click", function () {
-
-        var objModalList = $('#modalQualityProfileList');
-
-        // Popup 설정
-        procSetPopupArea(gPopupTypeUpdate);
-
-        objModalList.modal('toggle');
-    });
-
-    // 품질 프로파일 수정
-    $("#btnProfileUpdate").on("click", function () {
-
-        // 입력값  유효성 체크
-        procValidatePopup(gPopupTypeUpdate);
-
-    });
-
-    // 품질 프로파일 삭제
-    $("#btnPopupProfileDelete").on("click", function () {
-
-        var btnText = $("#btnPopupProfileDelete").text();
-
-        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+btnText;
-        var reqMessage = btnText + " 하시겠습니까?";
-        var procFunction = "DeleteQualityProfile();";
-        var reqButtonText = btnText;
-
-        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
-
-    });
-
-    $(document).on("click", '[name="linkProject"]' , function() {
-
-        var defaultProfileKey = $("#h_defaultProfileKey").val();
-        var profileKey = $("#h_profileKey").val();
-
-        var projectId = $(this).data().id;
-        var projectKey = $(this).attr("value");
-        var isCheck = $(this).is(":checked");
-
-        var params = {
-            id : projectId,
-            projectId : projectId,
-            projectKey : projectKey,
-            qualityProfileKey : profileKey,
-            linked : isCheck,
-            defaultQualityProfileKey : defaultProfileKey
-        };
-
-        var reqUrl = "/qualityProfile/linkedProject.do";
-
-        // console.log("Link Profile ::: defaultProfileKey ::: " + defaultProfileKey);
-        // console.log("Link Profile ::: ProfileKey ::: " + profileKey);
-        // console.log("Link Profile ::: Project ID ::: " + projectId);
-        // console.log("Link Profile ::: Project Key ::: " + projectKey);
-        // console.log("Link Profile ::: is Link ::: " + isCheck);
-
-        procCallAjax(reqUrl, params, callbackLinkedProject);
-
-    });
-
-
-    // ----------------------------------------------------------- function
-    // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: s
+    // ::::: 개발 언어별 품질 프로파일 List 조회 : BEGIN
     var getQualityProfileList = function () {
         var reqUrl = "/qualityProfile/qualityProfileList.do";
 
         procCallAjax(reqUrl, null, callbackGetQualityProfileList);
 
     };
-    // [Collback] Left :: 개발 언어별 품질 프로파일 List 조회
+    //// [COLLBACK] 개발 언어별 품질 프로파일 List 조회
     var callbackGetQualityProfileList = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -615,71 +406,10 @@
         $("#qualityProfileList").html(profileHtml);
 
     }
-    // Left :: 개발 언어별 품질 프로파일 List 조회 ::::: e
+    // ::::: 개발 언어별 품질 프로파일 List 조회 : END
 
-    // 품질 프로파일 생성 > 개발 언어 조회 ::::: s
-    var getQualityProfileLanguages = function () {
-
-        procCallAjax("/qualityProfile/qualityProfileLanguageList.do", null, callbackGetQualityProfileLanguages);
-    };
-
-    // [Collback] 품질 프로파일 생성 > 개발 언어 조회
-    var callbackGetQualityProfileLanguages = function (data) {
-
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-
-        var selectList;
-
-        $.each(data, function (index, language) {
-            selectList += "<option value='" + language.key + "'";
-
-            if (language.key.toUpperCase() == "JAVA") {
-                selectList += " selected";
-            }
-            selectList += ">";
-            selectList += language.name + "</option>";
-        });
-
-        $("#popupProfileLanguageCreate").html(selectList);
-
-
-    };
-    // 품질 프로파일 생성 > 개발 언어 조회 ::::: e
-
-    // 품질 프로파일 생성 ::::: S
-    var CreateQualityProfile = function () {
-        var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
-
-        var reqParam = {
-            serviceInstanceId: $("#h_serviceInstanceId").val(),
-            name: newProfileName,
-            language: $('#popupProfileLanguage' + gPopupTypeCreate).val()
-        };
-
-        procCallAjax("/qualityProfile/qualityProfileCreate.do", reqParam, callbackCreateQualityProfile);
-    };
-
-    // [Collback] 품질 프로파일 생성
-    var callbackCreateQualityProfile = function (data) {
-
-        if (RESULT_STATUS_FAIL === data.resultStatus) {
-            return false;
-        }
-
-        getQualityProfileList();
-        $('#modalQualityProfileList').modal('hide');
-        procPopupAlert('생성 되었습니다.');
-
-
-    };
-    // 품질 프로파일 생성 ::::: e
-
-    // 품질 프로파일 상세 ::::: s
-
+    // ::::: 품질 프로파일 상세 : BEGIN
     var profileDetail = function (profileKey, profileDefault, profileName, profileLanguage) {
-//        procCallSpinner(SPINNER_START);
 
         // profile Info
         var isDefault = profileDefault == null ? $('#profileItem_'+profileKey).data().isdefault : profileDefault;
@@ -720,15 +450,13 @@
         }
 
     };
-
+    //// 코딩 규칙 정보
     function getCodingRules(profileKey, language){
 
         var url = "/qualityProfile/codingRules.do?qprofile="+profileKey+"&languages="+language;
-
         procCallAjax(url, null, callbackGetCodingRules);
     }
-
-    // [Collback] 코딩 규칙
+    //// [COLLBACK] 코딩 규칙 정보
     var callbackGetCodingRules = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -777,18 +505,12 @@
             }
 
         });
-
-
     };
-
-
-    // 연결된 프로젝트 조회 (서비스인스턴스별)
+    //// 연결된 프로젝트 정보
     function getProjects() {
-
         procCallAjax("/qualityProfile/projects.do", null, callbackGetProjects);
-
     }
-    // [Collback] 연결된 프로젝트
+    //// [COLLBACK] 연결된 프로젝트 정보
     var callbackGetProjects = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -801,7 +523,6 @@
         $("#projectLinked").html("");
         $("#projectUnLinked").html("");
 
-//        var results = data.results;
         var profileKey = $("#h_profileKey").val();
         var linkedProjects;
         var unLinkedProjects;
@@ -809,7 +530,6 @@
 
         $.each(data, function (index, project) {
 
-//            if(result.selected) {
             if (project.qualityProfileKey == profileKey) {
                 linkedProjects += "<tr>";
                 linkedProjects += "<td><input type='checkbox' name='linkProject' data-id='"+project.id+"' id='chk_projectLinked_"+project.id+"' value='"+project.projectKey+"' checked></td>";
@@ -837,21 +557,137 @@
         $("#projectUnLinked").html(unLinkedProjects);
 
     };
+    // ::::: 품질 프로파일 상세 : END
 
+    // ::::: 프로젝트 연결 / 해제 : BEGIN
+    //// Page :: 프로젝트 연결 / 해제
+    $(document).on("click", '[name="linkProject"]' , function() {
+
+        var defaultProfileKey = $("#h_defaultProfileKey").val();
+        var profileKey = $("#h_profileKey").val();
+
+        var projectId = $(this).data().id;
+        var projectKey = $(this).attr("value");
+        var isCheck = $(this).is(":checked");
+
+        var params = {
+            id : projectId,
+            projectId : projectId,
+            projectKey : projectKey,
+            qualityProfileKey : profileKey,
+            linked : isCheck,
+            defaultQualityProfileKey : defaultProfileKey
+        };
+
+        var reqUrl = "/qualityProfile/linkedProject.do";
+
+        // console.log("Link Profile ::: defaultProfileKey ::: " + defaultProfileKey);
+        // console.log("Link Profile ::: ProfileKey ::: " + profileKey);
+        // console.log("Link Profile ::: Project ID ::: " + projectId);
+        // console.log("Link Profile ::: Project Key ::: " + projectKey);
+        // console.log("Link Profile ::: is Link ::: " + isCheck);
+
+        procCallAjax(reqUrl, params, callbackLinkedProject);
+
+    });
+    //// [CALLBACK] 프로젝트 연결 / 해제
     var callbackLinkedProject = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
             return false;
         }
 
+        // 연결된 프로젝트 정보
         getProjects();
+        // 품질 프로파일 정보
+        getQualityProfileList();
 
     };
+    // ::::: 프로젝트 연결 / 해제 : END
 
-    // 품질 프로파일 상세 ::::: e
+    // ::::: 코딩규칙 건수 클릭 -> 코딩 규칙 페이지 이동 : BEGIN
+    $(".code_rulenumber").on("click", function () {
 
-    // 품질 프로파일 복제 ::::: s
+        // 프로파일 키
+        var qprofile = $("#h_profileKey").val();
+        var severity = $(this).data().severity;
 
+        // console.log("qprofile ::: "+ qprofile);
+        // console.log("severity ::: "+ severity);
+
+        $("#frm").attr("action", procGetDashboardUrl()+"/codingRules/dashboard");
+        $("#qprofile").val(qprofile);
+        $("#severities").val(severity);
+        $("#frm").submit();
+
+    });
+    // ::::: 코딩규칙 건수 클릭 -> 코딩 규칙 페이지 이동 : END
+
+    // ::::: 품질 프로파일 생성 : BEGIN
+    //// Page :: 품질 프로파일 생성
+    $("#btnPopupProfileCreate").on("click", function () {
+
+        var objModalList = $('#modalQualityProfileList');
+
+        // 개발언어 리스트 조회
+        getQualityProfileLanguages();
+
+        // Popup 설정
+        procSetPopupArea(gPopupTypeCreate);
+
+        objModalList.modal('toggle');
+    });
+    //// Popup :: 품질 프로파일 생성
+    $("#btnProfileCreate").on("click", function () {
+
+        // Popup :: 입력값  유효성 체크
+        procValidatePopup(gPopupTypeCreate);
+
+    });
+
+    //// 품질 프로파일 생성
+    var CreateQualityProfile = function () {
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCreate).val();
+
+        var reqParam = {
+            serviceInstanceId: $("#h_serviceInstanceId").val(),
+            name: newProfileName,
+            language: $('#popupProfileLanguage' + gPopupTypeCreate).val()
+        };
+
+        procCallAjax("/qualityProfile/qualityProfileCreate.do", reqParam, callbackCreateQualityProfile);
+    };
+    //// [COLLBACK] 품질 프로파일 생성
+    var callbackCreateQualityProfile = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        getQualityProfileList();
+        $('#modalQualityProfileList').modal('hide');
+        procPopupAlert('생성 되었습니다.');
+    };
+    // ::::: 품질 프로파일 생성 : END
+
+    // ::::: 품질 프로파일 복제 : BEGIN
+    //// Page :: 품질 프로파일 복제
+    $("#btnPopupProfileCopy").on("click", function () {
+
+        var objModalList = $('#modalQualityProfileList');
+        // Popup 설정
+        procSetPopupArea(gPopupTypeCopy);
+
+        objModalList.modal('toggle');
+    });
+    //// Popup :: 품질 프로파일 복제
+    $("#btnProfileCopy").on("click", function () {
+
+        // Popup :: 입력값  유효성 체크
+        procValidatePopup(gPopupTypeCopy);
+
+    });
+    //// 품질 프로파일 복제
     var CopyQualityProfile = function () {
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeCopy).val();
 
@@ -866,8 +702,7 @@
         procCallAjax("/qualityProfile/qualityProfileCopy.do", reqParam, callbackCopyQualityProfile);
 
     };
-
-    // [Collback] 품질 프로파일 복제
+    //// [COLLBACK] 품질 프로파일 복제
     var callbackCopyQualityProfile = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -888,8 +723,27 @@
         procCallSpinner(SPINNER_STOP);
 
     };
+    // ::::: 품질 프로파일 복제 : END
 
-    // 품질 프로파일 수정 ::::: s
+    // ::::: 품질 프로파일 수정 : BEGIN
+    //// Page :: 품질 프로파일 수정
+    $("#btnPopupProfileUpdate").on("click", function () {
+
+        var objModalList = $('#modalQualityProfileList');
+
+        // Popup 설정
+        procSetPopupArea(gPopupTypeUpdate);
+
+        objModalList.modal('toggle');
+    });
+    //// Popup :: 품질 프로파일 수정
+    $("#btnProfileUpdate").on("click", function () {
+
+        // 입력값  유효성 체크
+        procValidatePopup(gPopupTypeUpdate);
+
+    });
+    //// 품질 프로파일 수정
     var UpdateQualityProfile = function () {
         var newProfileName = $("#h_serviceInstanceId").val() + "^" + $('#popupProfileName'+ gPopupTypeUpdate).val();
 
@@ -903,8 +757,7 @@
 
         procCallAjax("/qualityProfile/qualityProfileUpdate.do", reqParam, callbackUpdateQualityProfile);
     };
-
-    // [Collback] 품질 프로파일 수정
+    //// [COLLBACK] 품질 프로파일 수정
     var callbackUpdateQualityProfile = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -919,18 +772,52 @@
         $('#modalQualityProfileList').modal('hide');
         procPopupAlert('수정 되었습니다.');
     };
+    // ::::: 품질 프로파일 수정 : END
 
-    // 품질 프로파일 삭제 ::::: s
+    // ::::: 품질 프로파일 삭제 : BEGIN
+    //// Page :: 품질 프로파일 삭제
+    $("#btnPopupProfileDelete").on("click", function () {
+
+        var btnText = $("#btnPopupProfileDelete").text();
+
+        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+btnText;
+        var reqMessage = btnText + " 하시겠습니까?";
+        var procFunction = "DeleteQualityProfile();";
+        var reqButtonText = btnText;
+
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+    });
+    //// 품질 프로파일 삭제
     var DeleteQualityProfile = function () {
 
-        var reqParam = {
-            profileKey: $("#h_profileKey").val()
-        };
+        var linkedProjects = new Array();
+        var profileKey = $("#h_profileKey").val();
+        var defaultProfileKey = $("#h_defaultProfileKey").val();
 
+        $("input[id^='chk_projectLinked_']:checked").each(function() {
+            //linkedProjects.push($(this).val());
+            var project = new Object();
+            project.id = $(this).data().id;
+            project.projectId = $(this).data().id;
+            project.projectKey = $(this).val();
+            project.qualityProfileKey = profileKey;
+            project.linked = false;
+            project.defaultQualityProfileKey = defaultProfileKey;
+
+            linkedProjects.push(project);
+        });
+
+        //console.log(">>linkedProjects.length>> "+ linkedProjects.length);
+        //console.log(">>linkedProjects.toString>> "+ linkedProjects.toString());
+
+        var reqParam = {
+            profileKey: $("#h_profileKey").val(),
+            linkedProjects : linkedProjects
+        };
         procCallAjax("/qualityProfile/qualityProfileDelete.do", reqParam, callbackDeleteQualityProfile);
     };
-
-    // [Collback] 품질 프로파일 삭제
+    //// [COLLBACK] 품질 프로파일 삭제
     var callbackDeleteQualityProfile = function (data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) {
@@ -944,5 +831,124 @@
         $("#contentProfile").css("display","none");
 
     };
+    // ::::: 품질 프로파일 삭제 : END
 
+    // ::::: [ POPUP ] : BEGIN
+
+    //// Popup : 개발 언어 리스트 조회 : BEGIN
+    var getQualityProfileLanguages = function () {
+
+        procCallAjax("/qualityProfile/qualityProfileLanguageList.do", null, callbackGetQualityProfileLanguages);
+    };
+    //// [COLLBACK] Popup : 개발 언어 리스트 조회
+    var callbackGetQualityProfileLanguages = function (data) {
+
+        if (RESULT_STATUS_FAIL === data.resultStatus) {
+            return false;
+        }
+
+        var selectList;
+
+        $.each(data, function (index, language) {
+            selectList += "<option value='" + language.key + "'";
+
+            if (language.key.toUpperCase() == "JAVA") {
+                selectList += " selected";
+            }
+            selectList += ">";
+            selectList += language.name + "</option>";
+        });
+
+        $("#popupProfileLanguageCreate").html(selectList);
+
+
+    };
+    //// Popup : 개발 언어 리스트 조회 : END
+
+    //// Popup : Set PopUp Area : BEGIN
+    var procSetPopupArea = function (type) {
+
+        var procTypeArray = [gPopupTypeCreate, gPopupTypeUpdate, gPopupTypeCopy];
+
+        $.each(procTypeArray, function (index, procType) {
+
+            $('#popupProfileName'+type).val("");
+
+            if (procType == type) {
+                $('#popup' + procType + 'Area').fadeIn("slow");
+                $('#popup' + procType + 'ButtonArea').fadeIn("slow");
+
+                if (procType != gPopupTypeCreate) {
+                    $('#popupProfileLanguage'+type).text($('#h_language').val());
+                }
+            } else {
+                $('#popup' + procType + 'Area').hide();
+                $('#popup' + procType + 'ButtonArea').hide();
+            }
+
+        });
+    };
+    //// Popup : Set PopUp Area : END
+
+    //// Popup : 입력값  유효성 체크 : BEGIN
+    var procValidatePopup = function(type) {
+
+        var popupProfileName = $('#popupProfileName'+ type).val();
+        var popupProfileLanguage = $('#popupProfileLanguage' + type).val();
+
+        $('#modalQualityProfileList').modal('hide');
+
+        // 품질 프로파일 명 유효성 체크
+        if (procIsNullString(popupProfileName)) {
+            procPopupAlert("품질 프로파일 명을 입력하십시오.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            return false;
+        }
+
+        if (!procValidateQualityKeyName(popupProfileName)) {
+            procPopupAlert("품질 프로파일 명을 확인하십시오.[영문, 숫자, '-' ,'_' 사용가능]", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            return false;
+        }
+
+        var newProfileName = $("#h_serviceInstanceId").val() + "^" + popupProfileName;
+        var inputLength = 100 - $("#h_serviceInstanceId").val().length -1;
+
+        if (procValidateQualityKeyNameLength(newProfileName)) {
+            procPopupAlert("품질 프로파일 명은 최대 " + inputLength+ "자까지 입력 가능합니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            return false;
+        }
+
+        if (type == gPopupTypeCreate ) {
+            // 개발언어 유효성 체크
+            if (popupProfileLanguage.toUpperCase() != "JAVA") {
+                procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+                $('#popupProfileLanguage' + type).val("java");
+                return false;
+            }
+        }
+
+        var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
+        var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
+        var procFunction = type + "QualityProfile();";
+        var reqButtonText = $('#btnProfile'+type).text();
+
+        procPopupConfirm(reqTitle, reqMessage, procFunction, reqButtonText, null);
+
+    };
+    //// Popup : 입력값  유효성 체크 : END
+
+    //// Popup : SET POPUP FOCUS : BEGIN
+    var procSetPopupFocus = function(type, reqObject) {
+        var objModalList = $('#modalQualityProfileList');
+
+        procSetPopupArea(type);
+        objModalList.modal('show');
+
+        objModalList.on('shown.bs.modal', function () {
+
+            $('#' + reqObject).focus();
+        });
+    };
+    //// Popup : SET POPUP FOCUS : END
+
+    // ::::: [ POPUP ] : END
 </script>
