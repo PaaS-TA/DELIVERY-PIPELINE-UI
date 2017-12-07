@@ -52,6 +52,10 @@
 <script type="text/javascript">
 
     var gLastAppName;
+    var gBuildToolTypeGradle = "gradle";
+    var gBuildToolTypeMaven = "maven";
+    var gJacocoPluginScriptGradle = "jacocoPluginScriptGradle";
+    var gJacocoPluginScriptMaven = "jacocoPluginScriptMaven";
 
 
     // GET
@@ -709,6 +713,31 @@
     // BIND
     $(".btnCancel").on("click", function() {
         procMovePage(-1);
+    });
+
+
+    // BIND
+    $(".jacocoPluginScript").on("click", function() {
+        var viewOnString = "view-on",
+            viewOffString = "view-off",
+            jacocoPluginScriptObject = null,
+            buildToolType = $(this).attr("class").split(" ")[1];
+
+        if (gBuildToolTypeGradle === buildToolType) {
+            jacocoPluginScriptObject = $('#' + gJacocoPluginScriptGradle);
+        }
+
+        if (gBuildToolTypeMaven === buildToolType) {
+            jacocoPluginScriptObject = $('#' + gJacocoPluginScriptMaven);
+        }
+
+        if (jacocoPluginScriptObject.hasClass(viewOffString)) {
+            jacocoPluginScriptObject.removeClass(viewOffString).addClass(viewOnString);
+            jacocoPluginScriptObject.fadeIn("slow");
+        } else {
+            jacocoPluginScriptObject.removeClass(viewOnString).addClass(viewOffString);
+            jacocoPluginScriptObject.fadeOut("fast");
+        }
     });
 
 

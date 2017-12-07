@@ -96,9 +96,9 @@
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
-                            <p class="sub_title" style="margin: 10px 0;">GRADLE</p>
                             <div class="formBox">
-                                <textarea class="input-medium" cols="30" rows="12" title=""># Add the following script to your build.gradle file.
+                                <p class="jacocoPluginScript gradle" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR GRADLE">GRADLE</p>
+                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;"># Add the following script to your build.gradle file.
 apply plugin: 'jacoco'
 
 jacoco {
@@ -111,9 +111,9 @@ test {
     }
 }</textarea>
                             </div>
-                            <p class="sub_title" style="margin: 10px 0;">MAVEN</p>
                             <div class="formBox">
-                                <textarea class="input-medium" cols="30" rows="18" title=""># Add the following script to your pom.xml file.
+                                <p class="jacocoPluginScript maven" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR MAVEN">MAVEN</p>
+                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;"># Add the following script to your pom.xml file.
 <build>
     <plugins>
         <plugin>

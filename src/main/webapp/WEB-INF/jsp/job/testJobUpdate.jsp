@@ -106,9 +106,9 @@
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
-                            <p class="sub_title" style="margin: 10px 0;">GRADLE</p>
                             <div class="formBox">
-                                <textarea class="input-medium" cols="30" rows="12" title=""># Add the following script to your build.gradle file.
+                                <p class="jacocoPluginScript gradle" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR GRADLE">GRADLE</p>
+                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;"># Add the following script to your build.gradle file.
 apply plugin: 'jacoco'
 
 jacoco {
@@ -121,9 +121,9 @@ test {
     }
 }</textarea>
                             </div>
-                            <p class="sub_title" style="margin: 10px 0;">MAVEN</p>
                             <div class="formBox">
-                                <textarea class="input-medium" cols="30" rows="18" title=""># Add the following script to your pom.xml file.
+                                <p class="jacocoPluginScript maven" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR MAVEN">MAVEN</p>
+                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;"># Add the following script to your pom.xml file.
 <build>
     <plugins>
         <plugin>
@@ -211,6 +211,12 @@ test {
 <input type="hidden" id="originalBuildJobId" name="originalBuildJobId" value="" />
 
 <script type="text/javascript">
+
+    var gBuildToolTypeGradle = "gradle";
+    var gBuildToolTypeMaven = "maven";
+    var gJacocoPluginScriptGradle = "jacocoPluginScriptGradle";
+    var gJacocoPluginScriptMaven = "jacocoPluginScriptMaven";
+
 
     // GET
     var getPipeline = function() {
@@ -496,6 +502,31 @@ test {
     // BIND
     $("#btnCancel").on("click", function() {
         procMovePage(-1);
+    });
+
+
+    // BIND
+    $(".jacocoPluginScript").on("click", function() {
+        var viewOnString = "view-on",
+            viewOffString = "view-off",
+            jacocoPluginScriptObject = null,
+            buildToolType = $(this).attr("class").split(" ")[1];
+
+        if (gBuildToolTypeGradle === buildToolType) {
+            jacocoPluginScriptObject = $('#' + gJacocoPluginScriptGradle);
+        }
+
+        if (gBuildToolTypeMaven === buildToolType) {
+            jacocoPluginScriptObject = $('#' + gJacocoPluginScriptMaven);
+        }
+
+        if (jacocoPluginScriptObject.hasClass(viewOffString)) {
+            jacocoPluginScriptObject.removeClass(viewOffString).addClass(viewOnString);
+            jacocoPluginScriptObject.fadeIn("slow");
+        } else {
+            jacocoPluginScriptObject.removeClass(viewOnString).addClass(viewOffString);
+            jacocoPluginScriptObject.fadeOut("fast");
+        }
     });
 
 

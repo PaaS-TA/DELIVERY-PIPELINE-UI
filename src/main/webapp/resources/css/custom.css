@@ -318,3 +318,19 @@ pre {
     background-color: #666666;
     color: #ffffff;
 }
+
+.jacocoPluginScript {
+    width: 96%;
+    float: left;
+    margin: 15px 0 10px 0;
+    font-size: 14px;
+    color: #7186ad;
+    font-weight: 600;
+    background: url(../images/ico_bullet01.gif) left 7px no-repeat;
+    padding-left: 11px;
+}
+
+.jacocoPluginScript:hover {
+    color: #eea236;
+    cursor: pointer;
+}
