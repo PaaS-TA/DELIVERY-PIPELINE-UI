@@ -98,6 +98,53 @@
                         </div>
                         <!--//form 영역-->
                     </div>
+                    <div class="form_info">
+                        <!--타이틀 영역-->
+                        <div class="form_left">
+                            <p class="title">JACOCO plugin script</p>
+                        </div>
+                        <!--//타이틀 영역-->
+                        <!--form 영역-->
+                        <div class="form_right">
+                            <p class="sub_title" style="margin: 10px 0;">GRADLE</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" cols="30" rows="12" title=""># Add the following script to your build.gradle file.
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.9+"
+}
+
+test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacoco-overall.exec")
+    }
+}</textarea>
+                            </div>
+                            <p class="sub_title" style="margin: 10px 0;">MAVEN</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" cols="30" rows="18" title=""># Add the following script to your pom.xml file.
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.7.9</version>
+            <executions>
+                <execution>
+                    <id>default-prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build></textarea>
+                            </div>
+                        </div>
+                        <!--//form 영역-->
+                    </div>
                 </div>
                 <!--//공통영역(입력 유형) -->
                 <!-- 작업 트리거 (Job Trigger) -->
