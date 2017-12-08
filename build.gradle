@@ -26,8 +26,7 @@ ext {
 version '0.1'
 
 war {
-	baseName = 'paasta-delivery-pipeline-ui'
-	version "$version"
+	baseName = 'delivery-pipeline-ui'
 }
 
 sourceCompatibility = 1.8
