@@ -23,7 +23,6 @@ ext {
 	springSecurityTagLibsVersion = '4.2.3.RELEASE'
 }
 
-version '0.1'
 
 war {
 	baseName = 'delivery-pipeline-ui'
