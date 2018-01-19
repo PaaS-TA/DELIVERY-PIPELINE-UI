@@ -111,7 +111,7 @@
     $(".select3").selectDesign();
 
     // GrantedAuthorities 권한 모두 가져오는 전역 변수
-    var grAry = new Array();
+    var grAry = [];
 
     var getGrantedAuthorities = function(id, category ,message){
         procCallAjax("/grantedAuthorities", null, function(data){
@@ -142,52 +142,42 @@
     // 파이프라인 관련 권한 제어
     var pipelineGrantedAuthorities = function (data, id, message) {
         for(var i = 0; i < data.length; i++){
-            if(data[i].authCode != null && data[i].authCode == id && message == null){
-                if(data[i].authority.description == 'write'){
+            var authCode = data[i].authCode;
+            var authorityDescription = data[i].authority.description;
+
+            if(authCode != null && authCode == id && message == null){
+                if(authorityDescription == 'write'){
                     //$("#classification2").hide();
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     $("#btnCreateJob").attr('onclick', 'procPopupAlert("권한이 없습니다.");');
                     $("#btnAddNewGroup").off('click').on('click', function() { procPopupAlert("권한이 없습니다."); });
-                    //$("#classification1").hide();
-                    //$("#classification2").show();
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     $("#btnCreateJob").attr('onclick', 'procPopupAlert("권한이 없습니다.");');
                     $("#btnAddNewGroup").off('click').on('click', function() { procPopupAlert("권한이 없습니다."); });
-                    //$("#classification1").hide();
-                    //$("#classification2").show();
                 }
             }
 
-            if(data[i].authCode != null && data[i].authCode == id && message == "delete"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "delete"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('파이프라인 삭제', '삭제 하시겠습니까?', 'deletePipeline();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read' || authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
-                    procPopupAlert("권한이 없습니다.");
-                }
-            }else if(data[i].authCode != null && data[i].authCode == id && message == "update"){
-                if(data[i].authority.description == 'write'){
+            }else if(authCode != null && authCode == id && message == "update"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('파이프라인 수정', '수정 하시겠습니까?', 'updatePipeline();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read' || authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
-                    procPopupAlert("권한이 없습니다.");
-                }
-            }else if(data[i].authCode != null && data[i].authCode == id && message == "create"){
-                if(data[i].authority.description == 'write'){
+            }else if(authCode != null && authCode == id && message == "create"){
+                if(authorityDescription == 'write'){
                     procMovePage("/pipeline/create");
                 }
-                if(data[i].authority.description == 'read'){
-                    procPopupAlert("권한이 없습니다.");
-                }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'read' || authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
@@ -198,36 +188,39 @@
     // 참여자 관련 권한 제어
     var contributorGrantedAuthorities = function (data, id, message) {
         for(var i = 0; i < data.length; i++){
-            if(data[i].authCode != null && data[i].authCode == id && message == "create"){
-                if(data[i].authority.description == 'write'){
+            var authCode = data[i].authCode;
+            var authorityDescription = data[i].authority.description;
+
+            if(authCode != null && authCode == id && message == "create"){
+                if(authorityDescription == 'write'){
                     procMovePage("/pipeline/"+ document.getElementById('pipelineIdControlAuthority').value + "/contributor/create");
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "delete"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "delete"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('참여자 삭제', '삭제 하시겠습니까?', 'deleteContributor();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "update"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "update"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('참여자 수정', '수정 하시겠습니까?', 'updateContributor();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
@@ -237,113 +230,116 @@
     // job build, test, deploy 관련 제어
     var jobGrantedAuthorities = function(data, id, message){
         for(var i = 0; i < data.length; i++){
-            if(data[i].authCode != null && data[i].authCode == id && message == "update"){
-                if(data[i].authority.description == 'write'){
+            var authCode = data[i].authCode;
+            var authorityDescription = data[i].authority.description;
+
+            if(authCode != null && authCode == id && message == "update"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "trigger"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "trigger"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob();');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "stop"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "stop"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "deployUpdate"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "deployUpdate"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "deployTrigger"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "deployTrigger"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob(false);');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "deployTriggerRevertGreenDeploy"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "deployTriggerRevertGreenDeploy"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', '운영 GREEN 배포 JOB 되돌리기를 실행 하시겠습니까?', 'triggerJob(false, \'<%= Constants.CHECK_YN_Y %>\');');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "deployTriggerRollBack"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "deployTriggerRollBack"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "testUpdate"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "testUpdate"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 수정', '수정 하시겠습니까?', 'updateJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupAlert("권한이 없습니다.");
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "testTrigger"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "testTrigger"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob();');
                 }
             }
-            if(data[i].authCode != null && data[i].authCode == id && message == "testStop"){
-                if(data[i].authority.description == 'write'){
+            if(authCode != null && authCode == id && message == "testStop"){
+                if(authorityDescription == 'write'){
                     procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
                 }
-                if(data[i].authority.description == 'read'){
+                if(authorityDescription == 'read'){
                     procPopupAlert("권한이 없습니다.");
                 }
-                if(data[i].authority.description == 'execute'){
+                if(authorityDescription == 'execute'){
                     procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
                 }
             }
