@@ -103,7 +103,8 @@
                                 <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="아이디 입력">
                             </div>
                             <div class="formBox">
-                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="25" placeholder="비밀번호">
+                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="150" placeholder="비밀번호 ( Github의 경우 token 입력)">&emsp;
+                                <label id="githubTokenGuide" style="display: none;"><a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token" target="_blank" title="Creating a personal access token">※ Github Access Token 생성 가이드</a></label>
                             </div>
                             <div class="formBox">
                                 <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="레파지토리 경로 입력">
@@ -253,11 +254,17 @@
     // SET VIEW GET BRANCH LIST BUTTON
     var setViewGetBranchListButton = function(reqRepositoryType) {
         var objBtnGetBranchListWrapper = $('#btnGetBranchListWrapper');
+        var objGithubTokenGuide = $('#githubTokenGuide');
 
         if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === reqRepositoryType) {
             objBtnGetBranchListWrapper.hide();
+            objGithubTokenGuide.hide();
+        } else if ("<%= Constants.REPOSITORY_TYPE_GIT_HUB %>" === reqRepositoryType){
+            objBtnGetBranchListWrapper.show();
+            objGithubTokenGuide.show();
         } else {
             objBtnGetBranchListWrapper.show();
+            objGithubTokenGuide.hide();
         }
     };
 

@@ -187,11 +187,17 @@
     // SET VIEW GET BRANCH LIST BUTTON
     var setViewGetBranchListButton = function(reqRepositoryType) {
         var objBtnGetBranchListWrapper = $('#btnGetBranchListWrapper');
+        var objGithubTokenGuide = $('#githubTokenGuide');
 
         if ("<%= Constants.REPOSITORY_TYPE_SCM_SVN %>" === reqRepositoryType) {
             objBtnGetBranchListWrapper.hide();
+            objGithubTokenGuide.hide();
+        } else if ("<%= Constants.REPOSITORY_TYPE_GIT_HUB %>" === reqRepositoryType){
+            objBtnGetBranchListWrapper.show();
+            objGithubTokenGuide.show();
         } else {
             objBtnGetBranchListWrapper.show();
+            objGithubTokenGuide.hide();
         }
     };
 
