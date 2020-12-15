@@ -111,8 +111,7 @@
 applications:
 - name: %APP_NAME%
   memory: 512M
-  buildpacks:
-  - java_buildpack_offline</textarea>
+  buildpack: java_buildpack_offline</textarea>
                             </div>
                             <!--//2뎁스 영역(MANIFEST YML) -->
                         </div>
