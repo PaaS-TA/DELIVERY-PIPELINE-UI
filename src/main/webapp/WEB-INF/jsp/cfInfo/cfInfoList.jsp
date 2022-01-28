@@ -12,11 +12,11 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>Cloud Foundry 정보관리</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Cloud Foundry Information management</li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="Cloud Foundry 계정 등록" id="btnCreate">Cloud Foundry 계정 등록</button>
+            <button type="button" class="button btn_default" title="Cloud Foundry Account registration" id="btnCreate">Cloud Foundry 계정 등록</button>
         </div>
     </div>
 </div>
@@ -30,8 +30,8 @@
         <div class="rSearch_group">
             <div class="sel_group fr">
                 <div class="keyword_search">
-                    <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="계정명 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="<c:out value='${cfName}' default='' />"/>
-                    <a class="btn_search" href="javascript:void(0);" title="검색" id="btnSearch"></a>
+                    <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="Account Name Search" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="<c:out value='${cfName}' default='' />"/>
+                    <a class="btn_search" href="javascript:void(0);" title="Search" id="btnSearch"></a>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
         <!--//사용자 목록(이미지없는) :e -->
         <!-- 더보기 버튼 :s -->
         <div class="table_more" id="moreListButtonArea" style="display: none;">
-            <div class="btn_more" id="btnMore" style="cursor: pointer;"> 더보기 </div>
+            <div class="btn_more" id="btnMore" style="cursor: pointer;"> More </div>
         </div>
         <!--//더보기 버튼 :e -->
     </div>
@@ -108,15 +108,15 @@
             htmlString = [];
 
         if (0 === listLength) {
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
             for (var i = 0; i < listLength; i++) {
                 htmlString.push('<li><dl><dt>' +
                     '<a href="javascript:void(0);" onclick="moveDetailPage(\'' + cfInfoList[i].id + '\');">' + cfInfoList[i].cfName +
                     ' (' + cfInfoList[i].cfApiUrl + ')' +
                     '</a>' +
-                    '</dt><dd><ul><li class="stateArea"><i class="ico_app"></i>추가일 : ' + cfInfoList[i].createdString +
-                    '<span class="pr15"></span><i class="ico_modify"></i>수정일 : ' + cfInfoList[i].lastModifiedString +
+                    '</dt><dd><ul><li class="stateArea"><i class="ico_app"></i>Date of addition : ' + cfInfoList[i].createdString +
+                    '<span class="pr15"></span><i class="ico_modify"></i>Date of modification : ' + cfInfoList[i].lastModifiedString +
                     '</li></ul></dd></dl></li>');
             }
         }

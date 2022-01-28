@@ -9,14 +9,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-Service Instance 상세 페이지 :: SERVICE INSTANCE DETAIL PAGE
+Service Instance detail page :: SERVICE INSTANCE DETAIL PAGE
 <br>
 <ul>
     <li>ID :: <span id="serviceInstanceId"></span></li>
 </ul>
 <br>
-<button type="button" id="btnDelete"> [ 삭제 ] </button>
-<button type="button" id="btnCreate"> [ 파이프라인 생성 ] </button>
+<button type="button" id="btnDelete"> [ Delete ] </button>
+<button type="button" id="btnCreate"> [ Create a pipeline ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
@@ -49,14 +49,14 @@ Service Instance 상세 페이지 :: SERVICE INSTANCE DETAIL PAGE
     var callbackDeleteServiceInstance = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        alert("삭제 되었습니다.");
+        alert("Deleted.");
         procMovePage('<c:url value="/serviceInstance/dashboard"/>');
     };
 
 
     // BIND
     $("#btnDelete").on("click", function() {
-        if(confirm("삭제 하시겠습니까?")) deleteServiceInstance();
+        if(confirm("Are you sure you want to delete?")) deleteServiceInstance();
     });
 
 

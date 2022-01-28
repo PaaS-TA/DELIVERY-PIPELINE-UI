@@ -13,8 +13,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>파이프라인 정보보기/수정</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>View/edit pipeline information</li>
         </ul>
     </div>
 </div>
@@ -25,7 +25,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">파이프라인 정보보기/수정</h3>
+        <h3 class="sub_title">View/edit pipeline information</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -35,13 +35,13 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">파이프라인 명 (<span class="essential">*필수</span>)</p>
+                            <p class="title">Pipeline name (<span class="essential">*Required</span>)</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <input class="input-large97" id="pipelineName" name="pipelineName" type="text" placeholder="파이프라인 이름" />
+                                <input class="input-large97" id="pipelineName" name="pipelineName" type="text" placeholder="Pipeline name" />
                             </div>
                         </div>
                         <!--//form 영역-->
@@ -51,13 +51,13 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">파이프라인 설명 <span class="bold500">(선택)</span></p>
+                            <p class="title">Pipeline description <span class="bold500">(Optional)</span></p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <textarea type="text" style="width:96%;" colos="20" rows="10" onfocus="resize(this)" placeholder="입력한 파이프라인 설명 노출" id="description"></textarea>
+                                <textarea type="text" style="width:96%;" colos="20" rows="10" onfocus="resize(this)" placeholder="Reveal the pipeline description entered" id="description"></textarea>
                             </div>
                         </div>
                         <!--//form 영역-->
@@ -66,11 +66,11 @@
                     <!-- 버튼 영역 -->
                     <div class="btn_Area plr20">
                         <div class="fl">
-                            <button type="button" class="button btn_default" title="파이프라인 삭제" id="btnDeletePipeline">파이프라인 삭제</button>
+                            <button type="button" class="button btn_default" title="Delete pipeline" id="btnDeletePipeline">파이프라인 삭제</button>
                         </div>
                         <div class="fr">
-                            <button type="button" class="button btn_default" title="저장" id="btnUpdatePipeline">수정</button>
-                            <button type="button" class="button btn_default" title="취소" id="btnCancelPipeline">취소</button>
+                            <button type="button" class="button btn_default" title="Save" id="btnUpdatePipeline">Edit</button>
+                            <button type="button" class="button btn_default" title="Cancel" id="btnCancelPipeline">Cancel</button>
                         </div>
                     </div>
                     <!--//버튼 영역-->
@@ -120,7 +120,7 @@
     var callbackUpdatePipeline = function(data) {
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        procPopupAlert('수정 되었습니다.', 'procMovePage(-1);');
+        procPopupAlert('Changed', 'procMovePage(-1);');
     };
 
 
@@ -136,7 +136,7 @@
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        procPopupAlert('삭제 되었습니다.', 'procMovePage("/pipeline/dashboard");');
+        procPopupAlert('Deleted.', 'procMovePage("/pipeline/dashboard");');
 
     };
 

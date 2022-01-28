@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -37,19 +37,19 @@
                     <div class="tit"><span id="jobName"></span></div>
                     <div class="databox">
                         <ul>
-                            <li>실행 : <span class="data_txt_box font-success" id="jobStatusText"></span></li>
-                            <li>시작 : <span class="data_txt" id="jobCreatedString"></span></li>
-                            <li>종료 : <span class="data_txt" id="jobLastModifiedString"></span></li>
-                            <li>이전 작업명 : <span class="data_txt" id="previousJobNameString"></span></li>
-                            <li>이전 작업 번호 : <span class="data_txt" id="previousJobNumberString"></span></li>
-                            <li>트리거 : <span class="data_txt" id="jobTriggerType"></span></li>
+                            <li>Execute : <span class="data_txt_box font-success" id="jobStatusText"></span></li>
+                            <li>Start : <span class="data_txt" id="jobCreatedString"></span></li>
+                            <li>Finish : <span class="data_txt" id="jobLastModifiedString"></span></li>
+                            <li>Previous job name : <span class="data_txt" id="previousJobNameString"></span></li>
+                            <li>Previous job number : <span class="data_txt" id="previousJobNumberString"></span></li>
+                            <li>Trigger : <span class="data_txt" id="jobTriggerType"></span></li>
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="button btn_default" title="실행" id="btnTrigger">실행</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnStop" style="display: none;">취소</button>
-                        <button type="button" class="button btn_default" title="구성" id="btnUpdate">구성</button>
-                        <button type="button" class="button btn_default" title="목록" id="btnList">목록</button>
+                        <button type="button" class="button btn_default" title="Execute" id="btnTrigger">실행</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnStop" style="display: none;">취소</button>
+                        <button type="button" class="button btn_default" title="Composition" id="btnUpdate">구성</button>
+                        <button type="button" class="button btn_default" title="List" id="btnList">목록</button>
                     </div>
                 </div>
                 <!--//타이틀 :e -->
@@ -65,10 +65,10 @@
                     <!-- Left :s -->
                     <!-- Content :s -->
                     <div class="contentArea" style="position: inherit; float: none; clear: none;">
-                        <div style="float: left;"><h3>로그</h3></div>
+                        <div style="float: left;"><h3>Log</h3></div>
                         <div style="float: right;">
-                            <button type="button" class="button btn_default" title="롤백" id="btnRevertGreenDeploy" style="display: none;">운영 GREEN 배포 되돌리기</button>
-                            <button type="button" class="button btn_default" title="롤백" id="btnPopupRollBack" disabled>현재 작업으로 롤백</button>
+                            <button type="button" class="button btn_default" title="Rollback" id="btnRevertGreenDeploy" style="display: none;">Operation GREEN distribution revert</button>
+                            <button type="button" class="button btn_default" title="Rollback" id="btnPopupRollBack" disabled>rollback to current job</button>
                         </div>
                         <!-- 내용 들어갈곳-->
                         <div class="log_body2" id="jobLogHistoryConsoleLogArea">
@@ -94,7 +94,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
-                <h1 id="popupConfirmTitle" class="modal-title"> 현재 작업으로 롤백 </h1>
+                <h1 id="popupConfirmTitle" class="modal-title"> Rollback to current job </h1>
             </div>
             <div class="modal-body">
                 <!-- form -->
@@ -103,7 +103,7 @@
                     <div class="modalform_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">Cloud Foundry 정보</p>
+                            <p class="title">About Cloud Foundry</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!-- form 영역-->
@@ -111,7 +111,7 @@
                             <div class="formBox">
                                 <p>
                                     <select class="input-large" title="" id="cfInfoId">
-                                        <option value="">Cloud Foundry 정보 선택</option>
+                                        <option value="">Select Cloud Foundry information</option>
                                         <c:forEach items="${cfInfoList}" var="item" varStatus="status">
                                             <option value="${item.id}">${item.cfName}</option>
                                         </c:forEach>
@@ -126,19 +126,19 @@
                     <div class="modalform_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">조직/공간</p>
+                            <p class="title">Organization/Space</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!-- form 영역-->
                         <div class="form_right">
                             <div id="cfInfoWelcomeArea">
                                 <div class="formBox">
-                                    <p class="txt_normal" style="color: #ff4500">Cloud Foundry 정보를 선택하면, 활성화됩니다.</p>
+                                    <p class="txt_normal" style="color: #ff4500">If you select About Cloud Foundry, it will be activated.</p>
                                 </div>
                             </div>
                             <div id="cfInfoResultArea">
                                 <div class="formBox">
-                                    <p class="txt_normal">조직명: <span id="deployTargetOrgView"></span></p>
+                                    <p class="txt_normal">Organization name: <span id="deployTargetOrgView"></span></p>
                                 </div>
                                 <!-- 2뎁스 영역(유형 (type)) -->
                                 <div class="formBox">
@@ -146,7 +146,7 @@
                                         <select class="input-large" title="" id="deployTargetSpace">
                                         </select>
                                     </p>
-                                    <p><input type="text" class="input-large" id="popupAppName" name="popupAppName" title="" value="" maxlength="25" placeholder="애플리케이션 명"></p>
+                                    <p><input type="text" class="input-large" id="popupAppName" name="popupAppName" title="" value="" maxlength="25" placeholder="Application name"></p>
                                 </div>
                             </div>
                             <!--//2뎁스 영역(유형 (type)) -->
@@ -159,8 +159,8 @@
             </div>
             <div class="modal-footer">
                 <div class="fr">
-                    <button type="button" class="button btn_pop" id="btnRollBack">롤백</button>
-                    <button type="button" class="button btn_pop" data-dismiss="modal"> 취소
+                    <button type="button" class="button btn_pop" id="btnRollBack">Rollback</button>
+                    <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel
                     </button>
                 </div>
             </div>
@@ -274,10 +274,10 @@
             objJobStatusText = $('#jobStatusText'),
             objJobIsBuilding = $('#jobIsBuilding'),
             noDataString = ' - ',
-            progressString = '진행중';
+            progressString = 'In progress';
 
         if (listLength < 1) {
-            htmlString.push('이력이 없습니다.');
+            htmlString.push('There is no history.');
             lastJobNumber = 0;
 
             objJobStatusText.html(noDataString);
@@ -302,7 +302,7 @@
                 // STATUS :: SUCCESS
                 if (jobStatus.indexOf(gResultStatusSuccess) > -1) {
                     jobStatusCss = 'success';
-                    jobStatusText = '성공';
+                    jobStatusText = 'Success';
                     objJobStatusText.addClass('font-success');
 
                     if ('<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>' + '_' + gResultStatusSuccess === jobStatus && i === 0) {
@@ -313,21 +313,21 @@
                 // STATUS :: FAIL
                 if ('<%= Constants.RESULT_STATUS_FAILURE %>' === jobStatus) {
                     jobStatusCss = 'failure';
-                    jobStatusText = '실패';
+                    jobStatusText = 'Fail';
                     objJobStatusText.addClass('font-fail');
                 }
 
                 // STATUS :: ABORTED
                 if ('<%= Constants.RESULT_STATUS_ABORTED %>' === jobStatus) {
                     jobStatusCss = 'cancel';
-                    jobStatusText = '중단';
+                    jobStatusText = 'Stop';
                     objJobStatusText.addClass('font-retract');
                 }
 
                 // STATUS :: CANCELED
                 if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === jobStatus) {
                     jobStatusCss = 'cancel';
-                    jobStatusText = '취소';
+                    jobStatusText = 'Cancel';
                     objJobStatusText.addClass('font-retract');
                 }
 
@@ -342,7 +342,7 @@
 
                     objJobIsBuilding.val('<%= Constants.CHECK_YN_Y %>');
 
-                    $('#jobLogHistoryConsoleLogArea').html('진행 중입니다.');
+                    $('#jobLogHistoryConsoleLogArea').html('It is in progress.');
                     $('#btnTrigger').hide();
                     $('#btnStop').show();
                 }
@@ -380,7 +380,7 @@
         }
 
         if (parseInt(reqJobNumber, 10) < 1) {
-            $('#jobLogHistoryConsoleLogArea').html('상세 이력이 없습니다.');
+            $('#jobLogHistoryConsoleLogArea').html('There is no detailed history.');
             return false;
         }
 
@@ -440,14 +440,14 @@
         if (gDeployTypePRD === $('#deployType').val()) {
             // STATUS :: PRD :: BLUE DEPLOY :: SUCCESS
             if (('<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
-                jobStatusText = '성공';
+                jobStatusText = 'Success';
                 objJobStatusText.addClass('font-success');
                 rollBackYn = false;
             }
 
             // STATUS :: PRD :: GREEN DEPLOY :: SUCCESS
             if (('<%= Constants.BlueGreenDeployStatus.GREEN_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
-                jobStatusText = '성공';
+                jobStatusText = 'Success';
                 objJobStatusText.addClass('font-success');
 
                 if ('<%= Constants.CHECK_YN_Y %>' === $('#revertGreenDeployStatus').val() && reqDataIndex === 0) {
@@ -457,13 +457,13 @@
 
             // STATUS :: PRD :: REVERT GREEN DEPLOY :: SUCCESS
             if (('<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>' + connString + gResultStatusSuccess) === jobStatus) {
-                jobStatusText = '성공';
+                jobStatusText = 'Success';
                 objJobStatusText.addClass('font-success');
             }
         } else {
             // STATUS :: DEV :: SUCCESS
             if (gResultStatusSuccess === jobStatus) {
-                jobStatusText = '성공';
+                jobStatusText = 'Success';
                 objJobStatusText.addClass('font-success');
                 rollBackYn = false;
             }
@@ -471,25 +471,25 @@
 
         // STATUS :: FAIL
         if ('<%= Constants.RESULT_STATUS_FAILURE %>' === jobStatus) {
-            jobStatusText = '실패';
+            jobStatusText = 'Fail';
             objJobStatusText.addClass('font-fail');
         }
 
         // STATUS :: ABORTED
         if ('<%= Constants.RESULT_STATUS_ABORTED %>' === jobStatus) {
-            jobStatusText = '중단';
+            jobStatusText = 'Stop';
             objJobStatusText.addClass('font-retract');
         }
 
         // STATUS :: CANCELED
         if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === jobStatus) {
-            jobStatusText = '취소';
+            jobStatusText = 'Cancel';
             objJobStatusText.addClass('font-retract');
         }
 
         // STATUS :: JOB WORKING
         if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === jobStatus) {
-            jobStatusText = '진행중';
+            jobStatusText = 'In progress';
             jobCreatedString = noDataString;
             jobLastModifiedString = noDataString;
             previousJobNameString = noDataString;
@@ -589,7 +589,7 @@
         $('#btnStop').hide();
 
         if ('<%= Constants.CHECK_YN_N %>' === objJobIsStopping.val()) {
-            procPopupAlert('실행이 완료 되었습니다.');
+            procPopupAlert('Execution is complete.');
         }
 
         objJobIsStopping.val('<%= Constants.CHECK_YN_N %>');
@@ -633,13 +633,13 @@
 
     // SET INIT TRIGGER JOB LOG HISTORY
     var setInitTriggerJobLogHistory = function () {
-        var htmlString = '<li><span class="action"></span><span class="action_txt" style="width: 38px;">진행중</span></li>',
+        var htmlString = '<li><span class="action"></span><span class="action_txt" style="width: 38px;">In progress</span></li>',
             objJobLogHistoryArea = $('#jobLogHistoryArea'),
             objJobStatusText = $('#jobStatusText'),
             noDataString = ' - ';
 
         objJobStatusText.removeClass().addClass('data_txt_box').addClass('font-progress');
-        objJobStatusText.html('진행중');
+        objJobStatusText.html('In progress');
 
         $('#jobCreatedString').html(noDataString);
         $('#jobLastModifiedString').html(noDataString);
@@ -718,7 +718,7 @@
         $('#btnTrigger').show();
         $('#btnStop').hide();
 
-        procPopupAlert('정지 되었습니다.');
+        procPopupAlert('Stopped.');
         getJobHistoryList();
     };
 
@@ -815,7 +815,7 @@
             selectedCss = '',
             htmlString = [];
 
-        htmlString.push('<option value="">공간 선택</option>');
+        htmlString.push('<option value="">Select a space</option>');
 
         for (var i = 0; i < listLength; i++) {
             selectedCss = (i === 0)? ' selected' : '';
@@ -843,7 +843,7 @@
 
     // BIND
     $('#btnStop').on('click', function() {
-        procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
+        procPopupConfirm('Stop JOB', 'Do you want to stop?', 'stopJob();');
     });
 
 
@@ -873,9 +873,9 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
-                    procPopupConfirm('JOB 롤백', '롤백 하시겠습니까?', 'triggerJob(true);');
+                    procPopupConfirm('Rollback JOB', 'Do you want to roll back?', 'triggerJob(true);');
                 }
             }
         }*/

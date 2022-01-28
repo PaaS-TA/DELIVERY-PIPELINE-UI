@@ -9,10 +9,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-Service Instance 대시보드 :: SERVICE INSTANCE DASHBOARD
+Service Instance Dashboard :: SERVICE INSTANCE DASHBOARD
 <br>
-<button type="button" id="btnSearch"> [ 조회 ] </button>
-<button type="button" id="btnReset"> [ 목록 초기화 ] </button>
+<button type="button" id="btnSearch"> [ Lookup ] </button>
+<button type="button" id="btnReset"> [ List initialization ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">

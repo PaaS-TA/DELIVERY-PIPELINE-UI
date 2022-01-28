@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -29,7 +29,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">구성상세</h3>
+        <h3 class="sub_title">Configuration details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -39,13 +39,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">내 작업</p>
+                        <p class="title">My work</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="작업명">
+                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="Job name">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -55,15 +55,15 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">작업 유형 (Job)</p>
+                        <p class="title">Job type (Job)</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="testJobType" name="testJobType" title="" value="테스트 (Test)" disabled>
+                            <input type="text" class="input-medium" id="testJobType" name="testJobType" title="" value="Test (Test)" disabled>
                             <ul>
-                                <li><input type="checkbox" id="testJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</li>
+                                <li><input type="checkbox" id="testJobPostActionYn" value="" title=""> Abort the execution of the connected task if this task fails</li>
                             </ul>
                         </div>
                     </div>
@@ -75,24 +75,24 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">입력 유형</p>
+                            <p class="title">Input type</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionProfileKey">
-                                    <option value="">품질 프로파일 선택</option>
+                                    <option value="">Select a quality profile</option>
                                 </select>
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="inspectionGateId">
-                                    <option value="">품질 게이트 선택</option>
+                                    <option value="">Quality gate selection</option>
                                 </select>
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="buildJobId">
-                                    <option value="">스테이징 선택</option>
+                                    <option value="">Staging selection</option>
                                 </select>
                             </div>
                         </div>
@@ -151,7 +151,7 @@ test {
                 <div class="form_info">
                     <div class="form_right">
                         <!--2뎁스 영역-->
-                        <p class="sub_title">작업 트리거 (Job Trigger)</p>
+                        <p class="sub_title">Job trigger (Job Trigger)</p>
                         <div class="formBox">
                             <ul>
                                 <c:forEach items="${testJobTriggerTypeList}" var="item" varStatus="status">
@@ -173,8 +173,8 @@ test {
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="저장" id="btnUpdate">저장</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Save" id="btnUpdate">저장</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
@@ -314,7 +314,7 @@ test {
             listNumber = 0,
             htmlString = [];
 
-        htmlString.push('<option value="">품질 프로파일 선택</option>');
+        htmlString.push('<option value="">Select a quality profile</option>');
 
         for (var i = 0; i < listLength; i++) {
             inspectionProfileKey = data[i].key;
@@ -354,7 +354,7 @@ test {
             listNumber = 0,
             htmlString = [];
 
-        htmlString.push('<option value="">품질 게이트 선택</option>');
+        htmlString.push('<option value="">Quality gate selection</option>');
 
         for (var i = 0; i < listLength; i++) {
             inspectionGateId = parseInt(data[i].id, 10);
@@ -416,7 +416,7 @@ test {
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#jobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#jobName').focus();");
             return false;
         }
 
@@ -427,19 +427,19 @@ test {
 
         // CHECK INSPECTION PROFILE KEY
         if (procIsNullString(inspectionProfileKey)) {
-            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileKey').focus();");
+            procPopupAlert("Select the quality profile item.", "$('#inspectionProfileKey').focus();");
             return false;
         }
 
         // CHECK INSPECTION GATE ID
         if (procIsNullString(inspectionGateId)) {
-            procPopupAlert("품질 게이트 항목을 선택하십시오.", "$('#inspectionGateId').focus();");
+            procPopupAlert("Select the quality gate item.", "$('#inspectionGateId').focus();");
             return false;
         }
 
         // CHECK BUILD JOB ID
         if (procIsNullString(buildJobId)) {
-            procPopupAlert("스테이징 항목을 선택하십시오.", "$('#buildJobId').focus();");
+            procPopupAlert("Select a staging item.", "$('#buildJobId').focus();");
             return false;
         }
 
@@ -479,7 +479,7 @@ test {
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        procPopupAlert('수정 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Changed', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -489,7 +489,7 @@ test {
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
                     updateJob();
                 }

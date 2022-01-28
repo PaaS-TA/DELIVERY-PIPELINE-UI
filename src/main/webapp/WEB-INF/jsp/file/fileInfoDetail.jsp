@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-FILE INFO 상세 페이지
+FILE INFO details page
 <br>
 <ul>
     <li>ID :: <span id="fileId"></span></li>
@@ -18,7 +18,7 @@ FILE INFO 상세 페이지
     <li>file URL :: <span id="url"></span></li>
 </ul>
 <br>
-<button type="button" id="btnDelete"> [ 삭제 ] </button>
+<button type="button" id="btnDelete"> [ Delete ] </button>
 
 <input type="hidden" id="id" name="id" value="<c:out value='${id}' default='' />" />
 
@@ -45,7 +45,7 @@ FILE INFO 상세 페이지
     var callbackDeleteFile = function(data){
         if (RESULT_STATUS_FAIL == data.resultStatus) return false;
 
-        alert("삭제 되었습니다.");
+        alert("Deleted.");
         procMovePage('<c:url value="/file/info"/>');
     };
     /*var downloadUploadedFile = function(id){
@@ -53,7 +53,7 @@ FILE INFO 상세 페이지
     };*/
 
     $('#btnDelete').on("click", function(){
-        if(confirm("삭제 하시겠습니까?")) deleteFile();
+        if(confirm("Are you sure you want to delete?")) deleteFile();
     });
 
     $(document.body).ready(function(){

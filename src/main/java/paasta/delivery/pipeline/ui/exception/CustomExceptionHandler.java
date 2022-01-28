@@ -25,7 +25,7 @@ import java.util.Enumeration;
 public class CustomExceptionHandler {
 
     private static final Logger EXCEPTION_LOGGER = LoggerFactory.getLogger(CustomExceptionHandler.class);
-    private static final String COMMON_SYSTEM_ERROR_MESSAGE = "시스템 장애가 발생했습니다.";
+    private static final String COMMON_SYSTEM_ERROR_MESSAGE = "A system failure has occurred.";
 
 
     /**

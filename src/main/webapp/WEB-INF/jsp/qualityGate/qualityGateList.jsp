@@ -31,12 +31,12 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>품질 게이트</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Quality gate</li>
         </ul>
         <div>
             <ul class="right">
-                <button type="button" class="button btn_default" id="craetePopBtn">생성</button>
+                <button type="button" class="button btn_default" id="craetePopBtn">Create</button>
             </ul>
         </div>
     </div>
@@ -54,7 +54,7 @@
             <div class="lnbWrap">
                 <div class="lnb">
                     <ul class="mt11" style="bottom: 1px;">
-                        <h4>품질 게이트 목록 </h4>
+                        <h4>List of quality gates </h4>
                     </ul>
                     <ul id="qualityGateName">
 
@@ -64,9 +64,9 @@
             <!--//left :e -->
             <div class="contentWrap" id="contentGateExp" style="display: block;">
                 <div style="padding: 20px; line-height: 2.2em;">
-                    <p> 품질 게이트는 프로젝트 측정에 설정된 간단한 부울 임곗값의 모음입니다. </p>
-                    <p> 프로젝트는 품질 게이트를 전체적으로 통과시키기 위해 각 임곗값을 통과해야 합니다. </p>
-                    <p> 다른 게이트에 명시적으로 할당되지 않은 모든 프로젝트에 적용되는 기본 품질 게이트를 설정할 수 있습니다. </p>
+                    <p> A quality gate is a collection of simple Boolean thresholds set in a project measure. </p>
+                    <p> The project must pass each threshold to pass the quality gate as a whole. </p>
+                    <p> You can set a default quality gate that applies to all projects that are not explicitly assigned to another gate. </p>
                 </div>
             </div>
             <!-- contentWrap :s -->
@@ -78,25 +78,25 @@
                     </div>
                     <div class="fr mb10">
                         <%--<button type="button" class="button btn_default" id="defaultSetting">기본으로 설정</button>--%>
-                        <button type="button" class="button btn_default" id="copyPopBtn">복제</button>
+                        <button type="button" class="button btn_default" id="copyPopBtn">Duplicate</button>
 
-                        <button type="button" id="updatePopBtn" class="button btn_default">수정</button>
+                        <button type="button" id="updatePopBtn" class="button btn_default">Change</button>
 
-                        <button type="button" class="button btn_default" id="deleteGateBtn">삭제</button>
+                        <button type="button" class="button btn_default" id="deleteGateBtn">Delete</button>
                     </div>
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 조건 영역 :s -->
-                    <h3 class="sub_title">조건</h3>
+                    <h3 class="sub_title">Condition</h3>
 
                     <div id="addSelect">
                         <select class="selectbox select1" onchange="addCondition()" id="addCondition">
-                            <option value="add">조건 추가</option>
+                            <option value="add">Add condition</option>
                         </select>
                     </div>
                     <!-- 리스트 테이블 :s -->
-                    <table summary="조건, 경고수준, 오류수준, 기준 저장/수정 등의 조건 리스트 테이블입니다." class="BasicTable">
+                    <table summary="This is a table of condition lists such as condition, warning level, error level, and saving/modifying criteria." class="BasicTable">
                         <caption>
-                            조건 리스트 테이블
+                            Condition list table
                         </caption>
                         <colgroup>
                             <col style="width: 40%"/>
@@ -107,11 +107,11 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th scope="col">조건</th>
-                            <th scope="col">경고수준</th>
-                            <th scope="col">오류수준</th>
-                            <th scope="col">기준</th>
-                            <th scope="col">저장/수정</th>
+                            <th scope="col">Condition</th>
+                            <th scope="col">Warning level</th>
+                            <th scope="col">Error level</th>
+                            <th scope="col">Criteris</th>
+                            <th scope="col">Save/Edit</th>
                         </tr>
                         </thead>
                         <tbody id="gateCondition">
@@ -122,14 +122,14 @@
                     <!--//조건 영역 :e -->
 
                     <!-- 연결된 프로젝트 :s -->
-                    <h3 class="sub_title">연결된 프로젝트</h3>
+                    <h3 class="sub_title">linked project</h3>
                     <!-- sub_tab :s -->
                     <div class="sub_tab">
                         <ul>
-                            <li class="fst active"><a href="#;" onClick="sub_tab(0);">연결됨 <span class="pl10"></span></a>
+                            <li class="fst active"><a href="#;" onClick="sub_tab(0);">Connected <span class="pl10"></span></a>
                             </li>
-                            <li class=""><a href="#;" onClick="sub_tab(1);">미연결 <span class="pl10"></span></a></li>
-                            <li class=""><a href="#;" onClick="sub_tab(2);">전체 <span class="pl10"></span></a></li>
+                            <li class=""><a href="#;" onClick="sub_tab(1);">Unconnected <span class="pl10"></span></a></li>
+                            <li class=""><a href="#;" onClick="sub_tab(2);">All <span class="pl10"></span></a></li>
                         </ul>
                     </div>
                     <!--//sub_tab :e -->
@@ -137,8 +137,8 @@
                     <div class="sub_tab_cont00 mts">
                         <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
-                            <table summary="연결된 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>연결된 프로젝트 리스트</caption>
+                            <table summary="Linked projects list table." class="BasicTable">
+                                <caption>Linked projects list</caption>
                                 <colgroup>
                                     <col style="width:3%">
                                     <col style="width: *"/>
@@ -157,8 +157,8 @@
                     <div class="sub_tab_cont01 mTs" style="display:none;">
                         <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
-                            <table summary="미연결 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>미연결 프로젝트 리스트</caption>
+                            <table summary="This is the unconnected projects list table." class="BasicTable">
+                                <caption>Unconnected projects list</caption>
                                 <colgroup>
                                     <col style="width:3%">
                                     <col style="width: 97%"/>
@@ -168,15 +168,15 @@
                                 <tbody id="projectFailure">
                                 <%--                          <tr>
                                                               <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                              <td class="alignL">프로젝트 명이 노출되는 곳입니다. 1</td>
+                                                              <td class="alignL">This is where the project name is revealed. 1</td>
                                                           </tr>
                                                           <tr>
                                                               <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                              <td class="alignL">프로젝트 명이 노출되는 곳입니다. 3</td>
+                                                              <td class="alignL">This is where the project name is revealed. 3</td>
                                                           </tr>
                                                           <tr>
                                                               <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                              <td class="alignL">프로젝트 명이 노출되는 곳입니다. 5</td>
+                                                              <td class="alignL">This is where the project name is revealed. 5</td>
                                                           </tr>--%>
                                 </tbody>
                             </table>
@@ -188,8 +188,8 @@
                     <div class="sub_tab_cont02 mTs" style="display:none;">
                         <div class="tab_content tbl_scroll">
                             <!-- 리스트 테이블 -->
-                            <table summary="전체 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                <caption>전체 프로젝트 리스트</caption>
+                            <table summary="This is the full project list table." class="BasicTable">
+                                <caption>Full project list</caption>
                                 <colgroup>
                                     <col style="width:3%">
                                     <col style="width: 97%"/>
@@ -199,15 +199,15 @@
                                 <tbody id="allProject">
                                 <%--                                <tr>
                                                                     <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 1</td>
+                                                                    <td class="alignL">This is where the project name is revealed. 1</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 2</td>
+                                                                    <td class="alignL">This is where the project name is revealed. 2</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><input type="checkbox" id="Checkbox1" value="option1"></td>
-                                                                    <td class="alignL">프로젝트 명이 노출되는 곳입니다. 3</td>
+                                                                    <td class="alignL">This is where the project name is revealed. 3</td>
                                                                 </tr>--%>
                                 </tbody>
                             </table>
@@ -235,7 +235,7 @@
             <div class="modal-header">
                 <button type="button" class="close copyGateClose" data-dismiss="modal"><span
                         aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <span class="modal-title">품질 게이트 복제</span>
+                <span class="modal-title">Quality gate clone</span>
             </div>
             <div class="modal-body">
                 <!-- form -->
@@ -244,12 +244,12 @@
                     <div class="modalform_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">품질 게이트</p>
+                            <p class="title">Quality gate</p>
                         </div>
                         <div class="form_right">
                             <div class="formBox">
                                 <input id="copyGateText" name="copyGateText" maxlength="50" type="text"
-                                       placeholder="품질 게이트 명을 입력하세요(필수)">
+                                       placeholder="Enter the name of the quality gate (required)">
                             </div>
                         </div>
                     </div>
@@ -259,18 +259,18 @@
             <div class="modal-footer">
 
                 <div class="fr" id="frCopyBtn">
-                    <button type="button" class="button btn_pop" id="copyGateBtn">복제</button>
-                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">취소</button>
+                    <button type="button" class="button btn_pop" id="copyGateBtn">Duplicate</button>
+                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">Cancel</button>
                 </div>
 
                 <div class="fr" id="frCreateBtn">
-                    <button type="button" class="button btn_pop" id="createGateBtn">생성</button>
-                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">취소</button>
+                    <button type="button" class="button btn_pop" id="createGateBtn">Create</button>
+                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">Cancel</button>
                 </div>
 
                 <div class="fr" id="frUdtBtn">
-                    <button type="button" class="button btn_pop" id="updateGateBtn">수정</button>
-                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">취소</button>
+                    <button type="button" class="button btn_pop" id="updateGateBtn">Change</button>
+                    <button type="button" class="button btn_pop copyGateClose" data-dismiss="modal">Cancel</button>
                 </div>
 
             </div>
@@ -314,33 +314,33 @@
 
         //복제 팝업 활성화 버튼
         $("#copyPopBtn").on("click", function () {
-            buttonControll('복제');
+            buttonControll('Duplicate');
         });
 
         //게이트 복제 버튼
         $("#copyGateBtn").on("click", function () {
             $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
+                procPopupAlert("Enter the name of the quality gate.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
             } else {
-                procPopupConfirm('품질게이트 복제', '복제 하시겠습니까?', 'saveCopyGate();');
+                procPopupConfirm('Quality gate duplication', 'Do you want to duplicate?', 'saveCopyGate();');
             }
 
         });
 
         //게이트 생성 팝업 활성화
         $("#craetePopBtn").on("click", function () {
-            buttonControll('생성');
+            buttonControll('Create');
         });
 
         //게이트 생성 버튼
         $("#createGateBtn").on("click", function () {
             $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
+                procPopupAlert("Enter the name of the quality gate.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
 
             } else {
-                procPopupConfirm('품질게이트 생성', '생성 하시겠습니까?', 'createGate()', '', '');
+                procPopupConfirm('Create quality gate', 'Do you want to create?', 'createGate()', '', '');
             }
 
 
@@ -348,28 +348,28 @@
 
         //게이트 수정 팝업 활성화
         $("#updatePopBtn").on("click", function () {
-            buttonControll('수정');
+            buttonControll('Change');
         });
 
         //게이트 수정 버튼
         $("#updateGateBtn").on("click", function () {
             $('#modalGate').modal('hide');
             if ($("#copyGateText").val().trim() == "") {
-                procPopupAlert("품질 게이트 명을 입력하세요.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
+                procPopupAlert("Enter the name of the quality gate.", "$('#modalGate').modal('show');", "<%= Constants.CHECK_YN_Y %>");
             } else {
-                procPopupConfirm('품질게이트 수정', '수정 하시겠습니까?', 'updateGate();');
+                procPopupConfirm('Edit quality gate', 'Do you want to edit it?', 'updateGate();');
             }
 
 
         });
         //게이트 삭제 버튼
         $("#deleteGateBtn").on("click", function () {
-            procPopupConfirm('품질게이트 삭제', '삭제 하시겠습니까?', 'deleteGate();');
+            procPopupConfirm('Delete quality gate', 'Are you sure you want to delete?', 'deleteGate();');
         });
 
         /*
                 $("#defaultSetting").click(function(){
-                    procPopupConfirm('품질게이트 기본설정', $("#gateName").text()+'을 기본으로 설정 하시겠습니까?', 'defaultSetting();', '설정');
+                    procPopupConfirm('Quality gate default setting', 'Do you want to set ' + $("#gateName").text()+' as Default?', 'defaultSetting();', 'Setting');
                 });
         */
 
@@ -386,7 +386,7 @@
     }
 
     var callbackGateDefaultSetting = function (data) {
-        procPopupAlert($("#gateName").text() + '를 기본으로 설정 하였습니다.');
+        procPopupAlert($("#gateName").text() + 'is set as the default.');
         getList();
         gateActive($("#gateName").text(), $("#gateId").val(), $("#defaultYn").val());
     }
@@ -394,24 +394,24 @@
 
     //팝업 버튼 컨트롤
     var buttonControll = function (name) {
-        if (name == "복제") {
+        if (name == "Duplicate") {
             $("#frCopyBtn").show();
             $("#frCreateBtn").hide();
             $("#frUdtBtn").hide();
             $("#copyGateText").val('');
-            $(".modal-title").text("품질 게이트 복제");
-        } else if (name == "생성") {
+            $(".modal-title").text("Quality gate clone");
+        } else if (name == "Create") {
             $("#frCopyBtn").hide();
             $("#frCreateBtn").show();
             $("#frUdtBtn").hide();
             $("#copyGateText").val('');
-            $(".modal-title").text("품질 게이트 생성");
-        } else if (name == "수정") {
+            $(".modal-title").text("Create quality gates");
+        } else if (name == "Change") {
             $("#frCopyBtn").hide();
             $("#frCreateBtn").hide();
             $("#frUdtBtn").show();
             $("#copyGateText").val($("#gateName").text());
-            $(".modal-title").text("품질 게이트 수정");
+            $(".modal-title").text("Edit quality gate");
         }
 
         $("#modalGate").modal('show');
@@ -439,7 +439,7 @@
         $("#copyGateText").val("");
         getList();
         gateActive(data.qualityGateName, data.qualityGateId, data.defaultYn);
-        procPopupAlert('품질 게이트를 복제 하였습니다.');
+        procPopupAlert('The quality gate has been duplicated');
     }
 
 
@@ -462,7 +462,7 @@
         getList();
         $("#contentGateExp").css("display", "block");
         $("#contentGate").css("display", "none");
-        procPopupAlert('품질 게이트를 삭제 하였습니다.');
+        procPopupAlert('The quality gate has been removed');
     }
 
 
@@ -485,7 +485,7 @@
         $("#copyGateText").val("");
         getList();
         gateActive(data.qualityGateName, data.qualityGateId, data.defaultYn);
-        procPopupAlert('품질프로파일을 수정 하였습니다.');
+        procPopupAlert('The quality profile has been modified.');
     }
 
 
@@ -508,7 +508,7 @@
         getList();
         $("#gateId").val(data.id);
         gateActive(data.qualityGateName, data.qualityGateId, data.defaultYn);
-        procPopupAlert('품질 게이트를 생성 하였습니다.');
+        procPopupAlert('You have created a quality gate.');
 
     }
 
@@ -603,31 +603,31 @@
                 list += "<td>";
                 list += "<select class='input-medium'  onchange='textChange(" + (i + 1) + ")' name='conditionSelect' id='conditionSelect_" + (i + 1) + "'>";
                 if (op == "GT") {
-                    list += "<option value='GT' selected='selected'>이상</option>";
+                    list += "<option value='GT' selected='selected'>More than</option>";
                 } else {
-                    list += "<option value='GT'>이상</option>";
+                    list += "<option value='GT'>More than</option>";
                 }
 
                 if (op == "LT") {
-                    list += "<option value='LT' selected='selected'>이하</option>";
+                    list += "<option value='LT' selected='selected'>Below</option>";
                 } else {
-                    list += "<option value='LT'>이하</option>";
+                    list += "<option value='LT'>Below</option>";
                 }
 
                 if (op == "EQ") {
-                    list += "<option value='EQ' selected='selected'>같음</option>";
+                    list += "<option value='EQ' selected='selected'>Equal</option>";
                 } else {
-                    list += "<option value='EQ'>같음</option>";
+                    list += "<option value='EQ'>Equal</option>";
                 }
 
                 if (op == "NE") {
-                    list += "<option value='NE' selected='selected'>아님</option>";
+                    list += "<option value='NE' selected='selected'>Not Equal</option>";
                 } else {
-                    list += "<option value='NE'>아님</option>";
+                    list += "<option value='NE'>Not Equal</option>";
                 }
                 list += "</select>";
                 list += "</td>";
-                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>수정</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='삭제' >삭제</button></td>";
+                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>수정</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='Delete' >삭제</button></td>";
                 list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='" + id + "' >";
                 list += "</tr>";
 
@@ -681,7 +681,7 @@
         if (data.length != 0) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].gateDefaultYn == "Y") {
-                    list += "<li class='pt10'><a href=\"javascript:gateActive(\'" + data[i].name + "','" + data[i].id + "','" + data[i].gateDefaultYn + "')\"><span class='block ico_bul gateStrong'>" + data[i].name + "</span> <span class='issue_num'><span class='word_sort'>기본</span></span></a></li>";
+                    list += "<li class='pt10'><a href=\"javascript:gateActive(\'" + data[i].name + "','" + data[i].id + "','" + data[i].gateDefaultYn + "')\"><span class='block ico_bul gateStrong'>" + data[i].name + "</span> <span class='issue_num'><span class='word_sort'>Basic</span></span></a></li>";
 
                 } else {
                     list += "<li><a href=\"javascript:gateActive(\'" + data[i].name + "','" + data[i].id + "','" + data[i].gateDefaultYn + "')\"><span class='block ico_bul gateStrong'>" + data[i].name + "</span> </a></li>";
@@ -753,9 +753,9 @@
                 }
 
             } else {
-                projectList += "<tr><td colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
-                projectLinkedList += "<tr><td  colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
-                projectFailureList += "<tr><td  colspan='2'>기본 품질 게이트에 대해 특정 프로젝트를 선택할 수 없습니다.</td></tr>";
+                projectList += "<tr><td colspan='2'>It is not possible to select a specific project for the default quality gate.</td></tr>";
+                projectLinkedList += "<tr><td  colspan='2'>It is not possible to select a specific project for the default quality gate.</td></tr>";
+                projectFailureList += "<tr><td  colspan='2'>It is not possible to select a specific project for the default quality gate.</td></tr>";
             }
         }
 
@@ -803,7 +803,7 @@
     function addCondition() {
         if ($("#defaultYn").val() == "Y") {
 
-            procPopupAlert("기본 품질게이트는 조건을 추가 할수 없습니다.");
+            procPopupAlert("The default quality gate cannot add conditions.");
             return false;
         }
 
@@ -819,14 +819,14 @@
             list += "<td><i class='ico_error'></i> <input type='text'  name='error' title='' onkeydown='onlyNumber(this)'  value='' style='width:70%;' placeholder=''></td>";
             list += "<td>";
             list += "<select class='input-medium' name='conditionSelect'id='conditionSelect_" + (trIndex + 1) + "'>";
-            list += "<option value='GT' selected='selected'>이상</option>";
-            list += "<option value='LT'>이하</option>";
-            list += "<option value='EQ'>같음</option>";
-            list += "<option value='NE'>아님</option>";
+            list += "<option value='GT' selected='selected'>More than</option>";
+            list += "<option value='LT'>Below</option>";
+            list += "<option value='EQ'>Equal</option>";
+            list += "<option value='NE'>Not Equal</option>";
             list += "</select>";
             list += "<input type='hidden' id='conditions_" + (trIndex + 1) + "' value='' >";
             list += "</td>";
-            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='삭제'>삭제</button></td>";
+            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='Delete'>삭제</button></td>";
             list += "</tr>";
         }
 
@@ -889,7 +889,7 @@
         }
         //새로생성된아이도 이값을 가지기 때문에 1개 이상일경우 중복임
         if (cnt > 1) {
-            procPopupAlert('중복된 조건이 있습니다.');
+            procPopupAlert('There are duplicate conditions.');
             return false;
         }
 
@@ -900,7 +900,7 @@
 
         if (RESULT_STATUS_FAIL == data.resultStatus) {return false;}
         $("#conditions_" + data.index).val(data.id);
-        $("#saveBtn_" + index).text("수정");
+        $("#saveBtn_" + index).text("Change");
     }
 
     //삭제, 취소 버튼 이벤트
@@ -910,8 +910,8 @@
         var condId = $("#conditions_" + index).val();
         if (undefined == condId || null == condId || 'null' == condId || '' == condId) {
             $("#gateCondition tr").eq(indexRemove).remove();
-        } else if (btn == "삭제") {
-            procPopupConfirm('품질게이트 조건삭제', '삭제 하시겠습니까?', 'delectConditionPop(\'' + index + '\');');
+        } else if (btn == "Delete") {
+            procPopupConfirm('Delete quality gate condition', 'Are you sure you want to delete?', 'delectConditionPop(\'' + index + '\');');
         }
 
 
@@ -945,7 +945,7 @@
     var callbackMetricsList = function (data) {
 
         var list = "";
-        list += "<option value='add'>조건 추가</option>";
+        list += "<option value='add'>Add condition</option>";
 
         if (data[0].metrics.length != 0) {
             for (var j = 0; j < data[1].domains.length; j++) {

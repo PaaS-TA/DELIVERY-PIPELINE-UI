@@ -13,12 +13,12 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="정보보기/수정" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="신규생성" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
         </div>
     </div>
 </div>
@@ -31,8 +31,8 @@
         <!-- sub_tab :s -->
         <div class="sub_tab">
             <ul>
-                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>파이프라인 <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
-                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>참여자(Contributor) <span class="pl10" id="contributorCount"></span></a></li>
+                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>Pipeline <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
+                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>Contributor <span class="pl10" id="contributorCount"></span></a></li>
             </ul>
         </div>
         <!--//sub_tab :e -->
@@ -46,7 +46,7 @@
                             <div class="form_info">
                                 <!--타이틀 영역-->
                                 <div class="form_left">
-                                    <p class="title">사용자 검색</p>
+                                    <p class="title">User Search</p>
                                 </div>
                                 <!--//타이틀 영역-->
                                 <!--form 영역-->
@@ -54,8 +54,8 @@
                                     <div class="rSearch_group">
                                         <div class="sel_group">
                                                 <div class="keyword_search">
-                                                    <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="사용자 아이디 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {search(); }" value="${listRequest.name}" />
-                                                    <a class="btn_search" href="javascript:void(0);" title="사용자 아이디 검색" id="btnSearch"></a>
+                                                    <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="User ID Search" autocomplete="on" onkeypress="if(event.keyCode==13) {search(); }" value="${listRequest.name}" />
+                                                    <a class="btn_search" href="javascript:void(0);" title="User ID Search" id="btnSearch"></a>
                                                 </div>
                                         </div>
                                     </div>
@@ -63,9 +63,9 @@
                                     <div class="formBox mt-5">
                                         <ul id="listArea">
                                             <%--<li><span class="fl" style="width:525px;">test 1124</span> <a title="추가" href="#"></a></li>
-                                            <li><span class="fl" style="width:525px;">kdhong12345</span> <a title="추가" href="#"></a></li>
+                                            <li><span class="fl" style="width:525px;">kdhong12345</span> <a title="Add" href="#"></a></li>
                                             <li><span class="fl" style="width:525px;">test 1</span></li>
-                                            <li><span class="fl" style="width:525px;">test 322</span> <a title="추가" href="#"></a></li>
+                                            <li><span class="fl" style="width:525px;">test 322</span> <a title="Add" href="#"></a></li>
                                             <li><span class="fl" style="width:525px;">test 1</span></li>
                                             <li><span class="fl" style="width:525px;">test 4</span></li>--%>
                                         </ul>
@@ -90,7 +90,7 @@
                         <div class="form_info">
                             <!--타이틀 영역-->
                             <div class="form_left">
-                                <p class="title">권한</p>
+                                <p class="title">Authority</p>
                             </div>
                             <!--//타이틀 영역-->
                             <!--form 영역-->
@@ -110,7 +110,7 @@
                         <%--<div class="form_info">
                             <!--타이틀 영역-->
                             <div class="form_left">
-                                <p class="title">설명 (선택)</p>
+                                <p class="title">Description (optional)</p>
                             </div>
                             <!--//타이틀 영역-->
                             <!--form 영역-->
@@ -125,8 +125,8 @@
                         <!-- 버튼 영역 -->
                         <div class="btnboxArea">
                             <div class="fr">
-                                <button type="button" class="button btn_default" title="추가" id="addContributor">추가</button>
-                                <button type="button" class="button btn_default" title="취소" id="cancel">취소</button>
+                                <button type="button" class="button btn_default" title="Add" id="addContributor">추가</button>
+                                <button type="button" class="button btn_default" title="Cancel" id="cancel">취소</button>
                             </div>
                         </div>
                         <!--//버튼 영역-->
@@ -173,7 +173,7 @@
         var listLength = data.instanceUses.length;
         var htmlString = [];
         if(0 === listLength){
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
             for (var i = 0; i < listLength; i++) {
                 var count = 0;
@@ -186,7 +186,7 @@
                 }
                 if(count == 0){
                     htmlString.push("<li>" + "<span class='fl' style='width:525px;'>" + "</span>"
-                            + "<a title='추가' href='javascript:void(0);' onclick='moveDetailPage(\"" + data.instanceUses[i].user.id + "\");'>" + data.instanceUses[i].user.name + "</a></li>");
+                            + "<a title='Add' href='javascript:void(0);' onclick='moveDetailPage(\"" + data.instanceUses[i].user.id + "\");'>" + data.instanceUses[i].user.name + "</a></li>");
                 }
             }
         }
@@ -209,8 +209,8 @@
 
         var htmlString2 = [];
 
-        htmlString2.push("<dt>추가할 사용자" + "<span class='fr pr15'><a title='삭제'>" + "</a></span></dt>"
-                + "<dd><span class='sm_tit'>아이디 :" + "</span>"+ data2.user.name +"</dd>");
+        htmlString2.push("<dt>User to add" + "<span class='fr pr15'><a title='delete'>" + "</a></span></dt>"
+                + "<dd><span class='sm_tit'>ID :" + "</span>"+ data2.user.name +"</dd>");
 
 
         var listArea2 = $('#listArea2');
@@ -238,10 +238,10 @@
         var checkedValue = $("input[type=radio][name=radio]:checked").val();
         var userId = $('#user_id').val();
         if((userId =='' || checkedValue == undefined) || (userId =='' && checkedValue == undefined)){
-            procPopupAlert('올바른 입력 값을 넣어주십시오.');
+            procPopupAlert('Please enter the correct input value.');
             return false;
         }else{
-            procPopupConfirm('참여자 추가', '추가 하시겠습니까?', 'addContributor();');
+            procPopupConfirm('Add Contributor', 'would you like to add?', 'addContributor();');
         }
 
 
@@ -270,7 +270,7 @@
 
     var callbackGetContributor = function(data){
         procCallSpinner(SPINNER_STOP);
-        procPopupAlert('추가 되었습니다.', 'procMovePage(-1);');
+        procPopupAlert('Added.', 'procMovePage(-1);');
 
     };
 

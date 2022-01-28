@@ -13,12 +13,12 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="정보보기/수정" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="신규생성" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
         </div>
     </div>
 </div>
@@ -31,8 +31,8 @@
         <!-- sub_tab :s -->
         <div class="sub_tab">
             <ul>
-                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>파이프라인 <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
-                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>참여자(Contributor) <span class="pl10" id="contributorCount"></span></a></li>
+                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>Pipeline <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
+                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>Contributor <span class="pl10" id="contributorCount"></span></a></li>
             </ul>
         </div>
         <!--//sub_tab :e -->
@@ -49,7 +49,7 @@
                 <div class="classification" id="classification1">
                     <div class="thumbnail" id="createJobButtonWrap" style="display: none;">
                         <div class="caption">
-                            <h3>이곳을 클릭하여 새 작업 추가</h3>
+                            <h3>Click here to add a new task</h3>
                             <div class="toggler tooltips" data-container="body" data-placement="left" data-html="true" data-original-title="Click to open advance theme customizer panel" id="btnCreateJob" onclick="procMoveCreateJobPage();">
                                 <i class="glyphicon glyphicon-plus"></i>
                             </div>
@@ -58,7 +58,7 @@
                     <!--//new job :e -->
                     <!-- 버튼 :s -->
                     <div class="fl">
-                        <button type="button" class="button btn_default contributor-permission" title="새 작업 그룹 추가" id="btnAddNewGroup">새 작업 그룹 추가</button>
+                        <button type="button" class="button btn_default contributor-permission" title="Add a new workgroup" id="btnAddNewGroup">새 작업 그룹 추가</button>
                     </div>
                     <!--//버튼 :e -->
                 </div>
@@ -66,7 +66,7 @@
                 <%--<div class="classification" id="classification2" style="display: none;">
                     <div style="width:292px;margin-bottom:25px;padding: 5px;border-radius: 3px;-webkit-transition: border .2s ease-in-out;-o-transition: border .2s ease-in-out;transition: border .2s ease-in-out;text-align:center;">
                         <div style="height:242px;max-height:242px;padding: 9px;margin:0 auto;font-size: 25px;font-weight: 300;text-align: center;display:table-cell;vertical-align:middle;">
-                            현재 작업이 없습니다.
+                            There are currently no jobs.
                         </div>
                     </div>
                 </div>--%>
@@ -223,7 +223,7 @@
             lastModifiedString = data.lastModifiedString,
             lastJobStatus = data.lastJobStatus,
             lastJobModified = data.lastJobModified,
-            initJobStatusText = '실행 전',
+            initJobStatusText = 'Before execution',
             lastJobStatusText = initJobStatusText,
             lastJobModifiedText = initJobStatusText,
             portletBoxCss = ' wait',
@@ -233,32 +233,32 @@
 
         if (null !== lastJobStatus && 'null' !== lastJobStatus) {
             if (lastJobStatus.indexOf('<%= Constants.RESULT_STATUS_SUCCESS %>') > -1) {
-                lastJobStatusText = '실행완료';
+                lastJobStatusText = 'Execution complete';
                 lastJobModifiedText = lastJobModified;
                 portletBoxCss = ' success';
             }
 
             if ('<%= Constants.RESULT_STATUS_FAILURE %>' === lastJobStatus) {
-                lastJobStatusText = '실패';
+                lastJobStatusText = 'Fail';
                 lastJobModifiedText = lastJobModified;
                 portletBoxCss = ' fail';
             }
 
             if ('<%= Constants.RESULT_STATUS_CANCELLED %>' === lastJobStatus) {
-                lastJobStatusText = '취소';
+                lastJobStatusText = 'Cancel';
                 lastJobModifiedText = lastJobModified;
                 portletBoxCss = ' retract';
             }
 
             if ('<%= Constants.RESULT_STATUS_ABORTED %>' === lastJobStatus) {
-                lastJobStatusText = '중지';
+                lastJobStatusText = 'Pause';
                 lastJobModifiedText = lastJobModified;
                 portletBoxCss = ' retract';
             }
 
             if ('<%= Constants.RESULT_STATUS_JOB_WORKING %>' === lastJobStatus
                 || '<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>' === lastJobStatus) {
-                lastJobStatusText = '실행 중';
+                lastJobStatusText = 'Running';
                 lastJobModifiedText = ' - ';
                 portletBoxCss = ' custom-progress';
                 jobWrapTriggerStyle = 'style="display: none;"';
@@ -289,7 +289,7 @@
 
         // BUILD JOB
         if ("<%= Constants.JOB_TYPE_BUILD %>" === jobType) {
-            confirmMessage = '빌드 JOB';
+            confirmMessage = 'Build job';
 
             if (repositoryCommitRevision.length > 18) {
                 repositoryCommitRevisionPostfix = '...';
@@ -301,23 +301,23 @@
             htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Execute" ');
             htmlString.push('onclick="triggerJob(\'' + jobId +  '\', \'' + confirmMessage + '\');">');
             htmlString.push('<i class="tool_ico_play" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
             htmlString.push('<li id="jobWrap_' + jobId + '_stop" ' + jobWrapStopStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="정지" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Stop" ');
             htmlString.push('onclick="stopJob(\'' + jobId + '\', \'' + jobGuid +  '\', \'' + data.lastSuccessJobNumber + '\');">');
             htmlString.push('<i class="tool_ico_stop" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="구성" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Composition" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_SET %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_setting"></i></a></li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="로그/히스토리" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Log/History" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_LOG %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_log"></i></a></li>');
             htmlString.push('<li role="presentation" class="dropdown"><a class="dropdown-toggle icon closed-tool permission_contributor"  ');
-            htmlString.push('title="작업 정렬" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
+            htmlString.push('title="Sort jobs" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
             htmlString.push('<i class="tool-ico-rearrange"></i></a>');
             htmlString.push('<div class="dropdown-menu" id="custom-rearrange-job-order-menu-div-wrapper">');
             htmlString.push('<ul id="custom-rearrange-job-order-menu-wrapper" style="">');
@@ -328,13 +328,13 @@
             htmlString.push('</ul></div>');
             htmlString.push('<div class="portlet-body"><div class="jobbox_contents">');
             htmlString.push('<dl class="plan_area">');
-            htmlString.push('<dt>마지막 커밋(Recent Commit)</dt>');
+            htmlString.push('<dt>Recent Commit</dt>');
             htmlString.push('<dd><a href="' + repositoryUrl + '" target="_blank" title="' + repositoryUrl + '">' + repositoryUrl + '</a></dd>');
             htmlString.push('<dd><span title="' + repositoryCommitRevision + '">' + (repositoryCommitRevision.substring(0, 20) + repositoryCommitRevisionPostfix) + '</span>');
             htmlString.push('<span class="data">' + lastModifiedString + '</span></dd>');
             htmlString.push('</dl>');
             htmlString.push('<dl class="plan_area02">');
-            htmlString.push('<dt>작업(Job)</dt>');
+            htmlString.push('<dt>Job</dt>');
             htmlString.push('<dd><i class="job_ico_wait"></i>');
             htmlString.push('<span class="font-wait">Build (<span id="lastJobStatusText_' + jobId + '">' + lastJobStatusText + '</span>)</span>');
             htmlString.push('<span class="data" id="lastJobModifiedText_' + jobId + '">' + lastJobModifiedText +  '</span>');
@@ -343,18 +343,18 @@
             htmlString.push('</div>');
             htmlString.push('<div class="panel-tools_btn">');
             htmlString.push('<ul><li><a class="permission_contributor" href="javascript:void(0);" onclick="addJob(\'' + groupOrder +  '\', \'' + jobOrder +  '\');">');
-            htmlString.push('<span class="panel_ico_add">추가</span></a></li>');
+            htmlString.push('<span class="panel_ico_add">Add</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="replicateJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_copy">복제</span></a></li>');
+            htmlString.push('<span class="panel_ico_copy">Duplicate</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="deleteJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_del">삭제</span></a></li>');
+            htmlString.push('<span class="panel_ico_del">Delete</span></a></li>');
             htmlString.push('</ul></div></div></div>');
         }
 
 
         // TEST JOB
         if ("<%= Constants.JOB_TYPE_TEST %>" === jobType) {
-            confirmMessage = '테스트 JOB';
+            confirmMessage = 'Test job';
 
             if (repositoryCommitRevision.length > 18) {
                 repositoryCommitRevisionPostfix = '...';
@@ -366,23 +366,23 @@
             htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Execute" ');
             htmlString.push('onclick="triggerJob(\'' + jobId +  '\', \'' + confirmMessage + '\');">');
             htmlString.push('<i class="tool_ico_play" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
             htmlString.push('<li id="jobWrap_' + jobId + '_stop" ' + jobWrapStopStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="정지" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Stop" ');
             htmlString.push('onclick="stopJob(\'' + jobId + '\', \'' + jobGuid +  '\', \'' + data.lastSuccessJobNumber + '\');">');
             htmlString.push('<i class="tool_ico_stop" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="구성" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Composition" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_SET %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_setting"></i></a></li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="로그/히스토리" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Log/History" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_LOG %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_log"></i></a></li>');
             htmlString.push('<li role="presentation" class="dropdown"><a class="dropdown-toggle icon closed-tool permission_contributor"  ');
-            htmlString.push('title="작업 정렬" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
+            htmlString.push('title="Sort jobs" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
             htmlString.push('<i class="tool-ico-rearrange"></i></a>');
             htmlString.push('<div class="dropdown-menu" id="custom-rearrange-job-order-menu-div-wrapper">');
             htmlString.push('<ul id="custom-rearrange-job-order-menu-wrapper" style="">');
@@ -393,13 +393,13 @@
             htmlString.push('</ul></div>');
             htmlString.push('<div class="portlet-body"><div class="jobbox_contents">');
             htmlString.push('<dl class="plan_area">');
-            htmlString.push('<dt>마지막 커밋(Recent Commit)</dt>');
+            htmlString.push('<dt>Recent Commit</dt>');
             htmlString.push('<dd><a href="' + repositoryUrl + '" target="_blank" title="' + repositoryUrl + '">' + repositoryUrl + '</a></dd>');
             htmlString.push('<dd><span title="' + repositoryCommitRevision + '">' + (repositoryCommitRevision.substring(0, 20) + repositoryCommitRevisionPostfix) + '</span>');
             htmlString.push('<span class="data">' + lastModifiedString + '</span></dd>');
             htmlString.push('</dl>');
             htmlString.push('<dl class="plan_area02">');
-            htmlString.push('<dt>작업(Job)</dt>');
+            htmlString.push('<dt>Job</dt>');
             htmlString.push('<dd><i class="job_ico_wait"></i>');
             htmlString.push('<span class="font-wait">Test (<span id="lastJobStatusText_' + jobId + '">' + lastJobStatusText + '</span>)</span>');
             htmlString.push('<span class="data" id="lastJobModifiedText_' + jobId + '">' + lastJobModifiedText +  '</span>');
@@ -408,11 +408,11 @@
             htmlString.push('</div>');
             htmlString.push('<div class="panel-tools_btn">');
             htmlString.push('<ul><li><a class="permission_contributor" href="javascript:void(0);" onclick="addJob(\'' + groupOrder +  '\', \'' + jobOrder +  '\');">');
-            htmlString.push('<span class="panel_ico_add">추가</span></a></li>');
+            htmlString.push('<span class="panel_ico_add">Add</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="replicateJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_copy">복제</span></a></li>');
+            htmlString.push('<span class="panel_ico_copy">Duplicate</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="deleteJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_del">삭제</span></a></li>');
+            htmlString.push('<span class="panel_ico_del">Delete</span></a></li>');
             htmlString.push('</ul></div></div></div>');
         }
 
@@ -433,9 +433,9 @@
                 buildJobName = data.buildJobName,
                 isBlueDeployed = false,
                 revertGreenDeployJobWrapStyle = 'style="display: none;"',
-                revertGreenDeployConfirmMessage = '운영 GREEN 배포 JOB 되돌리기';
+                revertGreenDeployConfirmMessage = 'Revert to Operational GREEN Deployment JOB';
 
-            confirmMessage = '개발 배포 JOB';
+            confirmMessage = 'Development Deployment JOB';
             hiddenAppUrl = appUrl;
             tempAppUrlArray = appUrl.split(appName);
             buildJobName = ('null' === buildJobName) ? 'No staged build job' : buildJobName;
@@ -444,7 +444,7 @@
                 deployTypeOriginalString = 'Green Deploy';
                 deployTypeString = 'Green Deploy';
                 blueGreenPostfix = '-GREEN';
-                confirmMessage = '운영 GREEN 배포 JOB';
+                confirmMessage = 'Operation Green Deployment JOB';
                 hiddenAppUrl = tempAppUrlArray[0] + appName + blueGreenPostfix + tempAppUrlArray[1];
 
                 if (lastJobModifiedText !== initJobStatusText) {
@@ -455,7 +455,7 @@
                         }
 
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-                            confirmMessage = '운영 BLUE 배포 JOB';
+                            confirmMessage = 'Operational BLUE Deployment JOB';
                             deployTypeOriginalString = 'Blue Deploy 3';
                             hiddenAppUrl = tempAppUrlArray[0] + appName + tempAppUrlArray[1];
 
@@ -465,20 +465,20 @@
 
                         if ("<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
                             deployTypeString = 'Green Deploy';
-                            lastJobStatusText = '실행 전';
+                            lastJobStatusText = 'Before execution';
 
                             if ('0' === blueDeployedCount) {
                                 isBlueDeployed = true;
                             } else {
                                 deployTypeString = 'Blue Deploy';
-                                lastJobStatusText = '실행완료';
+                                lastJobStatusText = 'Execution complete';
                                 blueGreenPostfix = '';
                             }
                         }
                     } else {
                         if ("<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
                             deployTypeString = 'Blue Deploy';
-                            confirmMessage = '운영 BLUE 배포 JOB';
+                            confirmMessage = 'Operational BLUE Deployment JOB';
                             blueGreenPostfix = '';
                         }
 
@@ -500,12 +500,12 @@
                 deployTypeOriginalString = 'Green Deploy';
                 deployTypeString = 'Green Deploy';
                 displayAppUrl = 'Green Deploy is not triggered.';
-                lastJobStatusText = '실행 전';
+                lastJobStatusText = 'Before execution';
 
             }
 
             // TRIGGERING REVERT GREEN DEPLOY
-            if ('실행 중' === lastJobStatusText && "<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
+            if ('Running' === lastJobStatusText && "<%= Constants.BlueGreenDeployStatus.REVERT_GREEN_DEPLOY %>" === blueGreenDeployStatus) {
                 deployTypeOriginalString = 'Reverting Green Deploy';
                 deployTypeString = 'Reverting Green Deploy';
                 displayAppUrl = 'Reverting Green Deploy';
@@ -519,28 +519,28 @@
             htmlString.push(jobOrder +  '. ' + jobName.substring(0, 12) + jobNamePostfix + '</div>');
             htmlString.push('<ul class="panel-tools">');
             htmlString.push('<li id="jobWrap_' + jobId + '_trigger" ' + jobWrapTriggerStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="실행" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Execute" ');
             htmlString.push('onclick="triggerJob(\'' + jobId +  '\', \'' + confirmMessage + '\');">');
             htmlString.push('<i class="tool_ico_play" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
             htmlString.push('<li id="jobWrap_' + jobId + '_stop" ' + jobWrapStopStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="정지" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Stop" ');
             htmlString.push('onclick="stopJob(\'' + jobId + '\', \'' + jobGuid +  '\', \'' + data.lastSuccessJobNumber + '\');">');
             htmlString.push('<i class="tool_ico_stop" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="구성" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Composition" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_SET %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_setting"></i></a></li>');
-            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="로그/히스토리" ');
+            htmlString.push('<li><a class="icon closed-tool" href="javascript:void(0);" title="Log/History" ');
             htmlString.push('onclick="movePage(\'<%= Constants.REQUEST_TYPE_LOG %>\', \'' + jobType.toLowerCase() +  '\', \'' + jobId +  '\');">');
             htmlString.push('<i class="tool_ico_log"></i></a></li>');
             htmlString.push('<li id="jobWrap_' + jobId + '_revertGreenDeployJobTrigger" ' + revertGreenDeployJobWrapStyle + '>');
-            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="운영 GREEN 배포 JOB 되돌리기" ');
+            htmlString.push('<a class="icon permission_contributor permission_contributorExecute" href="javascript:void(0);" title="Revert to Operational GREEN Deployment JOB" ');
             htmlString.push('onclick="triggerRevertGreenDeployJob(\'' + jobId +  '\', \'' + revertGreenDeployConfirmMessage + '\');">');
             htmlString.push('<i class="tool-ico-revert" id="jobIcon_' + jobId + '"></i></a>');
             htmlString.push('</li>');
             htmlString.push('<li role="presentation" class="dropdown"><a class="dropdown-toggle icon closed-tool permission_contributor"  ');
-            htmlString.push('title="작업 정렬" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
+            htmlString.push('title="Sort jobs" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> ');
             htmlString.push('<i class="tool-ico-rearrange"></i></a>');
             htmlString.push('<div class="dropdown-menu" id="custom-rearrange-job-order-menu-div-wrapper">');
             htmlString.push('<ul id="custom-rearrange-job-order-menu-wrapper" style="">');
@@ -551,13 +551,13 @@
             htmlString.push('</ul></div>');
             htmlString.push('<div class="portlet-body"><div class="jobbox_contents">');
             htmlString.push('<dl class="plan_area">');
-            htmlString.push('<dt>마지막 배포(Recent Deploy)</dt>');
+            htmlString.push('<dt>Recent Deployment</dt>');
             htmlString.push('<dd><a href="' + hiddenAppUrl + '" target="_blank" title="' + hiddenAppUrl + '" id="appUrlOriginalText_' + jobId + '" style="display: none;">' + hiddenAppUrl + '</a>');
             htmlString.push('<a href="' + displayAppUrl + '" target="_blank" title="' + displayAppUrl + '" id="appUrlDisplayText_' + jobId + '">' + displayAppUrl + '</a></dd>');
             htmlString.push('<dd>' + buildJobName + '<span class="data">' + lastModifiedString + '</span></dd>');
             htmlString.push('</dl>');
             htmlString.push('<dl class="plan_area02">');
-            htmlString.push('<dt>작업(Job)</dt>');
+            htmlString.push('<dt>Job</dt>');
             htmlString.push('<dd><i class="job_ico_wait"></i>');
             htmlString.push('<span class="font-wait"><span id="lastJobOriginalText_' + jobId + '" style="display: none;">' + deployTypeOriginalString + '</span>');
             htmlString.push('<span id="lastJobDisplayText_' + jobId + '">' + deployTypeString + '</span> ');
@@ -568,11 +568,11 @@
             htmlString.push('</div>');
             htmlString.push('<div class="panel-tools_btn">');
             htmlString.push('<ul><li><a class="permission_contributor" href="javascript:void(0);" onclick="addJob(\'' + groupOrder +  '\', \'' + jobOrder +  '\');">');
-            htmlString.push('<span class="panel_ico_add">추가</span></a></li>');
+            htmlString.push('<span class="panel_ico_add">Add</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="replicateJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_copy">복제</span></a></li>');
+            htmlString.push('<span class="panel_ico_copy">Duplicate</span></a></li>');
             htmlString.push('<li><a class="permission_contributor" href="javascript:void(0);" onclick="deleteJob(\'' + jobId +  '\');">');
-            htmlString.push('<span class="panel_ico_del">삭제</span></a></li>');
+            htmlString.push('<span class="panel_ico_del">Delete</span></a></li>');
             htmlString.push('</ul></div></div></div>');
         }
 
@@ -702,7 +702,7 @@
         $('#lastJobDisplayText_' + reqJobId).hide();
         // FOR DEPLOY JOB :: END
 
-        $('#lastJobStatusText_' + reqJobId).html('실행 중');
+        $('#lastJobStatusText_' + reqJobId).html('Running');
         $('#lastJobModifiedText_' + reqJobId).html(' - ');
     };
 
@@ -731,16 +731,16 @@
         var previousJobStatus = $('#previousJobStatus_' + reqJobId).val();
 
         if ('<%= Constants.RESULT_STATUS_SUCCESS %>' !== previousJobStatus) {
-            reqConfirmMessage = '<p>이전 단계의 JOB이 성공하지 못했습니다.</p>' + reqConfirmMessage;
+            reqConfirmMessage = '<p>The JOB in the previous step was unsuccessful.</p>' + reqConfirmMessage;
         }
 
-        procPopupConfirm('작업 실행', reqConfirmMessage + '을 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_N %>\');', '실행');
+        procPopupConfirm('Execute job', reqConfirmMessage + 'do you want to run', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_N %>\');', 'Execution');
     };
 
 
     // TRIGGER REVERT GREEN DEPLOY JOB
     var triggerRevertGreenDeployJob = function (reqJobId, reqConfirmMessage) {
-        procPopupConfirm('운영 GREEN 배포 JOB 되돌리기', reqConfirmMessage + '를 실행 하시겠습니까?', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_Y %>\');', '실행');
+        procPopupConfirm('Revert to Operational GREEN Deployment JOB', reqConfirmMessage + 'do you want to run', 'procTriggerJob(\'' + reqJobId + '\', \'<%= Constants.CHECK_YN_Y %>\');', 'Execution');
     };
 
 
@@ -781,7 +781,7 @@
 
     // STOP JOB
     var stopJob = function (reqJobId, reqJobGuid, reqJobNumber) {
-        procPopupConfirm('작업 정지', '작업을 정지 하시겠습니까?', 'procStopJob(\'' + reqJobId + '\', \'' + reqJobGuid + '\',  \'' + reqJobNumber + '\');', '정지');
+        procPopupConfirm('Stop job', 'Do you want to stop the job?', 'procStopJob(\'' + reqJobId + '\', \'' + reqJobGuid + '\',  \'' + reqJobNumber + '\');', '정지');
     };
 
 
@@ -796,7 +796,7 @@
             reqJobId: reqJobId
         };
 
-        $('#lastJobStatusText_' + reqJobId).html('정지 중');
+        $('#lastJobStatusText_' + reqJobId).html('Stopping');
         $('#lastJobModifiedText_' + reqJobId).html(' - ');
 
         procCallAjax(JOB_PIPELINE_URL + '/stop.do', param, callbackStopJob);
@@ -809,7 +809,7 @@
 
         var reqJobId = reqParam.reqJobId;
 
-        $('#lastJobStatusText_' + reqJobId).html('실행완료');
+        $('#lastJobStatusText_' + reqJobId).html('Execution complete');
         $('#lastJobModifiedText_' + reqJobId).html(' - ');
 
         setUpdateJobDetailDiv(reqJobId);
@@ -818,7 +818,7 @@
 
     // REARRANGE JOB ORDER
     var rearrangeJobOrder = function(reqJobId, reqJobOrder) {
-        procPopupConfirm('작업 재정렬', '작업 재정렬을 실행 하시겠습니까?', 'procRearrangeJobOrder(\'' + reqJobId + '\', \'' + reqJobOrder + '\');', '실행');
+        procPopupConfirm('Rearrange jobs', 'Do you want to run job reordering?', 'procRearrangeJobOrder(\'' + reqJobId + '\', \'' + reqJobOrder + '\');', 'Execution');
     };
 
 
@@ -839,7 +839,7 @@
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        procPopupAlert('작업 재정렬이 완료 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Job reordering is complete.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -852,7 +852,7 @@
 
     // REPLICATE JOB
     var replicateJob = function(reqJobId) {
-        procPopupConfirm('작업 복제', '작업을 복제 하시겠습니까?', 'procReplicateJob(\'' + reqJobId + '\');', '복제');
+        procPopupConfirm('Duplicate job', 'Do you want to duplicate the job?', 'procReplicateJob(\'' + reqJobId + '\');', 'Duplicate');
     };
 
 
@@ -870,7 +870,7 @@
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        procPopupAlert('복제 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Duplicated.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -887,7 +887,7 @@
 
     // DELETE JOB
     var deleteJob = function(reqJobId) {
-        procPopupConfirm('작업 삭제', '작업을 삭제 하시겠습니까?', 'procDeleteJob(\'' + reqJobId + '\');', '삭제');
+        procPopupConfirm('Delete job', 'Are you sure you want to delete the job?', 'procDeleteJob(\'' + reqJobId + '\');', '삭제');
     };
 
 
@@ -905,7 +905,7 @@
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        procPopupAlert('삭제 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Deleted.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -971,7 +971,7 @@
 
 
     var permissionContributor = function(reqClassName){
-        $('.' + reqClassName).attr('onclick', 'procPopupAlert("권한이 없습니다.");');
+        $('.' + reqClassName).attr('onclick', 'procPopupAlert("You do not have permission.");');
     };
 
 

@@ -13,8 +13,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>Cloud Foundry 정보관리</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Cloud Foundry Information management</li>
         </ul>
     </div>
 </div>
@@ -25,7 +25,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">계정 상세</h3>
+        <h3 class="sub_title">Account Details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -35,13 +35,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">계정명</p>
+                        <p class="title">Account name</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="cfName" name="cfName" title="" value="" maxlength="255" placeholder="계정명 입력">
+                            <input type="text" class="input-medium" id="cfName" name="cfName" title="" value="" maxlength="255" placeholder="Enter account name">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -51,13 +51,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">아이디</p>
+                        <p class="title">ID</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="cfId" name="cfId" title="" value="" maxlength="25" placeholder="아이디 입력">
+                            <input type="text" class="input-medium" id="cfId" name="cfId" title="" value="" maxlength="25" placeholder="Enter ID">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -67,13 +67,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">비밀번호</p>
+                        <p class="title">Password</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="password" class="input-medium" id="cfPassword" name="cfPassword" title="" value="" maxlength="25" placeholder="비밀번호 입력">
+                            <input type="password" class="input-medium" id="cfPassword" name="cfPassword" title="" value="" maxlength="25" placeholder="Enter Password">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -91,7 +91,7 @@
                         <div class="formBox">
                             <select class="input-medium" title="" id="cfApiUrl">
                             </select>
-                            <button type="button" class="button btn_regist" title="URL 관리" id="btnPopupCfUrl">URL 관리</button>
+                            <button type="button" class="button btn_regist" title="URL management" id="btnPopupCfUrl">URL 관리</button>
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -101,7 +101,7 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">설명 <span class="bold500">(선택)</span></p>
+                        <p class="title">Description <span class="bold500">(Optional)</span></p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
@@ -116,11 +116,11 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fl">
-                        <button type="button" class="button btn_default" title="삭제" id="btnDelete">삭제</button>
+                        <button type="button" class="button btn_default" title="Delete" id="btnDelete">삭제</button>
                     </div>
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="수정" id="btnUpdate">수정</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Change" id="btnUpdate">수정</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
@@ -140,14 +140,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span></button>
-                <h1 id="popupCfUrlListConfirmTitle" class="modal-title"> URL 관리 </h1>
+                <h1 id="popupCfUrlListConfirmTitle" class="modal-title"> URL management </h1>
             </div>
             <div class="modal-body">
                 <div class="modal_contBox">
                     <%--LIST :: BEGIN--%>
                     <div id="popupCfUrlListAreaNoData" style="display: none;">
                         <div class="modalform_info" id="custom-cf-url-no-list">
-                            <p>조회 된 데이터가 없습니다.</p>
+                            <p>No data was retrieved.</p>
                         </div>
                     </div>
                     <div id="popupCfUrlListArea" style="display: none;">
@@ -161,11 +161,11 @@
                     <div id="popupCfUrlCreateArea" style="display: none;">
                         <div class="modalform_info" id="custom-cf-url-create">
                             <div class="form_left">
-                                <p class="title">Cloud Foundry API 명</p>
+                                <p class="title">Cloud Foundry API name</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
-                                    <input type="text" class="input-large" id="popupCfApiName" name="popupCfApiName" title="" value="" maxlength="100" placeholder="Cloud Foundry API 명">
+                                    <input type="text" class="input-large" id="popupCfApiName" name="popupCfApiName" title="" value="" maxlength="100" placeholder="Cloud Foundry API name">
                                 </div>
                             </div>
                             <div class="form_left">
@@ -173,7 +173,7 @@
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
-                                    <input type="text" class="input-large" id="popupCfApiUrl" name="popupCfApiUrl" title="" value="" maxlength="100" placeholder="예) https://api.115.68.46.186.xip.io">
+                                    <input type="text" class="input-large" id="popupCfApiUrl" name="popupCfApiUrl" title="" value="" maxlength="100" placeholder="Yes) https://api.115.68.46.186.xip.io">
                                 </div>
                             </div>
                         </div>
@@ -183,11 +183,11 @@
                     <div id="popupCfUrlUpdateArea" style="display: none;">
                         <div class="modalform_info" id="custom-cf-url-update">
                             <div class="form_left">
-                                <p class="title">Cloud Foundry API 명</p>
+                                <p class="title">Cloud Foundry API name</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
-                                    <input type="text" class="input-large" id="popupCfApiNameUpdate" name="popupCfApiNameUpdate" title="" value="" maxlength="100" placeholder="Cloud Foundry API 명">
+                                    <input type="text" class="input-large" id="popupCfApiNameUpdate" name="popupCfApiNameUpdate" title="" value="" maxlength="100" placeholder="Cloud Foundry API name">
                                 </div>
                             </div>
                             <div class="form_left">
@@ -195,7 +195,7 @@
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
-                                    <input type="text" class="input-large" id="popupCfApiUrlUpdate" name="popupCfApiUrlUpdate" title="" value="" maxlength="100" placeholder="예) https://api.115.68.46.186.xip.io">
+                                    <input type="text" class="input-large" id="popupCfApiUrlUpdate" name="popupCfApiUrlUpdate" title="" value="" maxlength="100" placeholder="Yes) https://api.115.68.46.186.xip.io">
                                 </div>
                             </div>
                         </div>
@@ -206,23 +206,23 @@
             <div class="modal-footer">
                 <div id="popupCfUrlListButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnPopupCfUrlCreate"> URL 등록 </button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 확인 </button>
+                        <button type="button" class="button btn_pop" id="btnPopupCfUrlCreate"> URL registration </button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Confirm </button>
                     </div>
                 </div>
                 <div id="popupCfUrlCreateButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnCfUrlCreate"> URL 저장 </button>
-                        <button type="button" class="button btn_pop btnPopupCfUrlCreateCancel"> 취소 </button>
+                        <button type="button" class="button btn_pop" id="btnCfUrlCreate"> Save URL </button>
+                        <button type="button" class="button btn_pop btnPopupCfUrlCreateCancel"> Cancel </button>
                     </div>
                 </div>
                 <div id="popupCfUrlUpdateButtonArea" style="display: none;">
                     <div class="fl">
-                        <button type="button" class="button btn_pop" id="btnCfUrlDelete"> URL 삭제 </button>
+                        <button type="button" class="button btn_pop" id="btnCfUrlDelete"> Delete URL </button>
                     </div>
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnCfUrlUpdate"> URL 수정 </button>
-                        <button type="button" class="button btn_pop btnPopupCfUrlUpdateCancel"> 취소 </button>
+                        <button type="button" class="button btn_pop" id="btnCfUrlUpdate"> Edit URL </button>
+                        <button type="button" class="button btn_pop btnPopupCfUrlUpdateCancel"> Cancel </button>
                     </div>
                 </div>
             </div>
@@ -275,9 +275,9 @@
         $('#cfUrlListCount').val(listLength);
 
         if (0 === listLength) {
-            htmlString.push('<option value=""> URL 등록이 필요합니다. </option>');
+            htmlString.push('<option value=""> URL registration is required. </option>');
         } else {
-            htmlString.push('<option value=""> URL 선택 </option>');
+            htmlString.push('<option value=""> Select the URL </option>');
 
             for (var i = 0; i < listLength; i++) {
                 htmlString.push('<option value="' + resultList[i].cfApiUrl + '">' + resultList[i].cfApiUrl + '</option>');
@@ -328,14 +328,14 @@
     var procValidatePopupCfUrl = function(reqStatus) {
         var cfApiNameString = 'popupCfApiName',
             cfApiUrlString = 'popupCfApiUrl',
-            reqStatusString = '등록',
+            reqStatusString = 'Register',
             cfApiName,
             cfApiUrl;
 
         if (gPopupCfUrlStatusUpdate === reqStatus) {
             cfApiNameString += 'Update';
             cfApiUrlString += 'Update';
-            reqStatusString = '수정';
+            reqStatusString = 'Change';
         }
 
         cfApiName = $('#' + cfApiNameString).val();
@@ -345,23 +345,23 @@
 
         // CHECK CF API NAME
         if (procIsNullString(cfApiName)) {
-            procPopupAlert("API 명을 입력하십시오.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiNameString + "');", "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert("Enter the API name.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiNameString + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
         // CHECK CF API URL
         if (procIsNullString(cfApiUrl)) {
-            procPopupAlert("API URL을 입력하십시오.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiUrlString + "');", "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert("Enter the API URL.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiUrlString + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
         // VALIDATE CF API URL
         if (!procValidateUrl(cfApiUrl)) {
-            procPopupAlert("API URL을 확인하십시오.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiUrlString + "');", "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert("Check the API URL.", "procSetPopupCfUrlFocus('" + reqStatus + "', '" + cfApiUrlString + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
-        procPopupConfirm('URL ' + reqStatusString, reqStatusString + ' 하시겠습니까?', reqStatus.toLowerCase() + 'PopupCfUrl();', null, 'procClosePopup(); procSetPopupCfUrlArea("'+ reqStatus + '"); $("#modalCfUrlList").modal("show");');
+        procPopupConfirm('URL ' + reqStatusString, reqStatusString + ' Would you like to proceed? ', reqStatus.toLowerCase() + 'PopupCfUrl();', null, 'procClosePopup(); procSetPopupCfUrlArea("'+ reqStatus + '"); $("#modalCfUrlList").modal("show");');
     };
 
 
@@ -423,7 +423,7 @@
             return false;
         }
 
-        procSetPopupCfUrlResult('등록');
+        procSetPopupCfUrlResult('Register');
     };
 
 
@@ -432,7 +432,7 @@
         getCfUrlListFromDb();
 
         $('#modalCfUrlList').modal('hide');
-        procPopupAlert(returnString + ' 되었습니다.', 'procSetPopupCfUrlArea("' + gPopupCfUrlStatusList + '"); $("#modalCfUrlList").modal("show");');
+        procPopupAlert(returnString + ' Complete', 'procSetPopupCfUrlArea("' + gPopupCfUrlStatusList + '"); $("#modalCfUrlList").modal("show");');
     };
 
 
@@ -455,14 +455,14 @@
             return false;
         }
 
-        procSetPopupCfUrlResult('수정');
+        procSetPopupCfUrlResult('Change');
     };
 
 
     // CONFIRM POPUP CF URL DELETE
     var procConfirmPopupCfUrlDelete = function() {
         $('#modalCfUrlList').modal('hide');
-        procPopupConfirm('URL 삭제', '삭제 하시겠습니까?', 'deletePopupCfUrl();', null, 'procClosePopup(); procSetPopupCfUrlArea("' + gPopupCfUrlStatusUpdate + '"); $("#modalCfUrlList").modal("show");');
+        procPopupConfirm('Delete URL', 'Are you sure you want to delete?', 'deletePopupCfUrl();', null, 'procClosePopup(); procSetPopupCfUrlArea("' + gPopupCfUrlStatusUpdate + '"); $("#modalCfUrlList").modal("show");');
     };
 
 
@@ -478,7 +478,7 @@
             return false;
         }
 
-        procSetPopupCfUrlResult('삭제');
+        procSetPopupCfUrlResult('Delete');
     };
 
 
@@ -549,7 +549,7 @@
             return false;
         }
 
-        procPopupAlert('삭제 되었습니다.', 'procMovePage("/cf-info");');
+        procPopupAlert('Deleted.', 'procMovePage("/cf-info");');
     };
 
 
@@ -559,7 +559,7 @@
 
         // CHECK CF NAME
         if (procIsNullString(cfName)) {
-            procPopupAlert("계정명을 입력하십시오.", "$('#cfName').focus();");
+            procPopupAlert("Please enter your account name.", "$('#cfName').focus();");
             return false;
         }
 
@@ -575,7 +575,7 @@
     // CALLBACK CHECK DUPLICATE CF NAME
     var callbackCheckCfName = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procPopupAlert("이미 등록 된 계정명입니다.", "$('#cfName').putCursorAtEnd();");
+            procPopupAlert("This is an already registered account name.", "$('#cfName').putCursorAtEnd();");
             return false;
         }
 
@@ -592,19 +592,19 @@
 
         // CHECK CF ID
         if (procIsNullString(cfId)) {
-            procPopupAlert("아이디를 입력하십시오.", "$('#cfId').focus();");
+            procPopupAlert("Please enter your ID.", "$('#cfId').focus();");
             return false;
         }
 
         // CHECK CF PASSWORD
         if (procIsNullString(cfPassword)) {
-            procPopupAlert("비밀번호를 입력하십시오.", "$('#cfPassword').focus();");
+            procPopupAlert("Please enter your password.", "$('#cfPassword').focus();");
             return false;
         }
 
         // CHECK CF API URL
         if (procIsNullString(cfApiUrl)) {
-            procPopupAlert("URL을 선택하십시오.", "$('#cfApiUrl').focus();");
+            procPopupAlert("Select the URL.", "$('#cfApiUrl').focus();");
             return false;
         }
 
@@ -630,7 +630,7 @@
             return false;
         }
 
-        procPopupAlert('저장 되었습니다.', 'procMovePage("/cf-info");');
+        procPopupAlert('Saved.', 'procMovePage("/cf-info");');
     };
 
 
@@ -692,13 +692,13 @@
 
     // BIND
     $("#btnDelete").on("click", function() {
-        procPopupConfirm('Cloud Foundry 정보 삭제', '삭제 하시겠습니까?', 'deleteCfInfo();');
+        procPopupConfirm('Delete Cloud Foundry information', 'Are you sure you want to delete?', 'deleteCfInfo();');
     });
 
 
     // BIND
     $("#btnUpdate").on("click", function() {
-        procPopupConfirm('Cloud Foundry 정보 수정', '수정 하시겠습니까?', 'checkDuplicateCfName();');
+        procPopupConfirm('Edit Cloud Foundry Information', 'Do you want to edit it?', 'checkDuplicateCfName();');
     });
 
 

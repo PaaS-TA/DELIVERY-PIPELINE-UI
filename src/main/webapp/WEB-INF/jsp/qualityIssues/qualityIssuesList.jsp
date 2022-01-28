@@ -11,8 +11,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>품질 이슈</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Quality issues</li>
         </ul>
     </div>
 </div>
@@ -27,97 +27,97 @@
             <div class="lnbWrap">
                 <div class="lnb">
                     <ul>
-                        <h4>해결여부 (Resolution)</h4>
+                        <h4>Resolution</h4>
                         <div id="issueResolution">
                             <li><a href="javascript:resolutionChecked(0);">
                                 <input type="checkbox" name="resolutionCheck" value="UNRESOLVED">
-                                <span class="block">미해결 (Unresolved)</span> <span class="issue_num"
+                                <span class="block">Unresolved</span> <span class="issue_num"
                                                                                   id="unresolved">0</span></a></li>
                             <li><a href="javascript:resolutionChecked(1);">
                                 <input type="checkbox" name="resolutionCheck" value="FIXED" >
-                                <span class="block">수정됨 (fixed)</span> <span class="issue_num" id="fixed">0</span></a>
+                                <span class="block">Fixed</span> <span class="issue_num" id="fixed">0</span></a>
                             </li>
                             <li><a href="javascript:resolutionChecked(2);">
                                 <input type="checkbox" name="resolutionCheck" value="FALSE-POSITIVE">
-                                <span class="block">보류 (False positive)</span> <span class="issue_num"
+                                <span class="block">Pending</span> <span class="issue_num"
                                                                                      id="false_positive">0</span></a>
                             </li>
                             <li><a href="javascript:resolutionChecked(3);">
                                 <input type="checkbox" name="resolutionCheck" value="WONTFIX">
-                                <span class="block">무시 (Won’t fix)</span> <span class="issue_num" id="wontfix">0</span></a>
+                                <span class="block">Ignore </span> <span class="issue_num" id="wontfix">0</span></a>
                             </li>
                             <li class="last"><a href="javascript:resolutionChecked(4);">
                                 <input type="checkbox" name="resolutionCheck" value="REMOVED">
-                                <span class="block">제거됨 (Removed)</span> <span class="issue_num"
+                                <span class="block">Removed</span> <span class="issue_num"
                                                                                id="removed">0</span></a></li>
                         </div>
-                        <h4>이슈 수준 (Severity)</h4>
+                        <h4>Issue Severity</h4>
                         <div id="issueSeverity">
                             <li><a href="javascript:chkOn(0,'severityCheck');"><input type="checkbox"
                                                                                       name="severityCheck"
                                                                                       value="BLOCKER"
                                                                                       onclick="getList('refresh')"> <span
-                                    class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span class="issue_num"
+                                    class="block"><i class="ico_blocker"></i>Severe (Blocker)</span> <span class="issue_num"
                                                                                                        id="blocker">0</span></a>
                             </li>
                             <li><a href="javascript:chkOn(1,'severityCheck');"><input type="checkbox"
                                                                                       name="severityCheck"
                                                                                       value="CRITICAL"
                                                                                       onclick="getList('refresh')"> <span
-                                    class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span
+                                    class="block"><i class="ico_critical"></i>High (Critical)</span> <span
                                     class="issue_num" id="critical">0</span></a></li>
                             <li><a href="javascript:chkOn(2,'severityCheck');"><input type="checkbox"
                                                                                       name="severityCheck" value="MAJOR"
                                                                                       onclick="getList('refresh')"> <span
-                                    class="block"><i class="ico_major"></i>보통 (Major)</span> <span class="issue_num"
+                                    class="block"><i class="ico_major"></i>Major</span> <span class="issue_num"
                                                                                                    id="major">0</span></a>
                             </li>
                             <li><a href="javascript:chkOn(3,'severityCheck');"><input type="checkbox"
                                                                                       name="severityCheck" value="MINOR"
                                                                                       onclick="getList('refresh')"> <span
-                                    class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span class="issue_num"
+                                    class="block"><i class="ico_minor"></i>Low (Minor)</span> <span class="issue_num"
                                                                                                    id="minor">0</span></a>
                             </li>
                             <li class="last"><a href="javascript:chkOn(4,'severityCheck');"><input type="checkbox"
                                                                                                    name="severityCheck"
                                                                                                    value="INFO"
                                                                                                    onclick="getList('refresh')">
-                                <span class="block"><i class="ico_info"></i>정보 (Info)</span> <span class="issue_num"
+                                <span class="block"><i class="ico_info"></i>Info</span> <span class="issue_num"
                                                                                                    id="info">0</span></a>
                             </li>
                         </div>
-                        <h4>상태 (Status)</h4>
+                        <h4>Status</h4>
                         <div id="issueStatus">
                             <li><a href="javascript:chkOn(0,'statusCheck');"><input type="checkbox" name="statusCheck"
                                                                                     value="OPEN" onclick="getList('refresh')">
-                                <span class="block">활성 (Open)</span> <span class="issue_num" id="open">0</span></a></li>
+                                <span class="block">Active</span> <span class="issue_num" id="open">0</span></a></li>
                             <li><a href="javascript:chkOn(1,'statusCheck');"><input type="checkbox" name="statusCheck"
                                                                                     value="RESOLVED"
                                                                                     onclick="getList('refresh')"> <span
-                                    class="block">해결됨 (Resolved)</span> <span class="issue_num"
+                                    class="block">Resolved</span> <span class="issue_num"
                                                                               id="resolved">0</span></a></li>
                             <li><a href="javascript:chkOn(2,'statusCheck');"><input type="checkbox" name="statusCheck"
                                                                                     value="REOPENED"
                                                                                     onclick="getList('refresh')"> <span
-                                    class="block">재활성 (Reopened)</span> <span class="issue_num"
+                                    class="block">Reactivated</span> <span class="issue_num"
                                                                               id="reopened">0</span></a></li>
                             <li><a href="javascript:chkOn(3,'statusCheck');"><input type="checkbox" name="statusCheck"
                                                                                     value="CLOSED" onclick="getList('refresh')">
-                                <span class="block">비활성 (Closed)</span> <span class="issue_num" id="closed">0</span></a>
+                                <span class="block">Inactive </span> <span class="issue_num" id="closed">0</span></a>
                             </li>
                             <li class="last"><a href="javascript:chkOn(4,'statusCheck');"><input type="checkbox"
                                                                                                  name="statusCheck"
                                                                                                  value="CONFIRMED"
                                                                                                  onclick="getList('refresh')">
-                                <span class="block">확인됨 (Confirmed)</span> <span class="issue_num"
+                                <span class="block">Confirmed</span> <span class="issue_num"
                                                                                  id="confirmed">0</span></a></li>
 
                         </div>
-                        <h4>개발언어 (Language)</h4>
+                        <h4>Development Language</h4>
                         <div id="issueLanguage">
 
                         </div>
-                        <h4>프로젝트 (Project)</h4>
+                        <h4>Project</h4>
                         <div id="issueProject">
 
                         </div>
@@ -133,16 +133,16 @@
 
                 <div class="content_in" id="issuesDetail" style="display:none;">
                     <div class="fr mb10">
-                        <button type="button" class="button btn_default" id="issuesListReturn" onclick="">목록</button>
+                        <button type="button" class="button btn_default" id="issuesListReturn" onclick="">List</button>
                     </div>
                     <div class="sub_titlebox">
                         <div class="tit" id="fileName">BD</div>
                         <p id="filePath">src/main/java/org/openpaas/servicebroker/mysql/config/Application.java</p>
                         <div class="btn_wrap">
                             <ul class="issue_data">
-                                <li><span><em id="fileLineNum">12345</em><br>라인</span></li>
-                                <li><span><em id="fileIssueNum">1234</em><br>이슈</span></li>
-                                <li><span><em id="fileCoverageNum">100%</em><br>커버리지</span></li>
+                                <li><span><em id="fileLineNum">12345</em><br>Line</span></li>
+                                <li><span><em id="fileIssueNum">1234</em><br>Issue</span></li>
+                                <li><span><em id="fileCoverageNum">100%</em><br>Coverage</span></li>
                             </ul>
                         </div>
                     </div>
@@ -283,8 +283,8 @@
 
                 for (var j = 0; j < data.components.length; j++) {
                     if (data.components[j].qualifier == "FIL") {
-                        listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
-                        listHead += "<caption>품질이슈 리스트</caption>";
+                        listHead += " <table summary='This is a list of quality issues.' class='quality_list'>";
+                        listHead += "<caption>List of quality issues</caption>";
                         listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
                         listHead += "<thead><tr><th colspan='2' scope='col'>";
                         listHead += "<div class='tit' id='file_header_" + j + "'>"+data.components[j].projectViewName;
@@ -299,13 +299,13 @@
                     }
                 }
             } else {
-                listHead += " <table summary='품질이슈 리스트 테이블입니다.' class='quality_list'>";
-                listHead += "<caption>품질이슈 리스트</caption>";
+                listHead += " <table summary='This is a list of quality issues.' class='quality_list'>";
+                listHead += "<caption>List of quality issues</caption>";
                 listHead += "<colgroup> <col style='width: *' /> <col style='width:10%'> </colgroup>";
 
 
                 listHead += "<tbody  class='tbodyDatas'>";
-                listHead += "<tr><td class='alignC'>검색된 데이터가 없습니다.</td></tr>";
+                listHead += "<tr><td class='alignC'>No data was retrieved.</td></tr>";
                 listHead += "</tbody>";
                 listHead += "</table>";
 
@@ -319,38 +319,38 @@
                 for (var i = 0; i < data.issues.length; i++) {
                     list += "<tr>";
                     list += "<td>";
-                    list += "<div class='rule_tit'>" + data.issues[i].message + "<button type='button' class='btn btn-secondary btn-sm' style='margin: 0 0 0 10px;' onclick=\"setViewCodingRuleDetail(\'" + i + "','" + data.issues[i].rule + "')\">코딩 규칙</button></div>";
+                    list += "<div class='rule_tit'>" + data.issues[i].message + "<button type='button' class='btn btn-secondary btn-sm' style='margin: 0 0 0 10px;' onclick=\"setViewCodingRuleDetail(\'" + i + "','" + data.issues[i].rule + "')\">Coding rules</button></div>";
                     list += "<div class='rule_tit view-off' id='ruleMessageArea_" + i + "' style='padding: 0 20px; color: #999999; display: none;'></div>";
                     list += "<ul class='sel_menu'>";
                     list += "<li>";
                     list += "<input type='hidden' id='issueKey_" + i + "' value='" + data.issues[i].key + "'>";
                     list += "<select id='issueSelect_" + i + "' class ='makeMeFancy' onchange='setSeverity(" + i + ")' style='width:95px;'>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='심각' value='BLOCKER' >심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='높음' value='CRITICAL' >높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='보통' value='MAJOR' >보통</option>";
-                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='낮음' value='MINOR' >낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='정보' value='INFO'>정보</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Severe' value='BLOCKER' >심각</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='High' value='CRITICAL' >높음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Major' value='MAJOR' >보통</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='Low' value='MINOR' >낮음</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Information' value='INFO'>정보</option>";
                     list += " </select>";
                     list += "</li>";
                     list += "<li>";
                     list += "<select id='transitionSelect_" + i + "' style='width:95px;' onchange=\"setTransition(\'" + data.issues[i].key + "')\">";
-                    list += "<option value='OPEN'>활성</option>";
-                    list += "<option value='CONFIRMED'>확인됨</option>";
-                    list += "<option value='FIXED'>수정됨</option>";
-                    list += "<option value='POSITIVE'>보류</option>";
-                    list += "<option value='WONTFIX'>무시</option>";
-                    list += "<option value='REOPENED'>재활성</option>";
+                    list += "<option value='OPEN'>Activation</option>";
+                    list += "<option value='CONFIRMED'>Confirmed</option>";
+                    list += "<option value='FIXED'>Fixed</option>";
+                    list += "<option value='POSITIVE'>Pending</option>";
+                    list += "<option value='WONTFIX'>Ignore</option>";
+                    list += "<option value='REOPENED'>Reactivation</option>";
                     list += "</select>";
                     list += "</li>";
 
                     if (data.issues[i].textRange == "" || data.issues[i].textRange == "undefined" || data.issues[i].textRange == null) {
                         list += "<li class='loca_txt'></li>";
                     } else {
-                        list += "<li class='loca_txt'>위치 : " + data.issues[i].textRange.startLine + " 라인</li>";
+                        list += "<li class='loca_txt'>Location : " + data.issues[i].textRange.startLine + " line</li>";
                     }
                     list += " </ul>";
                     list += "</td>";
-                    list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">상세</button></td>";
+                    list += "<td><button type='button' class='button quality_btn issuesBtn' onclick=\"issuesDetail(\'" + data.issues[i].component + "','" + data.issues[i].key + "')\">Detail</button></td>";
                     list += "</tr>";
 
 
@@ -548,7 +548,7 @@
                 if(data[i].name == "Java"){
                     list += "<li><a href=\"javascript:chkOn('\" + i + \"');\"><input type='checkbox' id='' name='chklanguage' value='" + data[i].key + "' disabled='disabled' checked='checked'> <span class='block'>" + data[i].name + "</span> <span class='issue_num'></span></a></li>";
                 }else{
-                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\><input type='checkbox' id='' name='' value='" + data[i].key + "' disabled='disabled'> <span class='block'>" + data[i].name + "(추후지원)</span> <span class='issue_num'></span></a></li>";
+                    list += "<li><a href=\"javascript:chkOn('\" + i + \"');\><input type='checkbox' id='' name='' value='" + data[i].key + "' disabled='disabled'> <span class='block'>" + data[i].name + "(Future support)</span> <span class='issue_num'></span></a></li>";
                 }
             }
         }
@@ -696,10 +696,10 @@
                         coverageArray = msrArray[i].split("=");
                         if (coverageArray[1] == "1") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
-                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "Included in unit tests");
                         } else if (coverageArray[1] == "0") {
                             $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
-                            $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
+                            $("#lineNum_" + coverageArray[0]).attr("title", "Not included in unit tests");
                         }
 
                     }
@@ -707,10 +707,10 @@
                     coverageArray = lineData.split("=");
                     if (coverageArray[1] == "1") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_green");
-                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함됨");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "Included in unit tests");
                     } else if (coverageArray[1] == "0") {
                         $("#lineNum_" + coverageArray[0]).attr("class", "line_bar_red");
-                        $("#lineNum_" + coverageArray[0]).attr("title", "단위 테스트에 포함되지 않음");
+                        $("#lineNum_" + coverageArray[0]).attr("title", "Not included in unit tests");
                     }
                 }
             }

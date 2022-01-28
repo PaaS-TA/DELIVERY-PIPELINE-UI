@@ -10,8 +10,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>품질 관리 대시보드</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Quality Control Dashboard</li>
         </ul>
     </div>
 </div>
@@ -27,7 +27,7 @@
         <!-- full_sub_content :s -->
         <%--<div class="full_sub_content">--%>
         <!-- list table :s -->
-        <table summary="프로젝트명, 버전, 코드라인수, 최종테스트 등의 프로젝트 리스트 테이블입니다." class="BasicTable" >
+        <table summary="This is the project list table including project name, version, number of code lines, and final test" class="BasicTable" >
             <caption>
                 Technical Debt
             </caption>
@@ -87,10 +87,10 @@
         <div class="col-wrapper">
             <!-- 좌 테이블 :s -->
             <div class="col_2_l">
-                <h3 class="full_sub_title">커버리지(Coverage) </h3>  <%--<span>최종 테스트 : 2017-06-30</span>--%>
-                <table summary="항목, 수치, 증감 등의 커버리지 리스트 테이블입니다." class="BasicTable" >
+                <h3 class="full_sub_title">Coverage(Coverage) </h3>  <%--<span>최종 테스트 : 2017-06-30</span>--%>
+                <table summary="This is a table of coverage lists including items, numerical values, and variations" class="BasicTable" >
                     <caption>
-                        커버리지(Coverage) 리스트
+                        Coverage list
                     </caption>
                     <colgroup>
                         <col style="width: *" />
@@ -99,49 +99,49 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th scope="col">항목</th>
-                        <th scope="col">수치</th>
-                        <th scope="col">증감</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Numerical value</th>
+                        <th scope="col">Variations</th>
                     </tr>
                     </thead>
                     <tbody id="coverageBody">
                     <tr class="total">
-                        <td class="alignL">커버리지 (%)</td>
+                        <td class="alignL">Coverage (%)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">코드 커버리지 (%)</td>
+                        <td class="alignL">Code coverage (%)</td>
                         <td id=""></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">미실행 코드 커버리지 (건)</td>
+                        <td class="alignL">Unexecuted code coverage (건)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">코드 커버리지 전체 (건)</td>
+                        <td class="alignL">Total code coverage (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">조건 커버리지 (%)</td>
+                        <td class="alignL">Conditional coverage (%)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">미실행 조건 커버리지 (건)</td>
+                        <td class="alignL">Unexecuted conditional coverage (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">조건 커버리지 전체 (건)</td>
+                        <td class="alignL">All conditional coverage (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr class="emph">
-                        <td class="alignL">신규 코드 커버리지 (%)</td>
+                        <td class="alignL">New code coverage (%)</td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -151,10 +151,10 @@
             <!--//좌 테이블 :e -->
             <!-- 우 테이블 :s -->
             <div class="col_2_r">
-                <h3 class="full_sub_title" >단위 테스트 (Unit test) </h3> <%--<span>최종 테스트 : 2017-06-30</span>--%>
-                <table summary="항목, 수치, 증감 등의 단위테스트 리스트 테이블입니다." class="BasicTable" >
+                <h3 class="full_sub_title" >Unit test (Unit test) </h3> <%--<span>최종 테스트 : 2017-06-30</span>--%>
+                <table summary="This is a unit test list table including items, numerical values, and variations" class="BasicTable" >
                     <caption>
-                        단위 테스트 (Unit test) 리스트
+                        Unit test list
                     </caption>
                     <colgroup>
                         <col style="width: *" />
@@ -163,39 +163,39 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th scope="col">항목</th>
-                        <th scope="col">수치</th>
-                        <th scope="col">증감</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Numerical value</th>
+                        <th scope="col">Variations</th>
                     </tr>
                     </thead>
                     <tbody id="testsBody">
                     <tr>
-                        <td class="alignL">단위 테스트 (건)</td>
+                        <td class="alignL">Unit tests (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">테스트 수행 시간 (시간)</td>
+                        <td class="alignL">Test run time (hours)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">오류 단위 테스트 (건)</td>
+                        <td class="alignL">Error unit tests (건)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">실패한 단위 테스트 (건)</td>
+                        <td class="alignL">Failed unit tests (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">건너 뛴 단위 테스트 (건)</td>
+                        <td class="alignL">Skipped unit tests (cases)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
                     <tr>
-                        <td class="alignL">성공한 단위 테스트 (%)</td>
+                        <td class="alignL">Successful unit tests (%)</td>
                         <td></td>
                         <td class="increase"></td>
                     </tr>
@@ -280,7 +280,7 @@
 
         /*else{
 
-            list += "<tr><td colspan='2'>검색한 데이터가 없습니다</td></tr>"
+            list += "<tr><td colspan='2'>No data was retrieved</td></tr>"
             $("#technicalDebtBody").html(list)
             $("#coverTbody").html(list);
             $("#structureBody").html(list);

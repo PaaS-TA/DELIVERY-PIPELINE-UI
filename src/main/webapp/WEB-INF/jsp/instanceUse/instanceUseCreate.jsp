@@ -10,12 +10,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-Instance & Use 등록 페이지 :: INSTANCE USE CREATE PAGE
+Instance Instance & Use 등록 페이지 :: INSTANCE USE CREATE PAGE Use registration page :: INSTANCE USE CREATE PAGE
 <br>
 <ul>
     <li>Service Instance ID ::
         <select id="suid" title="">
-            <option selected="selected" value="">선택</option>
+            <option selected="selected" value="">Select</option>
             <c:forEach items="${serviceInstanceInfo}" var="item">
                 <option value="${item.id}">${item.id}</option>
             </c:forEach>
@@ -23,7 +23,7 @@ Instance & Use 등록 페이지 :: INSTANCE USE CREATE PAGE
     </li>
     <li>User ID ::
         <select id="uuid" title="">
-            <option selected="selected" value="">선택</option>
+            <option selected="selected" value="">Select</option>
             <c:forEach items="${userInfo}" var="item2">
                 <option value="${item2.id}">${item2.id}</option>
             </c:forEach>
@@ -31,7 +31,7 @@ Instance & Use 등록 페이지 :: INSTANCE USE CREATE PAGE
     </li>
 </ul>
 <br>
-<button type="button" id="btnCreate"> [ 등록 ] </button>
+<button type="button" id="btnCreate"> [ Register ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
@@ -44,7 +44,7 @@ Instance & Use 등록 페이지 :: INSTANCE USE CREATE PAGE
     var callbackCreateInstanceUse = function(data) {
 
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        $('#resultArea').html("등록 되었습니다. <br><br>SERVICE INSTANCE ID :: " + data.id);
+        $('#resultArea').html("Registration complete <br><br>SERVICE INSTANCE ID :: " + data.id);
     };
 
     // CREATE USER

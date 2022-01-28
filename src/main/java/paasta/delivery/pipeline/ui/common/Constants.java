@@ -145,7 +145,7 @@ public class Constants {
     /**
      * The constant JOB_TRIGGER_NEW_WORK_GROUP_STRING.
      */
-    public static final String JOB_TRIGGER_NEW_WORK_GROUP_STRING = "이 작업(Job)을 새 작업 그룹으로 구성";
+    public static final String JOB_TRIGGER_NEW_WORK_GROUP_STRING = "Organize this job into a new job group";
     /**
      * The constant JOB_TRIGGER_PREVIOUS_JOB_SUCCESS.
      */
@@ -166,19 +166,19 @@ public class Constants {
     /**
      * The constant JOB_TRIGGER_PREVIOUS_JOB_SUCCESS_STRING.
      */
-    public static final String JOB_TRIGGER_PREVIOUS_JOB_SUCCESS_STRING = "이전 작업 성공";
+    public static final String JOB_TRIGGER_PREVIOUS_JOB_SUCCESS_STRING = "Previous job success";
     /**
      * The constant JOB_TRIGGER_MODIFIED_PUSH_STRING.
      */
-    public static final String JOB_TRIGGER_MODIFIED_PUSH_STRING = "변경사항 푸시";
+    public static final String JOB_TRIGGER_MODIFIED_PUSH_STRING = "Push changes";
     /**
      * The constant JOB_TRIGGER_MANUAL_TRIGGER_STRING.
      */
-    public static final String JOB_TRIGGER_MANUAL_TRIGGER_STRING = "사용자 실행";
+    public static final String JOB_TRIGGER_MANUAL_TRIGGER_STRING = "Run user";
     /**
      * The constant JOB_TRIGGER_ROLLBACK_STRING.
      */
-    public static final String JOB_TRIGGER_ROLLBACK_STRING = "롤백";
+    public static final String JOB_TRIGGER_ROLLBACK_STRING = "Rollback";
 
     /**
      * The constant PIPELINE_DETAIL_TAB_TYPE_DETAIL.

@@ -13,12 +13,12 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="정보보기/수정" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="신규생성" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
         </div>
     </div>
 </div>
@@ -31,8 +31,8 @@
         <!-- sub_tab :s -->
         <div class="sub_tab">
             <ul>
-                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>파이프라인 <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
-                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>참여자(Contributor) <span class="pl10" id="contributorCount"></span></a></li>
+                <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>Pipeline <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
+                <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>Contributor <span class="pl10" id="contributorCount"></span></a></li>
             </ul>
         </div>
         <!--//sub_tab :e -->
@@ -43,11 +43,11 @@
                 <div class="rSearch_group">
                     <div class="sel_group">
                             <div class="keyword_search">
-                                <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="참여자 아이디 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(); }" value="${listRequest.name}" />
-                                <a class="btn_search" href="javascript:void(0);" title="참여자 아이디 또는 이름 검색" id="btnSearch"></a>
+                                <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="Contributor ID search" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(); }" value="${listRequest.name}" />
+                                <a class="btn_search" href="javascript:void(0);" title="Search by Contributor ID or name" id="btnSearch"></a>
                             </div>
                             <div class="fr">
-                                <button type="button" class="button btn_default ml5" title="참여자 추가" id="btnCreateContributor">참여자 추가</button>
+                                <button type="button" class="button btn_default ml5" title="Add Contributor" id="btnCreateContributor">참여자 추가</button>
                             </div>
                     </div>
                 </div>
@@ -56,18 +56,18 @@
                 <ul class="product_list2" id="listArea">
                     <%--<li>
                         <dl>
-                            <dt><a href="#">아이디</a></dt>
+                            <dt><a href="#">ID</a></dt>
                             <dd>
                                 <ul>
-                                    <li class="sbj_txt"><a href="#">홍길동</a></li>
-                                    <li class="stateArea"><i class="ico_create"></i>생성일 : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
+                                    <li class="sbj_txt"><a href="#">Jane/John Doe</a></li>
+                                    <li class="stateArea"><i class="ico_create"></i>Date of creation : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
                                 </ul>
                             </dd>
                             <dd class="icon_wrap">
                                 <ul class="ico_lst">
                                     <li class="ico_area">
-                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_run.png' />" alt="실행권한 이미지" border="0">
-                                            <p class="tit">실행권한</p></a>
+                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_run.png' />" alt="Execute permission image" border="0">
+                                            <p class="tit">Execute permissions</p></a>
                                     </li>
                                 </ul>
                             </dd>
@@ -75,18 +75,18 @@
                     </li>
                     <li>
                         <dl>
-                            <dt><a href="#">아이디</a></dt>
+                            <dt><a href="#">ID</a></dt>
                             <dd>
                                 <ul>
                                     <li class="sbj_txt"></li>
-                                    <li class="stateArea"><i class="ico_create"></i>생성일 : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
+                                    <li class="stateArea"><i class="ico_create"></i>Date of creation : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
                                 </ul>
                             </dd>
                             <dd class="icon_wrap">
                                 <ul class="ico_lst">
                                     <li class="ico_area">
-                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_contribute.png' />" alt="보기권한 이미지" border="0">
-                                            <p class="tit">보기권한</p></a>
+                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_contribute.png' />" alt="View permission image" border="0">
+                                            <p class="tit">View permissions</p></a>
                                     </li>
                                 </ul>
                             </dd>
@@ -94,18 +94,18 @@
                     </li>
                     <li>
                         <dl>
-                            <dt><a href="#">아이디</a></dt>
+                            <dt><a href="#">ID</a></dt>
                             <dd>
                                 <ul>
-                                    <li class="sbj_txt"><a href="#">홍길동</a></li>
-                                    <li class="stateArea"><i class="ico_create"></i>생성일 : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
+                                    <li class="sbj_txt"><a href="#">Jane/John Doe</a></li>
+                                    <li class="stateArea"><i class="ico_create"></i>Date of creation : <a href="#">2017-06-09 14:22:45</a><span class="pr10"></span> <i class="ico_modify"></i>수정일 : <a href="#">2017-06-09 14:22:45</a></li>
                                 </ul>
                             </dd>
                             <dd class="icon_wrap">
                                 <ul class="ico_lst">
                                     <li class="ico_area">
-                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_admin.png' />" alt="생성권한 이미지" border="0">
-                                            <p class="tit">생성권한</p></a>
+                                        <a href="#"><img src="<c:out value='/resources/images/process_ico_admin.png' />" alt="Create permission image" border="0">
+                                            <p class="tit">Creation permissions</p></a>
                                     </li>
                                 </ul>
                             </dd>
@@ -177,7 +177,7 @@
         var pipelineId = $("#pipelineIdControlAuthority").val();
 
         if(0 === listLength){
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
                 for (var i = 0; i < listLength; i++) {
                     var instanceUses = data.instanceUses[i];
@@ -198,21 +198,21 @@
                             + instanceUses.user.name + " </a></dt><dd><ul>"
                             +"<li class='sbj_txt'>"+"<a href='javascript:void(0);' onclick='moveDetailPage(\""+userId+"\",\""+authorityId+"\",\""+pipelineId+"\");'>" + "</a></li>"
                             +"<li class='stateArea'>"
-                            + "<i class='ico_create'></i>생성일 : " + instanceUses.user.createdString
-                            + "<span class='pr10'></span> <i class='ico_modify'></i>수정일 : " + instanceUses.user.lastModifiedString
+                            + "<i class='ico_create'></i>Date of creation : " + instanceUses.user.createdString
+                            + "<span class='pr10'></span> <i class='ico_modify'></i>Date of modification : " + instanceUses.user.lastModifiedString
                             + "</li></ul></dd>"
                             + "<dd class='icon_wrap'><ul class='ico_lst'>" + "<li class='ico_area'>";
 
-                    if(displayName == '생성권한'){
-                        html += "<img src='/resources/images/process_ico_admin.png' alt='생성권한 이미지' border='0'>"
+                    if(displayName == 'Creation permissions'){
+                        html += "<img src='/resources/images/process_ico_admin.png' alt='Create permission image' border='0'>"
                     }
 
-                    if(displayName == '보기권한'){
-                        html += "<img src='/resources/images/process_ico_contribute.png' alt='보기권한 이미지' border='0'>"
+                    if(displayName == 'View permissions'){
+                        html += "<img src='/resources/images/process_ico_contribute.png' alt='View permission image' border='0'>"
                     }
 
-                    if(displayName == '실행권한'){
-                        html += "<img src='/resources/images/process_ico_run.png' alt='실행권한 이미지' border='0'>"
+                    if(displayName == 'Execute permissions'){
+                        html += "<img src='/resources/images/process_ico_run.png' alt='Execute permission image' border='0'>"
                     }
 
                     html += "<p class='tit'>"+displayName+"</p></li></dl></li>";
@@ -253,7 +253,7 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('id').value){
                 if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
                     procMovePage("/pipeline/"+ document.getElementById('id').value + "/contributor/create");
                 }
@@ -304,7 +304,7 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('id').value){
                 if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
                     procMovePage("/pipeline/create");
                 }

@@ -9,19 +9,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-사용자 수정 페이지 :: USER UPDATE PAGE
+Edit user page :: USER UPDATE PAGE
 <br>
 <ul>
     <li>ID :: <input type="text" id="userId" title="" value=""></li>
-    <li>이름 :: <input type="text" id="name" title="" value=""></li>
-    <li>전화번호 :: <input type="text" id="tellPhone" title="" value=""></li>
-    <li>휴대폰번호 :: <input type="text" id="cellPhone" title="" value=""></li>
-    <li>이메일 :: <input type="text" id="email" title="" value=""></li>
-    <li>회사 :: <input type="text" id="company" title="" value=""></li>
+    <li>Name :: <input type="text" id="name" title="" value=""></li>
+    <li>Phone number :: <input type="text" id="tellPhone" title="" value=""></li>
+    <li>Mobile number :: <input type="text" id="cellPhone" title="" value=""></li>
+    <li>Email :: <input type="text" id="email" title="" value=""></li>
+    <li>Company :: <input type="text" id="company" title="" value=""></li>
     </li>
 </ul>
 <br>
-    <button type="button" id="btnUpdate"> [ 수정 ] </button>
+    <button type="button" id="btnUpdate"> [ Change ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
@@ -68,7 +68,7 @@
     var callbackUpdateUser = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        $('#resultArea').html("수정 되었습니다.");
+        $('#resultArea').html("Changed");
     };
 
 

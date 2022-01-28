@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="shortcut icon" type="image/x-icon" href="/resources/images/favicon.ico">
-    <title>PaaS-TA 배포파이프라인</title>
+    <title>PaaS-TA deployment pipeline</title>
     <style>
         .layer {position:absolute;display:table;top:0;left:0;width:100%;height:100%}
         .layer .layer_inner{display:table-cell;text-align:center;vertical-align:middle}

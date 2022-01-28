@@ -13,12 +13,12 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="정보보기/수정" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="신규생성" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
         </div>
     </div>
 </div>
@@ -31,8 +31,8 @@
             <!-- sub_tab :s -->
             <div class="sub_tab">
                 <ul>
-                    <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>파이프라인 <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
-                    <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>참여자(Contributor) <span class="pl10" id="contributorCount"></span></a></li>
+                    <li class=""><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_DETAIL %>');"><span class="file_on"></span>Pipeline <span class="pl10" id="jobCount"></span></a></li><!--아이콘 on 파일네임 파일명_on 붙이면 됨-->
+                    <li class="fst active"><a href="javascript:void(0);" onClick="procMovePipelineDetailTabPage('<%= Constants.PIPELINE_DETAIL_TAB_TYPE_CONTRIBUTOR %>');"><span class="contributor"></span>Contributor <span class="pl10" id="contributorCount"></span></a></li>
                 </ul>
             </div>
             <!--//sub_tab :e -->
@@ -46,7 +46,7 @@
                                 <div class="form_info">
                                     <!--타이틀 영역-->
                                     <div class="form_left">
-                                        <p class="title">참여자 정보</p>
+                                        <p class="title">Participant information</p>
                                     </div>
                                     <!--//타이틀 영역-->
                                     <!--form 영역-->
@@ -54,7 +54,7 @@
                                         <!-- 추가된 사용자 정보-->
                                         <div class="controlbox">
                                             <dl class="none">
-                                                <dd>아이디 : <span id="userid"></span> </dd>
+                                                <dd>ID : <span id="userid"></span> </dd>
                                                 <%--<dd>이메일 : <span id="email"></span> </dd>--%>
                                             </dl>
                                         </div>
@@ -68,7 +68,7 @@
                             <div class="form_info">
                                 <!--타이틀 영역-->
                                 <div class="form_left">
-                                    <p class="title">권한</p>
+                                    <p class="title">Authority</p>
                                 </div>
                                 <!--//타이틀 영역-->
                                 <!--form 영역-->
@@ -88,7 +88,7 @@
                             <%--<div class="form_info">
                                 <!--타이틀 영역-->
                                 <div class="form_left">
-                                    <p class="title">설명 (선택)</p>
+                                    <p class="title">Description (선택)</p>
                                 </div>
                                 <!--//타이틀 영역-->
                                 <!--form 영역-->
@@ -103,11 +103,11 @@
                             <!-- 버튼 영역 -->
                             <div class="btn_Area">
                                 <div class="fl">
-                                    <button type="button" class="button btn_default" title="참여자 삭제" id="btnDeleteContributor">참여자 삭제</button>
+                                    <button type="button" class="button btn_default" title="Delete a participant" id="btnDeleteContributor">참여자 삭제</button>
                                 </div>
                                 <div class="fr">
-                                    <button type="button" class="button btn_default" title="수정" id="btnUpdateContributor">수정</button>
-                                    <button type="button" class="button btn_default" title="취소" id="cancel">취소</button>
+                                    <button type="button" class="button btn_default" title="Change" id="btnUpdateContributor">수정</button>
+                                    <button type="button" class="button btn_default" title="Cancel" id="cancel">취소</button>
                                 </div>
                             </div>
                             <!--//버튼 영역-->
@@ -171,7 +171,7 @@
         // CALLBACK :: UPDATE
         var callbackUpdateContributor = function(data){
             procCallSpinner(SPINNER_STOP);
-            procPopupAlert('수정 되었습니다.', 'procMovePage(-1);');
+            procPopupAlert('Changed', 'procMovePage(-1);');
         };
 
         //BIND
@@ -210,7 +210,7 @@
                 if(count < 1){
                     getGrantedAuthorities(document.getElementById('pipelineIdControlAuthority').value,"contributor", "delete");
                 }else{
-                    procPopupAlert("관리자는 삭제하실 수 없습니다.");
+                    procPopupAlert("Administrators cannot delete it.");
                 }
             });
 
@@ -228,7 +228,7 @@
 
         var callbackDeleteContributor = function(){
             procCallSpinner(SPINNER_STOP);
-            procPopupAlert('삭제 되었습니다.', 'procMovePage(-1);');
+            procPopupAlert('Deleted.', 'procMovePage(-1);');
         };
 
         // GET JOB LIST FROM DB

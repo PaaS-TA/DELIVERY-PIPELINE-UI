@@ -12,8 +12,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>파이프라인 신규생성</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Create a new pipeline</li>
         </ul>
     </div>
 </div>
@@ -24,7 +24,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">파이프라인 신규생성</h3>
+        <h3 class="sub_title">Create a new pipeline</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -35,7 +35,7 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">파이프라인 명 (<span class="essential">*필수</span>)</p>
+                            <p class="title">Pipeline name (<span class="essential">*Required</span>)</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
@@ -51,7 +51,7 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">파이프라인 설명 <span class="bold500">(선택)</span></p>
+                            <p class="title">Pipeline description <span class="bold500">(Optional)</span></p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
@@ -66,8 +66,8 @@
                     <!-- 버튼 영역 -->
                     <div class="btn_Area plr20">
                         <div class="fr">
-                            <button type="button" class="button btn_default" title="생성" id="btnCreate">생성</button>
-                            <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                            <button type="button" class="button btn_default" title="Create" id="btnCreate">생성</button>
+                            <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
                         </div>
                     </div>
                     <!--//버튼 영역-->
@@ -102,7 +102,7 @@
     var callbackCreatePipeline = function(data) {
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        procPopupAlert('생성 되었습니다.', 'procMovePage("/pipeline/dashboard");');
+        procPopupAlert('Created.', 'procMovePage("/pipeline/dashboard");');
     };
 
     // CREATE USER
@@ -122,10 +122,10 @@
     $("#btnCreate").on("click", function() {
         var name = document.getElementById('pipelineName').value;
         if(name =='' || name == null || name == undefined){
-            procPopupAlert('파이프라인 명은 필수입니다.');
+            procPopupAlert('Pipeline name is required.');
             return false;
         }
-        procPopupConfirm('파이프라인 신규 생성', '생성 하시겠습니까?', 'createPipeline();');
+        procPopupConfirm('Create a new pipeline', 'Do you want to create?', 'createPipeline();');
     });
 
 

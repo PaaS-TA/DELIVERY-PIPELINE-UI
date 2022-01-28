@@ -23,7 +23,7 @@
                 <span class="code_coverage"></span>
             </p>
             <div class="btn_wrap">
-                <button type="button" class="button btn_default" title="목록" id="coverageBtn">목록</button>
+                <button type="button" class="button btn_default" title="List" id="coverageBtn">목록</button>
             </div>
         </div>
         <!--//sub 타이틀 영역 :e -->
@@ -34,9 +34,9 @@
                 <!-- 좌 테이블 :s -->
                 <div class="col_2_l">
                     <div class="table_scroll"><!--스크롤영역-->
-                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline">
+                        <table summary="Project list table" class="tbl_noline">
                             <caption>
-                                프로젝트 리스트
+                                Project list
                             </caption>
                             <colgroup>
                                 <col style="width: *"/>
@@ -52,9 +52,9 @@
                 <!-- 우 테이블 :s -->
                 <div class="col_2_r">
                     <div class="table_scroll"><!--스크롤영역-->
-                        <table summary="프로젝트 리스트 테이블입니다." class="tbl_noline">
+                        <table summary="Project list table" class="tbl_noline">
                             <caption>
-                                프로젝트 리스트
+                                Project list
                             </caption>
                             <colgroup>
                                 <col style="width: *"/>
@@ -97,11 +97,11 @@
             <p id="filePath">src/main/java/org/openpaas/servicebroker/mysql/config/Application.java</p>
             <div class="btn_wrap">
                 <ul class="issue_data">
-                    <li class="issue"><span><em id="fileLineNum">0</em><br>라인</span></li>
-                    <li class="issue"><span><em id="fileIssueNum">0</em><br>이슈</span></li>
-                    <li class="issue"><span><em id="fileCoverageNum">0%</em><br>커버리지</span></li>
+                    <li class="issue"><span><em id="fileLineNum">0</em><br>Line</span></li>
+                    <li class="issue"><span><em id="fileIssueNum">0</em><br>Issue</span></li>
+                    <li class="issue"><span><em id="fileCoverageNum">0%</em><br>Coverage</span></li>
                     <%--TODO :: MODIFY--%>
-                    <li class="test"><span><em id="testNum">100%</em><br>단위테스트</span></li>
+                    <li class="test"><span><em id="testNum">100%</em><br>Unit test</span></li>
                 </ul>
 
 
@@ -209,7 +209,7 @@
 
         if (data.length > 0) {
             list += "<tr>";
-            list += "<td><a href='javascript:void(0);' onclick=\"getFiles(\'','')\">전체</a></td>";
+            list += "<td><a href='javascript:void(0);' onclick=\"getFiles(\'','')\">All</a></td>";
             list += "<td class='td_number'></td>";
             list += "</tr>";
 
@@ -228,12 +228,12 @@
                     }
                 } else {
                     list += "<tr>";
-                    list += "<td>검색한 데이터가 없습니다.</td>";
+                    list += "<td>No data was retrieved</td>";
                     list += "<td class='td_number'></td>";
                     list += "</tr>";
 
                     list2 += "<tr>";
-                    list2 += "<td>검색한 데이터가 없습니다.</td>";
+                    list2 += "<td>No data was retrieved</td>";
                     list2 += "<td class='td_number'></td>";
                     list2 += "</tr>";
                     break;
@@ -241,12 +241,12 @@
             }
         } else {
             list += "<tr>";
-            list += "<td>검색한 데이터가 없습니다.</td>";
+            list += "<td>No data was retrieved</td>";
             list += "<td class='td_number'></td>";
             list += "</tr>";
 
             list2 += "<tr>";
-            list2 += "<td>검색한 데이터가 없습니다.</td>";
+            list2 += "<td>No data was retrieved</td>";
             list2 += "<td class='td_number'></td>";
             list2 += "</tr>";
 
@@ -299,8 +299,8 @@
             dataIssues,
             emptyString = '&nbsp;',
             titleString = 'title',
-            coveredString = '단위 테스트에 포함됨',
-            uncoveredString = '단위 테스트에 포함되지 않음',
+            coveredString = 'Included in unit tests',
+            uncoveredString = 'Not included in unit tests',
             lineNumber = '',
             sourceHtml = '',
             authorNameObject,
@@ -827,7 +827,7 @@
             }
         } else {
             list += "<tr>";
-            list += "<td>검색한 데이터가 없습니다.</td>";
+            list += "<td>No data was retrieved</td>";
             list += "<td class='td_number'></td>";
             list += "</tr>";
         }

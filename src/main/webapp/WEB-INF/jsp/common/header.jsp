@@ -21,37 +21,37 @@
 <!-- header :s -->
 <div id="header">
     <div class="head_inner">
-        <h1><a title="PaaS-TA 배포파이프라인" href="javascript:void(0);" onclick="procMovePage('/');">
-            <img alt="PaaS-TA 배포파이프라인" src="<c:url value='/resources/images/logo.png'/>" style="width: 42px; height: 42px;"><span>배포파이프라인</span></a></h1>
+        <h1><a title="PaaS-TA Deployment pipeline" href="javascript:void(0);" onclick="procMovePage('/');">
+            <img alt="PaaS-TA Deployment pipeline" src="<c:url value='/resources/images/logo.png'/>" style="width: 42px; height: 42px;"><span>배포파이프라인</span></a></h1>
         <ul class="RP_title">
             <li><a href="#"><span class="RP_num" id="topMenuPipelineListCount">0</span></a></li>
             <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    <span class="RP_name"> 파이프라인 목록 </span>
+                    <span class="RP_name"> Pipeline 목록 </span>
                 </a>
                 <ul class="dropdown-menu togglemenu" style="width:320px;left:-60px;">
                     <c:if test="${role == 'ROLE_ADMIN'}">
                         <li>
-                            <h3><i class="glyphicon glyphicon-plus"></i>신규 생성 (New Pipeline)</h3>
+                            <h3><i class="glyphicon glyphicon-plus"></i>Create new (New Pipeline)</h3>
                             <input id="topMenuPipelineName" name="topMenuPipelineName" type="text"
-                                   placeholder="파이프라인 명(필수)"
+                                   placeholder="Pipeline name (required)"
                                    onkeypress="if(event.keyCode==13) {createTopMenuPipeline(); }">
                         </li>
 
                         <li class="alignC">
-                            <button type="button" class="button btn_regist" id="btnTopMenuPipelineCreate">등록</button>
-                            <button type="button" class="button btn_regist" id="btnTopMenuPipelineCancel">취소</button>
+                            <button type="button" class="button btn_regist" id="btnTopMenuPipelineCreate">Register</button>
+                            <button type="button" class="button btn_regist" id="btnTopMenuPipelineCancel">Cancel</button>
                         </li>
                     </c:if>
 
                     <li class="toggl_message" id="topMenuPipelineCreateResultArea" style="display: none;"><span
-                            class="point01 bold" id="topMenuPipelineCreateResultPipelineName">‘파이프라인 명’</span> 파이프라인을
-                        생성했습니다.
+                            class="point01 bold" id="topMenuPipelineCreateResultPipelineName">‘Pipeline name’</span> pipeline
+                        Created
                     </li>
                     <li>
                         <h3><i class="glyphicon glyphicon-list"></i>
-                            <a href="javascript:void(0);" onclick="procMovePage('/');" style="display: inline;">나의 파이프라인 (My Pipelines)</a>
+                            <a href="javascript:void(0);" onclick="procMovePage('/');" style="display: inline;">My pipeline (My Pipelines)</a>
                         </h3>
                         <ul class="h6_ul" id="topMenuPipelineList">
                         </ul>
@@ -62,27 +62,27 @@
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                        aria-expanded="false">
-                        파이프라인 관리
+                        Pipeline management
                     </a>
                     <ul class="dropdown-menu togglemenu" style="width:200px;left:-50px;padding-top:4px;">
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/cf-info');"> Cloud Foundry 정보관리 </a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/cf-info');"> Cloud Foundry Information management </a>
                         </li>
                     </ul>
                 </li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                        aria-expanded="false">
-                        품질 관리
+                        Quality Management
                     </a>
                     <ul class="dropdown-menu togglemenu" style="width:100px;left:-50px;padding-top:4px;">
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityIssues/dashboard');">품질 이슈</a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityIssues/dashboard');">Quality issues</a>
                         </li>
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/codingRules/dashboard');">코딩 규칙</a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/codingRules/dashboard');">Coding rules</a>
                         </li>
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityProfile/dashboard');"> 품질
-                            프로파일</a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityProfile/dashboard');"> Quality
+                            Profile</a>
                         </li>
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityGate/dashboard');">품질 게이트</a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/qualityGate/dashboard');">Quality gate</a>
                         </li>
                     </ul>
                 </li>
@@ -92,12 +92,12 @@
             <li class="mr20"><span style="color: #efefef; vertical-align: bottom;">
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication property="details.userid"/>
-                    </sec:authorize>님, 환영합니다.
+                    </sec:authorize>Welcome.
                 </span>
             </li>
             <c:if test="${role == 'ROLE_ADMIN'}">
-                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" style="background: none;">사용자
-                    관리</a>
+                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" style="background: none;">User
+                    Management</a>
                 </li>
             </c:if>
         </ul>
@@ -122,7 +122,7 @@
         var htmlString = [];
 
         if (0 === listLength) {
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
             for (var i = 0; i < listLength; i++) {
                 var html = "<li>";
@@ -162,7 +162,7 @@
         var pipelineName = $('#topMenuPipelineName').val();
 
         if (procIsNullString(pipelineName)) {
-            procPopupAlert("파이프라인 명을 입력하십시오.", "$('#topMenuPipelineName').focus();");
+            procPopupAlert("Enter the pipeline name.", "$('#topMenuPipelineName').focus();");
             return false;
         }
 
@@ -181,7 +181,7 @@
         $('#topMenuPipelineName').val('');
         $('#topMenuPipelineCreateResultPipelineName').html(document.getElementById('topMenuPipelineName').value);
 
-        procPopupAlert('파이프라인을 생성했습니다.', 'procMovePage("/");');
+        procPopupAlert('You have created a pipeline.', 'procMovePage("/");');
     };
 
 

@@ -17,13 +17,13 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>품질 프로파일</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Quality profile</li>
         </ul>
 
         <c:if test="${role == 'ROLE_ADMIN'}">
             <div class="fr">
-                <button type="button" class="button btn_default" title="생성" id="btnPopupProfileCreate">생성</button>
+                <button type="button" class="button btn_default" title="Create" id="btnPopupProfileCreate">생성</button>
             </div>
         </c:if>
     </div>
@@ -46,9 +46,9 @@
             <!-- contentWrap :s -->
             <div class="contentWrap" id="contentProfileExp" style="display: block">
                 <div style="padding: 20px; line-height: 2.2em;">
-                    <p> 품질 프로파일은 분석하는 동안 적용할 규칙 모음입니다. </p>
-                    <p> 언어별로 기본 프로파일이 있습니다. </p>
-                    <p> 다른 프로파일에 명시적으로 할당되지 않은 모든 프로젝트는 기본값으로 분석됩니다. </p>
+                    <p> A quality profile is a set of rules to apply during analysis. </p>
+                    <p> There is a default profile for each language. </p>
+                    <p> All projects not explicitly assigned to any other profile are resolved by default. </p>
                 </div>
             </div>
             <div class="contentWrap" id="contentProfile" style="display: none">
@@ -59,17 +59,17 @@
                     </div>
                     <div class="fr mb10">
                         <c:if test="${role == 'ROLE_ADMIN'}">
-                        <button type="button" class="button btn_default" id="btnPopupProfileCopy">복제</button>
-                        <button type="button" class="button btn_default" id="btnPopupProfileUpdate">수정</button>
-                        <button type="button" class="button btn_default" id="btnPopupProfileDelete">삭제</button>
+                        <button type="button" class="button btn_default" id="btnPopupProfileCopy">Duplicate</button>
+                        <button type="button" class="button btn_default" id="btnPopupProfileUpdate">Change</button>
+                        <button type="button" class="button btn_default" id="btnPopupProfileDelete">Delete</button>
                         </c:if>
                     </div>
 
                     <!--//sub 타이틀 영역 :e -->
                     <!-- 코딩규칙 :s -->
-                    <h3 class="sub_title">코딩규칙 <a href="#none"><span class="code_rulenumber" id="crTotal"></span></a></h3>
-                    <table summary="코딩규칙 테이블입니다." class="quality_list">
-                        <caption>코딩규칙</caption>
+                    <h3 class="sub_title">Coding rules <a href="#none"><span class="code_rulenumber" id="crTotal"></span></a></h3>
+                    <table summary="Coding rules table." class="quality_list">
+                        <caption>Coding rules</caption>
                         <colgroup>
                             <col style="width: 100%" />
                         </colgroup>
@@ -77,11 +77,11 @@
                         <tr>
                             <td>
                                 <ul class="rule_list">
-                                    <li><span class="issue_name"><i class="ico_blocker"></i>심각 (Blocker)</span> <a href="#none"><span class="code_rulenumber" id="blockerNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_critical"></i>높음 (Critical)</span> <a href="#none"><span class="code_rulenumber" id="criticalNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_major"></i>보통 (Major)</span> <a href="#none"><span class="code_rulenumber" id="majorNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_minor"></i>낮음 (Minor)</span> <a href="#none"><span class="code_rulenumber" id="minorNum"></span></a></li>
-                                    <li><span class="issue_name"><i class="ico_info"></i>정보 (Info)</span> <a href="#none"><span class="code_rulenumber" id="infoNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_blocker"></i>Severe (Blocker)</span> <a href="#none"><span class="code_rulenumber" id="blockerNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_critical"></i>High (Critical)</span> <a href="#none"><span class="code_rulenumber" id="criticalNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_major"></i>Major</span> <a href="#none"><span class="code_rulenumber" id="majorNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_minor"></i>Low (Minor)</span> <a href="#none"><span class="code_rulenumber" id="minorNum"></span></a></li>
+                                    <li><span class="issue_name"><i class="ico_info"></i>Info</span> <a href="#none"><span class="code_rulenumber" id="infoNum"></span></a></li>
                                 </ul>
                             </td>
                         </tr>
@@ -89,17 +89,17 @@
                     </table>
                     <!--//코딩규칙 :e -->
                     <!-- 연결된 프로젝트 :s -->
-                    <h3 class="sub_title">연결된 프로젝트</h3>
+                    <h3 class="sub_title">linked project</h3>
                     <div id="relatedProjectAreaDefault" style="display: none;">
-                        <p class="ml18">기본 품질 프로파일에는 특정 프로젝트가 연결되지 않습니다.</p>
+                        <p class="ml18">No specific project is associated with the default quality profile.</p>
                     </div>
                     <!-- sub_tab :s -->
                     <div id="relatedProjectArea" style="display: block;">
                         <div class="sub_tab">
                             <ul>
-                                <li class="fst active"><a href="#;" onClick="sub_tab(0);">연결됨 <span class="pl10"></span></a></li>
-                                <li class=""><a href="#;" onClick="sub_tab(1);">미연결 <span class="pl10"></span></a></li>
-                                <li class=""><a href="#;" onClick="sub_tab(2);">전체 <span class="pl10"></span></a></li>
+                                <li class="fst active"><a href="#;" onClick="sub_tab(0);">Connected <span class="pl10"></span></a></li>
+                                <li class=""><a href="#;" onClick="sub_tab(1);">Unconnected <span class="pl10"></span></a></li>
+                                <li class=""><a href="#;" onClick="sub_tab(2);">All <span class="pl10"></span></a></li>
                             </ul>
                         </div>
                         <!--//sub_tab :e -->
@@ -107,8 +107,8 @@
                         <div class="sub_tab_cont00">
                             <div class="tab_content tbl_scroll" style="height:310px;">
                                 <!-- 리스트 테이블 -->
-                                <table summary="연결된 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                    <caption>연결된 프로젝트 리스트</caption>
+                                <table summary="Linked projects list table." class="BasicTable">
+                                    <caption>Linked projects list</caption>
                                     <colgroup>
                                         <col style="width:3%">
                                         <col style="width: *" />
@@ -127,8 +127,8 @@
                         <div class="sub_tab_cont01 mTs" style="display:none;">
                             <div class="tab_content tbl_scroll" style="height:310px;">
                                 <!-- 리스트 테이블 -->
-                                <table summary="미연결 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                    <caption>미연결 프로젝트 리스트</caption>
+                                <table summary="This is the unconnected projects list table." class="BasicTable">
+                                    <caption>Unconnected projects list</caption>
                                     <colgroup>
                                         <col style="width:3%">
                                         <col style="width: *" />
@@ -147,8 +147,8 @@
                         <div class="sub_tab_cont02 mTs" style="display:none;">
                             <div class="tab_content tbl_scroll" style="height:310px;">
                                 <!-- 리스트 테이블 -->
-                                <table summary="전체 프로젝트 리스트 테이블입니다." class="BasicTable">
-                                    <caption>전체 프로젝트 리스트</caption>
+                                <table summary="This is the full project list table." class="BasicTable">
+                                    <caption>Full project list</caption>
                                     <colgroup>
                                         <col style="width:3%">
                                         <col style="width: *" />
@@ -182,7 +182,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span>
                 </button>
-                <h1 id="popupQualityProfileConfirmTitle" class="modal-title"> 품질 프로파일 </h1>
+                <h1 id="popupQualityProfileConfirmTitle" class="modal-title"> Quality profile </h1>
             </div>
             <div class="modal-body">
                 <div class="modal_contBox">
@@ -190,19 +190,19 @@
                     <div id="popupCreateArea" style="display: none;">
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">품질 프로파일</p>
+                                <p class="title">Quality profile</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
                                     <input type="text" class="input-large" id="popupProfileNameCreate" name="popupProfileName"
                                            title="popupProfileName" value="" maxlength="100"
-                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                           placeholder="Enter a quality profile name (required)">
                                 </div>
                             </div>
                         </div>
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">개발언어</p>
+                                <p class="title">Development language</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
@@ -218,19 +218,19 @@
                     <div id="popupCopyArea" style="display: none;">
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">품질 프로파일</p>
+                                <p class="title">Quality profile</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
                                     <input type="text" class="input-large" id="popupProfileNameCopy" name="popupProfileName"
                                            title="popupProfileName" value="" maxlength="100"
-                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                           placeholder="Enter a quality profile name (required)">
                                 </div>
                             </div>
                         </div>
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">개발언어</p>
+                                <p class="title">Development language</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
@@ -244,19 +244,19 @@
                     <div id="popupUpdateArea" style="display: none;">
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">품질 프로파일</p>
+                                <p class="title">Quality profile</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
                                     <input type="text" class="input-large" id="popupProfileNameUpdate" name="popupProfileName"
                                            title="popupProfileName" value="" maxlength="100"
-                                           placeholder="품질 프로파일명을 입력하세요(필수)">
+                                           placeholder="Enter a quality profile name (required)">
                                 </div>
                             </div>
                         </div>
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">개발언어</p>
+                                <p class="title">Development language</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
@@ -271,20 +271,20 @@
             <div class="modal-footer">
                 <div id="popupCreateButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnProfileCreate"> 생성</button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                        <button type="button" class="button btn_pop" id="btnProfileCreate"> Create</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel</button>
                     </div>
                 </div>
                 <div id="popupCopyButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnProfileCopy"> 복제</button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                        <button type="button" class="button btn_pop" id="btnProfileCopy"> Duplicate</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel</button>
                     </div>
                 </div>
                 <div id="popupUpdateButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnProfileUpdate"> 수정</button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                        <button type="button" class="button btn_pop" id="btnProfileUpdate"> Change</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel</button>
                     </div>
                 </div>
             </div>
@@ -373,7 +373,7 @@
                             if (profile.projectCount != null) {
                                 htmlDefault += profile.projectCount;
                             }
-                            htmlDefault += "<span class='word_sort'>기본</span>";
+                            htmlDefault += "<span class='word_sort'>Basic</span>";
                             $("#h_defaultProfileKey").val(profile.key);
                             htmlDefault += "</span></a></li>";
                         } else {
@@ -391,7 +391,7 @@
                                 htmlstr += profile.projectCount;
                             }
                             if (profile.isDefault) {
-                                htmlstr += "<span class='word_sort'>기본</span>";
+                                htmlstr += "<span class='word_sort'>Basic</span>";
 
                                 $("#h_defaultProfileKey").val(profile.key);
                             }
@@ -666,7 +666,7 @@
 
         getQualityProfileList();
         $('#modalQualityProfileList').modal('hide');
-        procPopupAlert('생성 되었습니다.');
+        procPopupAlert('Created.');
     };
     // ::::: 품질 프로파일 생성 : END
 
@@ -717,7 +717,7 @@
         // 프로파일 목록 조회
         getQualityProfileList();
         $('#modalQualityProfileList').modal('hide');
-        procPopupAlert('복제 되었습니다.');
+        procPopupAlert('Duplicated.');
         profileDetail(profileKey, data.isDefault, data.name, data.language);
 
         procCallSpinner(SPINNER_STOP);
@@ -770,7 +770,7 @@
         getQualityProfileList();
         profileDetail(profileKey,data.isDefault, data.name, data.language);
         $('#modalQualityProfileList').modal('hide');
-        procPopupAlert('수정 되었습니다.');
+        procPopupAlert('Changed');
     };
     // ::::: 품질 프로파일 수정 : END
 
@@ -781,7 +781,7 @@
         var btnText = $("#btnPopupProfileDelete").text();
 
         var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+btnText;
-        var reqMessage = btnText + " 하시겠습니까?";
+        var reqMessage = btnText + " Would you like to proceed? ";
         var procFunction = "DeleteQualityProfile();";
         var reqButtonText = btnText;
 
@@ -826,7 +826,7 @@
 
         // 프로파일 목록 조회
         getQualityProfileList();
-        procPopupAlert('삭제 되었습니다.');
+        procPopupAlert('Deleted.');
         $("#contentProfileExp").css("display","block");
         $("#contentProfile").css("display","none");
 
@@ -900,7 +900,7 @@
 
         // 품질 프로파일 명 유효성 체크
         if (procIsNullString(popupProfileName)) {
-            procPopupAlert("품질 프로파일 명을 입력하십시오.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert("Enter a quality profile name.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
@@ -913,21 +913,21 @@
         var inputLength = 100 - $("#h_serviceInstanceId").val().length -1;
 
         if (procValidateQualityKeyNameLength(newProfileName)) {
-            procPopupAlert("품질 프로파일 명은 최대 " + inputLength+ "자까지 입력 가능합니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert("The quality profile name can contain up to " + inputLength+ " characters.", "procSetPopupFocus('" + type + "', '" + 'popupProfileNme'+type + "');", "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
         if (type == gPopupTypeCreate ) {
             // 개발언어 유효성 체크
             if (popupProfileLanguage.toUpperCase() != "JAVA") {
-                procPopupAlert("개발 언어는 현재 JAVA만 지원되고 있습니다.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
+                procPopupAlert("Currently, only JAVA is supported as the development language.", "procSetPopupFocus('" + type + "', '" + 'popupProfileLanguage'+type + "');", "<%= Constants.CHECK_YN_Y %>");
                 $('#popupProfileLanguage' + type).val("java");
                 return false;
             }
         }
 
         var reqTitle = $('popupQualityProfileConfirmTitle').text() +" "+ $('#btnProfile'+type).text();
-        var reqMessage = $('#btnProfile'+type).text() + " 하시겠습니까?";
+        var reqMessage = $('#btnProfile'+type).text() + " Would you like to proceed? ";
         var procFunction = type + "QualityProfile();";
         var reqButtonText = $('#btnProfile'+type).text();
 

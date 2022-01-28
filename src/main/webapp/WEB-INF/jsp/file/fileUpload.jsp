@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-파일 업로드 페이지 :: FILE UPLOAD CREATE PAGE
+File upload page :: FILE UPLOAD CREATE PAGE
 <br>
 <div class="row">
     <div id="reqFileArea" class="custom-container fl" role="main">
@@ -23,7 +23,7 @@
     <div class="fl">
         <label for="reqFile" class="sr-only"> FILE </label>
         <input type="file" name="files[]" id="reqFile" class="req_file_object">
-        <button type="button" id="sendFile"> [ 보내기 ] </button>
+        <button type="button" id="sendFile"> [ Send ] </button>
     </div>
 
     <%-- 파일이 존재할 때 / 파일 업로드가 2개 이상 될 때 뜨는 부분--%>
@@ -32,10 +32,10 @@
         <div class="panel panel-default" hidden>
             <div class="panel-body pd10">
                 <div class="fl">
-                    <span id="reqFileName" class="modify_panel_title"> 파일 첨부는 1개 파일만 가능합니다. </span>
+                    <span id="reqFileName" class="modify_panel_title"> Only one file can be attached. </span>
                 </div>
                 <div id="fileDeleteButtonArea" class="ml10 fl">
-                    <button type="button" id="btnDeleteFile" class="btn btn-save btn-sm"> 첨부파일 삭제 </button>
+                    <button type="button" id="btnDeleteFile" class="btn btn-save btn-sm"> Delete attachments </button>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">구성상세</h3>
+        <h3 class="sub_title">Configuration details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -24,13 +24,13 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">내 작업</p>
+                            <p class="title">My work</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="deployJobName" name="deployJobName" title="" value="배포 job" maxlength="25" placeholder="작업명">
+                                <input type="text" class="input-medium" id="deployJobName" name="deployJobName" title="" value="Deployment job" maxlength="25" placeholder="작업명">
                             </div>
                         </div>
                         <!--//form 영역-->
@@ -40,24 +40,24 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">작업 유형 (Job)</p>
+                            <p class="title">Job type (Job)</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
                                 <select class="input-medium jobType" title="" id="deployJobType">
-                                    <option value="">작업 선택</option>
+                                    <option value="">Select a job</option>
                                     <c:forEach items="${jobTypeList}" var="item" varStatus="status">
                                         <option value="${item.typeName}">${item.typeValue}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <!--2뎁스 영역(유형 (type)) -->
-                            <p class="sub_title">유형 (type)</p>
+                            <p class="sub_title">Type (type)</p>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="deployType">
-                                    <option value="">유형 선택</option>
+                                    <option value="">Select a type</option>
                                     <c:forEach items="${deployTypeList}" var="item" varStatus="status">
                                         <option value="${item.typeName}">${item.typeValue}</option>
                                     </c:forEach>
@@ -65,10 +65,10 @@
                             </div>
                             <!--//2뎁스 영역(유형 (type)) -->
                             <!--2뎁스 영역(Cloud Foundry 정보) -->
-                            <p class="sub_title">Cloud Foundry 정보</p>
+                            <p class="sub_title">About Cloud Foundry</p>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="cfInfoId">
-                                    <option value="">Cloud Foundry 정보 선택</option>
+                                    <option value="">Select Cloud Foundry information</option>
                                     <c:forEach items="${cfInfoList}" var="item" varStatus="status">
                                         <option value="${item.id}">${item.cfName}</option>
                                     </c:forEach>
@@ -76,27 +76,27 @@
                             </div>
                             <!--//2뎁스 영역(Cloud Foundry 정보) -->
                             <!--2뎁스 영역(조직/공간) -->
-                            <p class="sub_title">조직/공간</p>
+                            <p class="sub_title">Organization/Space</p>
                             <div id="cfInfoWelcomeArea">
                                 <div class="formBox">
-                                    <p class="txt_normal" style="color: #ff4500">Cloud Foundry 정보를 선택하면, 활성화됩니다.</p>
+                                    <p class="txt_normal" style="color: #ff4500">If you select About Cloud Foundry, it will be activated.</p>
                                 </div>
                             </div>
                             <div id="cfInfoResultArea" style="display: none;">
                                 <div class="formBox">
-                                    <p class="txt_normal">조직명: <span id="deployTargetOrgView"></span></p>
+                                    <p class="txt_normal">Organization name: <span id="deployTargetOrgView"></span></p>
                                 </div>
                                 <div class="formBox">
                                     <select class="input-medium" title="" id="deployTargetSpace">
                                     </select>
                                 </div>
                                 <div class="formBox">
-                                    <input type="text" class="input-medium" id="appName" name="appName" title="" value="" maxlength="25" placeholder="애플리케이션 명">
+                                    <input type="text" class="input-medium" id="appName" name="appName" title="" value="" maxlength="25" placeholder="Application name">
                                 </div>
                             </div>
                             <!--//2뎁스 영역(조직/공간) -->
                             <!--2뎁스 영역(MANIFEST 사용 여부) -->
-                            <p class="sub_title">MANIFEST 사용 여부</p>
+                            <p class="sub_title">Whether to use MANIFEST</p>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="manifestUseYn">
                                     <option title="" value="<%= Constants.CHECK_YN_Y %>"><%= Constants.CHECK_YN_Y %></option>
@@ -123,14 +123,14 @@ applications:
                         <div class="form_info">
                             <!--타이틀 영역-->
                             <div class="form_left">
-                                <p class="title">입력 유형</p>
+                                <p class="title">Input type</p>
                             </div>
                             <!--//타이틀 영역-->
                             <!--form 영역-->
                             <div class="form_right">
                                 <div class="formBox">
                                     <select class="input-medium" title="" id="buildJobIdForDeployJob">
-                                        <option value="">스테이징 선택</option>
+                                        <option value="">Staging selection</option>
                                         <option value="">NOT READY</option>
                                     </select>
                                 </div>
@@ -143,7 +143,7 @@ applications:
                     <div class="form_info">
                         <div class="form_right">
                             <!--2뎁스 영역-->
-                            <p class="sub_title">작업 트리거 (Job Trigger)</p>
+                            <p class="sub_title">Job trigger (Job Trigger)</p>
                             <div class="formBox">
                                 <ul>
                                     <c:forEach items="${deployJobTriggerTypeList}" var="item" varStatus="status">
@@ -165,8 +165,8 @@ applications:
                     <!-- 버튼 영역 -->
                     <div class="btn_Area plr20">
                         <div class="fr">
-                            <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_DEPLOY %>" title="저장">저장</button>
-                            <button type="button" class="button btn_default btnCancel" title="취소">취소</button>
+                            <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_DEPLOY %>" title="Save">저장</button>
+                            <button type="button" class="button btn_default btnCancel" title="Cancel">취소</button>
                         </div>
                     </div>
                     <!--//버튼 영역-->

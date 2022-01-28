@@ -12,11 +12,11 @@
     <div class="location">
         <div class="location_inner">
             <ul>
-                <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" class="userList">사용자 목록</a></li>
+                <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+                <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" class="userList">Users</a></li>
             </ul>
             <%--<div class="fr">
-                <button type="button" class="button btn_default" title="사용자 추가" id="btnCreate">사용자 추가</button>
+                <button type="button" class="button btn_default" title="Add user" id="btnCreate">사용자 추가</button>
             </div>--%>
         </div>
     </div>
@@ -30,15 +30,15 @@
             <div class="rSearch_group">
                 <div class="sel_group fr">
                         <div class="keyword_search">
-                            <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="아이디 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="${listRequest.name}" />
-                            <a class="btn_search" href="javascript:void(0);" title="검색" id="btnSearch"></a>
+                            <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="ID search" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="${listRequest.name}" />
+                            <a class="btn_search" href="javascript:void(0);" title="Search" id="btnSearch"></a>
                         </div>
                         <div class="selectbox select1 ml5" style="width:95px;">
                             <div>
-                                <strong>전체</strong><span class="bul"></span>
+                                <strong>All</strong><span class="bul"></span>
                             </div>
                             <ul class="select-list">
-                                <li class="authName">전체</li>
+                                <li class="authName">All</li>
                                     <c:forEach items="${authList}" var="auth">
                                         <c:if test="${auth.authType eq 'dashboard'}">
                                             <li value="${auth.id}" class="authName">${auth.displayName}</li>
@@ -118,7 +118,7 @@
 
 
         if(0 === listLength){
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
             for (var i = 0; i < listLength; i++) {
                 var html = "<li><dl><dt>"
@@ -131,8 +131,8 @@
                 }
 
                 html += " </a></dt><dd><ul><li class='stateArea'>"
-                        + "<i class='ico_update'></i>마지막 업데이트 : " + data.instanceUses[i].user.lastModifiedString
-                        + "<span class='pr15'></span> <i class='ico_app'></i>생성일 : " + data.instanceUses[i].user.createdString
+                        + "<i class='ico_update'></i>Last update : " + data.instanceUses[i].user.lastModifiedString
+                        + "<span class='pr15'></span> <i class='ico_app'></i>Date of creation : " + data.instanceUses[i].user.createdString
                         + "</li></ul></dd></dl></li>";
 
                 htmlString.push(html);

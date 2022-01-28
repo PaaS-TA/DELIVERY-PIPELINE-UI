@@ -11,9 +11,9 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" class="userList">사용자 목록</a></li>
-            <li><b>사용자 상세/수정</b></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/user/dashboard');" class="userList">Users</a></li>
+            <li><b>User Details/Edit</b></li>
         </ul>
     </div>
 </div>
@@ -24,7 +24,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">사용자 상세/수정</h3>
+        <h3 class="sub_title">User Details/Edit</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -35,13 +35,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">사용자 정보</p>
+                        <p class="title">User information</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="controlbox mt-5">
-                            <dl class="none">아이디 : <span id="userName"></span></dl>
+                            <dl class="none">ID : <span id="userName"></span></dl>
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -52,7 +52,7 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">사용여부 </p>
+                            <p class="title">Authority </p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
@@ -70,13 +70,13 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">설명 (선택)</p>
+                            <p class="title">Description (optional)</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
-                                <textarea type="text" style="width:96%;" colos="20" rows="5" onfocus="resize(this)" placeholder="아이디는 수정이 불가능합니다." id="description"></textarea>
+                                <textarea type="text" style="width:96%;" colos="20" rows="5" onfocus="resize(this)" placeholder="ID cannot be edited" id="description"></textarea>
                             </div>
                         </div>
                         <!--//form 영역-->
@@ -86,8 +86,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="수정" id="btnUpdate">수정</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Change" id="btnUpdate">Edit</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">Cancel</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
@@ -143,7 +143,7 @@
 
     // BIND
     $("#btnUpdate").on("click", function() {
-        procPopupConfirm('사용자 정보 수정', '수정 하시겠습니까?', 'updateUser();');
+        procPopupConfirm('Edit user information', 'Do you want to edit it?', 'updateUser();');
 
     });
 
@@ -165,7 +165,7 @@
     var callbackUpdateUser = function(data){
         procCallSpinner(SPINNER_STOP);
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        procPopupAlert('수정 되었습니다.', 'procMovePage("/user/dashboard");');
+        procPopupAlert('Changed', 'procMovePage("/user/dashboard");');
 
     };
 

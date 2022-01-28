@@ -16,12 +16,12 @@
     <div class="location">
         <div class="location_inner">
             <ul>
-                <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-                <li>모든 파이프라인</li>
+                <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+                <li>All pipelines</li>
             </ul>
             <c:if test="${role == 'ROLE_ADMIN'}">
                 <div class="fr">
-                    <button type="button" class="button btn_default" title="신규생성" id="btnCreate">신규생성</button>
+                    <button type="button" class="button btn_default" title="Create new" id="btnCreate">신규생성</button>
                 </div>
             </c:if>
         </div>
@@ -37,20 +37,20 @@
                 <div class="sel_group fr">
                     <%--<form id="frm_search" method="post" action="">--%>
                         <div class="keyword_search">
-                            <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="파이프라인 명 검색" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="${listRequest.name}" />
-                            <a class="btn_search" href="javascript:void(0);" title="검색" id="btnSearch"></a>
+                            <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="Pipeline name search" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="${listRequest.name}" />
+                            <a class="btn_search" href="javascript:void(0);" title="Search" id="btnSearch"></a>
                         </div>
                         <div class="selectbox select1 ml5" style="width:150px;">
                             <div>
-                                <strong>최신 생성일 순</strong><span class="bul"></span>
+                                <strong>Most recent creation date</strong><span class="bul"></span>
                             </div>
                             <ul class="select-list">
-                                <li id="name_asc" class="selectSortType">이름 순(오름차순)</li>
-                                <li id="name_desc" class="selectSortType">이름 순(내림차순)</li>
-                                <li id="lastModified_desc" class="selectSortType">최신 업데이트 순</li>
-                                <li id="lastModified_asc" class="selectSortType">오래된 업데이트 순</li>
-                                <li id="created_desc" class="selectSortType">최신 생성일 순</li>
-                                <li id="created_asc" class="selectSortType">오래된 생성일 순</li>
+                                <li id="name_asc" class="selectSortType">Order by name (ascending)</li>
+                                <li id="name_desc" class="selectSortType">Order by name (descending)</li>
+                                <li id="lastModified_desc" class="selectSortType">Most recent update order</li>
+                                <li id="lastModified_asc" class="selectSortType">Oldest update order</li>
+                                <li id="created_desc" class="selectSortType">Most recent creation date</li>
+                                <li id="created_asc" class="selectSortType">Oldest creation date</li>
                             </ul>
                         </div>
                     <%--</form>--%>
@@ -74,7 +74,7 @@
         </div>
         <!-- 더보기 버튼 :s -->
         <div class="table_more" id="moreListButtonArea" style="display: none;">
-            <div class="btn_more" id="btnMore" style="cursor: pointer;"> 더보기 </div>
+            <div class="btn_more" id="btnMore" style="cursor: pointer;"> More </div>
         </div>
         <!--//더보기 버튼 :e -->
         <!--//content :e -->
@@ -136,7 +136,7 @@
         var htmlString = [];
 
         if (0 === listLength) {
-            htmlString = "<li><dl><dt>조회 된 데이터가 없습니다.</dt><dd></li>";
+            htmlString = "<li><dl><dt>No data was retrieved.</dt><dd></li>";
         } else {
             for (var i = 0; i < listLength; i++) {
                 var html = "<li><dl><dt>";
@@ -158,8 +158,8 @@
                     }
 
                 html += "</dt><dd><ul><li class='stateArea'>"
-                        + "<i class='ico_update'></i>마지막 업데이트 : " + data.pipelines[i].lastModifiedString
-                        + "<span class='pr15'></span> <i class='ico_app'></i>생성일 : " + data.pipelines[i].createdString
+                        + "<i class='ico_update'></i>Last update : " + data.pipelines[i].lastModifiedString
+                        + "<span class='pr15'></span> <i class='ico_app'></i>Date of creation : " + data.pipelines[i].createdString
                         + "</li></ul></dd></dl></li>";
                 htmlString.push(html);
             }

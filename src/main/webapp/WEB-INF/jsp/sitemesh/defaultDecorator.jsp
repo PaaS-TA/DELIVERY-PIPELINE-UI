@@ -20,7 +20,7 @@
     <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 
     <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/images/favicon.ico'/>">
-    <title>PaaS-TA 배포파이프라인</title>
+    <title>PaaS-TA deployment pipeline</title>
 
     <%--COMMON LIBRARY :: BEGIN--%>
     <%@include file="../common/commonLibs.jsp" %>

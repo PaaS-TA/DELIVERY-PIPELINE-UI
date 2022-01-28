@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <br>
-QualityGate 수정 페이지 :: QUALITY GATE UPDATE PAGE
+QUALITY GATE UPDATE PAGE :: QUALITY GATE UPDATE PAGE
 <br>
 <ul>
     <li>ID :: <span id="qualityGateId">${id}</span></li>
@@ -19,7 +19,7 @@ QualityGate 수정 페이지 :: QUALITY GATE UPDATE PAGE
     <li>USER ID :: <span id="userGuid">${list.userGuid}</span></li>
 </ul>
 <br>
-<button type="button" id="btnUpdate"> [ 수정 ] </button>
+<button type="button" id="btnUpdate"> [ Change ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
@@ -60,7 +60,7 @@ QualityGate 수정 페이지 :: QUALITY GATE UPDATE PAGE
     var callbackUpdateQualityGate = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        $('#resultArea').html("수정 되었습니다.");
+        $('#resultArea').html("Changed");
     };
 
 

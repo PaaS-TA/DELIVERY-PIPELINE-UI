@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -29,7 +29,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">구성상세</h3>
+        <h3 class="sub_title">Configuration details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -39,13 +39,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">내 작업</p>
+                        <p class="title">My work</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="작업명">
+                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="Job name">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -55,19 +55,19 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">작업 유형 (Job)</p>
+                        <p class="title">Job type (Job)</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="deployJobType" name="deployJobType" title="" value="배포 (Deploy)" disabled>
+                            <input type="text" class="input-medium" id="deployJobType" name="deployJobType" title="" value="Deployment (Deploy)" disabled>
                         </div>
                         <!--2뎁스 영역(유형 (type)) -->
-                        <p class="sub_title">유형 (type)</p>
+                        <p class="sub_title">Type (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="deployType" disabled>
-                                <option value="">유형 선택</option>
+                                <option value="">Select a type</option>
                                 <c:forEach items="${deployTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
                                 </c:forEach>
@@ -75,10 +75,10 @@
                         </div>
                         <!--//2뎁스 영역(유형 (type)) -->
                         <!--2뎁스 영역(Cloud Foundry 정보) -->
-                        <p class="sub_title">Cloud Foundry 정보</p>
+                        <p class="sub_title">About Cloud Foundry</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="cfInfoId">
-                                <option value="">Cloud Foundry 정보 선택</option>
+                                <option value="">Select Cloud Foundry information</option>
                                 <c:forEach items="${cfInfoList}" var="item" varStatus="status">
                                     <option value="${item.id}">${item.cfName}</option>
                                 </c:forEach>
@@ -86,27 +86,27 @@
                         </div>
                         <!--//2뎁스 영역(Cloud Foundry 정보) -->
                         <!--2뎁스 영역(조직/공간) -->
-                        <p class="sub_title">조직/공간</p>
+                        <p class="sub_title">Organization/Space</p>
                         <div id="cfInfoWelcomeArea" style="display: none;">
                             <div class="formBox">
-                                <p class="txt_normal" style="color: #ff4500">Cloud Foundry 정보를 선택하면, 활성화됩니다.</p>
+                                <p class="txt_normal" style="color: #ff4500">If you select About Cloud Foundry, it will be activated.</p>
                             </div>
                         </div>
                         <div id="cfInfoResultArea" style="display: none;">
                             <div class="formBox">
-                                <p class="txt_normal">조직명: <span id="deployTargetOrgView"></span></p>
+                                <p class="txt_normal">Organization name: <span id="deployTargetOrgView"></span></p>
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="deployTargetSpace">
                                 </select>
                             </div>
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="appName" name="appName" title="" value="" maxlength="25" placeholder="애플리케이션 명">
+                                <input type="text" class="input-medium" id="appName" name="appName" title="" value="" maxlength="25" placeholder="Application name">
                             </div>
                         </div>
                         <!--//2뎁스 영역(조직/공간) -->
                         <!--2뎁스 영역(MANIFEST 사용 여부) -->
-                        <p class="sub_title">MANIFEST 사용 여부</p>
+                        <p class="sub_title">Whether to use MANIFEST</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="manifestUseYn">
                                 <option title="" value="<%= Constants.CHECK_YN_Y %>"><%= Constants.CHECK_YN_Y %></option>
@@ -129,14 +129,14 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">입력 유형</p>
+                            <p class="title">Input type</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
                                 <select class="input-medium" title="" id="buildJobId">
-                                    <option value="">스테이징 선택</option>
+                                    <option value="">Staging selection</option>
                                 </select>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                 <div class="form_info">
                     <div class="form_right">
                         <!--2뎁스 영역-->
-                        <p class="sub_title">작업 트리거 (Job Trigger)</p>
+                        <p class="sub_title">Job trigger (Job Trigger)</p>
                         <div class="formBox">
                             <ul>
                                 <c:forEach items="${deployJobTriggerTypeList}" var="item" varStatus="status">
@@ -170,8 +170,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="저장" id="btnUpdate">저장</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Save" id="btnUpdate">저장</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
@@ -299,7 +299,7 @@
             selectedCss = '',
             htmlString = [];
 
-        htmlString.push('<option value="">공간 선택</option>');
+        htmlString.push('<option value="">Select a space</option>');
 
         for (var i = 0; i < listLength; i++) {
             deployTargetSpace = spaceList[i];
@@ -406,37 +406,37 @@
 
         // CHECK DEPLOY TYPE AND BLUE GREEN DEPLOY STATUS
         if ("<%= Constants.DeployType.DEV %>" !== deployType && "<%= Constants.BlueGreenDeployStatus.BLUE_DEPLOY %>" === blueGreenDeployStatus) {
-            procPopupAlert("운영 GREEN 배포 완료 또는 진행 중에는 수정할 수 없습니다.");
+            procPopupAlert("Operational GREEN Deployment cannot be modified if in progress or when completed");
             return false;
         }
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#jobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#jobName').focus();");
             return false;
         }
 
         // CHECK CF INFO
         if (procIsNullString(cfInfoId)) {
-            procPopupAlert("Cloud Foundry 정보를 입력하십시오.", "$('#cfInfoId').focus();");
+            procPopupAlert("Enter your Cloud Foundry information.", "$('#cfInfoId').focus();");
             return false;
         }
 
         // CHECK DEPLOY TARGET SPACE
         if (procIsNullString(deployTargetSpace)) {
-            procPopupAlert("공간을 입력하십시오.", "$('#deployTargetSpace').focus();");
+            procPopupAlert("Enter space.", "$('#deployTargetSpace').focus();");
             return false;
         }
 
         // CHECK APP NAME
         if (procIsNullString(appName)) {
-            procPopupAlert("애플리케이션명을 입력하십시오.", "$('#appName').focus();");
+            procPopupAlert("Enter the application name.", "$('#appName').focus();");
             return false;
         }
 
         // CHECK BUILD JOB ID
         if (procIsNullString(buildJobId)) {
-            procPopupAlert("스테이징 항목을 선택하십시오.", "$('#buildJobId').focus();");
+            procPopupAlert("Select a staging item.", "$('#buildJobId').focus();");
             return false;
         }
 
@@ -477,7 +477,7 @@
         }
 
         procCallSpinner(SPINNER_STOP);
-        procPopupAlert('수정 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Changed', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -505,7 +505,7 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
                     updateJob();
                 }

@@ -9,13 +9,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-Service Instance 등록 페이지 :: SERVICE INSTANCE CREATE PAGE
+Service Instance registration page :: SERVICE INSTANCE CREATE PAGE
 <br>
 <ul>
-    <li>아이디 :: <input type="text" id="id" title="" value="서비스 인스턴스 아이디"></li>
+    <li>아이디 :: <input type="text" id="id" title="" value="Service instance ID"></li>
 </ul>
 <br>
-<button type="button" id="btnCreate"> [ 등록 ] </button>
+<button type="button" id="btnCreate"> [ Register ] </button>
 <br>
 <h1>RESULT</h1>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
@@ -27,7 +27,7 @@ Service Instance 등록 페이지 :: SERVICE INSTANCE CREATE PAGE
     // CALLBACK
     var callbackCreateServiceInstance = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
-        $('#resultArea').html("등록 되었습니다. <br><br>SERVICE INSTANCE ID :: " + data.id);
+        $('#resultArea').html("Registration complete <br><br>SERVICE INSTANCE ID :: " + data.id);
     };
 
     // CREATE USER

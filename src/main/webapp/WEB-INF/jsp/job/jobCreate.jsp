@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -97,7 +97,7 @@
             listNumber = 0,
             htmlString = [];
 
-        htmlString.push('<option value="">품질 프로파일 선택</option>');
+        htmlString.push('<option value="">Select a quality profile</option>');
 
         for (var i = 0; i < listLength; i++) {
             selectedCss = (listNumber === 0)? ' selected' : '';
@@ -134,7 +134,7 @@
             listNumber = 0,
             htmlString = [];
 
-        htmlString.push('<option value="">품질 게이트 선택</option>');
+        htmlString.push('<option value="">Quality gate selection</option>');
 
         for (var i = 0; i < listLength; i++) {
             selectedCss = (listNumber === 0)? ' selected' : '';
@@ -167,7 +167,7 @@
             listNumber = 0,
             htmlString = [];
 
-        htmlString.push('<option value="">스테이징 선택</option>');
+        htmlString.push('<option value="">Staging selection</option>');
 
         for (var i = 0; i < listLength; i++) {
             if (data[i].groupOrder === parseInt("<c:out value='${groupOrder}' default='' />", 10)) {
@@ -208,7 +208,7 @@
             repositoryType = doc.getElementById('repositoryType').value;
 
         if (procIsNullString(repositoryType)) {
-            procPopupAlert("입력 유형을 선택하십시오.");
+            procPopupAlert("Select an input type.");
             return false;
         }
 
@@ -227,7 +227,7 @@
     // CALLBACK GET BRANCH LIST
     var callbackGetBranchList = function(data, reqParam) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procPopupAlert('브렌치 목록 조회에 실패했습니다.', null, "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert('Branch list lookup failed.', null, "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
@@ -250,7 +250,7 @@
             $('#repositoryBranchWrapper').show();
 
         } else {
-            procPopupAlert('브렌치 목록 조회에 실패했습니다.');
+            procPopupAlert('Branch list lookup failed.');
         }
     };
 
@@ -272,7 +272,7 @@
     // CALLBACK GET SCM SVN INFO
     var callbackGetScmSvnInfo = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procPopupAlert('SVN 정보 조회에 실패했습니다.');
+            procPopupAlert('Failed to retrieve SVN information.');
             return false;
         }
 
@@ -294,25 +294,25 @@
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#buildJobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#buildJobName').focus();");
             return false;
         }
 
         // CHECK JOB TYPE
         if (procIsNullString(jobType)) {
-            procPopupAlert("작업 유형을 입력하십시오.", "$('#buildJobType').focus();");
+            procPopupAlert("Enter the job type.", "$('#buildJobType').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE
         if (procIsNullString(builderType)) {
-            procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
+            procPopupAlert("Enter the builder type.", "$('#builderType').focus();");
             return false;
         }
 
         // CHECK REPOSITORY TYPE
         if (procIsNullString(repositoryType)) {
-            procPopupAlert("입력 유형을 입력하십시오.", "$('#repositoryType').focus();");
+            procPopupAlert("Enter the input type.", "$('#repositoryType').focus();");
             return false;
         }
 
@@ -324,7 +324,7 @@
         // CHECK REPOSITORY BRANCH
         if ("<%= Constants.REPOSITORY_TYPE_SCM_GIT %>" === repositoryType ||  "<%= Constants.REPOSITORY_TYPE_GIT_HUB %>" === repositoryType) {
             if (procIsNullString(repositoryBranch)) {
-                procPopupAlert("브렌치 조회 후, 브렌치를 선택하십시오.", "$('#repositoryBranch').focus();");
+                procPopupAlert("After querying the branch, select the branch.", "$('#repositoryBranch').focus();");
                 return false;
             }
         }
@@ -366,7 +366,7 @@
         }
 
         procCallSpinner(SPINNER_STOP);
-        procPopupAlert('저장 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Saved.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -382,13 +382,13 @@
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#testJobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#testJobName').focus();");
             return false;
         }
 
         // CHECK JOB TYPE
         if (procIsNullString(jobType)) {
-            procPopupAlert("작업 유형을 입력하십시오.", "$('#testJobType').focus();");
+            procPopupAlert("Enter the job type.", "$('#testJobType').focus();");
             return false;
         }
 
@@ -399,19 +399,19 @@
 
         // CHECK INSPECTION PROFILE KEY
         if (procIsNullString(inspectionProfileKey)) {
-            procPopupAlert("품질 프로파일 항목을 선택하십시오.", "$('#inspectionProfileKey').focus();");
+            procPopupAlert("Select the quality profile item.", "$('#inspectionProfileKey').focus();");
             return false;
         }
 
         // CHECK INSPECTION GATE ID
         if (procIsNullString(inspectionGateId)) {
-            procPopupAlert("품질 게이트 항목을 선택하십시오.", "$('#inspectionGateId').focus();");
+            procPopupAlert("Select the quality gate item.", "$('#inspectionGateId').focus();");
             return false;
         }
 
         // CHECK BUILD JOB ID
         if (procIsNullString(buildJobId)) {
-            procPopupAlert("스테이징 항목을 선택하십시오.", "$('#buildJobIdForTestJob').focus();");
+            procPopupAlert("Select a staging item.", "$('#buildJobIdForTestJob').focus();");
             return false;
         }
 
@@ -451,19 +451,19 @@
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#deployJobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#deployJobName').focus();");
             return false;
         }
 
         // CHECK JOB TYPE
         if (procIsNullString(jobType)) {
-            procPopupAlert("작업 유형을 입력하십시오.", "$('#deployJobType').focus();");
+            procPopupAlert("Enter the job type.", "$('#deployJobType').focus();");
             return false;
         }
 
         // CHECK DEPLOY TYPE
         if (procIsNullString(deployType)) {
-            procPopupAlert("배포 유형을 입력하십시오.", "$('#deployType').focus();");
+            procPopupAlert("Enter the deployment type.", "$('#deployType').focus();");
             return false;
         }
 
@@ -473,32 +473,32 @@
 
             // CHECK JOB TRIGGER
             if ("<%= Constants.JOB_TRIGGER_PREVIOUS_JOB_SUCCESS %>" === deployJobTrigger) {
-                procPopupAlert("운영 배포 시, 수동 작업 실행만 가능합니다.");
+                procPopupAlert("When deploying operations, only manual task execution is possible.");
                 return false;
             }
         }
 
         // CHECK CF INFO
         if (procIsNullString(cfInfoId)) {
-            procPopupAlert("Cloud Foundry 정보를 선택하십시오.", "$('#cfInfoId').focus();");
+            procPopupAlert("Select About Cloud Foundry.", "$('#cfInfoId').focus();");
             return false;
         }
 
         // CHECK DEPLOY TARGET SPACE
         if (procIsNullString(deployTargetSpace)) {
-            procPopupAlert("공간을 선택하십시오.", "$('#deployTargetSpace').focus();");
+            procPopupAlert("Select a space.", "$('#deployTargetSpace').focus();");
             return false;
         }
 
         // CHECK APP NAME
         if (procIsNullString(appName)) {
-            procPopupAlert("애플리케이션명을 입력하십시오.", "$('#appName').focus();");
+            procPopupAlert("Enter the application name.", "$('#appName').focus();");
             return false;
         }
 
         // CHECK BUILD JOB ID
         if (procIsNullString(buildJobId)) {
-            procPopupAlert("스테이징 항목을 선택하십시오.", "$('#buildJobIdForDeployJob').focus();");
+            procPopupAlert("Select a staging item.", "$('#buildJobIdForDeployJob').focus();");
             return false;
         }
 
@@ -554,7 +554,7 @@
             selectedCss = '',
             htmlString = [];
 
-        htmlString.push('<option value="">공간 선택</option>');
+        htmlString.push('<option value="">Select a space</option>');
 
         for (var i = 0; i < listLength; i++) {
             selectedCss = (i === 0)? ' selected' : '';
@@ -695,7 +695,7 @@
         if ("<%= Constants.JOB_TYPE_BUILD %>" === reqJobType) {
             // CHECK REPOSITORY URL
             if (doc.getElementById('repositoryUrl').value.indexOf(" ") > -1) {
-                procPopupAlert("레파지토리 경로를 확인하십시오.", "$('#repositoryUrl').focus();");
+                procPopupAlert("Check the repository path.", "$('#repositoryUrl').focus();");
                 return false;
             }
 

@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -29,7 +29,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">구성상세</h3>
+        <h3 class="sub_title">Configuration details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -39,13 +39,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">내 작업</p>
+                        <p class="title">My work</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="작업명">
+                            <input type="text" class="input-medium" id="jobName" name="jobName" title="" value="" maxlength="25" placeholder="Job name">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -55,24 +55,24 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">작업 유형 (Job)</p>
+                        <p class="title">Job type (Job)</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="buildJobType" name="buildJobType" title="" value="빌드 (Build)" disabled>
+                            <input type="text" class="input-medium" id="buildJobType" name="buildJobType" title="" value="Build (Build)" disabled>
                         </div>
                         <!--2뎁스 영역-->
-                        <p class="sub_title">빌더유형 (type)</p>
+                        <p class="sub_title">Builder type (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 선택</option>
+                                <option value="">Select a builder</option>
                                 <c:forEach items="${builderTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
                                 </c:forEach>
                             </select>
-                            <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
+                            <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> Abort the execution of the connected task if this task fails</p>
                         </div>
                         <!--//2뎁스 영역-->
 
@@ -85,14 +85,14 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">입력 유형</p>
+                            <p class="title">Input type</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
                                 <select class="input-medium" title="" id="repositoryType">
-                                    <option value="">입력유형 선택</option>
+                                    <option value="">Select input type</option>
                                     <c:forEach items="${repositoryTypeList}" var="item" varStatus="status">
                                         <option value="${item.typeName}">${item.typeValue}</option>
                                     </c:forEach>
@@ -100,29 +100,29 @@
                             </div>
                             <!--2뎁스 영역-->
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="아이디 입력">
+                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="Enter ID">
                             </div>
                             <div class="formBox">
-                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="150" placeholder="비밀번호 ( Github의 경우 token 입력)">&emsp;
-                                <label id="githubTokenGuide" style="display: none;"><a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token" target="_blank" title="Creating a personal access token">※ Github Access Token 생성 가이드</a></label>
+                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="150" placeholder="Password (In case of Github, enter token)">&emsp;
+                                <label id="githubTokenGuide" style="display: none;"><a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token" target="_blank" title="Creating a personal access token">※ Github Access Token Creation Guide</a></label>
                             </div>
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="레파지토리 경로 입력">
+                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="Enter the repository path">
                             </div>
                             <!--//2뎁스 영역-->
                             <!--버튼 영역-->
                             <div class="btn_Area plr20" id="btnGetBranchListWrapper">
                                 <div class="fr">
-                                    <button type="button" class="button btn_regist" title="조회" id="btnGetBranchList">조회</button>
+                                    <button type="button" class="button btn_regist" title="Lookup" id="btnGetBranchList">조회</button>
                                 </div>
                             </div>
                             <!--//버튼 영역-->
                             <!-- 브랜치 (Branch) -->
                             <div id="repositoryBranchWrapper" style="display: none;">
-                                <p class="sub_title">브랜치 (Branch)</p>
+                                <p class="sub_title">Branch (Branch)</p>
                                 <div class="formBox">
                                     <select class="input-medium" title="" id="repositoryBranch">
-                                        <option value="">브랜치 목록</option>
+                                        <option value="">Branches</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                 <div class="form_info">
                     <div class="form_right">
                         <!--2뎁스 영역-->
-                        <p class="sub_title">작업 트리거 (Job Trigger)</p>
+                        <p class="sub_title">Job trigger (Job Trigger)</p>
                         <div class="formBox">
                             <ul>
                                 <c:forEach items="${buildJobTriggerTypeList}" var="item" varStatus="status">
@@ -158,8 +158,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="저장" id="btnUpdate">저장</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Save" id="btnUpdate">저장</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
@@ -275,7 +275,7 @@
             repositoryType = doc.getElementById('repositoryType').value;
 
         if (procIsNullString(repositoryType)) {
-            procPopupAlert("입력 유형을 선택하십시오.");
+            procPopupAlert("Select an input type.");
             return false;
         }
 
@@ -301,7 +301,7 @@
     // CALLBACK GET BRANCH LIST
     var callbackGetBranchList = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procPopupAlert('브렌치 목록 조회에 실패했습니다.', null, "<%= Constants.CHECK_YN_Y %>");
+            procPopupAlert('Branch list lookup failed.', null, "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
@@ -324,7 +324,7 @@
             $('#repositoryBranchWrapper').show();
 
         } else {
-            procPopupAlert('브렌치 목록 조회에 실패했습니다.');
+            procPopupAlert('Branch list lookup failed.');
         }
 
     };
@@ -347,7 +347,7 @@
     // CALLBACK GET SCM SVN INFO
     var callbackGetScmSvnInfo = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
-            procPopupAlert('SVN 정보 조회에 실패했습니다.');
+            procPopupAlert('Failed to retrieve SVN information.');
             return false;
         }
 
@@ -367,19 +367,19 @@
 
         // CHECK JOB NAME
         if (procIsNullString(jobName)) {
-            procPopupAlert("작업명을 입력하십시오.", "$('#jobName').focus();");
+            procPopupAlert("Enter a job name.", "$('#jobName').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE
         if (procIsNullString(builderType)) {
-            procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
+            procPopupAlert("Enter the builder type.", "$('#builderType').focus();");
             return false;
         }
 
         // CHECK REPOSITORY TYPE
         if (procIsNullString(repositoryType)) {
-            procPopupAlert("입력 유형을 입력하십시오.", "$('#repositoryType').focus();");
+            procPopupAlert("Enter the input type.", "$('#repositoryType').focus();");
             return false;
         }
 
@@ -427,7 +427,7 @@
         }
 
         procCallSpinner(SPINNER_STOP);
-        procPopupAlert('수정 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
+        procPopupAlert('Changed', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
 
 
@@ -449,7 +449,7 @@
 
         // CHECK REPOSITORY URL
         if (doc.getElementById('repositoryUrl').value.indexOf(" ") > -1) {
-            procPopupAlert("레파지토리 경로를 확인하십시오.", "$('#repositoryUrl').focus();");
+            procPopupAlert("Check the repository path.", "$('#repositoryUrl').focus();");
             return false;
         }
 
@@ -460,7 +460,7 @@
             /*for(var i = 0; i < grAry.length; i++){
                 if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                     if(grAry[i].authority.code == "read" || grAry[i].authority.code == "execute"){
-                        procPopupAlert("권한이 없습니다.");
+                        procPopupAlert("You do not have permission.");
                     }else{
                         updateJob();
                     }

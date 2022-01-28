@@ -9,14 +9,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-업로드된 파일 정보
+Uploaded file information
 <br>
-<button type="button" id="btnSearch"> [ 조회 ] </button>
-<button type="button" id="btnReset"> [ 목록 초기화 ] </button>
+<button type="button" id="btnSearch"> [ Lookup ] </button>
+<button type="button" id="btnReset"> [ List initialization ] </button>
 <br>
 <h1>RESULT</h1>
 <br>
-업로드된 파일 리스트 목록
+List of uploaded file lists
 <br>
 <div id="resultArea" style="width: 90%; height: auto; min-height: 100px; padding: 10px; border: dotted #ff8c00 4px;">
 </div>
@@ -43,7 +43,7 @@
                     + " || " + data[i].storedFileName
                     + " || " + data[i].fileUrl
                     + " || " + "<a href='javascript:void(0);' onclick='moveDetailPage(\"" + data[i].id +  "\");'> DETAIL </a> "
-                    + " || " + "<a href='javascript:void(0);' onclick='procDownload(\"" + data[i].id + "\");'> 다운로드 </a> "
+                    + " || " + "<a href='javascript:void(0);' onclick='procDownload(\"" + data[i].id + "\");'> Download </a> "
                     + "<br><br>");
         }
 

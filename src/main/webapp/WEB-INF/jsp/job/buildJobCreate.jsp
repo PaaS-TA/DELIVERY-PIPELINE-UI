@@ -14,7 +14,7 @@
     <!-- content :s -->
     <div class="contents">
         <!-- 타이틀 :s -->
-        <h3 class="sub_title">구성상세</h3>
+        <h3 class="sub_title">Configuration details</h3>
         <!--//타이틀 :e -->
         <!-- sub content :s -->
         <div class="sub_content">
@@ -25,13 +25,13 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">내 작업</p>
+                        <p class="title">My work</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
-                            <input type="text" class="input-medium" id="buildJobName" name="buildJobName" title="" value="빌드 job" maxlength="25" placeholder="작업명">
+                            <input type="text" class="input-medium" id="buildJobName" name="buildJobName" title="" value="Build job" maxlength="25" placeholder="작업명">
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -41,29 +41,29 @@
                 <div class="form_info">
                     <!--타이틀 영역-->
                     <div class="form_left">
-                        <p class="title">작업 유형 (Job)</p>
+                        <p class="title">Job type (Job)</p>
                     </div>
                     <!--//타이틀 영역-->
                     <!--form 영역-->
                     <div class="form_right">
                         <div class="formBox">
                             <select class="input-medium jobType" title="" id="buildJobType">
-                                <option value="">작업 선택</option>
+                                <option value="">Select a job</option>
                                 <c:forEach items="${jobTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <!--2뎁스 영역-->
-                        <p class="sub_title">빌더유형 (type)</p>
+                        <p class="sub_title">Builder type (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 선택</option>
+                                <option value="">Select a builder</option>
                                 <c:forEach items="${builderTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
                                 </c:forEach>
                             </select>
-                            <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
+                            <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> Abort the execution of the connected task if this task fails</p>
                         </div>
                         <!--//2뎁스 영역-->
 
@@ -76,14 +76,14 @@
                     <div class="form_info">
                         <!--타이틀 영역-->
                         <div class="form_left">
-                            <p class="title">입력 유형</p>
+                            <p class="title">Input type</p>
                         </div>
                         <!--//타이틀 영역-->
                         <!--form 영역-->
                         <div class="form_right">
                             <div class="formBox">
                                 <select class="input-medium" title="" id="repositoryType">
-                                    <option value="">입력유형 선택</option>
+                                    <option value="">Select input type</option>
                                     <c:forEach items="${repositoryTypeList}" var="item" varStatus="status">
                                         <option value="${item.typeName}">${item.typeValue}</option>
                                     </c:forEach>
@@ -91,29 +91,29 @@
                             </div>
                             <!--2뎁스 영역-->
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="아이디 입력">
+                                <input type="text" class="input-medium" id="repositoryAccountId" name="repositoryAccountId" title="" value="" maxlength="25" placeholder="Enter ID">
                             </div>
                             <div class="formBox">
-                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="150" placeholder="비밀번호 ( Github의 경우 token 입력)">&emsp;
-                                <label id="githubTokenGuide" style="display: none;"><a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token" target="_blank" title="Creating a personal access token">※ Github Access Token 생성 가이드</a></label>
+                                <input type="password" class="input-medium" id="repositoryAccountPassword" name="repositoryAccountPassword" title="" value="" maxlength="150" placeholder="Password (In case of Github, enter token)">&emsp;
+                                <label id="githubTokenGuide" style="display: none;"><a href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token" target="_blank" title="Creating a personal access token">※ Github Access Token Creation Guide</a></label>
                             </div>
                             <div class="formBox">
-                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="레파지토리 경로 입력">
+                                <input type="text" class="input-medium" id="repositoryUrl" name="repositoryUrl" title="" value="" maxlength="200" placeholder="Enter the repository path">
                             </div>
                             <!--//2뎁스 영역-->
                             <!--버튼 영역-->
                             <div class="btn_Area plr20" id="btnGetBranchListWrapper">
                                 <div class="fr">
-                                    <button type="button" class="button btn_regist" title="조회" id="btnGetBranchList">조회</button>
+                                    <button type="button" class="button btn_regist" title="Lookup" id="btnGetBranchList">조회</button>
                                 </div>
                             </div>
                             <!--//버튼 영역-->
                             <!-- 브랜치 (Branch) -->
                             <div id="repositoryBranchWrapper" style="display: none;">
-                                <p class="sub_title">브랜치 (Branch)</p>
+                                <p class="sub_title">Branch (Branch)</p>
                                 <div class="formBox">
                                     <select class="input-medium" title="" id="repositoryBranch">
-                                        <option value="">브랜치 목록</option>
+                                        <option value="">Branches</option>
                                     </select>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                 <div class="form_info">
                     <div class="form_right">
                         <!--2뎁스 영역-->
-                        <p class="sub_title">작업 트리거 (Job Trigger)</p>
+                        <p class="sub_title">Job trigger (Job Trigger)</p>
                         <div class="formBox">
                             <ul>
                                 <c:forEach items="${buildJobTriggerTypeList}" var="item" varStatus="status">
@@ -150,8 +150,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_BUILD %>" title="저장">저장</button>
-                        <button type="button" class="button btn_default btnCancel" title="취소">취소</button>
+                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_BUILD %>" title="Save">저장</button>
+                        <button type="button" class="button btn_default btnCancel" title="Cancel">취소</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->

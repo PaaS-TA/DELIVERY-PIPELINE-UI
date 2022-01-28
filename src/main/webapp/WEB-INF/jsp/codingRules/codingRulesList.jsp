@@ -17,8 +17,8 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
-            <li>코딩 규칙</li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
+            <li>Coding rules</li>
         </ul>
     </div>
 </div>
@@ -36,15 +36,15 @@
                     <div class="pl12 mt10">
                         <form id="" method="post" action="">
                             <div class="lnb_search">
-                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" value="${codingRules.condition.q}"/>
+                                <input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="Rule name search" autocomplete="on" value="${codingRules.condition.q}"/>
                                 <%--<input id="search_keyword" id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;"  placeholder="규칙명 검색" autocomplete="on" />--%>
-                                <a class="btn_search" href="#none" title="검색"></a>
+                                <a class="btn_search" href="#none" title="Search"></a>
                             </div>
                         </form>
                     </div>
                     <!--//검색 :e -->
                     <ul class="mt10">
-                        <h4>개발언어 (Language)</h4>
+                        <h4>Development language (Language)</h4>
                         <c:forEach items="${languages}" var="language" varStatus="status">
                             <c:if test="${fn:containsIgnoreCase(language.val, 'JAVA')}">
                             <li <c:if test="${status.last}">class="last"</c:if>>
@@ -55,45 +55,45 @@
                             </c:if>
                         </c:forEach>
                         <%--<div id="searchLang"></div>--%>
-                        <h4>이슈 수준 (Severity)</h4>
+                        <h4>Issue level (Severity)</h4>
                         <div id="searchIssue">
                             <li>
                                 <a href="#none">
                                     <input type="checkbox" id="chk_severity_blocker" name="issue" value="BLOCKER" <c:if test="${codingRules.condition.severities eq 'BLOCKER'}">checked</c:if>>
-                                    <label for="chk_severity_blocker"> <span class="block"><i class="ico_blocker"></i>심각 (Blocker)</span> <span id="severityBlockerNum" class="issue_num">${severities.BLOCKER}</span></label>
+                                    <label for="chk_severity_blocker"> <span class="block"><i class="ico_blocker"></i>Severe (Blocker)</span> <span id="severityBlockerNum" class="issue_num">${severities.BLOCKER}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
                                     <input type="checkbox" id="chk_severity_critical" name="issue" value="CRITICAL" <c:if test="${codingRules.condition.severities eq 'CRITICAL'}">checked</c:if>>
-                                    <label for="chk_severity_critical"> <span class="block"><i class="ico_critical"></i>높음 (Critical)</span> <span id="severityCriticalNum" class="issue_num">${severities.CRITICAL}</span></label>
+                                    <label for="chk_severity_critical"> <span class="block"><i class="ico_critical"></i>High (Critical)</span> <span id="severityCriticalNum" class="issue_num">${severities.CRITICAL}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
                                     <input type="checkbox" id="chk_severity_major" name="issue" value="MAJOR" <c:if test="${codingRules.condition.severities eq 'MAJOR'}">checked</c:if>>
-                                    <label for="chk_severity_major"><span class="block"><i class="ico_major"></i>보통 (Major)</span> <span id="severityMajorNum" class="issue_num">${severities.MAJOR}</span></label>
+                                    <label for="chk_severity_major"><span class="block"><i class="ico_major"></i>Major</span> <span id="severityMajorNum" class="issue_num">${severities.MAJOR}</span></label>
                                 </a>
                             </li>
                             <li>
                                 <a href="#none">
                                     <input type="checkbox" id="chk_severity_minor" name="issue" value="MINOR" <c:if test="${codingRules.condition.severities eq 'MINOR'}">checked</c:if>>
-                                    <label for="chk_severity_minor"> <span class="block"><i class="ico_minor"></i>낮음 (Minor)</span> <span id="severityMinorNum" class="issue_num">${severities.MINOR}</span></label>
+                                    <label for="chk_severity_minor"> <span class="block"><i class="ico_minor"></i>Low (Minor)</span> <span id="severityMinorNum" class="issue_num">${severities.MINOR}</span></label>
                                 </a>
                             </li>
                             <li class="last">
                                 <a href="#none">
                                     <input type="checkbox" id="chk_severity_info" name="issue" value="INFO" <c:if test="${codingRules.condition.severities eq 'INFO'}">checked</c:if>>
-                                    <label for="chk_severity_info"><span class="block"><i class="ico_info"></i>정보 (Info)</span> <span id="severityInfoNum" class="issue_num">${severities.INFO}</span></label>
+                                    <label for="chk_severity_info"><span class="block"><i class="ico_info"></i>Info</span> <span id="severityInfoNum" class="issue_num">${severities.INFO}</span></label>
                                 </a>
                             </li>
                         </div>
-                        <h4>품질 프로파일 (Quality Profile)</h4>
+                        <h4>Quality profile (Quality Profile)</h4>
                         <li id="listProfileCondition_" <c:if test="${empty codingRules.condition.qprofile}">class="custom-profile-selected"</c:if>>
                             <a id="qualityProfile_all" data-profileKey="" data-isdefault="false" href="#none">
                                 <%--<input type="checkbox" data-profileKey="all" name="qualityProfile_all" id="qualityProfile_all" value="${qualityProfile.name}">--%>
                                 <%--<label for="chk_profile_${qualityProfile.key}" style="cursor:pointer"><span class="block" style="width:220px;">${qualityProfile.name}</span></label>--%>
-                                <span class="block" style="width:220px;">전체 보기</span>
+                                <span class="block" style="width:220px;">View all</span>
                             </a>
                         </li>
                         <c:forEach items="${qualityProfiles}" var="qualityProfile" varStatus="status">
@@ -117,8 +117,8 @@
                 <div class="content_in">
                     <div id="ruleList" style="display:block;">
                         <!-- 리스트 테이블 -->
-                        <table summary="코딩규칙 리스트 테이블입니다." class="quality_list">
-                            <caption>코딩규칙 리스트</caption>
+                        <table summary="Coding rule list table." class="quality_list">
+                            <caption>Coding rule list</caption>
                             <colgroup>
                                 <col style="width: *" />
                                 <col style="width:5%">
@@ -128,7 +128,7 @@
                             <thead></thead>
                             <tbody id="codingRulesData">
                             <c:if test="${empty rules}">
-                                <tr><td class='rule_tit'> 프로파일에 속한 코딩 규칙이 없습니다.</td></tr>
+                                <tr><td class='rule_tit'> No coding rules belong to the profile.</td></tr>
                             </c:if>
                             <c:forEach items="${rules}" var="rule" varStatus="status">
                                 <tr>
@@ -136,7 +136,7 @@
                                     <td class="alignC"></td>
                                     <td class="alignC">${rule.langName}</td>
                                     <c:if test="${role == 'ROLE_ADMIN'}">
-                                    <td class="alignC"><button type="button" data-ruleKey="${rule.key}" id="btn_activate_${rule.key}" class="button quality_btn">프로파일에 추가</button></td>
+                                    <td class="alignC"><button type="button" data-ruleKey="${rule.key}" id="btn_activate_${rule.key}" class="button quality_btn">Add to profile</button></td>
                                     </c:if>
                                 </tr>
                             </c:forEach>
@@ -145,15 +145,15 @@
                         <!--//리스트 테이블-->
                         <!-- 더보기 버튼 :s -->
                         <div class="table_more" id="moreListButtonArea" <c:if test="${codingRules.total <= codingRules.condition.ps}">style="display: none;"</c:if> >
-                            <div class="btn_more" id="btnMore" style="cursor: pointer;"> 더보기 </div>
+                            <div class="btn_more" id="btnMore" style="cursor: pointer;"> More </div>
                         </div>
                         <!--//더보기 버튼 :e -->
                     </div>
 
                     <!--//상세 테이블 -->
                     <div id="crDetail" style="display:none;">
-                        <table summary="품질이슈 리스트 테이블입니다." class="quality_list">
-                            <caption>품질이슈 리스트</caption>
+                        <table summary="This is a list of quality issues." class="quality_list">
+                            <caption>List of quality issues</caption>
                             <colgroup>
                                 <col style="width: *" />
                                 <col style="width:12%">
@@ -164,11 +164,11 @@
                                     <div id="rule_desc_tit" class="rule_tit"></div>
                                     <ul class="sel_menu">
                                         <li>
-                                            <span id="rule_severity_BLOCKER" style="display:none;"><i class="ico_blocker"></i>심각 (Blocker)</span>
-                                            <span id="rule_severity_CRITICAL" style="display:none;"><i class="ico_critical"></i>높음 (Critical)</span>
-                                            <span id="rule_severity_MAJOR" style="display:none;"><i class="ico_major"></i>보통 (Major)</span>
-                                            <span id="rule_severity_MINOR" style="display:none;"><i class="ico_minor"></i>낮음 (Minor)</span>
-                                            <span id="rule_severity_INFO" style="display:none;"><i class="ico_info"></i>정보 (Info)</span>
+                                            <span id="rule_severity_BLOCKER" style="display:none;"><i class="ico_blocker"></i>Severe (Blocker)</span>
+                                            <span id="rule_severity_CRITICAL" style="display:none;"><i class="ico_critical"></i>High (Critical)</span>
+                                            <span id="rule_severity_MAJOR" style="display:none;"><i class="ico_major"></i>Major</span>
+                                            <span id="rule_severity_MINOR" style="display:none;"><i class="ico_minor"></i>Low (Minor)</span>
+                                            <span id="rule_severity_INFO" style="display:none;"><i class="ico_info"></i>Info</span>
                                         </li>
                                         <li id="rule_desc_language"></li>
                                     </ul>
@@ -179,9 +179,9 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <h3>연결된 품질 프로파일
+                                    <h3>Linked quality profile
                                         <c:if test="${role == 'ROLE_ADMIN'}">
-                                        <button type="button" data-type="Add" class="button tbl_in_btn_sm">추가</button>
+                                        <button type="button" data-type="Add" class="button tbl_in_btn_sm">Add</button>
                                         </c:if>
                                     </h3>
                                     <div class="rule_tit"></div>
@@ -210,7 +210,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"> &times; </span>
                 </button>
-                <h1 id="popupCodingRulesConfirmTitle" class="modal-title"> 프로파일에 추가 </h1>
+                <h1 id="popupCodingRulesConfirmTitle" class="modal-title"> Add to profile </h1>
             </div>
             <div class="modal-body">
                 <div class="modal_contBox">
@@ -218,7 +218,7 @@
                     <div id="popupAddArea" style="display: none;">
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">품질 프로파일</p>
+                                <p class="title">Quality profile</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
@@ -230,17 +230,17 @@
                         </div>
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">이슈 수준</p>
+                                <p class="title">Issue level</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
                                     <p>
                                         <select class="input-large" id="popupSeverityAdd">
-                                            <option value="BLOCKER"><i class="ico_blocker"></i>심각</option>
-                                            <option value="CRITICAL"><i class="ico_critical"></i>높음</option>
-                                            <option value="MAJOR"><i class="ico_major"></i>보통</option>
-                                            <option value="MINOR"><i class="ico_minor"></i>낮음</option>
-                                            <option value="INFO"><i class="ico_info"></i>정보</option>
+                                            <option value="BLOCKER"><i class="ico_blocker"></i>Severe</option>
+                                            <option value="CRITICAL"><i class="ico_critical"></i>High</option>
+                                            <option value="MAJOR"><i class="ico_major"></i>Major</option>
+                                            <option value="MINOR"><i class="ico_minor"></i>Low</option>
+                                            <option value="INFO"><i class="ico_info"></i>Information</option>
                                         </select>
                                     </p>
                                 </div>
@@ -252,7 +252,7 @@
                     <div id="popupUpdateArea" style="display: none;">
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">품질 프로파일</p>
+                                <p class="title">Quality profile</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
@@ -262,17 +262,17 @@
                         </div>
                         <div class="modalform_info">
                             <div class="form_left">
-                                <p class="title">이슈 수준</p>
+                                <p class="title">Issue level</p>
                             </div>
                             <div class="form_right">
                                 <div class="formBox">
                                     <p>
                                         <select class="input-large" id="popupSeverityUpdate">
-                                            <option value="BLOCKER"><i class="ico_blocker"></i>심각</option>
-                                            <option value="CRITICAL"><i class="ico_critical"></i>높음</option>
-                                            <option value="MAJOR"><i class="ico_major"></i>보통</option>
-                                            <option value="MINOR"><i class="ico_minor"></i>낮음</option>
-                                            <option value="INFO"><i class="ico_info"></i>정보</option>
+                                            <option value="BLOCKER"><i class="ico_blocker"></i>Severe</option>
+                                            <option value="CRITICAL"><i class="ico_critical"></i>High</option>
+                                            <option value="MAJOR"><i class="ico_major"></i>Major</option>
+                                            <option value="MINOR"><i class="ico_minor"></i>Low</option>
+                                            <option value="INFO"><i class="ico_info"></i>Information</option>
                                         </select>
                                     </p>
                                 </div>
@@ -285,14 +285,14 @@
             <div class="modal-footer">
                 <div id="popupAddButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnRuleAdd"> 추가</button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                        <button type="button" class="button btn_pop" id="btnRuleAdd"> Add</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel</button>
                     </div>
                 </div>
                 <div id="popupUpdateButtonArea" style="display: none;">
                     <div class="fr">
-                        <button type="button" class="button btn_pop" id="btnRuleUpdate"> 수정</button>
-                        <button type="button" class="button btn_pop" data-dismiss="modal"> 취소</button>
+                        <button type="button" class="button btn_pop" id="btnRuleUpdate"> Change</button>
+                        <button type="button" class="button btn_pop" data-dismiss="modal"> Cancel</button>
                     </div>
                 </div>
             </div>
@@ -338,11 +338,11 @@
     var gPageTypeDetail = "Detail";
     // ::::: Severity Types
     var gSeverityArr = [
-        {"key":"BLOCKER", "value": "심각 (Blocker)"},
-        {"key":"CRITICAL", "value": "높음 (Critical)"},
-        {"key":"MAJOR", "value": "보통 (Major)"},
-        {"key":"MINOR", "value": "낮음 (Minor)"},
-        {"key":"INFO", "value": "정보 (Info)"}
+        {"key":"BLOCKER", "value": "Severe (Blocker)"},
+        {"key":"CRITICAL", "value": "High (Critical)"},
+        {"key":"MAJOR", "value": "Major"},
+        {"key":"MINOR", "value": "Low (Minor)"},
+        {"key":"INFO", "value": "Info"}
     ];
 
     // ::::: 품질 프로파일 선택 이벤트 : BEGIN
@@ -492,9 +492,9 @@
                 if (role == "ROLE_ADMIN" && isDefaultProfile == "false") {
                     codingRulesData += "<td class='alignC'><button type='button' data-ruleKey='"+rule.key+"'";
                     if ($("#conditionProfileKey").val() != "") {
-                        codingRulesData += " id='btn_deactivate_"+rule.key+"' class='button quality_btn'>프로파일에 제거";
+                        codingRulesData += " id='btn_deactivate_"+rule.key+"' class='button quality_btn'>Remove from profile";
                     } else {
-                        codingRulesData += " id='btn_activate_"+rule.key+"' class='button quality_btn'>프로파일에 추가";
+                        codingRulesData += " id='btn_activate_"+rule.key+"' class='button quality_btn'>Add to profile";
                     }
                 }
                 codingRulesData += "</td>";
@@ -502,7 +502,7 @@
             });
 
         } else {
-            codingRulesData += "<tr><td class='rule_tit'> 프로파일에 속한 코딩 규칙이 없습니다.</td></tr>";
+            codingRulesData += "<tr><td class='rule_tit'> No coding rules belong to the profile.</td></tr>";
         }
         $("#codingRulesData").html("");
         $("#codingRulesData").html(codingRulesData);
@@ -525,9 +525,9 @@
         if (id.toString().match("btn_deactivate_")) {
             // console.log(" ::: btn_deactive rule ::: " + activateRule + ">>>"+ id.toString());
 
-            var btnText = "제거";
+            var btnText = "Remove";
             var reqTitle = $(this).text();
-            var reqMessage = btnText + " 하시겠습니까?";
+            var reqMessage = btnText + " Would you like to proceed? ";
             var procFunction = "DeleteProfileRule();";
             var reqButtonText = btnText;
 
@@ -553,7 +553,7 @@
 
         // 확인 POPUP
         var reqTitle = $('#popupCodingRulesConfirmTitle').text();
-        var reqMessage = $('#btnRuleAdd').text() + " 하시겠습니까?";
+        var reqMessage = $('#btnRuleAdd').text() + " Would you like to proceed? ";
         var procFunction = "AddProfileRule();";
         var reqButtonText = $('#btnRuleAdd').text();
 
@@ -623,7 +623,7 @@
         $("#rule_desc").html("<pre class='rule_desc'>"+rule.htmlDesc+"</pre>");
 
         // 연결된 품질 프로파일
-        var profilesHtml = "<p class='examp'>연결된 품질 프로파일이 없습니다.</p>";
+        var profilesHtml = "<p class='examp'>There is no associated quality profile.</p>";
 
         if (profiles.length > 0) {
             //console.log("size ::: "+ profiles.length);
@@ -646,8 +646,8 @@
                         }
                     });
                     profilesHtml += "</span>";
-                    profilesHtml += "<button type='button' data-type='Update' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>변경</button>";
-                    profilesHtml += "<button type='button' data-type='Delete' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>제거</button>";
+                    profilesHtml += "<button type='button' data-type='Update' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>Change</button>";
+                    profilesHtml += "<button type='button' data-type='Delete' data-profile='"+profile.qProfile+"' data-name='"+profileName+"' class='button tbl_in_btn_sm'>Remove</button>";
                 } else {
                     profilesHtml += "<span class='ico_issue' style='width:230px;'><i class='ico_"+profile.severity.toString().toLowerCase()+"'></i>";
 
@@ -685,9 +685,9 @@
 
         if (gPopupTypeDelete == btn_type) {
 
-            var btnText = "제거";
+            var btnText = "Remove";
             var reqTitle = $(this).text();
-            var reqMessage = btnText + " 하시겠습니까?";
+            var reqMessage = btnText + " Would you like to proceed? ";
             var procFunction = "DeleteProfileRule();";
             var reqButtonText = btnText;
 
@@ -726,8 +726,8 @@
         $('#modalCodingRules').modal('hide');
 
         // 확인 POPUP
-        var reqTitle = "이슈 수준 조정";
-        var reqMessage = $('#btnRuleUpdate').text() + " 하시겠습니까?";
+        var reqTitle = "Issue level adjustment";
+        var reqMessage = $('#btnRuleUpdate').text() + " Would you like to proceed? ";
         var procFunction = "UpdateProfileRule();";
         var reqButtonText = $('#btnRuleUpdate').text();
 
@@ -761,7 +761,7 @@
             return false;
         }
         $('#modalCodingRules').modal('hide');
-        procPopupAlert('수정 되었습니다.');
+        procPopupAlert('Changed');
         var ruleKey = $("#selectedRuleKey").val();
         // console.log("###### :: "+ ruleKey);
         // 상세페이지
@@ -806,7 +806,7 @@
             return false;
         }
         $('#modalCodingRules').modal('hide');
-        procPopupAlert('추가 되었습니다.');
+        procPopupAlert('Added.');
     };
     ////// [COLLBACK] 코딩 규칙 상세 : 코딩규칙 프로파일에 추가
     var callbackAddProfileRuleDetail = function (data) {
@@ -815,7 +815,7 @@
             return false;
         }
         $('#modalCodingRules').modal('hide');
-        procPopupAlert('추가 되었습니다.');
+        procPopupAlert('Added.');
         var ruleKey = $("#selectedRuleKey").val();
         // 상세페이지
         getCodingRuleDetail(ruleKey);
@@ -856,7 +856,7 @@
         }
 
         // 해당 프로파일 Rule 페이지 리로딩
-        procPopupAlert('제거 되었습니다.');
+        procPopupAlert('Removed.');
         $("#countPerPage").val($("#countPerPageDefault").val());
         getCodingRules();
 
@@ -869,7 +869,7 @@
         }
 
         // 해당 프로파일 Rule 페이지 리로딩
-        procPopupAlert('제거 되었습니다.');
+        procPopupAlert('Removed.');
         var ruleKey = $("#selectedRuleKey").val();
         //console.log("###### :: "+ ruleKey);
         // 상세페이지

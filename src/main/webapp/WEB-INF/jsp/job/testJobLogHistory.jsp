@@ -13,7 +13,7 @@
 <div class="location">
     <div class="location_inner">
         <ul>
-            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">홈으로</a></li>
+            <li><a href="javascript:void(0);" onclick="procMovePage('/');" class="home">Home</a></li>
             <li>
                 <a href="javascript:void(0);" onclick="procMovePage('/pipeline/<c:out value='${pipelineId}' default='' />/detail');">
                     <span id="pipelineName"></span>
@@ -37,19 +37,19 @@
                     <div class="tit"><span id="jobName"></span></div>
                     <div class="databox">
                         <ul>
-                            <li>실행 : <span class="data_txt_box font-wait" id="jobStatusText"></span></li>
-                            <li>시작 : <span class="data_txt" id="jobCreatedString"></span></li>
-                            <li>종료 : <span class="data_txt" id="jobLastModifiedString"></span></li>
-                            <li>이전 작업명 : <span class="data_txt" id="previousJobNameString"></span></li>
-                            <li>이전 작업 번호 : <span class="data_txt" id="previousJobNumberString"></span></li>
-                            <li>트리거 : <span class="data_txt" id="jobTriggerType"></span></li>
+                            <li>Execute : <span class="data_txt_box font-wait" id="jobStatusText"></span></li>
+                            <li>Start : <span class="data_txt" id="jobCreatedString"></span></li>
+                            <li>Finish : <span class="data_txt" id="jobLastModifiedString"></span></li>
+                            <li>Previous job name : <span class="data_txt" id="previousJobNameString"></span></li>
+                            <li>Previous job number : <span class="data_txt" id="previousJobNumberString"></span></li>
+                            <li>Trigger : <span class="data_txt" id="jobTriggerType"></span></li>
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="button btn_default" title="실행" id="btnTrigger">실행</button>
-                        <button type="button" class="button btn_default" title="취소" id="btnStop" style="display: none;">취소</button>
-                        <button type="button" class="button btn_default" title="구성" id="btnUpdate">구성</button>
-                        <button type="button" class="button btn_default" title="목록" id="btnList">목록</button>
+                        <button type="button" class="button btn_default" title="Execute" id="btnTrigger">실행</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnStop" style="display: none;">취소</button>
+                        <button type="button" class="button btn_default" title="Composition" id="btnUpdate">구성</button>
+                        <button type="button" class="button btn_default" title="List" id="btnList">목록</button>
                     </div>
                 </div>
                 <!--//타이틀 :e -->
@@ -65,9 +65,9 @@
                     <!-- Left :s -->
                     <!-- Content :s -->
                     <div class="contentArea" style="position: inherit; float: none; clear: none;">
-                        <div style="float: left;"><h3>로그</h3></div>
+                        <div style="float: left;"><h3>Log</h3></div>
                         <div style="float: right;">
-                            <button type="button" class="button btn_default" title="품질 이슈 결과" id="btnMoveInspectionResultPage" disabled>품질 이슈 결과</button>
+                            <button type="button" class="button btn_default" title="Quality Issue Results" id="btnMoveInspectionResultPage" disabled>품질 이슈 결과</button>
                         </div>
                         <!-- 내용 들어갈곳-->
                         <div class="log_body2" id="jobLogHistoryConsoleLogArea">
@@ -167,10 +167,10 @@
             objJobIsBuilding = $('#jobIsBuilding'),
             objBtnMoveInspectionResultPage = $('#btnMoveInspectionResultPage'),
             noDataString = " - ",
-            progressString = "진행중";
+            progressString = "In progress";
 
         if (listLength < 1) {
-            htmlString.push("이력이 없습니다.");
+            htmlString.push("There is no history.");
             lastJobNumber = 0;
 
             objJobStatusText.html(noDataString);
@@ -195,28 +195,28 @@
                 // STATUS :: SUCCESS
                 if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === jobStatus) {
                     jobStatusCss = "success";
-                    jobStatusText = "성공";
+                    jobStatusText = "Success";
                     objJobStatusText.addClass("font-success");
                 }
 
                 // STATUS :: FAIL
                 if ("<%= Constants.RESULT_STATUS_FAILURE %>" === jobStatus) {
                     jobStatusCss = "failure";
-                    jobStatusText = "실패";
+                    jobStatusText = "Fail";
                     objJobStatusText.addClass("font-fail");
                 }
 
                 // STATUS :: ABORTED
                 if ("<%= Constants.RESULT_STATUS_ABORTED %>" === jobStatus) {
                     jobStatusCss = "cancel";
-                    jobStatusText = "중단";
+                    jobStatusText = "Stop";
                     objJobStatusText.addClass("font-retract");
                 }
 
                 // STATUS :: CANCELED
                 if ("<%= Constants.RESULT_STATUS_CANCELLED %>" === jobStatus) {
                     jobStatusCss = "cancel";
-                    jobStatusText = "취소";
+                    jobStatusText = "Cancel";
                     objJobStatusText.addClass("font-retract");
                 }
 
@@ -232,7 +232,7 @@
 
                     objJobIsBuilding.val("<%= Constants.CHECK_YN_Y %>");
 
-                    $('#jobLogHistoryConsoleLogArea').html("진행 중입니다.");
+                    $('#jobLogHistoryConsoleLogArea').html("It is in progress.");
                     $('#btnTrigger').hide();
                     $('#btnStop').show();
                 }
@@ -271,7 +271,7 @@
         }
 
         if (parseInt(reqJobNumber, 10) < 1) {
-            $('#jobLogHistoryConsoleLogArea').html("상세 이력이 없습니다.");
+            $('#jobLogHistoryConsoleLogArea').html("There is no detailed history.");
             return false;
         }
 
@@ -324,32 +324,32 @@
 
         // STATUS :: SUCCESS
         if ("<%= Constants.RESULT_STATUS_SUCCESS %>" === lastJobStatus) {
-            jobStatusText = "성공";
+            jobStatusText = "Success";
             objJobStatusText.addClass("font-success");
         }
 
         // STATUS :: FAIL
         if ("<%= Constants.RESULT_STATUS_FAILURE %>" === lastJobStatus) {
-            jobStatusText = "실패";
+            jobStatusText = "Fail";
             objJobStatusText.addClass("font-fail");
         }
 
         // STATUS :: ABORTED
         if ("<%= Constants.RESULT_STATUS_ABORTED %>" === lastJobStatus) {
-            jobStatusText = "중단";
+            jobStatusText = "Stop";
             objJobStatusText.addClass("font-retract");
         }
 
         // STATUS :: CANCELED
         if ("<%= Constants.RESULT_STATUS_CANCELLED %>" === lastJobStatus) {
-            jobStatusText = "취소";
+            jobStatusText = "Cancel";
             objJobStatusText.addClass("font-retract");
         }
 
         // STATUS :: JOB WORKING
         if ("<%= Constants.RESULT_STATUS_JOB_WORKING %>" === lastJobStatus
             || "<%= Constants.RESULT_STATUS_BUILT_FILE_UPLOADING %>" === lastJobStatus) {
-            jobStatusText = "진행중";
+            jobStatusText = "In progress";
             jobCreatedString = noDataString;
             jobLastModifiedString = noDataString;
             previousJobNameString = noDataString;
@@ -424,7 +424,7 @@
         $('#btnStop').hide();
 
         if ("<%= Constants.CHECK_YN_N %>" === objJobIsStopping.val()) {
-            procPopupAlert('실행이 완료 되었습니다.');
+            procPopupAlert('Execution is complete.');
         }
 
         objJobIsStopping.val("<%= Constants.CHECK_YN_N %>");
@@ -468,13 +468,13 @@
 
     // SET INIT TRIGGER JOB LOG HISTORY
     var setInitTriggerJobLogHistory = function () {
-        var htmlString = '<li><span class="action"></span><span class="action_txt" style="width: 38px;">진행중</span></li>',
+        var htmlString = '<li><span class="action"></span><span class="action_txt" style="width: 38px;">In progress</span></li>',
             objJobLogHistoryArea = $('#jobLogHistoryArea'),
             objJobStatusText = $('#jobStatusText'),
             noDataString = " - ";
 
         objJobStatusText.removeClass().addClass("data_txt_box").addClass("font-progress");
-        objJobStatusText.html("진행중");
+        objJobStatusText.html("In progress");
 
         $('#jobCreatedString').html(noDataString);
         $('#jobLastModifiedString').html(noDataString);
@@ -553,7 +553,7 @@
         $('#btnTrigger').show();
         $('#btnStop').hide();
 
-        procPopupAlert('정지 되었습니다.');
+        procPopupAlert('Stopped.');
         getJobHistoryList();
     };
 
@@ -631,9 +631,9 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
-                    procPopupConfirm('JOB 실행', '실행 하시겠습니까?', 'triggerJob();');
+                    procPopupConfirm('Execute JOB', 'do you want to run?', 'triggerJob();');
                 }
             }
         }*/
@@ -647,9 +647,9 @@
         /*for(var i = 0; i < grAry.length; i++){
             if(grAry[i].authCode == document.getElementById('pipelineIdControlAuthority').value){
                 if(grAry[i].authority.code == "read"){
-                    procPopupAlert("권한이 없습니다.");
+                    procPopupAlert("You do not have permission.");
                 }else{
-                    procPopupConfirm('JOB 정지', '정지 하시겠습니까?', 'stopJob();');
+                    procPopupConfirm('Stop JOB', 'Do you want to stop?', 'stopJob();');
                 }
             }
         }*/

@@ -118,7 +118,7 @@ var getProcCallAjax = function (reqUrl, callback) {
             console.log("ERROR :: status :: ", status);
             console.log("ERROR :: error :: ", error);
 
-            var responseString = '시스템 장애가 발생했습니다.';
+            var responseString = 'A system failure has occurred.';
             var objModalAlert = $('#modalAlert');
             var responseText = xhr.responseText;
             var tempResultMessage = (null === responseText || 'null' === responseText || '' === responseText) ? responseString : JSON.parse(responseText).message;
@@ -177,7 +177,7 @@ var postProcCallAjax = function (reqUrl, param, callback) {
             console.log("ERROR :: status :: ", status);
             console.log("ERROR :: error :: ", error);
 
-            var responseString = '시스템 장애가 발생했습니다.';
+            var responseString = 'A system failure has occurred.';
             var objModalAlert = $('#modalAlert');
             var responseText = xhr.responseText;
             var tempResultMessage = (null === responseText || 'null' === responseText || '' === responseText) ? responseString : JSON.parse(responseText).message;
@@ -238,7 +238,7 @@ var getProcCallAjaxData = function (reqUrl, param, callback) {
             console.log("ERROR :: status :: ", status);
             console.log("ERROR :: error :: ", error);
 
-            var responseString = '시스템 장애가 발생했습니다.';
+            var responseString = 'A system failure has occurred.';
             var objModalAlert = $('#modalAlert');
             var responseText = xhr.responseText;
             var tempResultMessage = (null === responseText || 'null' === responseText || '' === responseText) ? responseString : JSON.parse(responseText).message;

@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <br>
-Instance & Use 상세 페이지 :: INSTANCE USE DETAIL PAGE
+Instance Instance & Use 상세 페이지 :: INSTANCE USE DETAIL PAGE Use detail page :: INSTANCE USE DETAIL PAGE
 <br>
 <ul>
     <li>ID :: ${id}</li>
@@ -17,7 +17,7 @@ Instance & Use 상세 페이지 :: INSTANCE USE DETAIL PAGE
     <li>USER ID :: ${userId}</li>
 </ul>
 <br>
-<button type="button" id="btnDelete"> [ 삭제 ] </button>
+<button type="button" id="btnDelete"> [ Delete ] </button>
 
 <br>
 <h1>RESULT</h1>
@@ -64,14 +64,14 @@ Instance & Use 상세 페이지 :: INSTANCE USE DETAIL PAGE
     var callbackDeleteInstanceUse = function(data) {
         if (RESULT_STATUS_FAIL === data.resultStatus) return false;
 
-        alert("삭제 되었습니다.");
+        alert("Deleted.");
         procMovePage('<c:url value="/instanceUse/dashboard"/>');
     };
 
 
     // BIND
     $("#btnDelete").on("click", function() {
-        if(confirm("삭제 하시겠습니까?")) deleteInstanceUse();
+        if(confirm("Are you sure you want to delete?")) deleteInstanceUse();
     });
 
 
