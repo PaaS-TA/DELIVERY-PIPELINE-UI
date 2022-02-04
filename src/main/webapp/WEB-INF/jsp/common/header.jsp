@@ -22,13 +22,13 @@
 <div id="header">
     <div class="head_inner">
         <h1><a title="PaaS-TA Deployment pipeline" href="javascript:void(0);" onclick="procMovePage('/');">
-            <img alt="PaaS-TA Deployment pipeline" src="<c:url value='/resources/images/logo.png'/>" style="width: 42px; height: 42px;"><span>배포파이프라인</span></a></h1>
+            <img alt="PaaS-TA Deployment pipeline" src="<c:url value='/resources/images/logo.png'/>" style="width: 42px; height: 42px;"><span>Deployment pipeline</span></a></h1>
         <ul class="RP_title">
             <li><a href="#"><span class="RP_num" id="topMenuPipelineListCount">0</span></a></li>
             <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    <span class="RP_name"> Pipeline 목록 </span>
+                    <span class="RP_name"> Pipeline List </span>
                 </a>
                 <ul class="dropdown-menu togglemenu" style="width:320px;left:-60px;">
                     <c:if test="${role == 'ROLE_ADMIN'}">
@@ -51,7 +51,7 @@
                     </li>
                     <li>
                         <h3><i class="glyphicon glyphicon-list"></i>
-                            <a href="javascript:void(0);" onclick="procMovePage('/');" style="display: inline;">My pipeline (My Pipelines)</a>
+                            <a href="javascript:void(0);" onclick="procMovePage('/');" style="display: inline;">My pipelines</a>
                         </h3>
                         <ul class="h6_ul" id="topMenuPipelineList">
                         </ul>
@@ -65,7 +65,7 @@
                         Pipeline management
                     </a>
                     <ul class="dropdown-menu togglemenu" style="width:200px;left:-50px;padding-top:4px;">
-                        <li><a href="javascript:void(0);" onclick="procMovePage('/cf-info');"> Cloud Foundry Information management </a>
+                        <li><a href="javascript:void(0);" onclick="procMovePage('/cf-info');"> Cloud Foundry Information </a>
                         </li>
                     </ul>
                 </li>
@@ -90,9 +90,9 @@
         </ul>
         <ul class="nav_ibtn">
             <li class="mr20"><span style="color: #efefef; vertical-align: bottom;">
-                    <sec:authorize access="isAuthenticated()">
+                    Welcome, <sec:authorize access="isAuthenticated()">
                         <sec:authentication property="details.userid"/>
-                    </sec:authorize>Welcome.
+                    </sec:authorize>
                 </span>
             </li>
             <c:if test="${role == 'ROLE_ADMIN'}">

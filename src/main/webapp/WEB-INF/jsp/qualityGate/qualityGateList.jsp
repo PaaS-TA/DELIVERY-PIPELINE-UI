@@ -627,7 +627,7 @@
                 }
                 list += "</select>";
                 list += "</td>";
-                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='저장'>수정</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='Delete' >삭제</button></td>";
+                list += "<td><button type='button' class='button tbl_in_btn_lg' disabled='disabled' name='saveBtn' id='saveBtn_" + (i + 1) + "' onclick='saveCondition(" + (i + 1) + ")' title='Save'>Save</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (i + 1) + "' onclick='deleteCondition(" + (i + 1) + ")' value= '" + id + "' title='Delete' >Delete</button></td>";
                 list += "<input type='hidden' id='conditions_" + (i + 1) + "' value='" + id + "' >";
                 list += "</tr>";
 
@@ -826,7 +826,7 @@
             list += "</select>";
             list += "<input type='hidden' id='conditions_" + (trIndex + 1) + "' value='' >";
             list += "</td>";
-            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='저장'>저장</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='Delete'>삭제</button></td>";
+            list += "<td><button type='button' class='button tbl_in_btn_lg'  name='saveBtn' id='saveBtn_" + (trIndex + 1) + "' onclick='saveCondition(" + (trIndex + 1) + ")' title='Save'>Save</button> <button type='button' class='button tbl_in_btn_lg_red' name='deleteBtn' id='deleteBtn_" + (trIndex + 1) + "' onclick='deleteCondition(" + (trIndex + 1) + ")' title='Delete'>Delete</button></td>";
             list += "</tr>";
         }
 

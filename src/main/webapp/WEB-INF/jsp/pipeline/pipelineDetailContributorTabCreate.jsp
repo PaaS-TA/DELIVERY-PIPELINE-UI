@@ -17,8 +17,8 @@
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">View/Edit information</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">Create new</button>
         </div>
     </div>
 </div>
@@ -125,8 +125,8 @@
                         <!-- 버튼 영역 -->
                         <div class="btnboxArea">
                             <div class="fr">
-                                <button type="button" class="button btn_default" title="Add" id="addContributor">추가</button>
-                                <button type="button" class="button btn_default" title="Cancel" id="cancel">취소</button>
+                                <button type="button" class="button btn_default" title="Add" id="addContributor">Add</button>
+                                <button type="button" class="button btn_default" title="Cancel" id="cancel">Cancel</button>
                             </div>
                         </div>
                         <!--//버튼 영역-->

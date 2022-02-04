@@ -173,8 +173,8 @@ test {
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="Save" id="btnUpdate">저장</button>
-                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Save" id="btnUpdate">Save</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">Cancel</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->

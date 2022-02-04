@@ -23,7 +23,7 @@
                 <span class="code_coverage"></span>
             </p>
             <div class="btn_wrap">
-                <button type="button" class="button btn_default" title="List" id="coverageBtn">목록</button>
+                <button type="button" class="button btn_default" title="List" id="coverageBtn">List</button>
             </div>
         </div>
         <!--//sub 타이틀 영역 :e -->

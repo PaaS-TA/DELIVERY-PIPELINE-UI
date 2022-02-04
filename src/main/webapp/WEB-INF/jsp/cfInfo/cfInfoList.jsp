@@ -16,7 +16,7 @@
             <li>Cloud Foundry Information management</li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="Cloud Foundry Account registration" id="btnCreate">Cloud Foundry 계정 등록</button>
+            <button type="button" class="button btn_default" title="Cloud Foundry Account registration" id="btnCreate">Cloud Foundry Account</button>
         </div>
     </div>
 </div>

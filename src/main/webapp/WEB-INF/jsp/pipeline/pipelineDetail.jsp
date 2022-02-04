@@ -17,8 +17,8 @@
             <li><span id="pipelineName"></span></li>
         </ul>
         <div class="fr">
-            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">정보보기/수정</button>
-            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">신규생성</button>
+            <button type="button" class="button btn_default" title="View/Edit Information" id="btnUpdatePipeline">View/Edit information</button>
+            <button type="button" class="button btn_default" title="Create new" id="btnCreatePipeline">Create new</button>
         </div>
     </div>
 </div>
@@ -58,7 +58,7 @@
                     <!--//new job :e -->
                     <!-- 버튼 :s -->
                     <div class="fl">
-                        <button type="button" class="button btn_default contributor-permission" title="Add a new workgroup" id="btnAddNewGroup">새 작업 그룹 추가</button>
+                        <button type="button" class="button btn_default contributor-permission" title="Add a new workgroup" id="btnAddNewGroup">Add a new workgroup</button>
                     </div>
                     <!--//버튼 :e -->
                 </div>

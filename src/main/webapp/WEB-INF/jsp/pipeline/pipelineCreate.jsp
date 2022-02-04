@@ -66,8 +66,8 @@
                     <!-- 버튼 영역 -->
                     <div class="btn_Area plr20">
                         <div class="fr">
-                            <button type="button" class="button btn_default" title="Create" id="btnCreate">생성</button>
-                            <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
+                            <button type="button" class="button btn_default" title="Create" id="btnCreate">Create</button>
+                            <button type="button" class="button btn_default" title="Cancel" id="btnCancel">Cancel</button>
                         </div>
                     </div>
                     <!--//버튼 영역-->

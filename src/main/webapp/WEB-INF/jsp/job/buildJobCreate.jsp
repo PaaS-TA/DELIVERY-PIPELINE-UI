@@ -104,7 +104,7 @@
                             <!--버튼 영역-->
                             <div class="btn_Area plr20" id="btnGetBranchListWrapper">
                                 <div class="fr">
-                                    <button type="button" class="button btn_regist" title="Lookup" id="btnGetBranchList">조회</button>
+                                    <button type="button" class="button btn_regist" title="Lookup" id="btnGetBranchList">Search</button>
                                 </div>
                             </div>
                             <!--//버튼 영역-->
@@ -150,8 +150,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_BUILD %>" title="Save">저장</button>
-                        <button type="button" class="button btn_default btnCancel" title="Cancel">취소</button>
+                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_BUILD %>" title="Save">Save</button>
+                        <button type="button" class="button btn_default btnCancel" title="Cancel">Cancel</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->

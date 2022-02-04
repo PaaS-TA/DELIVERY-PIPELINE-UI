@@ -46,10 +46,10 @@
                         </ul>
                     </div>
                     <div class="btn_wrap">
-                        <button type="button" class="button btn_default" title="Execute" id="btnTrigger">실행</button>
-                        <button type="button" class="button btn_default" title="Cancel" id="btnStop" style="display: none;">취소</button>
-                        <button type="button" class="button btn_default" title="Composition" id="btnUpdate">구성</button>
-                        <button type="button" class="button btn_default" title="List" id="btnList">목록</button>
+                        <button type="button" class="button btn_default" title="Execute" id="btnTrigger">Execute</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnStop" style="display: none;">Cancel</button>
+                        <button type="button" class="button btn_default" title="Composition" id="btnUpdate">Composition</button>
+                        <button type="button" class="button btn_default" title="List" id="btnList">List</button>
                     </div>
                 </div>
                 <!--//타이틀 :e -->

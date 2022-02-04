@@ -21,7 +21,7 @@
             </ul>
             <c:if test="${role == 'ROLE_ADMIN'}">
                 <div class="fr">
-                    <button type="button" class="button btn_default" title="Create new" id="btnCreate">신규생성</button>
+                    <button type="button" class="button btn_default" title="Create new" id="btnCreate">Create new</button>
                 </div>
             </c:if>
         </div>

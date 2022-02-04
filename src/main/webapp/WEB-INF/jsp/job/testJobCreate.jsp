@@ -163,8 +163,8 @@ test {
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_TEST %>" title="Save">저장</button>
-                        <button type="button" class="button btn_default btnCancel" title="Cancel">취소</button>
+                        <button type="button" class="button btn_default btnCreate <%= Constants.JOB_TYPE_TEST %>" title="Save">Save</button>
+                        <button type="button" class="button btn_default btnCancel" title="Cancel">Cancel</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->

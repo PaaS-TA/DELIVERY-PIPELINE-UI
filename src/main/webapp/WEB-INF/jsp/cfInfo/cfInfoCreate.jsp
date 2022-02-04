@@ -92,7 +92,7 @@
                         <div class="formBox">
                             <select class="input-medium" title="" id="cfApiUrl">
                             </select>
-                            <button type="button" class="button btn_regist" title="URL management" id="btnPopupCfUrl">URL 관리</button>
+                            <button type="button" class="button btn_regist" title="URL management" id="btnPopupCfUrl">URL mamagement</button>
                         </div>
                     </div>
                     <!--//form 영역-->
@@ -117,8 +117,8 @@
                 <!-- 버튼 영역 -->
                 <div class="btn_Area plr20">
                     <div class="fr">
-                        <button type="button" class="button btn_default" title="Add" id="btnCreate">Registration</button>
-                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">취소</button>
+                        <button type="button" class="button btn_default" title="Add" id="btnCreate">Add</button>
+                        <button type="button" class="button btn_default" title="Cancel" id="btnCancel">Cancel</button>
                     </div>
                 </div>
                 <!--//버튼 영역-->
