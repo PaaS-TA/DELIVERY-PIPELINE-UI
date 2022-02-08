@@ -232,17 +232,25 @@
         }
 
         var resultList = data.repositoryBranchList;
+        var resultTagList = data.repositoryTagList;
 
         if (resultList !== null) {
-            var listCount = resultList.length,
+            var brancheListCount = resultList.length,
                 tempListItem = '',
                 selectedCss = '',
                 htmlString = [];
 
-            for (var i = 0; i < listCount; i++) {
+            for (var i = 0; i < brancheListCount; i++) {
                 tempListItem = resultList[i];
                 selectedCss = (tempListItem === "master")? ' selected' : '';
-                htmlString.push('<option value="' + tempListItem + '"' + selectedCss + '>' + tempListItem + '</option>');
+                htmlString.push('<option value="' + tempListItem + '"' + selectedCss + '>[Branches] ' + tempListItem + '</option>');
+            }
+
+            if(resultTagList !== null) {
+                for (var i = 0; i < resultTagList.length; i++) {
+                    tempListItem = resultTagList[i];
+                    htmlString.push('<option value="refs/tags/' + tempListItem + '">[Tags] ' + tempListItem + '</option>');
+                }
             }
 
             $('#repositoryId').val(data.repositoryId);
@@ -252,6 +260,7 @@
         } else {
             procPopupAlert('브렌치 목록 조회에 실패했습니다.');
         }
+
     };
 
 
@@ -286,7 +295,10 @@
         var doc = document,
             jobName = $('#buildJobName').val(),
             jobType = $('#buildJobType').val(),
+            languageType = $('#languageType').val(),
+            languageTypeVersion = $('#languageTypeVersion').val(),
             builderType = $('#builderType').val(),
+            builderTypeVersion = $('#builderTypeVersion').val(),
             postActionYn = "<%= Constants.CHECK_YN_N %>",
             repositoryType = $('#repositoryType').val(),
             repositoryBranch = $('#repositoryBranch').val(),
@@ -305,8 +317,26 @@
         }
 
         // CHECK BUILDER TYPE
+        if (procIsNullString(languageType)) {
+            procPopupAlert("언어 유형을 입력하십시오.", "$('#languageType').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE VERSION
+        if (procIsNullString(languageTypeVersion)) {
+            procPopupAlert("언어 버전을 입력하십시오.", "$('#languageTypeVersion').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE
         if (procIsNullString(builderType)) {
             procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE VERSION
+        if (procIsNullString(builderTypeVersion)) {
+            procPopupAlert("빌더 버전을 입력하십시오.", "$('#builderTypeVersion').focus();");
             return false;
         }
 
@@ -342,7 +372,10 @@
             jobName: jobName,
             jobType: jobType,
             postActionYn: postActionYn,
+            languageType: languageType,
+            languageTypeVersion: languageTypeVersion,
             builderType: builderType,
+            builderTypeVersion: builderTypeVersion,
             jobTrigger: $(':input:radio[name=buildJobTrigger]:checked').val(),
             newWorkGroupYn: newWorkGroupYn,
             repositoryType: repositoryType,
@@ -745,6 +778,24 @@
             jacocoPluginScriptObject.fadeOut("fast");
         }
     });
+
+    // builderType 값에 따라 version 값 변경 (ie bug fix)
+    var builderTypeVersionOption = $("#builderTypeVersion").find("option");
+    $("#builderType").on("change", function() {
+
+        var builderType = $(this).val().toLowerCase();
+        $("#builderTypeVersion").empty();
+
+        $(builderTypeVersionOption).each(function(){
+            if($(this).val() == "" || $(this).val().startsWith(builderType)){
+                $("#builderTypeVersion").append(this);
+            }
+        });
+    });
+
+    // builderType init (초기화면시 default값만 표출)
+    $("#builderTypeVersion").empty();
+    $("#builderTypeVersion").append("<option value=''>빌더 버전 선택</option>");
 
 
     // ON LOAD

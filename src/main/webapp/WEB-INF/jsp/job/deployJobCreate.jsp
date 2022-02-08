@@ -110,7 +110,7 @@
                                 <textarea class="input-medium" name="manifestScript" id="manifestScript" cols="30" rows="6" title="">---
 applications:
 - name: %APP_NAME%
-  memory: 512M
+  memory: 1024M
   buildpack: java_buildpack_offline</textarea>
                             </div>
                             <!--//2뎁스 영역(MANIFEST YML) -->

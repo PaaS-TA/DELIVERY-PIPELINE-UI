@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="paasta.delivery.pipeline.ui.common.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- 이동경로 :s -->
 <div class="location">
@@ -63,13 +64,37 @@
                         <div class="formBox">
                             <input type="text" class="input-medium" id="buildJobType" name="buildJobType" title="" value="빌드 (Build)" disabled>
                         </div>
+
+                        <!--2뎁스 영역-->
+                        <p class="sub_title">언어유형 (type)</p>
+                        <div class="formBox">
+                            <select class="input-medium" title="" id="languageType">
+                                <option value="">언어 유형 선택</option>
+                                <c:forEach items="${languageTypeList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                </c:forEach>
+                            </select>
+                            <select class="input-medium" title="" id="languageTypeVersion">
+                                <option value="">언어 버전 선택</option>
+                                <c:forEach items="${languageTypeVersionList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <!--//2뎁스 영역-->
                         <!--2뎁스 영역-->
                         <p class="sub_title">빌더유형 (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 선택</option>
+                                <option value="">빌더 유형 선택</option>
                                 <c:forEach items="${builderTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
+                                </c:forEach>
+                            </select>
+                            <select class="input-medium" title="" id="builderTypeVersion">
+                                <option value="">빌더 버전 선택</option>
+                                <c:forEach items="${builderTypeVersionList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${item.typeValue}</option>
                                 </c:forEach>
                             </select>
                             <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
@@ -237,7 +262,12 @@
         doc.getElementById('repositoryBranch').value = data.repositoryBranch;
         doc.getElementById('originalRepositoryId').value = data.repositoryId;
         doc.getElementById('originalRepositoryBranch').value = data.repositoryBranch;
+
+        doc.getElementById('languageType').value = data.languageType;
+        doc.getElementById('languageTypeVersion').value = data.languageTypeVersion;
         doc.getElementById('builderType').value = data.builderType;
+        doc.getElementById('builderTypeVersion').value = data.builderTypeVersion;
+        $("#builderType").val(data.builderType).trigger('change');
         doc.getElementById('created').value = data.created;
 
         if ("<%= Constants.CHECK_YN_Y %>" === data.postActionYn) {
@@ -361,7 +391,10 @@
         var doc = document,
             postActionYn = "<%= Constants.CHECK_YN_N %>",
             jobName = $('#jobName').val(),
+            languageType = $('#languageType').val(),
+            languageTypeVersion = $('#languageTypeVersion').val(),
             builderType = $('#builderType').val(),
+            builderTypeVersion = $('#builderTypeVersion').val(),
             repositoryType = $('#repositoryType').val(),
             repositoryBranch = doc.getElementById('repositoryBranch').value;
 
@@ -372,8 +405,26 @@
         }
 
         // CHECK BUILDER TYPE
+        if (procIsNullString(languageType)) {
+            procPopupAlert("언어 유형을 입력하십시오.", "$('#languageType').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE VERSION
+        if (procIsNullString(languageTypeVersion)) {
+            procPopupAlert("언어 버전을 입력하십시오.", "$('#languageTypeVersion').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE
         if (procIsNullString(builderType)) {
             procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
+            return false;
+        }
+
+        // CHECK BUILDER TYPE VERSION
+        if (procIsNullString(builderTypeVersion)) {
+            procPopupAlert("빌더 버전을 입력하십시오.", "$('#builderTypeVersion').focus();");
             return false;
         }
 
@@ -410,7 +461,10 @@
             repositoryAccountPassword: doc.getElementById('repositoryAccountPassword').value,
             repositoryBranch: repositoryBranch,
             repositoryId: doc.getElementById('originalRepositoryId').value,
+            languageType: doc.getElementById('languageType').value,
+            languageTypeVersion: doc.getElementById('languageTypeVersion').value,
             builderType: doc.getElementById('builderType').value,
+            builderTypeVersion: doc.getElementById('builderTypeVersion').value,
             created: doc.getElementById('created').value
         };
 
@@ -475,6 +529,19 @@
         procMovePage(-1);
     });
 
+    // builderType 값에 따라 version 값 변경 (ie bug fix)
+    var builderTypeVersionOption = $("#builderTypeVersion").find("option");
+    $("#builderType").on("change", function() {
+
+        var builderType = $(this).val().toLowerCase();
+        $("#builderTypeVersion").empty();
+
+        $(builderTypeVersionOption).each(function(){
+            if($(this).val() == "" || $(this).val().startsWith(builderType)){
+                $("#builderTypeVersion").append(this);
+            }
+        });
+    });
 
     // ON LOAD
     $(document.body).ready(function () {

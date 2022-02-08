@@ -29,6 +29,7 @@ public class RepositoryService {
     private static final String SEARCH_SCM_SVN_STRING = "/svn/";
     private static final String SEARCH_GIT_HUB_STRING = "https://github.com";
     private static final String SEARCH_BRANCHES_STRING = "/branches";
+    private static final String SEARCH_TAGS_STRING = "/tags";
 
     private final RestTemplateService restTemplateService;
 
@@ -75,11 +76,14 @@ public class RepositoryService {
 
         String repositoryUrl;
         String reqRepositoryBranchListUrl;
+        String reqRepositoryTagListUrl;
         List<String> resultList = new ArrayList<>();
+        List<String> resultTagList = new ArrayList<>();
 
         if (reqRepositoryUrl.contains(SEARCH_GIT_HUB_STRING)) {
             repositoryUrl = reqRepositoryUrl.substring(SEARCH_GIT_HUB_STRING.length(), reqRepositoryUrl.length() - 4);
             reqRepositoryBranchListUrl = GIT_HUB_API_URL + repositoryUrl + SEARCH_BRANCHES_STRING;
+            reqRepositoryTagListUrl = GIT_HUB_API_URL + repositoryUrl + SEARCH_TAGS_STRING;
 
             // CUSTOM REST SEND :: GET BRANCH LIST
             for (Object aRepositoryList : procGetGitHubRepositoryBranchList(job, reqRepositoryBranchListUrl)) {
@@ -87,8 +91,15 @@ public class RepositoryService {
                 resultList.add(tempMap.get("name").toString());
             }
 
+            // CUSTOM REST SEND :: GET TAG LIST
+            for (Object bRepositoryList : procGetGitHubRepositoryTagList(job, reqRepositoryTagListUrl)) {
+                Map tempMap = (Map) bRepositoryList;
+                resultTagList.add(tempMap.get("name").toString());
+            }
+
             resultModel.setRepositoryId(repositoryUrl);
             resultModel.setRepositoryBranchList(resultList);
+            resultModel.setRepositoryTagList(resultTagList);
             resultModel.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
         }
 
@@ -99,6 +110,11 @@ public class RepositoryService {
     private List procGetGitHubRepositoryBranchList(Job job, String reqRepositoryBranchListUrl) {
         // CUSTOM REST SEND :: GET BRANCH LIST
         return restTemplateService.customSend(reqRepositoryBranchListUrl, HttpMethod.GET, null, List.class, job);
+    }
+
+    private List procGetGitHubRepositoryTagList(Job job, String reqRepositoryTagListUrl) {
+        // CUSTOM REST SEND :: GET TAG LIST
+        return restTemplateService.customSend(reqRepositoryTagListUrl, HttpMethod.GET, null, List.class, job);
     }
 
 
@@ -124,6 +140,7 @@ public class RepositoryService {
     private Job procGetScmGitRepositoryInfo(Job job) {
         Job resultModel = new Job();
         List<String> resultList = new ArrayList<>();
+        List<String> resultTagList = new ArrayList<>();
         String repositoryId;
 
         // CUSTOM REST SEND :: GET ID
@@ -135,8 +152,14 @@ public class RepositoryService {
             resultList.add(String.valueOf(aRepositoryBranchList.get("name")));
         }
 
+        // CUSTOM REST SEND :: GET TAG LIST
+        for (LinkedHashMap aRepositoryTagList : procGetScmGitRepositoryTagList(job, procGetScmRepositoryUrl(job, UrlType.GET_TAG_LIST))) {
+            resultTagList.add(String.valueOf(aRepositoryTagList.get("name")));
+        }
+
         resultModel.setRepositoryId(repositoryId);
         resultModel.setRepositoryBranchList(resultList);
+        resultModel.setRepositoryTagList(resultTagList);
         resultModel.setResultStatus(Constants.RESULT_STATUS_SUCCESS);
 
         return resultModel;
@@ -181,6 +204,10 @@ public class RepositoryService {
             resultString = repositoryUrl + SCM_API_URL + "/" + repositoryId + SEARCH_BRANCHES_STRING;
         }
 
+        // FOR GETTING TAG LIST
+        if (UrlType.GET_TAG_LIST.equals(reqUrlType)) {
+            resultString = repositoryUrl + SCM_API_URL + "/" + repositoryId + SEARCH_TAGS_STRING;
+        }
         return resultString;
     }
 
@@ -191,6 +218,16 @@ public class RepositoryService {
         // CUSTOM REST SEND :: GET BRANCH LIST
         LinkedHashMap tempResultMap = restTemplateService.customSend(reqRepositoryBranchListUrl, HttpMethod.GET, null, LinkedHashMap.class, job);
         resultList = (List<LinkedHashMap>) tempResultMap.get("branch");
+
+        return resultList;
+    }
+
+    private List<LinkedHashMap> procGetScmGitRepositoryTagList(Job job, String reqRepositoryTagListUrl) {
+        List<LinkedHashMap> resultList;
+
+        // CUSTOM REST SEND :: GET TAG LIST
+        LinkedHashMap tempResultMap = restTemplateService.customSend(reqRepositoryTagListUrl, HttpMethod.GET, null, LinkedHashMap.class, job);
+        resultList = (List<LinkedHashMap>) tempResultMap.get("tag");
 
         return resultList;
     }
@@ -236,7 +273,11 @@ public class RepositoryService {
         /**
          * Get branch list url type.
          */
-        GET_BRANCH_LIST;
+        GET_BRANCH_LIST,
+        /**
+         * Get branch list url type.
+         */
+        GET_TAG_LIST;
     }
 
 }
