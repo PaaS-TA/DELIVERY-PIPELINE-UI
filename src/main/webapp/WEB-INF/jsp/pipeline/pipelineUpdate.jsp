@@ -66,7 +66,7 @@
                     <!-- 버튼 영역 -->
                     <div class="btn_Area plr20">
                         <div class="fl">
-                            <button type="button" class="button btn_default" title="Delete pipeline" id="btnDeletePipeline">파이프라인 삭제</button>
+                            <button type="button" class="button btn_default" title="Delete pipeline" id="btnDeletePipeline">Delete pipeline</button>
                         </div>
                         <div class="fr">
                             <button type="button" class="button btn_default" title="Save" id="btnUpdatePipeline">Edit</button>

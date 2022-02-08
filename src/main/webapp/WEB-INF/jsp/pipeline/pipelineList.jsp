@@ -40,7 +40,7 @@
                             <input id="search_keyword" type="text" name="search_keyword" style="-ms-ime-mode: active;" placeholder="Pipeline name search" autocomplete="on" onkeypress="if(event.keyCode==13) {gCheckMore = false; search(''); }" value="${listRequest.name}" />
                             <a class="btn_search" href="javascript:void(0);" title="Search" id="btnSearch"></a>
                         </div>
-                        <div class="selectbox select1 ml5" style="width:150px;">
+                        <div class="selectbox select1 ml5" style="width:210px;">
                             <div>
                                 <strong>Most recent creation date</strong><span class="bul"></span>
                             </div>

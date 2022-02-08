@@ -11,7 +11,7 @@ var procPopupConfirm = function (reqTitle, reqMessage, procFunction, reqButtonTe
     $('#commonPopupConfirmTitle').html(reqTitle);
     $('#commonPopupConfirmMessage').html(reqMessage);
 
-    objButtonText.html(buttonText);
+    //objButtonText.html(buttonText);
     objButtonText.attr('onclick', procFunction);
 
     if (null === procCancelFunction || '' === procCancelFunction || undefined === procCancelFunction) {

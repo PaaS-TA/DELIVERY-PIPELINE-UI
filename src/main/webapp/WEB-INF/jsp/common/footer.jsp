@@ -37,7 +37,7 @@
             </div>
             <div class="modal-footer">
                 <div class="fr">
-                    <button type="button" class="button btn_pop" id="commonPopupConfirmButtonText"> Save </button>
+                    <button type="button" class="button btn_pop" id="commonPopupConfirmButtonText"> Ok </button>
                     <button type="button" class="button btn_pop commonPopupConfirmCancelButton" data-dismiss=""> Cancel </button>
                 </div>
             </div>
