@@ -97,7 +97,19 @@ public class Constants {
     /**
      * The constant TYPE_BUILDER.
      */
+    public static final String TYPE_LANGUAGE = "LANGUAGE";
+    /**
+     * The constant TYPE_BUILDER_VERSION.
+     */
+    public static final String TYPE_LANGUAGE_VERSION = "LANGUAGE_VERSION";
+    /**
+     * The constant TYPE_BUILDER.
+     */
     public static final String TYPE_BUILDER = "BUILDER";
+    /**
+     * The constant TYPE_BUILDER_VERSION.
+     */
+    public static final String TYPE_BUILDER_VERSION = "BUILDER_VERSION";
     /**
      * The constant TYPE_DEPLOY.
      */

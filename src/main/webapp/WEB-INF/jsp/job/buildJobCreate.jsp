@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="paasta.delivery.pipeline.ui.common.Constants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!-- container :s -->
 <div id="container">
@@ -55,12 +56,35 @@
                             </select>
                         </div>
                         <!--2뎁스 영역-->
+                        <p class="sub_title">언어유형 (type)</p>
+                        <div class="formBox">
+                            <select class="input-medium" title="" id="languageType">
+                                <option value="">언어 유형 선택</option>
+                                <c:forEach items="${languageTypeList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                </c:forEach>
+                            </select>
+                            <select class="input-medium" title="" id="languageTypeVersion">
+                                <option value="">언어 버전 선택</option>
+                                <c:forEach items="${languageTypeVersionList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <!--//2뎁스 영역-->
+                        <!--2뎁스 영역-->
                         <p class="sub_title">빌더유형 (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 선택</option>
+                                <option value="">빌더 유형 선택</option>
                                 <c:forEach items="${builderTypeList}" var="item" varStatus="status">
                                     <option value="${item.typeName}">${item.typeValue}</option>
+                                </c:forEach>
+                            </select>
+                            <select class="input-medium" title="" id="builderTypeVersion">
+                                <option value="">빌더 버전 선택</option>
+                                <c:forEach items="${builderTypeVersionList}" var="item" varStatus="status">
+                                    <option value="${item.typeValue}">${item.typeValue}</option>
                                 </c:forEach>
                             </select>
                             <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
@@ -110,7 +134,7 @@
                             <!--//버튼 영역-->
                             <!-- 브랜치 (Branch) -->
                             <div id="repositoryBranchWrapper" style="display: none;">
-                                <p class="sub_title">브랜치 (Branch)</p>
+                                <p class="sub_title">브랜치 (Branches) / 태그 (Tags)</p>
                                 <div class="formBox">
                                     <select class="input-medium" title="" id="repositoryBranch">
                                         <option value="">브랜치 목록</option>
