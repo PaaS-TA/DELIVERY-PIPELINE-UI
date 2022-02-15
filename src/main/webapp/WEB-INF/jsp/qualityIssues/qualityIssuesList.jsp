@@ -325,11 +325,11 @@
                     list += "<li>";
                     list += "<input type='hidden' id='issueKey_" + i + "' value='" + data.issues[i].key + "'>";
                     list += "<select id='issueSelect_" + i + "' class ='makeMeFancy' onchange='setSeverity(" + i + ")' style='width:95px;'>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Severe' value='BLOCKER' >심각</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='High' value='CRITICAL' >높음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Major' value='MAJOR' >보통</option>";
-                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='Low' value='MINOR' >낮음</option>";
-                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Information' value='INFO'>정보</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Severe' value='BLOCKER' >Severe</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='High' value='CRITICAL' >High</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Major' value='MAJOR' >Major</option>";
+                    list += "<option data-icon='/resources/images/ico_minor.png' data-html-text='Low' value='MINOR' >Low</option>";
+                    list += "<option data-icon='/resources/images/ico_blocker.png' data-html-text='Information' value='INFO'>info</option>";
                     list += " </select>";
                     list += "</li>";
                     list += "<li>";
