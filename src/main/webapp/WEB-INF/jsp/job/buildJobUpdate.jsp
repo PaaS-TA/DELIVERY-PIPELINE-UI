@@ -68,17 +68,21 @@
                         <!--2뎁스 영역-->
                         <p class="sub_title">언어유형 (type)</p>
                         <div class="formBox">
+                            <select class="input-medium" title="" id="codeList" style="display:none">
+                                <c:forEach items="${codeList}" var="item" varStatus="status">
+                                    <option value="${item.codeValue}" data-type="${item.codeType}" data-group="${item.codeGroup}">${item.codeName}</option>
+                                </c:forEach>
+                            </select>
                             <select class="input-medium" title="" id="languageType">
-                                <option value="">언어 유형 선택</option>
-                                <c:forEach items="${languageTypeList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                <option value="" data-type="" data-group="">언어 유형 선택</option>
+                                <c:forEach items="${codeList}" var="item" varStatus="status">
+                                    <c:if test="${item.codeType eq 'language_type'}">
+                                        <option value="${item.codeValue}" data-type="${item.codeType}" data-group="${item.codeGroup}">${item.codeName}</option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <select class="input-medium" title="" id="languageTypeVersion">
-                                <option value="">언어 버전 선택</option>
-                                <c:forEach items="${languageTypeVersionList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">언어 버전 선택</option>
                             </select>
                         </div>
                         <!--//2뎁스 영역-->
@@ -86,20 +90,34 @@
                         <p class="sub_title">빌더유형 (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 유형 선택</option>
-                                <c:forEach items="${builderTypeList}" var="item" varStatus="status">
-                                    <option value="${item.typeName}">${item.typeValue}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">빌더 유형 선택</option>
                             </select>
                             <select class="input-medium" title="" id="builderTypeVersion">
-                                <option value="">빌더 버전 선택</option>
-                                <c:forEach items="${builderTypeVersionList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${item.typeValue}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">빌더 버전 선택</option>
                             </select>
                             <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
                         </div>
                         <!--//2뎁스 영역-->
+                        <!--2뎁스 영역(COMMAND) -->
+                        <div id="commandScriptWrapper" style="display:none">
+                            <p class="sub_title">COMMAND</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" name="commandScript" id="commandScript" cols="30" rows="6" title="">#PHP - COMPOSER 예제
+cd $WORKSPACE
+
+files=$(ls 'composer.json' 2> /dev/null | wc -l)
+if [ "$files" != "0" ]
+then
+    rm -rf vendor/*
+    composer install
+else
+    echo "composer.json Not found."
+    exit 1
+fi
+                                </textarea>
+                            </div>
+                        </div>
+                        <!--2뎁스 영역(COMMAND) -->
 
                     </div>
                     <!--//form 영역-->
@@ -264,11 +282,14 @@
         doc.getElementById('originalRepositoryBranch').value = data.repositoryBranch;
 
         doc.getElementById('languageType').value = data.languageType;
+        $("#languageType").val(data.languageType).trigger('change');
         doc.getElementById('languageTypeVersion').value = data.languageTypeVersion;
         doc.getElementById('builderType').value = data.builderType;
-        doc.getElementById('builderTypeVersion').value = data.builderTypeVersion;
         $("#builderType").val(data.builderType).trigger('change');
+        doc.getElementById('builderTypeVersion').value = data.builderTypeVersion;
         doc.getElementById('created').value = data.created;
+        doc.getElementById('commandScript').value = data.manifestScript;
+
 
         if ("<%= Constants.CHECK_YN_Y %>" === data.postActionYn) {
             $('#buildJobPostActionYn').prop('checked', true);
@@ -329,29 +350,39 @@
 
 
     // CALLBACK GET BRANCH LIST
-    var callbackGetBranchList = function(data) {
+    var callbackGetBranchList = function(data, reqParam) {
         if (RESULT_STATUS_FAIL === data.resultStatus) {
             procPopupAlert('브렌치 목록 조회에 실패했습니다.', null, "<%= Constants.CHECK_YN_Y %>");
             return false;
         }
 
         var resultList = data.repositoryBranchList;
+        var resultTagList = data.repositoryTagList;
 
         if (resultList !== null) {
-            var listCount = resultList.length,
+            var brancheListCount = resultList.length,
                 tempListItem = '',
                 selectedCss = '',
                 htmlString = [];
 
-            for (var i = 0; i < listCount; i++) {
+            for (var i = 0; i < brancheListCount; i++) {
                 tempListItem = resultList[i];
                 selectedCss = (tempListItem === "master")? ' selected' : '';
-                htmlString.push('<option value="' + tempListItem + '"' + selectedCss + '>' + tempListItem + '</option>');
+                htmlString.push('<option value="' + tempListItem + '"' + selectedCss + '>[Branches] ' + tempListItem + '</option>');
             }
 
-            $('#originalRepositoryId').val(data.repositoryId);
+            if(resultTagList !== null) {
+                for (var i = 0; i < resultTagList.length; i++) {
+                    tempListItem = resultTagList[i];
+                    htmlString.push('<option value="refs/tags/' + tempListItem + '">[Tags] ' + tempListItem + '</option>');
+                }
+            }
+
+            $('#repositoryId').val(data.repositoryId);
             $('#repositoryBranch').html(htmlString);
             $('#repositoryBranchWrapper').show();
+
+            $('#repositoryBranch').val($('#originalRepositoryBranch').val());
 
         } else {
             procPopupAlert('브렌치 목록 조회에 실패했습니다.');
@@ -411,19 +442,19 @@
         }
 
         // CHECK BUILDER TYPE VERSION
-        if (procIsNullString(languageTypeVersion)) {
+        if (procIsNullString(languageTypeVersion)  && !$('#languageTypeVersion').is(":disabled")) {
             procPopupAlert("언어 버전을 입력하십시오.", "$('#languageTypeVersion').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE
-        if (procIsNullString(builderType)) {
+        if (procIsNullString(builderType)  && !$('#builderType').is(":disabled")) {
             procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE VERSION
-        if (procIsNullString(builderTypeVersion)) {
+        if (procIsNullString(builderTypeVersion)  && !$('#builderTypeVersion').is(":disabled")) {
             procPopupAlert("빌더 버전을 입력하십시오.", "$('#builderTypeVersion').focus();");
             return false;
         }
@@ -443,6 +474,9 @@
         if ($("#buildJobPostActionYn").is(":checked")) {
             postActionYn = "<%= Constants.CHECK_YN_Y %>";
         }
+
+        // COMMAND
+        var commandScript = (languageType != "JAVA") ? $("#commandScript").val() : "";
 
         var reqParam = {
             id: doc.getElementById('jobId').value,
@@ -465,6 +499,7 @@
             languageTypeVersion: doc.getElementById('languageTypeVersion').value,
             builderType: doc.getElementById('builderType').value,
             builderTypeVersion: doc.getElementById('builderTypeVersion').value,
+            manifestScript: commandScript,
             created: doc.getElementById('created').value
         };
 
@@ -529,16 +564,42 @@
         procMovePage(-1);
     });
 
-    // builderType 값에 따라 version 값 변경 (ie bug fix)
-    var builderTypeVersionOption = $("#builderTypeVersion").find("option");
-    $("#builderType").on("change", function() {
+    var getCamelCase = function(str){
+        return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    }
 
-        var builderType = $(this).val().toLowerCase();
-        $("#builderTypeVersion").empty();
+    var setSelectDisabled = function(){
+        if($("#languageType").val() != "JAVA"){
+            $("#languageTypeVersion").attr("disabled",true);
+            $("#builderType").attr("disabled",true);
+            $("#builderTypeVersion").attr("disabled",true);
+            $("#commandScriptWrapper").show();
+        }else{
+            $("#languageTypeVersion").attr("disabled",false);
+            $("#builderType").attr("disabled",false);
+            $("#builderTypeVersion").attr("disabled",false);
+            $("#commandScriptWrapper").hide();
+        }
+    };
 
-        $(builderTypeVersionOption).each(function(){
-            if($(this).val() == "" || $(this).val().startsWith(builderType)){
-                $("#builderTypeVersion").append(this);
+    var codeListOption = $("#codeList").find("option");
+    $("#languageType, #builderType").on("change", function() {
+        var codeValue = $(this).val();
+
+        setSelectDisabled();
+
+        if($(this).attr("id") == "languageType"){
+            $("#"+$(this).attr("id")+"Version").children("option:not(:first)").remove();
+            $("#builderType").children("option:not(:first)").remove();
+            $("#builderTypeVersion").children("option:not(:first)").remove();
+        }else{
+            $("#"+$(this).attr("id")+"Version").children("option:not(:first)").remove();
+        }
+
+        $(codeListOption).each(function(){
+            if($(this).attr("data-group") == codeValue && $(this).attr("data-type") != "language_type"){
+                $(this).prop("selected",false);
+                $("#"+getCamelCase($(this).attr("data-type"))).append(this);
             }
         });
     });

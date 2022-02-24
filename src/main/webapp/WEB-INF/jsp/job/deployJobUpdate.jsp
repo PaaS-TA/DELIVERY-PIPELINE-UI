@@ -383,7 +383,7 @@
                 buildJobId = parseInt(data[i].id, 10);
                 selectedCss = (originalBuildJobId === buildJobId)? ' selected' : '';
                 listNumber++;
-                htmlString.push('<option value="' + buildJobId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+                htmlString.push('<option value="' + buildJobId + '" data-type="'+data[i].languageType+'" ' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
             }
         }
 
@@ -496,6 +496,7 @@
     // BIND
     $("#manifestUseYn").on("change", function() {
         setManifestScriptForm($(this).val());
+        checkDataTypeAndManifest();
     });
 
 
@@ -512,6 +513,19 @@
             }
         }*/
     });
+
+    // DEPLOY JOB STAGING CHANGE FUNCTION
+    $("#buildJobId").on("change", function() {
+        $("#manifestUseYn").val("Y").trigger("change");
+    });
+
+    var checkDataTypeAndManifest = function(){
+        var dataType = (typeof $("#buildJobId").children("option:selected").attr("data-type") == "undefined") ? "" : $("#buildJobId").children("option:selected").attr("data-type");
+        if(dataType != "JAVA" && dataType != "" && $("#manifestUseYn").val() == "N"){
+            alert("\'"+dataType+"\' 의 언어 유형은 MANIFEST 사용만 가능합니다.");
+            $("#manifestUseYn").val("Y").trigger("change");
+        }
+    };
 
 
     // BIND

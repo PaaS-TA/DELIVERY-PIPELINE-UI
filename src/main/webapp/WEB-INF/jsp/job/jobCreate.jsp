@@ -173,15 +173,19 @@
             if (data[i].groupOrder === parseInt("<c:out value='${groupOrder}' default='' />", 10)) {
                 selectedCss = (listNumber === 0)? ' selected' : '';
                 listNumber++;
-                htmlString.push('<option value="' + data[i].id + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+                htmlString.push('<option value="' + data[i].id + '" data-type="'+data[i].languageType+'" ' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
             }
         }
 
         $('#buildJobIdForTestJob').html(htmlString);
+        $("#buildJobIdForTestJob").change();
         $('#buildJobIdForDeployJob').html(htmlString);
+        $("#buildJobIdForDeployJob").change();
 
         procCallSpinner(SPINNER_STOP);
     };
+
+
 
 
     // SET VIEW GET BRANCH LIST BUTTON
@@ -323,19 +327,19 @@
         }
 
         // CHECK BUILDER TYPE VERSION
-        if (procIsNullString(languageTypeVersion)) {
+        if (procIsNullString(languageTypeVersion) && !$('#languageTypeVersion').is(":disabled")) {
             procPopupAlert("언어 버전을 입력하십시오.", "$('#languageTypeVersion').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE
-        if (procIsNullString(builderType)) {
+        if (procIsNullString(builderType) && !$('#builderType').is(":disabled")) {
             procPopupAlert("빌더 유형을 입력하십시오.", "$('#builderType').focus();");
             return false;
         }
 
         // CHECK BUILDER TYPE VERSION
-        if (procIsNullString(builderTypeVersion)) {
+        if (procIsNullString(builderTypeVersion) && !$('#builderTypeVersion').is(":disabled")) {
             procPopupAlert("빌더 버전을 입력하십시오.", "$('#builderTypeVersion').focus();");
             return false;
         }
@@ -364,6 +368,9 @@
             newWorkGroupYn = "<%= Constants.CHECK_YN_Y %>";
         }
 
+        // COMMAND
+        var commandScript = (languageType == "JAVA") ? "" : $("#commandScript").val();
+
         var reqParam = {
             serviceInstancesId: doc.getElementById('serviceInstancesId').value,
             pipelineId: doc.getElementById('pipelineId').value,
@@ -376,6 +383,7 @@
             languageTypeVersion: languageTypeVersion,
             builderType: builderType,
             builderTypeVersion: builderTypeVersion,
+            manifestScript: commandScript,
             jobTrigger: $(':input:radio[name=buildJobTrigger]:checked').val(),
             newWorkGroupYn: newWorkGroupYn,
             repositoryType: repositoryType,
@@ -448,6 +456,10 @@
             return false;
         }
 
+        // COMMAND
+        var dataType = (typeof $("#buildJobIdForTestJob").children("option:selected").attr("data-type") == "undefined") ? "" : $("#buildJobIdForTestJob").children("option:selected").attr("data-type");
+        var commandTestScript = (dataType == "JAVA") ? "" : $("#commandTestScript").val();
+
         var reqParam = {
             serviceInstancesId: doc.getElementById('serviceInstancesId').value,
             pipelineId: doc.getElementById('pipelineId').value,
@@ -461,6 +473,7 @@
             inspectionGateId: inspectionGateId,
             buildJobId: buildJobId,
             jobTrigger: $(':input:radio[name=testJobTrigger]:checked').val(),
+            manifestScript: commandTestScript,
             newWorkGroupYn: "<%= Constants.CHECK_YN_N %>"
         };
 
@@ -636,6 +649,29 @@
         }
     };
 
+    // TEST JOB STAGING CHANGE FUNCTION
+    $("#buildJobIdForTestJob").on("change", function() {
+        var dataType = (typeof $(this).children("option:selected").attr("data-type") == "undefined") ? "" : $(this).children("option:selected").attr("data-type");
+
+       if(dataType == "JAVA" || dataType == ""){
+           $("#commandScriptTestWrapper").hide();
+       }else{
+           $("#commandScriptTestWrapper").show();
+       }
+    });
+
+    // DEPLOY JOB STAGING CHANGE FUNCTION
+    $("#buildJobIdForDeployJob").on("change", function() {
+        $("#manifestUseYn").val("Y").trigger("change");
+    });
+
+    var checkDataTypeAndManifest = function(){
+        var dataType = (typeof $("#buildJobIdForDeployJob").children("option:selected").attr("data-type") == "undefined") ? "" : $("#buildJobIdForDeployJob").children("option:selected").attr("data-type");
+        if(dataType != "JAVA" && dataType != "" && $("#manifestUseYn").val() == "N"){
+            alert("\'"+dataType+"\' 의 언어 유형은 MANIFEST 사용만 가능합니다.");
+            $("#manifestUseYn").val("Y").trigger("change");
+        }
+    };
 
     // BIND
     $(".jobType").on("change", function() {
@@ -716,6 +752,8 @@
     // BIND
     $("#manifestUseYn").on("change", function() {
         setManifestScriptForm($(this).val());
+
+        checkDataTypeAndManifest();
     });
 
 
@@ -779,24 +817,45 @@
         }
     });
 
-    // builderType 값에 따라 version 값 변경 (ie bug fix)
-    var builderTypeVersionOption = $("#builderTypeVersion").find("option");
-    $("#builderType").on("change", function() {
+    var getCamelCase = function(str){
+        return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    }
 
-        var builderType = $(this).val().toLowerCase();
-        $("#builderTypeVersion").empty();
+    var setSelectDisabled = function(){
+        if($("#languageType").val() == "JAVA" || $("#languageType").val() == ""){
+            $("#languageTypeVersion").attr("disabled",false);
+            $("#builderType").attr("disabled",false);
+            $("#builderTypeVersion").attr("disabled",false);
+            $("#commandScriptWrapper").hide();
+        }else{
+            $("#languageTypeVersion").attr("disabled",true);
+            $("#builderType").attr("disabled",true);
+            $("#builderTypeVersion").attr("disabled",true);
+            $("#commandScriptWrapper").show();
+        }
+    };
 
-        $(builderTypeVersionOption).each(function(){
-            if($(this).val() == "" || $(this).val().startsWith(builderType)){
-                $("#builderTypeVersion").append(this);
+    var codeListOption = $("#codeList").find("option");
+    $("#languageType, #builderType").on("change", function() {
+        var codeValue = $(this).val();
+
+        setSelectDisabled();
+
+        if($(this).attr("id") == "languageType"){
+            $("#"+$(this).attr("id")+"Version").children("option:not(:first)").remove();
+            $("#builderType").children("option:not(:first)").remove();
+            $("#builderTypeVersion").children("option:not(:first)").remove();
+        }else{
+            $("#"+$(this).attr("id")+"Version").children("option:not(:first)").remove();
+        }
+
+        $(codeListOption).each(function(){
+            if($(this).attr("data-group") == codeValue && $(this).attr("data-type") != "language_type"){
+                $(this).prop("selected",false);
+                $("#"+getCamelCase($(this).attr("data-type"))).append(this);
             }
         });
     });
-
-    // builderType init (초기화면시 default값만 표출)
-    $("#builderTypeVersion").empty();
-    $("#builderTypeVersion").append("<option value=''>빌더 버전 선택</option>");
-
 
     // ON LOAD
     $(document.body).ready(function () {

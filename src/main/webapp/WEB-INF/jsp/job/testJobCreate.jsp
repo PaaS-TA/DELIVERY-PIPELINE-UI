@@ -56,6 +56,18 @@
                                 <li><input type="checkbox" id="testJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</li>
                             </ul>
                         </div>
+                        <!--2뎁스 영역(COMMAND) -->
+                        <div id="commandScriptTestWrapper" style="display:none">
+                            <p class="sub_title">COMMAND</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" name="commandTestScript" id="commandTestScript" cols="30" rows="6" title="">#PHP - PHPUNIT 예제
+cd $WORKSPACE
+composer require --dev phpunit/phpunit ^7
+./vendor/bin/phpunit --log-junit results/phpunit/phpunit.xml tests
+                                </textarea>
+                            </div>
+                        </div>
+                        <!--2뎁스 영역(COMMAND) -->
                     </div>
                     <!--//form 영역-->
                 </div>
@@ -82,7 +94,7 @@
                             </div>
                             <div class="formBox">
                                 <select class="input-medium" title="" id="buildJobIdForTestJob">
-                                    <option value="">스테이징 선택</option>
+                                    <option value="" data-type="">스테이징 선택</option>
                                 </select>
                             </div>
                         </div>
@@ -98,7 +110,7 @@
                         <div class="form_right">
                             <div class="formBox">
                                 <p class="jacocoPluginScript gradle" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR GRADLE">GRADLE</p>
-                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;" readonly="readonly" ># Add the following script to your build.gradle file.
+                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;" disabled="disabled" ># Add the following script to your build.gradle file.
 apply plugin: 'jacoco'
 
 jacoco {
@@ -113,7 +125,7 @@ test {
                             </div>
                             <div class="formBox">
                                 <p class="jacocoPluginScript maven" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR MAVEN">MAVEN</p>
-                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;" readonly="readonly" ># Add the following script to your pom.xml file.
+                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;" disabled="disabled" ># Add the following script to your pom.xml file.
 <build>
     <plugins>
         <plugin>
