@@ -22,6 +22,7 @@ public class JobService {
 
     private static final String REQ_URL = "/jobs";
     private static final String REQ_CONFIG_TYPE_URL = "/job-configs/";
+    private static final String CODE_URL = "/code";
     private final RestTemplateService restTemplateService;
 
 
@@ -212,6 +213,18 @@ public class JobService {
      */
     Job rearrangeJobOrder(Job job) {
         return restTemplateService.send(Constants.TARGET_DELIVERY_PIPELINE_API, REQ_URL + "/rearrange-job-order", HttpMethod.POST, job, Job.class);
+    }
+
+    /**
+     * Gets job config type list.
+     *
+     * @param params the sort paramaters
+     * @param params example : sort=codeOrder,asc&codeName,asc
+     * @return the job config type list
+     */
+    List getCodeListAll(String params) {
+        if(!params.startsWith("?")) params = "?"+params;
+        return restTemplateService.send(Constants.TARGET_COMMON_API, CODE_URL + "/list"+params, HttpMethod.GET, null, List.class);
     }
 
 }

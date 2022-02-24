@@ -66,6 +66,18 @@
                                 <li><input type="checkbox" id="testJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</li>
                             </ul>
                         </div>
+                        <!--2뎁스 영역(COMMAND) -->
+                        <div id="commandScriptTestWrapper" style="display:none">
+                            <p class="sub_title">COMMAND</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" name="commandTestScript" id="commandTestScript" cols="30" rows="6" title="">#PHP - PHPUNIT 예제
+cd $WORKSPACE
+composer require --dev phpunit/phpunit ^7
+./vendor/bin/phpunit --log-junit results/phpunit/phpunit.xml tests
+                                </textarea>
+                            </div>
+                        </div>
+                        <!--2뎁스 영역(COMMAND) -->
                     </div>
                     <!--//form 영역-->
                 </div>
@@ -108,7 +120,7 @@
                         <div class="form_right">
                             <div class="formBox">
                                 <p class="jacocoPluginScript gradle" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR GRADLE">GRADLE</p>
-                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;" readonly="readonly" ># Add the following script to your build.gradle file.
+                                <textarea id="jacocoPluginScriptGradle" class="input-medium view-off" cols="30" rows="12" title="JACOCO PLUGIN SCRIPT FOR GRADLE" style="display: none;" disabled="disabled" ># Add the following script to your build.gradle file.
 apply plugin: 'jacoco'
 
 jacoco {
@@ -123,7 +135,7 @@ test {
                             </div>
                             <div class="formBox">
                                 <p class="jacocoPluginScript maven" style="margin: 10px 0;" title="JACOCO PLUGIN SCRIPT FOR MAVEN">MAVEN</p>
-                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;" readonly="readonly" ># Add the following script to your pom.xml file.
+                                <textarea id="jacocoPluginScriptMaven" class="input-medium view-off" cols="30" rows="18" title="JACOCO PLUGIN SCRIPT FOR MAVEN" style="display: none;" disabled="disabled" ># Add the following script to your pom.xml file.
 <build>
     <plugins>
         <plugin>
@@ -277,6 +289,7 @@ test {
         doc.getElementById('repositoryCommitRevision').value = data.repositoryCommitRevision;
         doc.getElementById('builderType').value = data.builderType;
         doc.getElementById('created').value = data.created;
+        doc.getElementById('commandTestScript').value = data.manifestScript;
 
         doc.getElementById('originalInspectionProfileKey').value = inspectionProfileKey;
         doc.getElementById('originalInspectionGateId').value = inspectionGateId;
@@ -395,11 +408,12 @@ test {
                 buildJobId = parseInt(data[i].id, 10);
                 selectedCss = (originalBuildJobId === buildJobId)? ' selected' : '';
                 listNumber++;
-                htmlString.push('<option value="' + buildJobId + '"' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
+                htmlString.push('<option value="' + buildJobId + '" data-type="'+data[i].languageType+'" ' + selectedCss + '>' + listNumber + '. ' + data[i].jobName + '</option>');
             }
         }
 
         $('#buildJobId').append(htmlString);
+        $("#buildJobId").change();
 
         procCallSpinner(SPINNER_STOP);
     };
@@ -443,6 +457,10 @@ test {
             return false;
         }
 
+        // COMMAND
+        var dataType = (typeof $("#buildJobIdForTestJob").children("option:selected").attr("data-type") == "undefined") ? "" : $("#buildJobIdForTestJob").children("option:selected").attr("data-type");
+        var commandTestScript = (dataType == "JAVA") ? "" : $("#commandTestScript").val();
+
         var reqParam = {
             id: doc.getElementById('jobId').value,
             serviceInstancesId: doc.getElementById('serviceInstancesId').value,
@@ -466,6 +484,7 @@ test {
             repositoryBranch: doc.getElementById('repositoryBranch').value,
             repositoryId: doc.getElementById('repositoryId').value,
             repositoryCommitRevision: doc.getElementById('repositoryCommitRevision').value,
+            manifestScript: commandTestScript,
             created: doc.getElementById('created').value
         };
 
@@ -481,6 +500,16 @@ test {
 
         procPopupAlert('수정 되었습니다.', 'procMovePage("/pipeline/<c:out value='${pipelineId}' default='' />/detail");');
     };
+
+    $("#buildJobId").on("change", function() {
+        var dataType = (typeof $(this).children("option:selected").attr("data-type") == "undefined") ? "" : $(this).children("option:selected").attr("data-type");
+
+        if(dataType == "JAVA" || dataType == ""){
+            $("#commandScriptTestWrapper").hide();
+        }else{
+            $("#commandScriptTestWrapper").show();
+        }
+    });
 
 
     // BIND

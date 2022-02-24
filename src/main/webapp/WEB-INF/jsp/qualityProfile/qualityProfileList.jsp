@@ -871,7 +871,8 @@
         var procTypeArray = [gPopupTypeCreate, gPopupTypeUpdate, gPopupTypeCopy];
 
         $.each(procTypeArray, function (index, procType) {
-
+            $('#popup' + procType + 'Area').hide();
+            $('#popup' + procType + 'ButtonArea').hide();
             $('#popupProfileName'+type).val("");
 
             if (procType == type) {
@@ -881,9 +882,6 @@
                 if (procType != gPopupTypeCreate) {
                     $('#popupProfileLanguage'+type).text($('#h_language').val());
                 }
-            } else {
-                $('#popup' + procType + 'Area').hide();
-                $('#popup' + procType + 'ButtonArea').hide();
             }
 
         });

@@ -58,17 +58,21 @@
                         <!--2뎁스 영역-->
                         <p class="sub_title">언어유형 (type)</p>
                         <div class="formBox">
+                            <select class="input-medium" title="" id="codeList" style="display:none">
+                                <c:forEach items="${codeList}" var="item" varStatus="status">
+                                    <option value="${item.codeValue}" data-type="${item.codeType}" data-group="${item.codeGroup}">${item.codeName}</option>
+                                </c:forEach>
+                            </select>
                             <select class="input-medium" title="" id="languageType">
-                                <option value="">언어 유형 선택</option>
-                                <c:forEach items="${languageTypeList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
+                                <option value="" data-type="" data-group="">언어 유형 선택</option>
+                                <c:forEach items="${codeList}" var="item" varStatus="status">
+                                    <c:if test="${item.codeType eq 'language_type'}">
+                                    <option value="${item.codeValue}" data-type="${item.codeType}" data-group="${item.codeGroup}">${item.codeName}</option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                             <select class="input-medium" title="" id="languageTypeVersion">
-                                <option value="">언어 버전 선택</option>
-                                <c:forEach items="${languageTypeVersionList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${fn:replace(item.typeName, '_', '-')}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">언어 버전 선택</option>
                             </select>
                         </div>
                         <!--//2뎁스 영역-->
@@ -76,21 +80,34 @@
                         <p class="sub_title">빌더유형 (type)</p>
                         <div class="formBox">
                             <select class="input-medium" title="" id="builderType">
-                                <option value="">빌더 유형 선택</option>
-                                <c:forEach items="${builderTypeList}" var="item" varStatus="status">
-                                    <option value="${item.typeName}">${item.typeValue}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">빌더 유형 선택</option>
                             </select>
                             <select class="input-medium" title="" id="builderTypeVersion">
-                                <option value="">빌더 버전 선택</option>
-                                <c:forEach items="${builderTypeVersionList}" var="item" varStatus="status">
-                                    <option value="${item.typeValue}">${item.typeValue}</option>
-                                </c:forEach>
+                                <option value="" data-type="" data-group="">빌더 버전 선택</option>
                             </select>
                             <p class="txt_help"><input type="checkbox" id="buildJobPostActionYn" value="" title=""> 이 작업에 실패하는 경우 연결 작업 실행 중단</p>
                         </div>
                         <!--//2뎁스 영역-->
+                        <!--2뎁스 영역(COMMAND) -->
+                        <div id="commandScriptWrapper" style="display:none">
+                            <p class="sub_title">COMMAND</p>
+                            <div class="formBox">
+                                <textarea class="input-medium" name="commandScript" id="commandScript" cols="30" rows="6" title="">#PHP - COMPOSER 예제
+cd $WORKSPACE
 
+files=$(ls 'composer.json' 2> /dev/null | wc -l)
+if [ "$files" != "0" ]
+then
+    rm -rf vendor/*
+    composer install
+else
+    echo "composer.json Not found."
+    exit 1
+fi
+                                </textarea>
+                            </div>
+                        </div>
+                        <!--2뎁스 영역(COMMAND) -->
                     </div>
                     <!--//form 영역-->
                 </div>

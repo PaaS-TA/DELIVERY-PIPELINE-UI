@@ -28,6 +28,7 @@ public class JobController {
     private static final String REQ_CONFIG_TYPE_URL = "/job-configs";
     private static final String CF_INFO_LIST_ATTR_NAME = "cfInfoList";
     private static final String CF_INFO_LIST_QUERY_STRING = "?size=10000";
+    private static final String CODE_LIST_QUERY_STRING = "?sort=codeOrder,asc&codeName,asc";
 
     private final CommonService commonService;
     private final JobService jobService;
@@ -74,11 +75,12 @@ public class JobController {
                                          HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView();
 
+        mv.addObject("codeList", jobService.getCodeListAll(CODE_LIST_QUERY_STRING));
         mv.addObject("jobTypeList", jobService.getJobConfigTypeList(Constants.TYPE_JOB));
-        mv.addObject("languageTypeList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE));
-        mv.addObject("languageTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE_VERSION));
-        mv.addObject("builderTypeList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER));
-        mv.addObject("builderTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER_VERSION));
+        //mv.addObject("languageTypeList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE));
+        //mv.addObject("languageTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE_VERSION));
+        //mv.addObject("builderTypeList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER));
+        //mv.addObject("builderTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER_VERSION));
         mv.addObject("repositoryTypeList", jobService.getJobConfigTypeList(Constants.TYPE_REPOSITORY));
         mv.addObject("deployTypeList", jobService.getJobConfigTypeList(Constants.TYPE_DEPLOY));
         mv.addObject(CF_INFO_LIST_ATTR_NAME, cfInfoService.getCfInfoList(serviceInstancesId, CF_INFO_LIST_QUERY_STRING).getCfInfos());
@@ -112,10 +114,11 @@ public class JobController {
     public ModelAndView getBuildJobUpdatePage(HttpServletRequest httpServletRequest) {
         ModelAndView mv = new ModelAndView();
 
-        mv.addObject("languageTypeList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE));
-        mv.addObject("languageTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE_VERSION));
-        mv.addObject("builderTypeList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER));
-        mv.addObject("builderTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER_VERSION));
+        mv.addObject("codeList", jobService.getCodeListAll(CODE_LIST_QUERY_STRING));
+        //mv.addObject("languageTypeList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE));
+        //mv.addObject("languageTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_LANGUAGE_VERSION));
+        //mv.addObject("builderTypeList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER));
+        //mv.addObject("builderTypeVersionList", jobService.getJobConfigTypeList(Constants.TYPE_BUILDER_VERSION));
         mv.addObject("repositoryTypeList", jobService.getJobConfigTypeList(Constants.TYPE_REPOSITORY));
         mv.addObject("buildJobTriggerTypeList", jobService.getJobConfigTypeList(Constants.BUILD_JOB_TRIGGER_TYPE));
 
