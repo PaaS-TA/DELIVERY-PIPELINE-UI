@@ -105,6 +105,8 @@
         gJobStatusTimer,
         gBuildingCount = 0;
 
+    // check languageType
+    var languageType = "";
 
     // GET JOB
     var getJob = function() {
@@ -126,6 +128,7 @@
         doc.getElementById('jobName').innerHTML= data.jobName;
         doc.getElementById('jobGuid').value = data.jobGuid;
         doc.getElementById('inspectionProjectId').value = data.inspectionProjectId;
+        languageType = data.languageType;
 
         procCallSpinner(SPINNER_STOP);
         getJobHistoryList();
@@ -245,7 +248,11 @@
             }
 
             lastJobNumber = data[0].jobNumber;
-            objBtnMoveInspectionResultPage.attr('disabled', false);
+            if(languageType == "JAVA"){
+                objBtnMoveInspectionResultPage.attr('disabled', false);
+            }else{
+                objBtnMoveInspectionResultPage.hide();
+            }
         }
 
         $('#jobLogHistoryArea').html(htmlString.join(''));
