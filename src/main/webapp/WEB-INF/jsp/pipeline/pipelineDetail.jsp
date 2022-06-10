@@ -291,8 +291,11 @@
         if ("<%= Constants.JOB_TYPE_BUILD %>" === jobType) {
             confirmMessage = '빌드 JOB';
 
-            if (repositoryCommitRevision.length > 18) {
+             if (repositoryCommitRevision != null && repositoryCommitRevision.length > 18) {
                 repositoryCommitRevisionPostfix = '...';
+            }else if (repositoryCommitRevision == null){
+                repositoryCommitRevision = "";
+                repositoryCommitRevisionPostfix = "";
             }
 
             htmlString.push('<div class="portlet box' + portletBoxCss + '" id="jobPortlet_' + jobId + '">');
