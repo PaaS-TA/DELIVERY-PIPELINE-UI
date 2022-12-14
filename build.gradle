@@ -21,7 +21,7 @@ ext {
 	jstlVersion = '1.2'
 	sitemeshVersion = '3.0.1'
 	springSecurityTagLibsVersion = '4.2.3.RELEASE'
-	appVersion = "1.0.3"
+	appVersion = "1.0.4"
 }
 
 
